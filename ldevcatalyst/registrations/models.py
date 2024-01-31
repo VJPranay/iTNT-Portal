@@ -1,5 +1,5 @@
 from django.db import models
-from datarepo.models import AreaOfInterest,PreferredInvestmentStage,Department,Institution,District,State
+from datarepo.models import AreaOfInterest,PreferredInvestmentStage,Department,Institution,District,State,IndustryCategory
 
 
 
@@ -91,11 +91,6 @@ class Student(models.Model):
         return self.name
 
 
-class IndustryCategory(models.Model):
-    name = models.CharField(max_length=100,blank=True, null=True)
-
-    def __str__(self):
-        return self.name
 
 class Industry(models.Model):
     name = models.CharField(max_length=100,blank=True, null=True)

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import AreaOfInterest, PreferredInvestmentStage, Department, Institution, District, State 
+from .models import AreaOfInterest, PreferredInvestmentStage, Department, Institution, District, State, IndustryCategory
 
 # Register your models here.
 
@@ -25,4 +25,9 @@ class DistrictAdmin(admin.ModelAdmin):
 
 @admin.register(State)
 class StateAdmin(admin.ModelAdmin):
+    list_display = ['name']
+
+
+@admin.register(IndustryCategory)
+class IndustryCategoryAdmin(admin.ModelAdmin):
     list_display = ['name']
