@@ -1,3 +1,28 @@
 from django.contrib import admin
+from .models import AreaOfInterest, PreferredInvestmentStage, Department, Institution, District, State 
 
 # Register your models here.
+
+@admin.register(AreaOfInterest)
+class AreaOfInterestAdmin(admin.ModelAdmin):
+    list_display = ['name']
+
+@admin.register(PreferredInvestmentStage)
+class PreferredInvestmentStageAdmin(admin.ModelAdmin):
+    list_display = ['name']
+
+@admin.register(Department)
+class DepartmentAdmin(admin.ModelAdmin):
+    list_display = ['name']
+
+@admin.register(Institution)
+class InstitutionAdmin(admin.ModelAdmin):
+    list_display = ['name']
+
+@admin.register(District)
+class DistrictAdmin(admin.ModelAdmin):
+    list_display = ['name']
+
+@admin.register(State)
+class StateAdmin(admin.ModelAdmin):
+    list_display = ['name']
