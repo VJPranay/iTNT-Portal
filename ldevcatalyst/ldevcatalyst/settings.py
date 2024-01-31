@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'analytics',
     'meetings',
     'datarepo',
+    'django_extensions',
 ]
 
 AUTH_USER_MODEL = 'profiles.User'
