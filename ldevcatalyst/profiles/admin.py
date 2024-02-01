@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
-from .models import User
+from .models import User, Patent, Publication, VC, Researcher, StartUp, Student, Industry
 
 class UserAdmin(BaseUserAdmin):
     fieldsets = (
@@ -20,3 +20,31 @@ class UserAdmin(BaseUserAdmin):
     ordering = ('username',)
 
 admin.site.register(User, UserAdmin)
+
+@admin.register(Patent)
+class PatentAdmin(admin.ModelAdmin):
+    list_display = ('title', 'number', 'inventors', 'filing_date', 'status')
+
+@admin.register(Publication)
+class PublicationAdmin(admin.ModelAdmin):
+    list_display = ('title', 'paper_link', 'journal')
+
+@admin.register(VC)
+class VCAdmin(admin.ModelAdmin):
+    list_display = ('partner_name', 'firm_name', 'email', 'mobile', 'district', 'state', 'area_of_interest', 'funding_stage', 'company_website', 'linkedin_profile')
+
+@admin.register(Researcher)
+class ResearcherAdmin(admin.ModelAdmin):
+    list_display = ('name', 'department', 'institution', 'email', 'mobile', 'district', 'state', 'highest_qualification')
+
+@admin.register(StartUp)
+class StartUpAdmin(admin.ModelAdmin):
+    list_display = ('name', 'co_founder_count', 'founder_names', 'state', 'district', 'team_size', 'email', 'mobile', 'website', 'dpiit_number', 'area_of_interest', 'funding_stage')
+
+@admin.register(Student)
+class StudentAdmin(admin.ModelAdmin):
+    list_display = ('name', 'institution', 'department', 'year_of_graduation', 'district', 'state')
+
+@admin.register(Industry)
+class IndustryAdmin(admin.ModelAdmin):
+    list_display = ('name', 'industry', 'state', 'district', 'point_of_contact_name', 'email', 'mobile')

@@ -1,32 +1,30 @@
 from django.contrib import admin
-from .models import Patent, Publication, VC, Researcher, StartUp, Student, IndustryCategory, Industry
+from .models import PatentInfo, PublicationInfo, VCRegistrations, ResearcherRegistrations, StartUpRegistrations, StudentRegistrations, IndustryRegistrations
 
-@admin.register(Patent)
+@admin.register(PatentInfo)
 class PatentAdmin(admin.ModelAdmin):
-    list_display = ['number', 'title', 'inventors', 'filing_date', 'status']
+    list_display = ('title', 'number', 'inventors', 'filing_date', 'status')
 
-@admin.register(Publication)
+@admin.register(PublicationInfo)
 class PublicationAdmin(admin.ModelAdmin):
-    list_display = ['title', 'paper_link', 'journal']
+    list_display = ('title', 'paper_link', 'journal')
 
-@admin.register(VC)
+@admin.register(VCRegistrations)
 class VCAdmin(admin.ModelAdmin):
-    list_display = ['partner_name', 'firm_name', 'email_address', 'contact_number', 'district', 'state', 'area_of_interest', 'preferred_investment_stage']
+    list_display = ('partner_name', 'firm_name', 'email', 'mobile', 'district', 'state', 'area_of_interest', 'funding_stage', 'company_website', 'linkedin_profile')
 
-@admin.register(Researcher)
+@admin.register(ResearcherRegistrations)
 class ResearcherAdmin(admin.ModelAdmin):
-    list_display = ['name', 'department', 'institution', 'district', 'state', 'email_id', 'mobile_number']
+    list_display = ('name', 'department', 'institution', 'email', 'mobile', 'district', 'state', 'highest_qualification')
 
-@admin.register(StartUp)
+@admin.register(StartUpRegistrations)
 class StartUpAdmin(admin.ModelAdmin):
-    list_display = ['name', 'co_founder_count', 'founder_names', 'state', 'district', 'team_size', 'email_address', 'mobile_number']
+    list_display = ('name', 'co_founder_count', 'founder_names', 'state', 'district', 'team_size', 'email', 'mobile', 'website', 'dpiit_number', 'area_of_interest', 'funding_stage')
 
-@admin.register(Student)
+@admin.register(StudentRegistrations)
 class StudentAdmin(admin.ModelAdmin):
-    list_display = ['name', 'institution', 'department', 'year_of_graduation', 'district', 'state']
+    list_display = ('name', 'institution', 'department', 'year_of_graduation', 'district', 'state')
 
-
-
-@admin.register(Industry)
+@admin.register(IndustryRegistrations)
 class IndustryAdmin(admin.ModelAdmin):
-    list_display = ['name', 'industry', 'state', 'district', 'point_of_contact_name', 'poc_mail_id']
+    list_display = ('name', 'industry', 'state', 'district', 'point_of_contact_name', 'email', 'mobile')
