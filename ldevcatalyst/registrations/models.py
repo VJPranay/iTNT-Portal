@@ -32,6 +32,8 @@ class VCRegistrations(models.Model):
     funding_stage = models.ForeignKey(PreferredInvestmentStage, on_delete=models.SET_NULL,blank=True, null=True)
     company_website = models.URLField(blank=True, null=True)
     linkedin_profile = models.URLField(blank=True, null=True)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.partner_name
@@ -49,6 +51,8 @@ class ResearcherRegistrations(models.Model):
     highest_qualification = models.CharField(max_length=100, blank=True, null=True)
     patents = models.ForeignKey(PatentInfo, on_delete=models.SET_NULL, blank=True, null=True)
     publications = models.ForeignKey(PublicationInfo, on_delete=models.SET_NULL, blank=True, null=True)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.name
@@ -69,6 +73,9 @@ class StartUpRegistrations(models.Model):
     funding_stage = models.ForeignKey(PreferredInvestmentStage, on_delete=models.SET_NULL,blank=True, null=True)
     pitch_deck = models.FileField(upload_to='pitch_decks/', blank=True, null=True)
     video_link = models.URLField(blank=True, null=True)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
 
     def __str__(self):
         return self.name
@@ -83,6 +90,8 @@ class StudentRegistrations(models.Model):
     district = models.ForeignKey(District, on_delete=models.SET_NULL, null=True, blank=True)
     state = models.ForeignKey(State, on_delete=models.SET_NULL, null=True, blank=True)
     project_idea = models.TextField(blank=True, null=True)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.name
@@ -98,6 +107,8 @@ class IndustryRegistrations(models.Model):
     email = models.EmailField(blank=True, null=True)
     mobile = models.CharField(max_length=15,blank=True, null=True)
     area_of_interest = models.ManyToManyField(AreaOfInterest)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.name

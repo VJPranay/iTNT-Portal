@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'meetings',
     'datarepo',
     'django_extensions',
+    'marketplace',
 ]
 
 AUTH_USER_MODEL = 'profiles.User'
