@@ -63,7 +63,7 @@ License: For each use you must have a valid license purchased only from above li
 						<!--end::Header mobile toggle-->
 						<!--begin::Logo-->
 						<div class="d-flex align-items-center flex-grow-1 flex-lg-grow-0 me-lg-18">
-							<a href="#">
+							<a href="{% url 'dashboard' %}">
 								<img alt="Logo" src="{% static 'assets/media/logos/custom-1.png' %}" class="h-60px d-sm-none" />
 								<!--begin::MobileLogo--> <img alt="Logo" src="{% static 'assets/media/logos/custom-1.png' %}" class="h-60px d-none d-sm-block" /> 						<!--end::MobileLogo-->
 							</a>
@@ -88,7 +88,7 @@ License: For each use you must have a valid license purchased only from above li
 											<!--begin:Menu item-->
 											<div class="menu-item">
 												<!--begin:Menu link-->
-												<a class="menu-link" href="https://preview.LDevKTheme.com/html/metronic/docs/base/utilities" target="_blank" title="Approve or deny registrations here" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss="click" data-bs-placement="right">
+												<a class="menu-link" href="{% url 'industry_registrations' %}" title="Approve or deny registrations here" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss="click" data-bs-placement="right">
 													<span class="menu-icon">
 														<i class="ki-outline ki-rocket fs-2"></i>
 													</span>
@@ -524,10 +524,11 @@ License: For each use you must have a valid license purchased only from above li
 								<!--begin::Toolbar wrapper-->
 								<div class="d-flex align-items-center pt-1">
 									<!--begin::Breadcrumb-->
+									{% block breadcrums %}
 									<ul class="breadcrumb breadcrumb-separatorless fw-semibold">
 										<!--begin::Item-->
 										<li class="breadcrumb-item text-white fw-bold lh-1">
-											<a href="index.html" class="text-white text-hover-primary">
+											<a href="{% url 'dashboard' %}" class="text-white text-hover-primary">
 												<i class="ki-outline ki-home text-gray-700 fs-6"></i>
 											</a>
 										</li>
@@ -541,6 +542,7 @@ License: For each use you must have a valid license purchased only from above li
 										<li class="breadcrumb-item text-white fw-bold lh-1">Dashboards</li>
 										<!--end::Item-->
 									</ul>
+									{% endblock  %}
 									<!--end::Breadcrumb-->
 								</div>
 								<!--end::Toolbar wrapper=-->
@@ -549,9 +551,9 @@ License: For each use you must have a valid license purchased only from above li
 									<!--begin::Page title-->
 									<div class="page-title me-5">
 										<!--begin::Title-->
-										<h1 class="page-heading d-flex text-white fw-bold fs-2 flex-column justify-content-center my-0">Dashboard 
+										<h1 class="page-heading d-flex text-white fw-bold fs-2 flex-column justify-content-center my-0">{% block pageheading %}  Page heading {%endblock%}
 										<!--begin::Description-->
-										<span class="page-desc text-gray-600 fw-semibold fs-6 pt-3">Page Description</span>
+										<span class="page-desc text-gray-600 fw-semibold fs-6 pt-3">{% block pagedescription %} Page description  {%endblock%}</span>
 										<!--end::Description--></h1>
 										<!--end::Title-->
 									</div>
@@ -631,6 +633,13 @@ License: For each use you must have a valid license purchased only from above li
 <script src="{% static 'assets/js/widgets.bundle.js"></script>
 <script src="{% static 'assets/js/custom/widgets.js"></script>
 <!--end::Custom Javascript-->
+{% block custom_js %}
+    
+
+
+
+        
+{% endblock  %}
 <!--end::Javascript-->
 </body>
 <!--end::Body-->

@@ -24,3 +24,4 @@ def login(request):
 
 def dashboard(request):
     return render(request,'dashboard/dashboard.html')
+
