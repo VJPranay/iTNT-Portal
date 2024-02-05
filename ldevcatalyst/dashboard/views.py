@@ -20,3 +20,7 @@ def login(request):
     else:
         form = AuthenticationForm()
     return render(request, 'login.html', {'form': form})
+
+
+def dashboard(request):
+    return render(request,'dashboard/dashboard.html')
