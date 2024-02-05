@@ -72,7 +72,7 @@ License: Unauthorized use is prohibited
 						<!--begin::Wrapper-->
 						<div class="d-flex flex-center flex-column flex-column-fluid px-lg-10 pb-15 pb-lg-20">
 							<!--begin::Form-->
-							<form method="post" class="form w-100" novalidate="novalidate" id="kt_sign_in_form" data-kt-redirect-url="{% url 'industry_registration' %}" action="{% url 'login' %}">
+							<form method="post" class="form w-100" novalidate="novalidate" id="kt_sign_in_form" data-kt-redirect-url="{% url 'dashboard' %}" action="{% url 'login' %}">
 								{% csrf_token %}
 								<!--begin::Heading-->
 								<div class="text-center mb-11">
