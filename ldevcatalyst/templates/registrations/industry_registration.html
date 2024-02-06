@@ -122,7 +122,8 @@
 
 						<div class="w-lg-650px w-xl-700px p-10 p-lg-15 mx-auto">
 							<!--begin::Form-->
-							<form class="my-auto pb-5" novalidate="novalidate" id="kt_create_account_form">
+							<form class="my-auto pb-5" action="{% url 'industry_registration' %}" novalidate="novalidate" id="kt_create_account_form">
+								
 								<!--begin::Step 1-->
 								<div class="current" data-kt-stepper-element="content">
 									<!--begin::Wrapper-->
@@ -228,6 +229,7 @@
 											<!--end::Label-->
 											<!--begin::Input-->
 											<input type="text" class="form-control form-control-lg form-control-solid" name="poc_name" placeholder="First Name and Last Name" value="" />
+											{% csrf_token %}
 											<!--end::Input-->
 										</div>
 										<!--end::Input group-->
@@ -264,10 +266,30 @@
 											<!--begin::Title-->
 											<h2 class="fw-bold text-gray-900">Registration successfull!</h2>
 											<!--end::Title-->
-											<!--begin::Notice-->
-											<div class="text-muted fw-semibold fs-6">You will soon get login credentails over email 
-										</div>
-											<!--end::Notice-->
+											<div class="mb-10 fv-row">
+												<!--begin::Label-->
+												<label class="d-flex align-items-center form-label mb-3">Registration Reference ID
+												<span class="ms-1" data-bs-toggle="tooltip" title="Please use this reference id if you want to get in touch with us for any query">
+													<i class="ki-outline ki-information-5 text-gray-500 fs-6"></i>
+												</span></label>
+												<!--end::Label-->
+												<!--begin::Row-->
+												<div class="row mb-2" data-kt-buttons="true">
+													<!--begin::Col-->
+													<div class="col">
+														<!--begin::Option-->
+														<label class="btn btn-outline btn-outline-dashed btn-active-light-primary w-100 p-4">
+															<input type="radio" class="btn-check" id="registrationIdDisplay" name="account_team_size" value="1-1" />
+														</label>
+														<!--end::Option-->
+													</div>
+													<!--end::Col-->
+												</div>
+												<!--end::Row-->
+												<!--begin::Notice-->
+												<div class="text-muted fw-semibold fs-6">You will soon get login credentails over email </div>
+												<!--end::Notice-->
+											</div>
 										</div>
 										<!--end::Heading-->
 									</div>
@@ -312,7 +334,7 @@
 		<script src="{% static 'assets/js/scripts.bundle.js' %}"></script>
 		<!--end::Global Javascript Bundle-->
 		<!--begin::Custom Javascript(used for this page only)-->
-		<script src="{% static 'assets/js/custom/utilities/modals/create-account.js' %}"></script>
+		<script src="{% static 'assets/js/custom/utilities/modals/industry-registration.js' %}"></script>
 		<!--end::Custom Javascript-->
 		<!--end::Javascript-->
 	</body>
