@@ -17,20 +17,33 @@ def industry_registration(request):
         poc_email = request.POST.get('poc_email')
         poc_mobile = request.POST.get('poc_mobile')
         area_of_interest_id = request.POST.get('collaboration_sector')
-        print("name", name)
-        print("industry_id", industry_id)
-        print("state_id", state_id)
-        print("district_id", district_id)
-        print("poc_name", poc_name)
-        print("poc_email", poc_email)
-        print("poc_mobile", poc_mobile)
-        print("area_of_interest_id", area_of_interest_id)
-        # Optionally, you can return a success response
-        return JsonResponse(
-            {
-                'success': True,
-                'registration_id': "123123HHHHSDDD",
-             }
+        try:
+            new_industry_registration = IndustryRegistrations.objects.create(
+                name = name,
+                industry_id = industry_id,
+                state_id = state_id,
+                district_id = district_id,
+                point_of_contact_name = poc_name,
+                email = poc_email,
+                mobile = poc_mobile,
             )
+            new_industry_registration.save()
+            new_industry_registration.area_of_interest.add(area_of_interest_id)
+            new_industry_registration.save()
+            # Optionally, you can return a success response
+            return JsonResponse(
+                {
+                    'success': True,
+                    'registration_id': str(new_industry_registration.id),
+                }
+                )
+        except Exception as e:
+            return JsonResponse(
+                {
+                    'success': False,
+                    'registration_id': "Failed",
+                    'error': str(e),
+                }
+                )
     elif request.method == 'GET':
         return render(request,'registrations/industry_registration.html')

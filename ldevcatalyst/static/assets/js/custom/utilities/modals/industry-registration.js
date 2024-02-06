@@ -11,6 +11,7 @@ var KTCreateAccount = function () {
 	var form;
 	var formSubmitButton;
 	var formContinueButton;
+	var formPreviousButton;
 
 
 	// Variables
@@ -31,6 +32,7 @@ var KTCreateAccount = function () {
 			} else if (stepperObj.getCurrentStepIndex() === 3) {
 				formSubmitButton.classList.add('d-none');
 				formContinueButton.classList.add('d-none');
+				formPreviousButton.classList.add('d-none');
 			} else {
 				formSubmitButton.classList.remove('d-inline-block');
 				formSubmitButton.classList.remove('d-none');
@@ -121,9 +123,10 @@ var KTCreateAccount = function () {
 											confirmButton: "btn btn-light"
 										}
 									}).then(function () {
-																// Hide loading indication
+													
 											formSubmitButton.removeAttribute('data-kt-indicator');
 											formSubmitButton.disabled = false;
+											formPreviousButton.disabled = false;
 											stepperObj.goNext();
 											var registrationIdDisplay = document.getElementById('registrationIdDisplay');
                         					registrationIdDisplay.innerText = response.registration_id;
@@ -321,6 +324,7 @@ var KTCreateAccount = function () {
 			form = stepper.querySelector('#kt_create_account_form');
 			formSubmitButton = stepper.querySelector('[data-kt-stepper-action="submit"]');
 			formContinueButton = stepper.querySelector('[data-kt-stepper-action="next"]');
+			formPreviousButton = stepper.querySelector('[data-kt-stepper-action="previous"]');
 
 			initStepper();
 			initValidation();
