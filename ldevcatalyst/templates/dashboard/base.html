@@ -63,7 +63,7 @@ License: For each use you must have a valid license purchased only from above li
 						<!--end::Header mobile toggle-->
 						<!--begin::Logo-->
 						<div class="d-flex align-items-center flex-grow-1 flex-lg-grow-0 me-lg-18">
-							<a href="{% url 'dashboard' %}">
+							<a href="{% url 'dashboard_index' %}">
 								<img alt="Logo" src="{% static 'assets/media/logos/custom-1.png' %}" class="h-60px d-sm-none" />
 								<!--begin::MobileLogo--> <img alt="Logo" src="{% static 'assets/media/logos/custom-1.png' %}" class="h-60px d-none d-sm-block" /> 						<!--end::MobileLogo-->
 							</a>
@@ -497,7 +497,7 @@ License: For each use you must have a valid license purchased only from above li
 										<!--end::Menu item-->
 										<!--begin::Menu item-->
 										<div class="menu-item px-5">
-											<a href="authentication/layouts/corporate/sign-in.html" class="menu-link px-5">Sign Out</a>
+											<a href="{% url 'logout' %}" class="menu-link px-5">Sign Out</a>
 										</div>
 										<!--end::Menu item-->
 									</div>
@@ -528,7 +528,7 @@ License: For each use you must have a valid license purchased only from above li
 									<ul class="breadcrumb breadcrumb-separatorless fw-semibold">
 										<!--begin::Item-->
 										<li class="breadcrumb-item text-white fw-bold lh-1">
-											<a href="{% url 'dashboard' %}" class="text-white text-hover-primary">
+											<a href="{% url 'dashboard_index' %}" class="text-white text-hover-primary">
 												<i class="ki-outline ki-home text-gray-700 fs-6"></i>
 											</a>
 										</li>

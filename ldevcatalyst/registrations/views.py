@@ -2,9 +2,24 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from .models import IndustryRegistrations
 from datarepo.models import AreaOfInterest,State,IndustryCategory
-# Create your views here.
+from django.contrib.auth.decorators import login_required
+
+
+@login_required
 def industry_registrations(request):
-    return render(request, 'dashboard/registrations/industry/list.html')
+    industry_registrations = IndustryRegistrations.objects.all()
+    industry_registrations_list = []
+    for x in industry_registrations:
+        temp = {
+            'id' : x.id,
+            'company' : x.name,
+            'industry' : x.industry.name,
+            'district' : x.district.name,
+            'mobile' : x.mobile,
+            'created' : x.created,
+        }
+        industry_registrations_list.append(temp)
+    return render(request, 'dashboard/registrations/industry/list.html',context={'industry_registrations':industry_registrations_list})
 
 
 def industry_registration(request):
@@ -35,7 +50,7 @@ def industry_registration(request):
             return JsonResponse(
                 {
                     'success': True,
-                    'registration_id': str(new_industry_registration.id),
+                    'registration_id': str(new_industry_registration.registration_id),
                 }
                 )
         except Exception as e:

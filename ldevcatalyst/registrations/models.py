@@ -1,6 +1,6 @@
 from django.db import models
 from datarepo.models import AreaOfInterest,PreferredInvestmentStage,Department,Institution,District,State,IndustryCategory
-
+import uuid
 
 
 class PatentInfo(models.Model):
@@ -109,3 +109,9 @@ class IndustryRegistrations(models.Model):
     area_of_interest = models.ManyToManyField(AreaOfInterest)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+    registration_id = models.CharField(max_length=100,unique=True)
+    def save(self, *args, **kwargs):
+        if not self.registration_id:
+            # Generate a unique registration ID
+            self.registration_id = 'INRG-' + str(uuid.uuid4())[:4].upper()  # Using part of UUID to ensure uniqueness
+        super().save(*args, **kwargs)
