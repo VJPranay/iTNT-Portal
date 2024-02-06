@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import JsonResponse
 from .models import IndustryRegistrations
+from datarepo.models import AreaOfInterest,State,IndustryCategory
 # Create your views here.
 def industry_registrations(request):
     return render(request, 'dashboard/registrations/industry/list.html')
@@ -46,4 +47,23 @@ def industry_registration(request):
                 }
                 )
     elif request.method == 'GET':
-        return render(request,'registrations/industry_registration.html')
+        return render(request,'registrations/industry_registration.html',context={ 
+                         
+        'indsutry_types' : [
+            {
+                'industry_id' : x.id,
+                'industry_value' : x.name,
+            } for x in IndustryCategory.objects.all()
+        ],
+        'states' : [
+            {
+                'state_id' : x.id,
+                'state_value' : x.name,
+            } for x in State.objects.all()
+        ],
+        'area_of_interests' : [
+            {
+                'area_of_interest_id' : x.id,
+                'area_of_interest_value' : x.name,
+            } for x in AreaOfInterest.objects.all()    
+        ]})
