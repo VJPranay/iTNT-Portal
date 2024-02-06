@@ -110,6 +110,11 @@ class IndustryRegistrations(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     registration_id = models.CharField(max_length=100,unique=True)
+    status = models.CharField(
+        max_length=10,
+        choices=[('pending', 'pending'), ('approved', 'approved'), ('rejected', 'rejected')],
+        default='pending',
+    )
     def save(self, *args, **kwargs):
         if not self.registration_id:
             # Generate a unique registration ID

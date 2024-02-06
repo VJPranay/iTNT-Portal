@@ -6,8 +6,11 @@ from django.contrib.auth.decorators import login_required
 
 
 @login_required
-def industry_registrations(request):
-    industry_registrations = IndustryRegistrations.objects.all()
+def industry_registrations(request,registraion_status=None):
+    if registraion_status is not None:
+        industry_registrations = IndustryRegistrations.objects.filter(status=registraion_status)
+    else:
+        industry_registrations = IndustryRegistrations.objects.all()
     industry_registrations_list = []
     for x in industry_registrations:
         temp = {
