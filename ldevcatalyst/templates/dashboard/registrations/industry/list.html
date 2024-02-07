@@ -184,10 +184,10 @@ Industries
 					</thead>
 					<tbody class="fw-semibold text-gray-600">
 						{% for industry_registration in industry_registrations%}
-						<tr>
+						<tr table-industry_registration-id="{{industry_registration.id}}">
 							<td>
 								<div class="form-check form-check-sm form-check-custom form-check-solid">
-									<input class="form-check-input" type="checkbox" value="{industry_registration.id}" />
+									<input class="form-check-input" type="checkbox" value="{{industry_registration.id}}" />
 								</div>
 							</td>
 							<td>
@@ -211,7 +211,7 @@ Industries
 										<a href="#" class="menu-link px-3">View details</a>
 									</div> {% endcomment %}
 									<div class="menu-item px-3">
-										<a href="#" onclick="showApproveConfirmation()" class="menu-link px-3">Approve</a>
+										<a href="#"  onclick="showApproveConfirmation('{{industry_registration.id}}')" class="menu-link px-3">Approve</a>
 									</div>
 									<div class="menu-item px-3">
 										<a href="#" class="menu-link px-3">Deny</a>
@@ -760,38 +760,77 @@ Industries
 <script src="{% static 'assets/plugins/custom/datatables/datatables.bundle.js' %}"></script>
 <script src="{% static 'assets/js/custom/apps/customers/list/list.js' %}"></script>
 <script>
-	function showApproveConfirmation() {
-	  Swal.fire({
-		text: "Do you really want to approve?",
-		icon: "warning",
-		showCancelButton: true,
-		buttonsStyling: false,
-		confirmButtonText: "Yes, approve it!",
-		cancelButtonText: "No",
-		customClass: {
-		  confirmButton: "btn btn-primary",
-		  cancelButton: "btn btn-active-light"
-		}
-	  }).then(function(result) {
-		if (result.value) {
-		  // Here you can put the logic to execute if the user confirms
-		  // For example, submitting a form or performing some action
-		  // If you don't need to do anything on approval, you can omit this block
-		} else if (result.dismiss === 'cancel') {
-		  Swal.fire({
-			text: "Approval has been halt!, you can approve again later",
-			icon: "error",
-			buttonsStyling: false,
-			confirmButtonText: "Ok, got it!",
-			customClass: {
-			  confirmButton: "btn btn-primary",
-			}
-		  });
-		}
-	  });
-  
-	  // Prevent the default action of the anchor element
-	  event.preventDefault();
-	}
-  </script>
+    function showApproveConfirmation(registration_id) {
+        Swal.fire({
+            text: "Do you really want to approve?",
+            icon: "warning",
+            showCancelButton: true,
+            buttonsStyling: false,
+            confirmButtonText: "Yes, approve it!",
+            cancelButtonText: "No",
+            customClass: {
+                confirmButton: "btn btn-primary",
+                cancelButton: "btn btn-active-light"
+            }
+        }).then(function(result) {
+            if (result.value) {
+                // Make AJAX request to approve registration
+                approveRegistration(registration_id);
+            } else if (result.dismiss === 'cancel') {
+                Swal.fire({
+                    text: "Approval has been halted! You can approve again later.",
+                    icon: "error",
+                    buttonsStyling: false,
+                    confirmButtonText: "Ok, got it!",
+                    customClass: {
+                        confirmButton: "btn btn-primary",
+                    }
+                });
+            }
+        });
+        event.preventDefault();
+    }
+
+    function approveRegistration(registration_id) {
+        // Make AJAX request
+        $.ajax({
+            url: '{% url 'industry_approve_registration' %}',
+            type: 'POST',
+            data: {
+                'registration_id': registration_id,
+                csrfmiddlewaretoken: '{{ csrf_token }}' // Include CSRF token
+            },
+            success: function(response) {
+                if (response.success) {
+                    // Registration approved
+					$('[table-industry_registration-id="' + registration_id + '"]').remove();
+                    Swal.fire({
+                        text: "Approved!",
+                        icon: "success",
+                        buttonsStyling: false,
+                        confirmButtonText: "Ok",
+                        customClass: {
+                            confirmButton: "btn btn-primary",
+                        }
+                    });
+                } else {
+                    // Approval failed
+                    Swal.fire({
+                        text: "Not approved!",
+                        icon: "error",
+                        buttonsStyling: false,
+                        confirmButtonText: "Ok",
+                        customClass: {
+                            confirmButton: "btn btn-primary",
+                        }
+                    });
+                }
+            },
+            error: function(xhr, status, error) {
+                // Error handling
+                console.error(xhr.responseText);
+            }
+        });
+    }
+</script>
 {% endblock %}

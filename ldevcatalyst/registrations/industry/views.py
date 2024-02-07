@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import JsonResponse
-from .models import IndustryRegistrations
+from ..models import IndustryRegistrations
 from datarepo.models import AreaOfInterest,State,IndustryCategory
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
@@ -29,15 +29,20 @@ def industry_registrations(request,registraion_status=None):
 
 
 @login_required
-def approve_registration(request, registration_id):
+def approve_registration(request):
     if request.method == 'POST':
-        try:
-            registration = IndustryRegistrations.objects.get(id=registration_id)
-            registration.status = 'approved'
-            registration.save()
-            return JsonResponse({'success': True})
-        except IndustryRegistrations.DoesNotExist:
-            return JsonResponse({'success': False, 'error': 'Registration not found'}, status=404)
+        print(request.POST)
+        registration_id = request.POST.get('registration_id',None)
+        if not registration_id:
+            return JsonResponse({'success': False, 'error': 'Missing registration ID'}, status=400)
+        else:
+            try:
+                registration = IndustryRegistrations.objects.get(id=registration_id)
+                registration.status = 'approved'
+                registration.save()
+                return JsonResponse({'success': True})
+            except IndustryRegistrations.DoesNotExist:
+                return JsonResponse({'success': False, 'error': 'Registration not found'}, status=404)
     else:
         return JsonResponse({'success': False, 'error': 'Method not allowed'}, status=405)
 
