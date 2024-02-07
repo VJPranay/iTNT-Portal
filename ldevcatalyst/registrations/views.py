@@ -3,6 +3,9 @@ from django.http import JsonResponse
 from .models import IndustryRegistrations
 from datarepo.models import AreaOfInterest,State,IndustryCategory
 from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
+
+
 
 
 @login_required
@@ -23,6 +26,20 @@ def industry_registrations(request,registraion_status=None):
         }
         industry_registrations_list.append(temp)
     return render(request, 'dashboard/registrations/industry/list.html',context={'industry_registrations':industry_registrations_list})
+
+
+@login_required
+def approve_registration(request, registration_id):
+    if request.method == 'POST':
+        try:
+            registration = IndustryRegistrations.objects.get(id=registration_id)
+            registration.status = 'approved'
+            registration.save()
+            return JsonResponse({'success': True})
+        except IndustryRegistrations.DoesNotExist:
+            return JsonResponse({'success': False, 'error': 'Registration not found'}, status=404)
+    else:
+        return JsonResponse({'success': False, 'error': 'Method not allowed'}, status=405)
 
 
 def industry_registration(request):
