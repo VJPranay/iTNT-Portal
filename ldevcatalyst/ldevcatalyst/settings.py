@@ -27,6 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
 'itntportal.ldev.in',
+'127.0.0.1',
 ]
 CSRF_TRUSTED_ORIGINS = ['http://itntportal.ldev.in:9898'] 
 
