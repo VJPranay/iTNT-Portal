@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     'analytics',
     'meetings',
     'datarepo',
-    'django_extensions',
+   # 'django_extensions',
     'marketplace',
     'dashboard',
 ]
