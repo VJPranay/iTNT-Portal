@@ -166,6 +166,7 @@
 											<!--end::Label-->
 											<!--begin::Input-->
 											<select name="location_state" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="true" onchange="fetchDistricts(this.value)">
+												<option>Select state</option>
 												{% for state in states %}
 												<option value="{{state.state_id}}">{{state.state_value}}</option>
 												{%endfor%}
