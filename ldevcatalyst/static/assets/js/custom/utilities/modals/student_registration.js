@@ -3,7 +3,7 @@
 // Class definition
 var KTCreateAccount = function () {
 	// Elements
-	var modal;	
+	var modal;
 	var modalEl;
 
 	var stepper;
@@ -246,8 +246,8 @@ var KTCreateAccount = function () {
 			modalEl = document.querySelector('#kt_modal_create_account');
 
 			if (modalEl) {
-				modal = new bootstrap.Modal(modalEl);	
-			}					
+				modal = new bootstrap.Modal(modalEl);
+			}
 
 			stepper = document.querySelector('#kt_create_account_stepper');
 

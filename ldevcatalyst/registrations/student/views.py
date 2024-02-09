@@ -50,7 +50,7 @@ def student_registration(request):
 
     elif request.method == 'GET':
         return render(request, 'registrations/student_registration.html', context={
-            '`institutions`': [
+            'institutions': [
                 {
                     'institution_id': x.id,
                     'institution_name': x.name
