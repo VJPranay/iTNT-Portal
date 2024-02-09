@@ -19,7 +19,7 @@ def student_registration(request):
         district_id = request.POST.get('district',None)
         state_id = request.POST.get('state',None)
         project_idea = request.POST.get('project_idea',None)
-        area_of_interest_ids = request.POST.get('area_of_interest',None)
+        area_of_interest_ids = request.POST.getlist('area_of_interest',None)
 
         try:
             # Creating a new StudentRegistration object
@@ -49,8 +49,8 @@ def student_registration(request):
             })
 
     elif request.method == 'GET':
-        return render(request, 'registrations/industry_registration.html', context={
-            'institutions': [
+        return render(request, 'registrations/student_registration.html', context={
+            '`institutions`': [
                 {
                     'institution_id': x.id,
                     'institution_name': x.name

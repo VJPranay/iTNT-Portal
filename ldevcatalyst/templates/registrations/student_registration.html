@@ -32,7 +32,7 @@
 
 							<a href="/">
 								<img alt="Logo" src="{% static 'assets/media/logos/custom-1.png' %}" class="h-90px" />
-								<h1 style="color: #FFFFFF !important;">Industry Registration</h1>
+								<h1 style="color: #FFFFFF !important;">Student Registration</h1>
 							</a>
 
 						</div>
@@ -51,8 +51,8 @@
 										</div>
 			
 										<div class="stepper-label">
-											<h3 class="stepper-title fs-2">Company information</h3>
-											<div class="stepper-desc fw-normal">Fill in your company information</div>
+											<h3 class="stepper-title fs-2">Student information</h3>
+											<div class="stepper-desc fw-normal">Fill in The Student information</div>
 										</div>
 		
 									</div>
@@ -122,7 +122,7 @@
 
 						<div class="w-lg-650px w-xl-700px p-10 p-lg-15 mx-auto">
 							<!--begin::Form-->
-							<form class="my-auto pb-5" action="{% url 'industry_registration' %}" novalidate="novalidate" id="kt_create_account_form">
+							<form class="my-auto pb-5" action="{% url 'student_registration' %}" novalidate="novalidate" id="kt_create_account_form">
 								
 								<!--begin::Step 1-->
 								<div class="current" data-kt-stepper-element="content">
@@ -131,7 +131,7 @@
 										<!--begin::Heading-->
 										<div class="pb-10 pb-lg-12">
 											<!--begin::Title-->
-											<h2 class="fw-bold text-gray-900">Company Details</h2>
+											<h2 class="fw-bold text-gray-900">Student Details</h2>
 											<!--end::Title-->
 											<!--begin::Notice-->
 											<div class="text-muted fw-semibold fs-6">Know more about registration process on this
@@ -142,20 +142,25 @@
 										<!--begin::Input group-->
 										<div class="fv-row mb-10">
 											<!--begin::Label-->
-											<label class="form-label required">Company Name</label>
-											<!--end::Label-->
-											<!--begin::Input-->
-											<input name="company_name" class="form-control form-control-lg form-control-solid" placeholder="LDev Technologies" value="" />
-											<!--end::Input-->
-										</div>
-										<div class="fv-row mb-10">
-											<!--begin::Label-->
-											<label class="form-label required">Industry</label>
+											<label class="form-label required">Institution</label>
 											<!--end::Label-->
 											<!--begin::Input-->
 											<select name="industry_type" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="true">
-												{% for indstry_type in indsutry_types %}
-												<option value="{{indstry_type.industry_id}}">{{indstry_type.industry_value}}</option>
+												{% for institution in institutions %}
+												<option value="{{institution.institution_id}}">{{institution.institution_value}}</option>
+												{%endfor%}
+											</select>
+											<!--end::Input-->
+										</div>
+									
+										<div class="fv-row mb-10">
+											<!--begin::Label-->
+											<label class="form-label required">Department</label>
+											<!--end::Label-->
+											<!--begin::Input-->
+											<select name="industry_type" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="true">
+												{% for department in departments %}
+												<option value="{{department.department_id}}">{{department.department_value}}</option>
 												{%endfor%}
 											</select>
 											<!--end::Input-->
@@ -326,7 +331,7 @@
 		<script src="{% static 'assets/js/scripts.bundle.js' %}"></script>
 		<!--end::Global Javascript Bundle-->
 		<!--begin::Custom Javascript(used for this page only)-->
-		<script src="{% static 'assets/js/custom/utilities/modals/industry-registration.js' %}"></script>
+		<script src="{% static 'assets/js/custom/utilities/modals/student-registration.js' %}"></script>
 		<script>
 			// Define fetchDistricts function
 			function fetchDistricts(stateId) {
