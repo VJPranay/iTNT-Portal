@@ -61,7 +61,7 @@ def industry_approve_registration(request):
                 try:
                     user = User.objects.create_user(username=username, password=password)
                     user.is_active = True
-                    user.user_role = 8
+                    user.user_role = 4
                     user.email = registration.email
                     user.save()
                 except IntegrityError:
@@ -69,7 +69,7 @@ def industry_approve_registration(request):
                     user.delete()
                     user = User.objects.create_user(username=username, password=password)
                     user.is_active = True
-                    user.user_role = 8
+                    user.user_role = 4
                     user.email = registration.email
                     user.save()
                 print(user.username)
