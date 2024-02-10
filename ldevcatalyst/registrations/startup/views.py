@@ -105,15 +105,13 @@ def startup_registration(request):
         founder_names = request.POST.get('founder_names')
         district_id = request.POST.get('location_district')
         state_id = request.POST.get('location_state')
-        area_of_interest_id = request.POST.get('area_of_interest_id')
+        area_of_interest_id = request.POST.get('collaboration_sector')
         funding_stage_id = request.POST.get('funding_stage_id')
         team_size = request.POST.get('team_size')
         email = request.POST.get('poc_email')
         mobile = request.POST.get('poc_mobile')
         dpiit_number = request.POST.get('dpiit_number')
-        
         description = request.POST.get('description')
-        
         pitch_deck = request.POST.get('pitch_deck')
         video_link = request.POST.get('video_link')
         website = request.POST.get('company_website')
