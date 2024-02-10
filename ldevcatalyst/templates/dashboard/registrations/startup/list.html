@@ -35,7 +35,7 @@
 Registrations
 {% endblock  %}
 {% block pagedescription %}
-Industries
+VC
 {% endblock  %}
 
 
@@ -174,33 +174,35 @@ Industries
 									<input class="form-check-input" type="checkbox" data-kt-check="true" data-kt-check-target="#kt_customers_table .form-check-input" value="1" />
 								</div>
 							</th>
-							<th class="min-w-125px">Company</th>
-							<th class="min-w-125px">Industry</th>
+							<th class="min-w-125px">Company Name</th>
+							<th class="min-w-125px">Category</th>
 							<th class="min-w-125px">District</th>
+							<th class="min-w-125px">Funding Stage</th>
 							<th class="min-w-125px">Mobile</th>
 							<th class="min-w-125px">Registered on</th>
 							<th class="text-end min-w-70px">Actions</th>
 						</tr>
 					</thead>
 					<tbody class="fw-semibold text-gray-600">
-						{% for industry_registration in industry_registrations%}
-						<tr table-industry_registration-id="{{industry_registration.id}}">
+						{% for startup_registration in startup_registrations%}
+						<tr table-startup_registration-id="{{startup_registration.id}}">
 							<td>
 								<div class="form-check form-check-sm form-check-custom form-check-solid">
-									<input class="form-check-input" type="checkbox" value="{{industry_registration.id}}" />
+									<input class="form-check-input" type="checkbox" value="{{startup_registration.id}}" />
 								</div>
 							</td>
 							<td>
-								<a href="#" class="text-gray-800 text-hover-primary mb-1">{{industry_registration.company}}</a>
+								<a href="#" class="text-gray-800 text-hover-primary mb-1">{{startup_registration.name}}</a>
 							</td>
 							<td>
-								<a href="#" class="text-gray-600 text-hover-primary mb-1">{{industry_registration.industry}}</a>
+								<a href="#" class="text-gray-600 text-hover-primary mb-1">{{startup_registration.area_of_interest}}</a>
 							</td>
-							<td>{{industry_registration.mobile}}</td>
+							<td>{{startup_registration.mobile}}</td>
 							<td>
-								{{industry_registration.district}}
+								{{startup_registration.district}}
 							</td>
-							<td>{{industry_registration.created}}</td>
+							<td>{{startup_registration.funding_stage}}</td>
+							<td>{{startup_registration.created}}</td>
 							<td class="text-end">
 								<a href="#" class="btn btn-sm btn-light btn-flex btn-center btn-active-light-primary" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">Actions 
 								<i class="ki-outline ki-down fs-5 ms-1"></i></a>
@@ -211,7 +213,7 @@ Industries
 										<a href="#" class="menu-link px-3">View details</a>
 									</div> {% endcomment %}
 									<div class="menu-item px-3">
-										<a href="#"  onclick="showApproveConfirmation('{{industry_registration.id}}')" class="menu-link px-3">Approve</a>
+										<a href="#"  onclick="showApproveConfirmation('{{startup_registration.id}}')" class="menu-link px-3">Approve</a>
 									</div>
 									<div class="menu-item px-3">
 										<a href="#" class="menu-link px-3">Deny</a>
@@ -794,7 +796,7 @@ Industries
     function approveRegistration(registration_id) {
         // Make AJAX request
         $.ajax({
-            url: '{% url 'industry_approve_registration' %}',
+            url: '{% url 'startup_approve_registration' %}',
             type: 'POST',
             data: {
                 'registration_id': registration_id,
@@ -803,7 +805,7 @@ Industries
             success: function(response) {
                 if (response.success) {
                     // Registration approved
-					$('[table-industry_registration-id="' + registration_id + '"]').remove();
+					$('[table-startup_registration-id="' + registration_id + '"]').remove();
                     Swal.fire({
                         text: "Approved!",
                         icon: "success",

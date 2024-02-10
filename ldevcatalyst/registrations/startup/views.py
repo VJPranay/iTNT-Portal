@@ -16,9 +16,9 @@ from email.mime.multipart import MIMEMultipart
 
 
 @login_required
-def startup_registrations(request,registraion_status=None):
-    if registraion_status is not None:
-        startup_registrations = StartUpRegistrations.objects.filter(status=registraion_status)
+def startup_registrations(request,registration_status=None):
+    if registration_status is not None:
+        startup_registrations = StartUpRegistrations.objects.filter(status=registration_status)
     else:
         startup_registrations = StartUpRegistrations.objects.all()
     startup_registrations_list = []
@@ -33,7 +33,7 @@ def startup_registrations(request,registraion_status=None):
             'created' : x.created,
         }
         startup_registrations_list.append(temp)
-    return render(request, 'dashboard/registrations/vc/list.html',context={'startup_registrations':startup_registrations_list})
+    return render(request, 'dashboard/registrations/startup/list.html',context={'startup_registrations':startup_registrations_list})
 
 
 @login_required

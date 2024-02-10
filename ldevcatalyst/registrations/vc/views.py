@@ -19,9 +19,9 @@ from email.mime.multipart import MIMEMultipart
 
 
 @login_required
-def vc_registrations(request,registraion_status=None):
-    if registraion_status is not None:
-        vc_registrations = VCRegistrations.objects.filter(status=registraion_status)
+def vc_registrations(request,registration_status=None):
+    if registration_status is not None:
+        vc_registrations = VCRegistrations.objects.filter(status=registration_status)
     else:
         vc_registrations = VCRegistrations.objects.all()
     vc_registrations_list = []
