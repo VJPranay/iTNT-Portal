@@ -61,6 +61,7 @@ def industry_approve_registration(request):
                 try:
                     user = User.objects.create_user(username=username, password=password)
                     user.is_active = True
+                    user.email = registration.email
                     user.save()
                 except IntegrityError:
                     user = User.objects.get(username=username)

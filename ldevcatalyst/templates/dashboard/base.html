@@ -73,6 +73,9 @@ License: For each use you must have a valid license purchased only from above li
 						<div class="d-flex align-items-stretch justify-content-between flex-lg-grow-1" id="kt_app_header_wrapper">
 							<!--begin::Menu wrapper-->
 							<div class="app-header-menu app-header-mobile-drawer align-items-stretch" data-kt-drawer="true" data-kt-drawer-name="app-header-menu" data-kt-drawer-activate="{default: true, lg: false}" data-kt-drawer-overlay="true" data-kt-drawer-width="250px" data-kt-drawer-direction="start" data-kt-drawer-toggle="#kt_app_header_menu_toggle" data-kt-swapper="true" data-kt-swapper-mode="{default: 'append', lg: 'prepend'}" data-kt-swapper-parent="{default: '#kt_app_body', lg: '#kt_app_header_wrapper'}">
+								
+								{% if user.user_role == 2 %}
+												
 								<!--begin::Menu-->
 								<div class="menu menu-roundedx menu-active-bg menu-state-primary menu-column menu-lg-row menu-title-gray-700 menu-icon-gray-500 menu-arrow-gray-500 menu-bullet-gray-500 my-5 my-lg-0 align-items-stretch fw-semibold px-2 px-lg-0" id="kt_app_header_menu" data-kt-menu="true">
 									<!--begin:Menu item-->
@@ -653,6 +656,138 @@ License: For each use you must have a valid license purchased only from above li
 									<!--end:Menu item-->
 								</div>
 								<!--end::Menu-->
+									{% elif user.user_role == 8 %}
+									<div class="menu menu-roundedx menu-active-bg menu-state-primary menu-column menu-lg-row menu-title-gray-700 menu-icon-gray-500 menu-arrow-gray-500 menu-bullet-gray-500 my-5 my-lg-0 align-items-stretch fw-semibold px-2 px-lg-0" id="kt_app_header_menu" data-kt-menu="true">
+										<!--begin:Menu item-->
+											<div data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-placement="bottom-start" class="menu-item menu-lg-down-accordion menu-sub-lg-down-indention me-0 me-lg-2">
+											<!--begin:Menu link-->
+											<span class="menu-link">
+												<span class="menu-title">Meeting requests</span>
+												<span class="menu-arrow d-lg-none"></span>
+											</span>
+											<!--end:Menu link-->
+										</div>
+										<!--end:Menu item-->
+										<!--begin:Menu item-->
+										<div data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-placement="bottom-start" class="menu-item menu-lg-down-accordion menu-sub-lg-down-indention me-0 me-lg-2">
+											<!--begin:Menu link-->
+											<span class="menu-link">
+												<span class="menu-title">Profiles</span>
+												<span class="menu-arrow d-lg-none"></span>
+											</span>
+											<!--end:Menu link-->
+											<!--begin:Menu sub-->
+											<div class="menu-sub menu-sub-lg-down-accordion menu-sub-lg-dropdown px-lg-2 py-lg-4 w-lg-200px">
+												<!--begin:Menu item-->
+												<div class="menu-item">
+													<!--begin:Menu link-->
+													<a class="menu-link" href="https://preview.LDevKTheme.com/html/metronic/docs" target="_blank" title="All profiles and profile" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss="click" data-bs-placement="right">
+														<span class="menu-icon">
+															<i class="ki-outline ki-abstract-26 fs-2"></i>
+														</span>
+														<span class="menu-title">Startup</span>
+													</a>
+													<!--end:Menu link-->
+												</div>
+												<!--end:Menu item-->
+												<!--begin:Menu item-->
+												<div class="menu-item">
+													<!--begin:Menu link-->
+													<a class="menu-link" href="https://ldev.in/fullstack/demo34/layout-builder.html" title="VC Details here" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss="click" data-bs-placement="right">
+														<span class="menu-icon">
+															<i class="ki-outline ki-switch fs-2"></i>
+														</span>
+														<span class="menu-title">VC</span>
+													</a>
+													<!--end:Menu link-->
+												</div>
+												<!--end:Menu item-->
+												<!--begin:Menu item-->
+												<div class="menu-item">
+													<!--begin:Menu link-->
+													<a class="menu-link" href="https://preview.LDevKTheme.com/html/metronic/docs/getting-started/changelog" target="_blank">
+														<span class="menu-icon">
+															<i class="ki-outline ki-code fs-2"></i>
+														</span>
+														<span class="menu-title">SME / Researcher</span>
+													</a>
+													<!--end:Menu link-->
+												</div>
+												<!--end:Menu item-->
+											</div>
+											<!--end:Menu sub-->
+										</div>
+										<!--end:Menu item-->
+										<!--end:Menu item-->
+									</div>
+									{% elif user.user_role == 6 %}
+									<div class="menu menu-roundedx menu-active-bg menu-state-primary menu-column menu-lg-row menu-title-gray-700 menu-icon-gray-500 menu-arrow-gray-500 menu-bullet-gray-500 my-5 my-lg-0 align-items-stretch fw-semibold px-2 px-lg-0" id="kt_app_header_menu" data-kt-menu="true">
+										
+										<!--begin:Menu item-->
+										<div data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-placement="bottom-start" class="menu-item menu-lg-down-accordion menu-sub-lg-down-indention me-0 me-lg-2">
+											<!--begin:Menu link-->
+											<span class="menu-link">
+												<span class="menu-title">Profiles</span>
+												<span class="menu-arrow d-lg-none"></span>
+											</span>
+											<!--end:Menu link-->
+											<!--begin:Menu sub-->
+											<div class="menu-sub menu-sub-lg-down-accordion menu-sub-lg-dropdown px-lg-2 py-lg-4 w-lg-200px">
+												<!--begin:Menu item-->
+												<div class="menu-item">
+													<!--begin:Menu link-->
+													<a class="menu-link" href="https://preview.LDevKTheme.com/html/metronic/docs" target="_blank" title="All profiles and profile" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss="click" data-bs-placement="right">
+														<span class="menu-icon">
+															<i class="ki-outline ki-abstract-26 fs-2"></i>
+														</span>
+														<span class="menu-title">Startup</span>
+													</a>
+													<!--end:Menu link-->
+												</div>
+												<!--end:Menu item-->
+												<!--begin:Menu item-->
+												<div class="menu-item">
+													<!--begin:Menu link-->
+													<a class="menu-link" href="https://ldev.in/fullstack/demo34/layout-builder.html" title="VC Details here" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss="click" data-bs-placement="right">
+														<span class="menu-icon">
+															<i class="ki-outline ki-switch fs-2"></i>
+														</span>
+														<span class="menu-title">VC</span>
+													</a>
+													<!--end:Menu link-->
+												</div>
+												<!--end:Menu item-->
+												<!--begin:Menu item-->
+												<div class="menu-item">
+													<!--begin:Menu link-->
+													<a class="menu-link" href="https://preview.LDevKTheme.com/html/metronic/docs/getting-started/changelog" target="_blank">
+														<span class="menu-icon">
+															<i class="ki-outline ki-code fs-2"></i>
+														</span>
+														<span class="menu-title">SME / Researcher</span>
+													</a>
+													<!--end:Menu link-->
+												</div>
+												<!--end:Menu item-->
+											</div>
+											<!--end:Menu sub-->
+										</div>
+										<!--end:Menu item-->
+										<!--begin:Menu item-->
+											<div data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-placement="bottom-start" class="menu-item menu-lg-down-accordion menu-sub-lg-down-indention me-0 me-lg-2">
+											<!--begin:Menu link-->
+											<span class="menu-link">
+												<span class="menu-title">Meeting requests</span>
+												<span class="menu-arrow d-lg-none"></span>
+											</span>
+											<!--end:Menu link-->
+										</div>
+										<!--end:Menu item-->
+									</div>
+									{% else %}
+									<h1>pending!</h1>
+									{% endif %}
+					
 							</div>
 							<!--end::Menu wrapper-->
 							<!--begin::Navbar-->
@@ -677,8 +812,18 @@ License: For each use you must have a valid license purchased only from above li
 												<!--begin::Username-->
 												<div class="d-flex flex-column">
 													<div class="fw-bold d-flex align-items-center fs-5">{{user.username}}
-													<span class="badge badge-light-success fw-bold fs-8 px-2 py-1 ms-2">Super Admin</span></div>
-													<a href="#" class="fw-semibold text-muted text-hover-primary fs-7">pranay@ldev.in</a>
+														{% if user.user_role == 2 %}
+														<span class="badge badge-light-success fw-bold fs-8 px-2 py-1 ms-2">Admin</span></div>
+														{% elif user.user_role == 8 %}
+														<span class="badge badge-light-success fw-bold fs-8 px-2 py-1 ms-2">VC</span></div>
+														{% elif user.user_role == 6 %}
+														<span class="badge badge-light-success fw-bold fs-8 px-2 py-1 ms-2">Startup</span></div>
+														{% elif user.user_role == 4 %}
+														<span class="badge badge-light-success fw-bold fs-8 px-2 py-1 ms-2">Industry</span></div>
+														{% else %}
+														{% endif %}
+													
+													<a href="#" class="fw-semibold text-muted text-hover-primary fs-7">{{user.email}}</a>
 												</div>
 												<!--end::Username-->
 											</div>
