@@ -122,8 +122,7 @@
 
 						<div class="w-lg-650px w-xl-700px p-10 p-lg-15 mx-auto">
 							<!--begin::Form-->
-							<form class="my-auto pb-5" action="{% url 'student_registration' %}" novalidate="novalidate" id="kt_create_account_form">
-								
+							<form class="my-auto pb-5"  action="{% url 'student_registration' %}" novalidate="novalidate" id="kt_create_account_form">
 								<!--begin::Step 1-->
 								<div class="current" data-kt-stepper-element="content">
 									<!--begin::Wrapper-->
@@ -145,7 +144,7 @@
 											<label class="form-label required">Name</label>
 											<!--end::Label-->
 											<!--begin::Input-->
-											<input name="student_name" class="form-control form-control-lg form-control-solid" placeholder="Plese enter your name" value="" />
+											<input name="name"  class="form-control form-control-lg form-control-solid" placeholder="Plese enter your name" value="" />
 											<!--end::Input-->
 										</div>
 
@@ -154,11 +153,12 @@
 											<label class="form-label required">Institution</label>
 											<!--end::Label-->
 											<!--begin::Input-->
-											<select name="industry_type" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="true">
+											<select name="institution" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="true">
 												{% for institution in institutions %}
-												<option value="{{institution.institution_id}}">{{institution.institution_name}}</option>
-												{%endfor%}
+												<option value="{{institution.institution_id}}" id = "{{institution.institution_id}}">{{institution.institution_name}}</option>
+												{% endfor %}
 											</select>
+											
 											<!--end::Input-->
 										</div>
 
@@ -167,7 +167,7 @@
 											<label class="form-label required">Year Of Graduation</label>
 											<!--end::Label-->
 											<!--begin::Input-->
-											<input name="student_name" class="form-control form-control-lg form-control-solid" placeholder="Year Of Graduation" value="" />
+											<input name="year_of_graduation" class="form-control form-control-lg form-control-solid" placeholder="Year Of Graduation" value="" />
 											<!--end::Input-->
 										</div>
 									
@@ -176,12 +176,12 @@
 											<label class="form-label required">Department</label>
 											<!--end::Label-->
 											<!--begin::Input-->
-											<select name="industry_type" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="true">
-								
+											<select name="department" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="true">
 												{% for department in departments %}
-												<option value="{{department.department_id}}">{{department.department_name}}</option>
-												{%endfor%}
+												<option value="{{department.department_id}}" id="department_{{department.department_id}}">{{department.department_name}}</option>
+												{% endfor %}
 											</select>
+											
 											<!--end::Input-->
 										</div>
 										<div class="fv-row mb-10" data-district-url="{{ request.scheme }}://{{ request.get_host }}{% url 'districts' %}"  data-district-urlid="districtslink">
@@ -192,35 +192,37 @@
 											<select name="location_state" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="true" onchange="fetchDistricts(this.value)">
 												<option>Select state</option>
 												{% for state in states %}
-												<option value="{{state.state_id}}">{{state.state_name}}</option>
+												<option value="{{state.state_id}}" id="state_{{state.state_id}}">{{state.state_name}}</option>
 												{%endfor%}
 											</select>
 											<!--end::Input-->
 										</div>
 										<div class="fv-row mb-10">
 											<!--begin::Label-->
-											<label class="form-label required">District</label>
+											<label class="form-label required" for="district-id">District</label>
 											<!--end::Label-->
 											<!--begin::Input-->
-											<select id="districtshere" name="location_district" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="true">
+											<select id="location_district" name="location_district" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="true">
 												<option value=""></option>
 											</select>
 											<!--end::Input-->
+
 										</div>
 										<div class="fv-row mb-10">
 											<!--begin::Label-->
 											<label class="form-label required">Area of interest for collaboration</label>
 											<!--end::Label-->
 											<!--begin::Input-->
-											<select name="collaboration_sector" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select2" data-allow-clear="true" data-hide-search="true">
+											<select name="area_of_interest" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="true">
 												{% for area_of_interest in area_of_interests %}
-												<option value="{{area_of_interest.area_of_interest_id}}">{{area_of_interest.area_of_interest_name}}</option>
-												{%endfor%}
+												<option value="{{area_of_interest.area_of_interest_id}}" id = "area_of_interest_{{area_of_interest.area_of_interest_id}}">{{area_of_interest.area_of_interest_name}}</option>
+												{% endfor %}
 											</select>
+											
 											<!--end::Input-->
 										</div>
 									
-										
+									
 										
 									</div>
 									<!--end::Wrapper-->
@@ -246,7 +248,7 @@
 											<label class="form-label required">Project Idea</label>
 											<!--end::Label-->
 											<!--begin::Input-->
-											<input type="text" class="form-control form-control-lg form-control-solid" name="poc_name" placeholder="Enter here" value="" />
+											<input type="text" class="form-control form-control-lg form-control-solid" name="project_idea" placeholder="Enter here" value="" />
 											{% csrf_token %}
 											<!--end::Input-->
 										</div>
@@ -327,6 +329,7 @@
 			</div>
 			<!--end::Authentication - Multi-steps-->
 		</div>
+		
 		<!--end::Root-->
 		<!--begin::Javascript-->
 		<script>var hostUrl = "assets/";</script>
