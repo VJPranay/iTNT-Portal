@@ -1,0 +1,425 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>LDev.in</title>
+		<meta charset="utf-8" />
+		<meta name="description" content="LDev Technologies Pvt Ltd" />
+		<meta name="keywords" content="ldev,ldev tech,ldev.in" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta property="og:locale" content="en_US" />
+		<meta property="og:type" content="article" />
+		<meta property="og:title" content="LDev.in" />
+		<meta property="og:url" content="https://ldev.in" />
+		<meta property="og:site_name" content="Development by LDev Tech" />
+		<link rel="canonical" href="https://ldev.in/fullstack" />
+		<link rel="shortcut icon" href="assets/media/logos/favicon.ico" />
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700" />
+		<link href="{% static 'assets/plugins/global/plugins.bundle.css' %}" rel="stylesheet" type="text/css" />
+		<link href="{% static 'assets/css/style.bundle.css' %}" rel="stylesheet" type="text/css" />
+		<script>// Frame-busting to prevent site from being loaded within a frame without permission (click-jacking) if (window.top != window.self) { window.top.location.replace(window.self.location.href); }</script>
+	</head>
+	<body id="kt_body" class="app-blank">
+		<script>var defaultThemeMode = "light"; var themeMode; if ( document.documentElement ) { if ( document.documentElement.hasAttribute("data-bs-theme-mode")) { themeMode = document.documentElement.getAttribute("data-bs-theme-mode"); } else { if ( localStorage.getItem("data-bs-theme") !== null ) { themeMode = localStorage.getItem("data-bs-theme"); } else { themeMode = defaultThemeMode; } } if (themeMode === "system") { themeMode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"; } document.documentElement.setAttribute("data-bs-theme", themeMode); }</script>
+		<div class="d-flex flex-column flex-root" id="kt_app_root">
+
+			<div class="d-flex flex-column flex-lg-row flex-column-fluid stepper stepper-pills stepper-column stepper-multistep" id="kt_create_account_stepper">
+
+				<div class="d-flex flex-column flex-lg-row-auto w-lg-350px w-xl-500px">
+					<div class="d-flex flex-column position-lg-fixed top-0 bottom-0 w-lg-350px w-xl-500px scroll-y bgi-size-cover bgi-position-center" style="background-image: url({% static 'assets/media/misc/auth-bg.png'%})">
+
+						<div class="d-flex flex-center py-10 py-lg-20 mt-lg-20">
+
+							<a href="/">
+								<img alt="Logo" src="{% static 'assets/media/logos/custom-1.png' %}" class="h-90px" />
+								<h1 style="color: #FFFFFF !important;">StartUp Registration</h1>
+							</a>
+
+						</div>
+
+						<div class="d-flex flex-row-fluid justify-content-center p-10">
+
+							<div class="stepper-nav">
+
+								<div class="stepper-item current" data-kt-stepper-element="nav">
+
+									<div class="stepper-wrapper">
+	
+										<div class="stepper-icon rounded-3">
+											<i class="ki-outline ki-check fs-2 stepper-check"></i>
+											<span class="stepper-number">1</span>
+										</div>
+			
+										<div class="stepper-label">
+											<h3 class="stepper-title fs-2">StartUp information</h3>
+											<div class="stepper-desc fw-normal">Fill in your startup information</div>
+										</div>
+		
+									</div>
+	
+									<div class="stepper-line h-40px"></div>
+			
+								</div>
+
+
+								<div class="stepper-item" data-kt-stepper-element="nav">
+			
+									<div class="stepper-wrapper">
+				
+										<div class="stepper-icon rounded-3">
+											<i class="ki-outline ki-check fs-2 stepper-check"></i>
+											<span class="stepper-number">2</span>
+										</div>
+				
+										<div class="stepper-label">
+											<h3 class="stepper-title fs-2">PoC Information</h3>
+											<div class="stepper-desc fw-normal">Point of contact details</div>
+										</div>
+					
+									</div>
+									<div class="stepper-line h-40px"></div>
+						
+								</div>
+
+								<div class="stepper-item" data-kt-stepper-element="nav">
+			
+									<div class="stepper-wrapper">
+				
+										<div class="stepper-icon rounded-3">
+											<i class="ki-outline ki-check fs-2 stepper-check"></i>
+											<span class="stepper-number">3</span>
+										</div>
+				
+										<div class="stepper-label">
+											<h3 class="stepper-title fs-2">Submit</h3>
+											<div class="stepper-desc fw-normal">Details submission</div>
+										</div>
+					
+									</div>
+						
+								</div>
+
+							</div>
+
+						</div>
+
+						<div class="d-flex flex-center flex-wrap px-5 py-10">
+
+							{% comment %} <div class="d-flex fw-normal">
+								<a href="https://ldev.in/theme-engine" class="text-success px-5" target="_blank">Terms</a>
+								<a href="https://ldev.in/theme-engine/devs" class="text-success px-5" target="_blank">Plans</a>
+								<a href="https://ldev.in/theme-engine/market" class="text-success px-5" target="_blank">Contact Us</a>
+							</div> {% endcomment %}
+
+						</div>
+
+					</div>
+				</div>
+
+				<div class="d-flex flex-column flex-lg-row-fluid py-10">
+
+					<div class="d-flex flex-center flex-column flex-column-fluid">
+
+						<div class="w-lg-650px w-xl-700px p-10 p-lg-15 mx-auto">
+							<!--begin::Form-->
+							<form class="my-auto pb-5" action="{% url 'startup_registration' %}" novalidate="novalidate" id="kt_create_account_form">
+								
+								<!--begin::Step 1-->
+								<div class="current" data-kt-stepper-element="content">
+									<!--begin::Wrapper-->
+									<div class="w-100">
+										<!--begin::Heading-->
+										<div class="pb-10 pb-lg-12">
+											<!--begin::Title-->
+											<h2 class="fw-bold text-gray-900">StartUp Details</h2>
+											<!--end::Title-->
+											<!--begin::Notice-->
+											<div class="text-muted fw-semibold fs-6">Know more about registration process on this
+											<a href="#" class="link-primary fw-bold">link</a>.</div>
+											<!--end::Notice-->
+										</div>
+										<!--end::Heading-->
+										<!--begin::Input group-->
+										<div class="fv-row mb-10">
+											<!--begin::Label-->
+											<label class="form-label required">StartUp Company Name</label>
+											<!--end::Label-->
+											<!--begin::Input-->
+											<input name="name" class="form-control form-control-lg form-control-solid" placeholder="LDev Technologies" value="" />
+											<!--end::Input-->
+										</div>
+										<div class="fv-row mb-10">
+											<!--begin::Label-->
+											<label class="form-label required">Co Founders Count</label>
+											<!--end::Label-->
+											<!--begin::Input-->
+											<input name="co_founder_count" class="form-control form-control-lg form-control-solid" placeholder="3" value="" />
+											<!--end::Input-->
+										</div>
+										<div class="fv-row mb-10">
+											<!--begin::Label-->
+											<label class="form-label required">Team size</label>
+											<!--end::Label-->
+											<!--begin::Input-->
+											<input name="team_size" class="form-control form-control-lg form-control-solid" placeholder="6" value="" />
+											<!--end::Input-->
+										</div>
+										<div class="fv-row mb-10">
+											<!--begin::Label-->
+											<label class="form-label required">Dpiit Number</label>
+											<!--end::Label-->
+											<!--begin::Input-->
+											<input name="dpiit_number" class="form-control form-control-lg form-control-solid" placeholder="1OOO1111" value="" />
+											<!--end::Input-->
+										</div>
+										<div class="fv-row mb-10">
+											<!--begin::Label-->
+											<label class="form-label required">Description</label>
+											<!--end::Label-->
+											<!--begin::Input-->
+											<input name="description" class="form-control form-control-lg form-control-solid" placeholder="Your startup idea description" value="" />
+											<!--end::Input-->
+										</div>
+										<div class="fv-row mb-10" data-district-url="{{ request.scheme }}://{{ request.get_host }}{% url 'districts' %}"  data-district-urlid="districtslink">
+											<!--begin::Label-->
+											<label class="form-label required">State</label>
+											<!--end::Label-->
+											<!--begin::Input-->
+											<select name="location_state" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="true" onchange="fetchDistricts(this.value)">
+												<option>Select state</option>
+												{% for state in states %}
+												<option value="{{state.state_id}}">{{state.state_value}}</option>
+												{%endfor%}
+											</select>
+											<!--end::Input-->
+										</div>
+										<div class="fv-row mb-10">
+											<!--begin::Label-->
+											<label class="form-label required">District</label>
+											<!--end::Label-->
+											<!--begin::Input-->
+											<select id="districtshere" name="location_district" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="true">
+												<option value=""></option>
+											</select>
+											<!--end::Input-->
+										</div>
+										<div class="fv-row mb-10">
+											<!--begin::Label-->
+											<label class="form-label required">Area of interest for collaboration</label>
+											<!--end::Label-->
+											<!--begin::Input-->
+											<select name="collaboration_sector" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="true">
+												{% for area_of_interest in area_of_interests %}
+												<option value="{{area_of_interest.area_of_interest_id}}">{{area_of_interest.area_of_interest_value}}</option>
+												{%endfor%}
+											</select>
+											<!--end::Input-->
+										</div>
+										<div class="fv-row mb-10">
+											<!--begin::Label-->
+											<label class="form-label required">Preferred Investment Stage</label>
+											<!--end::Label-->
+											<!--begin::Input-->
+											<select name="funding_stage_id" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="true">
+												{% for preferred_investment_stage in preferred_investment_stages %}
+												<option value="{{preferred_investment_stage.preferred_investment_stage_id}}">{{preferred_investment_stage.preferred_investment_stage_value}}</option>
+												{%endfor%}
+											</select>
+											<!--end::Input-->
+										</div>
+									</div>
+									<!--end::Wrapper-->
+								</div>
+								<!--end::Step 1-->
+								<!--begin::Step 2-->
+								<div class="" data-kt-stepper-element="content">
+									<!--begin::Wrapper-->
+									<div class="w-100">
+										<!--begin::Heading-->
+										<div class="pb-10 pb-lg-15">
+											<!--begin::Title-->
+											<h2 class="fw-bold text-gray-900">PoC Information</h2>
+											<!--end::Title-->
+											<!--begin::Notice-->
+											<div class="text-muted fw-semibold fs-6">Point of contact details</div>
+											<!--end::Notice-->
+										</div>
+										<!--end::Heading-->
+										<!--begin::Input group-->
+										<div class="fv-row mb-10">
+											<!--begin::Label-->
+											<label class="form-label required">Email</label>
+											<!--end::Label-->
+											<!--begin::Input-->
+											<input type="email" class="form-control form-control-lg form-control-solid" name="poc_email" placeholder="email@domain.com" value="" />
+											<!--end::Input-->
+										</div>
+										<!--end::Input group-->
+										<!--begin::Input group-->
+										<div class="fv-row mb-10">
+											<!--begin::Label-->
+											<label class="form-label required">Mobile</label>
+											<!--end::Label-->
+											<!--begin::Input-->
+											<input type="tel" pattern="[0-9]{10}" class="form-control form-control-lg form-control-solid" name="poc_mobile" placeholder="9876543210" value="" />
+											<!--end::Input-->
+										</div>
+										<!--end::Input group-->
+										<!--begin::Input group-->
+										<div class="fv-row mb-10">
+											<!--begin::Label-->
+											<label class="form-label required">Website</label>
+											<!--end::Label-->
+											<!--begin::Input-->
+											<input type="text" class="form-control form-control-lg form-control-solid" name="company_website" placeholder="Company website" value="" />
+											{% csrf_token %}
+											<!--end::Input-->
+										</div>
+										<!--end::Input group-->
+										<!--begin::Input group-->
+										<div class="fv-row mb-10">
+											<!--begin::Label-->
+											<label class="form-label required">Video link</label>
+											<!--end::Label-->
+											<!--begin::Input-->
+											<input type="text" class="form-control form-control-lg form-control-solid" name="video_link" placeholder="LinkedIn" value="" />
+											{% csrf_token %}
+											<!--end::Input-->
+										</div>
+										<!--end::Input group-->
+										<!--begin::Input group-->
+										<div class="fv-row mb-10">
+											<!--begin::Label-->
+											<label class="form-label required">Pitch deck</label>
+											<!--end::Label-->
+											<!--begin::Input-->
+											<input type="text" class="form-control form-control-lg form-control-solid" name="pitch_deck" placeholder="LinkedIn" value="" />
+											<!--end::Input-->
+										</div>
+					
+										<!--end::Input group-->
+									</div>
+									<!--end::Wrapper-->
+								</div>
+								<!--end::Step 2-->
+								<!--begin::Step 3-->
+								<div class="" data-kt-stepper-element="content">
+									<!--begin::Wrapper-->
+									<div class="w-100">
+										<!--begin::Heading-->
+										<div class="pb-10 pb-lg-12">
+											<!--begin::Title-->
+											<h2 class="fw-bold text-gray-900">Registration successfull!</h2>
+											<!--end::Title-->
+											<div class="mb-10 fv-row">
+												<!--begin::Label-->
+												<label class="d-flex align-items-center form-label mb-3">Registration Reference ID
+												<span class="ms-1" data-bs-toggle="tooltip" title="Please use this reference id if you want to get in touch with us for any query">
+													<i class="ki-outline ki-information-5 text-gray-500 fs-6"></i>
+												</span></label>
+												<!--end::Label-->
+												<!--begin::Row-->
+												<div class="row mb-2" data-kt-buttons="true">
+													<!--begin::Col-->
+													<div class="col">
+														<!--begin::Option-->
+														<label class="btn btn-outline btn-outline-dashed btn-active-light-primary w-100 p-4">
+															<input type="radio" class="btn-check" name="account_team_size" value="1-1" />
+															<span class="fw-bold fs-3" id="registrationIdDisplay">Reference Value</span>
+														</label>
+														<!--end::Option-->
+													</div>
+													<!--end::Col-->
+												</div>
+												<!--end::Row-->
+												<!--begin::Notice-->
+												<div class="text-muted fw-semibold fs-6">You will soon get login credentails over email </div>
+												<!--end::Notice-->
+											</div>
+										</div>
+										<!--end::Heading-->
+									</div>
+									<!--end::Wrapper-->
+								</div>
+								<!--end::Step 3-->
+								
+								<!--begin::Actions-->
+								<div class="d-flex flex-stack pt-15">
+									<div class="mr-2">
+										<button type="button" class="btn btn-lg btn-light-primary me-3" data-kt-stepper-action="previous">
+										<i class="ki-outline ki-arrow-left fs-4 me-1"></i>Previous</button>
+									</div>
+									<div>
+										<button type="button" class="btn btn-lg btn-primary" data-kt-stepper-action="submit">
+											<span class="indicator-label">Submit 
+											<i class="ki-outline ki-arrow-right fs-4 ms-2"></i></span>
+											<span class="indicator-progress">Please wait... 
+											<span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
+										</button>
+										<button type="button" class="btn btn-lg btn-primary" data-kt-stepper-action="next">Continue 
+										<i class="ki-outline ki-arrow-right fs-4 ms-1"></i></button>
+									</div>
+								</div>
+								<!--end::Actions-->
+							</form>
+							<!--end::Form-->
+						</div>
+						<!--end::Wrapper-->
+					</div>
+					<!--end::Content-->
+				</div>
+				<!--end::Body-->
+			</div>
+			<!--end::Authentication - Multi-steps-->
+		</div>
+		<!--end::Root-->
+		<!--begin::Javascript-->
+		<script>var hostUrl = "assets/";</script>
+		<!--begin::Global Javascript Bundle(mandatory for all pages)-->
+		<script src="{% static 'assets/plugins/global/plugins.bundle.js' %}"></script>
+		<script src="{% static 'assets/js/scripts.bundle.js' %}"></script>
+		<!--end::Global Javascript Bundle-->
+		<!--begin::Custom Javascript(used for this page only)-->
+		<script src="{% static 'assets/js/custom/utilities/modals/startup-registration.js' %}"></script>
+		<script>
+			// Define fetchDistricts function
+			function fetchDistricts(stateId) {
+				var stateMainSelect = document.querySelector('div[data-district-urlid="districtslink"]');
+				var districtUrl = stateMainSelect.getAttribute('data-district-url');
+				var districtSelect = document.querySelector('select[name="location_district"]');
+				fetch(`${districtUrl}?state_id=${stateId}`)
+					.then(response => response.json())
+					.then(data => {
+						// Clear existing options
+						districtSelect.innerHTML = '';
+						// Add default option
+						districtSelect.appendChild(new Option('', ''));
+						// Add districts
+						data.forEach(district => {
+							districtSelect.appendChild(new Option(district.name, district.id));
+						});
+					})
+					.catch(error => console.error('Error fetching districts:', error));
+			}
+		
+			// Event listener for state dropdown
+			document.addEventListener('DOMContentLoaded', function() {
+				var stateSelect = document.querySelector('select[name="location_state"]');
+				var districtSelect = document.querySelector('select[name="location_district"]');
+				stateSelect.addEventListener('change', function() {
+					var stateId = this.value;
+					if (stateId) {
+						fetchDistricts(stateId);
+					} else {
+						districtSelect.innerHTML = '<option value=""></option>';
+					}
+				});
+			});
+		</script>
+		
+		
+		<!--end::Custom Javascript-->
+		<!--end::Javascript-->
+	</body>
+	<!--end::Body-->
+</html>

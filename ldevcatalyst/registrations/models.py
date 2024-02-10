@@ -93,7 +93,7 @@ class StartUpRegistrations(models.Model):
     area_of_interest = models.ForeignKey(AreaOfInterest, on_delete=models.SET_NULL,blank=True, null=True)
     description = models.TextField(blank=True, null=True)
     funding_stage = models.ForeignKey(PreferredInvestmentStage, on_delete=models.SET_NULL,blank=True, null=True)
-    pitch_deck = models.FileField(upload_to='pitch_decks/', blank=True, null=True)
+    pitch_deck = models.URLField(blank=True, null=True)
     video_link = models.URLField(blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
