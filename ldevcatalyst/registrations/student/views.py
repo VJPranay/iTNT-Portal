@@ -37,11 +37,15 @@ def approve_student_registrations(request):
                 try:
                     user=User.objects.create_user(username=username,password=password)
                     user.is_active=True
+                    user.user_role = 7
+                    user.email = registration.email
                     user.save()
                 except IntegrityError :
                     user=User.objects.get(username=username)
                     user.delete()
                     user=User.objects.create(usename=username,password=password)
+                    user.user_role = 7
+                    user.email = registration.email
                     user.is_active=True
                     user.save()
                 print(user.username)

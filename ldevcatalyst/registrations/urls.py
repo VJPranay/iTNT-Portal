@@ -1,6 +1,6 @@
 from django.urls import path
-from .industry.views import industry_registration,approve_registration
-from .student.views import student_registration,approve_student_registrations
+from .industry.views import industry_registration
+from .student.views import student_registration
 from .vc.views import vc_registration
 from .startup.views import startup_registration
 urlpatterns = [
