@@ -39,9 +39,10 @@ def vc_registrations(request,registraion_status=None):
 
 
 @login_required
-def approve_registration(request):
+def vc_approve_registration(request):
     if request.method == 'POST':
         registration_id = request.POST.get('registration_id',None)
+
         if not registration_id:
             return JsonResponse({'success': False, 'error': 'Missing registration ID'}, status=400)
         else:
@@ -52,11 +53,9 @@ def approve_registration(request):
                 
                 # Generate username from registration ID
                 username = registration.registration_id
-                print(username)
 
                 # Generate random 6-digit number
                 password = ''.join(random.choices(string.digits, k=6))
-                print(password)
 
                 # Create user with the generated username and random password
                 try:

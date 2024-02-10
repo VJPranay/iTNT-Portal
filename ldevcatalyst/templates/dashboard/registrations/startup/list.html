@@ -35,7 +35,7 @@
 Registrations
 {% endblock  %}
 {% block pagedescription %}
-VC
+Industries
 {% endblock  %}
 
 
@@ -174,8 +174,8 @@ VC
 									<input class="form-check-input" type="checkbox" data-kt-check="true" data-kt-check-target="#kt_customers_table .form-check-input" value="1" />
 								</div>
 							</th>
-							<th class="min-w-125px">Firm Name</th>
-							<th class="min-w-125px">Partner Name</th>
+							<th class="min-w-125px">Company</th>
+							<th class="min-w-125px">Industry</th>
 							<th class="min-w-125px">District</th>
 							<th class="min-w-125px">Mobile</th>
 							<th class="min-w-125px">Registered on</th>
@@ -183,24 +183,24 @@ VC
 						</tr>
 					</thead>
 					<tbody class="fw-semibold text-gray-600">
-						{% for vc_registration in vc_registrations%}
-						<tr table-vc_registration-id="{{vc_registration.id}}">
+						{% for industry_registration in industry_registrations%}
+						<tr table-industry_registration-id="{{industry_registration.id}}">
 							<td>
 								<div class="form-check form-check-sm form-check-custom form-check-solid">
-									<input class="form-check-input" type="checkbox" value="{{vc_registration.id}}" />
+									<input class="form-check-input" type="checkbox" value="{{industry_registration.id}}" />
 								</div>
 							</td>
 							<td>
-								<a href="#" class="text-gray-800 text-hover-primary mb-1">{{vc_registration.firm_name}}</a>
+								<a href="#" class="text-gray-800 text-hover-primary mb-1">{{industry_registration.company}}</a>
 							</td>
 							<td>
-								<a href="#" class="text-gray-600 text-hover-primary mb-1">{{vc_registration.partner_name}}</a>
+								<a href="#" class="text-gray-600 text-hover-primary mb-1">{{industry_registration.industry}}</a>
 							</td>
-							<td>{{vc_registration.mobile}}</td>
+							<td>{{industry_registration.mobile}}</td>
 							<td>
-								{{vc_registration.district}}
+								{{industry_registration.district}}
 							</td>
-							<td>{{vc_registration.created}}</td>
+							<td>{{industry_registration.created}}</td>
 							<td class="text-end">
 								<a href="#" class="btn btn-sm btn-light btn-flex btn-center btn-active-light-primary" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">Actions 
 								<i class="ki-outline ki-down fs-5 ms-1"></i></a>
@@ -211,7 +211,7 @@ VC
 										<a href="#" class="menu-link px-3">View details</a>
 									</div> {% endcomment %}
 									<div class="menu-item px-3">
-										<a href="#"  onclick="showApproveConfirmation('{{vc_registration.id}}')" class="menu-link px-3">Approve</a>
+										<a href="#"  onclick="showApproveConfirmation('{{industry_registration.id}}')" class="menu-link px-3">Approve</a>
 									</div>
 									<div class="menu-item px-3">
 										<a href="#" class="menu-link px-3">Deny</a>
@@ -794,7 +794,7 @@ VC
     function approveRegistration(registration_id) {
         // Make AJAX request
         $.ajax({
-            url: '{% url 'vc_approve_registration' %}',
+            url: '{% url 'industry_approve_registration' %}',
             type: 'POST',
             data: {
                 'registration_id': registration_id,
@@ -803,7 +803,7 @@ VC
             success: function(response) {
                 if (response.success) {
                     // Registration approved
-					$('[table-vc_registration-id="' + registration_id + '"]').remove();
+					$('[table-industry_registration-id="' + registration_id + '"]').remove();
                     Swal.fire({
                         text: "Approved!",
                         icon: "success",

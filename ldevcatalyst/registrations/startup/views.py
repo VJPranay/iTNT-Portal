@@ -37,7 +37,7 @@ def startup_registrations(request,registraion_status=None):
 
 
 @login_required
-def approve_registration(request):
+def startup_approve_registration(request):
     if request.method == 'POST':
         registration_id = request.POST.get('registration_id',None)
         if not registration_id:

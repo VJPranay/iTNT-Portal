@@ -46,8 +46,8 @@ class VCRegistrations(models.Model):
             self.registration_id = 'VCRG-' + str(uuid.uuid4())[:4].upper()  # Using part of UUID to ensure uniqueness
         super().save(*args, **kwargs)
 
-    def __str__(self):
-        return self.partner_name
+    # def __str__(self):
+    #     return self.partner_name
 
 class ResearcherRegistrations(models.Model):
     name = models.CharField(max_length=100,blank=True, null=True)
