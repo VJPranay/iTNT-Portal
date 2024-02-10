@@ -25,6 +25,7 @@ class StartUpAdmin(admin.ModelAdmin):
 class StudentAdmin(admin.ModelAdmin):
     list_display = ('name', 'institution', 'department', 'year_of_graduation', 'district', 'state')
 
+
 @admin.register(IndustryRegistrations)
 class IndustryAdmin(admin.ModelAdmin):
     list_display = ('name', 'industry', 'state', 'district', 'point_of_contact_name', 'email', 'mobile')

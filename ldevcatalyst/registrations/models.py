@@ -125,9 +125,20 @@ class StudentRegistrations(models.Model):
     project_idea = models.TextField(blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+    registration_id=models.CharField(max_length=100,unique=True,null=True)
+    status = models.CharField(
+        max_length=10,
+        choices=[('pending', 'pending'), ('approved', 'approved'), ('rejected', 'rejected')],
+        default='pending',
+    )
+    def save(self, *args, **kwargs):
+        if not self.registration_id:
+            # Generate a unique registration ID
+            self.registration_id = 'SDRG-' + str(uuid.uuid4())[:4].upper()  # Using part of UUID to ensure uniqueness
+        super().save(*args, **kwargs)
 
     def __str__(self):
-        return self.name
+        return f'{self.name}-{self.status}-{self.institution}-{self.year_of_graduation},{self.district}-{self.state}-{self.department}'
 
 
 
