@@ -12,7 +12,7 @@ urlpatterns = [
     path('registrations/industry/<str:registraion_status>/', industry_registrations, name='industry_registrations'),
     path('registrations/startup/<str:registraion_status>/', startup_registrations, name='startup_registrations'),
     path('registrations/vc/<str:registraion_status>/', vc_registrations, name='vc_registrations'),
-    path('registrations/industry/approve_registration/', industry_registrations, name='industry_approve_registration'),
-    path('registrations/startup/approve_registration/', startup_approve_registration, name='startup_approve_registration'),
+    path('registrations/industry/approve_registration', industry_approve_registration, name='industry_approve_registration'),
+    path('registrations/startup/approve_registration', startup_approve_registration, name='startup_approve_registration'),
     path('registrations/vc/approve_registration', vc_approve_registration, name='vc_approve_registration'),
 ]
