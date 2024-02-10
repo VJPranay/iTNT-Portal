@@ -46,7 +46,7 @@ var KTCreateAccount = function () {
 
 			if (validator) {
 				validator.validate().then(function (status) {
-					console.log("line 46", status)
+					
 					if (status == 'Valid') {
 						stepper.goNext();
 						KTUtil.scrollTop();
@@ -182,62 +182,7 @@ var KTCreateAccount = function () {
 			form,
 			{
 				fields: {
-					name: {
-						validators: {
-							notEmpty: {
-								message: 'Please enter your name'
-							}
-						}
-					},
-					institution: {
-						validators: {
-							notEmpty: {
-								message: 'Please select your institution'
-							}
-						}
-					},
-					department: {
-						validators: {
-							notEmpty: {
-								message: 'Please select your department'
-							}
-						}
-					},
-					year_of_graduation: {
-						validators: {
-							notEmpty: {
-								message: 'Please enter your year of graduation'
-							}
-						}
-					},
-					location_district: {
-						validators: {
-							notEmpty: {
-								message: 'Please select your district'
-							}
-						}
-					},
-					location_state: {
-						validators: {
-							notEmpty: {
-								message: 'Please select your state'
-							}
-						}
-					},
-					project_idea: {
-						validators: {
-							notEmpty: {
-								message: 'Please enter your project idea'
-							}
-						}
-					},
-					area_of_interest: {
-						validators: {
-							notEmpty: {
-								message: 'Please select your area of interest'
-							}
-						}
-					}
+					
 				},
 				plugins: {
 					trigger: new FormValidation.plugins.Trigger(),
@@ -254,15 +199,7 @@ var KTCreateAccount = function () {
 		validations.push(FormValidation.formValidation(
 			form,
 			{
-				fields: {
-					project_idea: {
-						validators: {
-							notEmpty: {
-								message: 'Please enter your project idea'
-							}
-						}
-					}
-				},
+				
 				plugins: {
 					trigger: new FormValidation.plugins.Trigger(),
 					bootstrap: new FormValidation.plugins.Bootstrap5({
