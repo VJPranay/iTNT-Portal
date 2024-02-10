@@ -34,6 +34,17 @@ class VCRegistrations(models.Model):
     linkedin_profile = models.URLField(blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+    registration_id = models.CharField(max_length=100,unique=True)
+    status = models.CharField(
+        max_length=10,
+        choices=[('pending', 'pending'), ('approved', 'approved'), ('rejected', 'rejected')],
+        default='pending',
+    )
+    def save(self, *args, **kwargs):
+        if not self.registration_id:
+            # Generate a unique registration ID
+            self.registration_id = 'VCRG-' + str(uuid.uuid4())[:4].upper()  # Using part of UUID to ensure uniqueness
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.partner_name
@@ -53,6 +64,17 @@ class ResearcherRegistrations(models.Model):
     publications = models.ForeignKey(PublicationInfo, on_delete=models.SET_NULL, blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+    registration_id = models.CharField(max_length=100,unique=True)
+    status = models.CharField(
+        max_length=10,
+        choices=[('pending', 'pending'), ('approved', 'approved'), ('rejected', 'rejected')],
+        default='pending',
+    )
+    def save(self, *args, **kwargs):
+        if not self.registration_id:
+            # Generate a unique registration ID
+            self.registration_id = 'RCRG-' + str(uuid.uuid4())[:4].upper()  # Using part of UUID to ensure uniqueness
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.name
@@ -75,6 +97,17 @@ class StartUpRegistrations(models.Model):
     video_link = models.URLField(blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+    registration_id = models.CharField(max_length=100,unique=True)
+    status = models.CharField(
+        max_length=10,
+        choices=[('pending', 'pending'), ('approved', 'approved'), ('rejected', 'rejected')],
+        default='pending',
+    )
+    def save(self, *args, **kwargs):
+        if not self.registration_id:
+            # Generate a unique registration ID
+            self.registration_id = 'SURG-' + str(uuid.uuid4())[:4].upper()  # Using part of UUID to ensure uniqueness
+        super().save(*args, **kwargs)
 
 
     def __str__(self):
