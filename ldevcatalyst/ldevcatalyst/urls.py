@@ -25,6 +25,7 @@ urlpatterns = [
     path('districts/', districts,name="districts"),
     path('dashboard/', include('dashboard.urls')),
     path('registrations/', include('registrations.urls')),
+    path('profiles/', include('profiles.urls')),
 ]
 
 if settings.DEBUG:
