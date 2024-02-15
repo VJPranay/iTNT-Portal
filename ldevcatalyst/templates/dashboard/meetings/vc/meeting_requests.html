@@ -64,34 +64,12 @@ VC's
 													<!--begin::Contact groups-->
 													<div class="d-flex flex-column gap-5">
 														<!--begin::Contact group-->
+														{% for x in interest_areas_data%}
 														<div class="d-flex flex-stack">
-															<a href="apps/contacts/getting-started.html" class="fs-6 fw-bold text-gray-800 text-hover-primary text-active-primary active">AI / ML</a>
-															<div class="badge badge-light-primary">94</div>
+															<a href="#" class="fs-6 fw-bold text-gray-800 text-hover-primary text-active-primary" startup-cat-data="{{x.start_up__area_of_interest__id}}"">{{x.start_up__area_of_interest__name}}</a>
+															<div class="badge badge-light-primary">{{x.requests_count}}</div>
 														</div>
-														<!--begin::Contact group-->
-														<!--begin::Contact group-->
-														<div class="d-flex flex-stack">
-															<a href="apps/contacts/getting-started.html" class="fs-6 fw-bold text-gray-800 text-hover-primary">Space Tech</a>
-															<div class="badge badge-light-primary">63</div>
-														</div>
-														<!--begin::Contact group-->
-														<!--begin::Contact group-->
-														<div class="d-flex flex-stack">
-															<a href="apps/contacts/getting-started.html" class="fs-6 fw-bold text-gray-800 text-hover-primary">Space Tech</a>
-															<div class="badge badge-light-primary">71</div>
-														</div>
-														<!--begin::Contact group-->
-														<!--begin::Contact group-->
-														<div class="d-flex flex-stack">
-															<a href="apps/contacts/getting-started.html" class="fs-6 fw-bold text-gray-800 text-hover-primary">Creative Tech (AVGC+) </a>
-															<div class="badge badge-light-primary">33</div>
-														</div>
-														<!--begin::Contact group-->
-														<!--begin::Contact group-->
-														<div class="d-flex flex-stack">
-															<a href="apps/contacts/getting-started.html" class="fs-6 fw-bold text-gray-800 text-hover-primary">Other</a>
-															<div class="badge badge-light-primary">25</div>
-														</div>
+														{%endfor%}
 														<!--begin::Contact group-->
 													</div>
 													<!--end::Contact groups-->
@@ -123,360 +101,32 @@ VC's
 												<!--begin::Card body-->
 												<div class="card-body pt-5" id="kt_contacts_list_body">
 													<!--begin::List-->
-													<div class="scroll-y me-n5 pe-5 h-300px h-xl-auto" data-kt-scroll="true" data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-max-height="auto" data-kt-scroll-dependencies="#kt_header, #kt_toolbar, #kt_footer, #kt_contacts_list_header" data-kt-scroll-wrappers="#kt_content, #kt_contacts_list_body" data-kt-scroll-stretch="#kt_contacts_list, #kt_contacts_main" data-kt-scroll-offset="5px">
-														<!--begin::User-->
-														<div class="d-flex flex-stack py-4">
-															<!--begin::Details-->
-															<div class="d-flex align-items-center">
-																<!--begin::Avatar-->
-																<div class="symbol symbol-40px symbol-circle">
-																	<img alt="Pic" src="{% static 'assets/media/avatars/300-6.jpg' %}" />
-																</div>
-																<!--end::Avatar-->
-																<!--begin::Details-->
-																<div class="ms-4">
-																	<a href="apps/contacts/view-contact.html" class="fs-6 fw-bold text-gray-900 text-hover-primary mb-2">EcoGrowth Solutions </a>
-																	<div class="fw-semibold fs-7 text-muted">Environmental Sustainability</div>
-																</div>
-																<!--end::Details-->
-															</div>
-															<!--end::Details-->
-														</div>
-														<!--end::User-->
-														<!--begin::Separator-->
-														<div class="separator separator-dashed d-none"></div>
-														<!--end::Separator-->
-														<!--begin::User-->
-														<div class="d-flex flex-stack py-4">
-															<!--begin::Details-->
-															<div class="d-flex align-items-center">
-																<!--begin::Avatar-->
-																<div class="symbol symbol-40px symbol-circle">
-																	<span class="symbol-label bg-light-danger text-danger fs-6 fw-bolder">S</span>
-																</div>
-																<!--end::Avatar-->
-																<!--begin::Details-->
-																<div class="ms-4">
-																	<a href="apps/contacts/view-contact.html" class="fs-6 fw-bold text-gray-900 text-hover-primary mb-2">WiseRoot Finance</a>
-																	<div class="fw-semibold fs-7 text-muted">Financial Services</div>
-																</div>
-																<!--end::Details-->
-															</div>
-															<!--end::Details-->
-														</div>
-														<!--end::User-->
-														<!--begin::Separator-->
-														<div class="separator separator-dashed d-none"></div>
-														<!--end::Separator-->
-														<!--begin::User-->
-														<div class="d-flex flex-stack py-4">
-															<!--begin::Details-->
-															<div class="d-flex align-items-center">
-																<!--begin::Avatar-->
-																<div class="symbol symbol-40px symbol-circle">
-																	<img alt="Pic" src="{% static 'assets/media/avatars/300-1.jpg' %}" />
-																</div>
-																<!--end::Avatar-->
-																<!--begin::Details-->
-																<div class="ms-4">
-																	<a href="apps/contacts/view-contact.html" class="fs-6 fw-bold text-gray-900 text-hover-primary mb-2">FoodFusion Labs</a>
-																	<div class="fw-semibold fs-7 text-muted">FoodTech</div>
-																</div>
-																<!--end::Details-->
-															</div>
-															<!--end::Details-->
-														</div>
-														<!--end::User-->
-														<!--begin::Separator-->
-														<div class="separator separator-dashed d-none"></div>
-														<!--end::Separator-->
-														<!--begin::User-->
-														<div class="d-flex flex-stack py-4">
-															<!--begin::Details-->
-															<div class="d-flex align-items-center">
-																<!--begin::Avatar-->
-																<div class="symbol symbol-40px symbol-circle">
-																	<img alt="Pic" src="{% static 'assets/media/avatars/300-5.jpg' %}" />
-																</div>
-																<!--end::Avatar-->
-																<!--begin::Details-->
-																<div class="ms-4">
-																	<a href="apps/contacts/view-contact.html" class="fs-6 fw-bold text-gray-900 text-hover-primary mb-2">PetPals Haven</a>
-																	<div class="fw-semibold fs-7 text-muted">Pet Care</div>
-																</div>
-																<!--end::Details-->
-															</div>
-															<!--end::Details-->
-														</div>
-														<!--end::User-->
-														<!--begin::Separator-->
-														<div class="separator separator-dashed d-none"></div>
-														<!--end::Separator-->
-														<!--begin::User-->
-														<div class="d-flex flex-stack py-4">
-															<!--begin::Details-->
-															<div class="d-flex align-items-center">
-																<!--begin::Avatar-->
-																<div class="symbol symbol-40px symbol-circle">
-																	<img alt="Pic" src="{% static 'assets/media/avatars/300-25.jpg' %}" />
-																	
-																</div>
-																<!--end::Avatar-->
-																<!--begin::Details-->
-																<div class="ms-4">
-																	<a href="apps/contacts/view-contact.html" class="fs-6 fw-bold text-gray-900 text-hover-primary mb-2">AgriGlow Farms</a>
-																	<div class="fw-semibold fs-7 text-muted">Agriculture/AgriTech</div>
-																</div>
-																<!--end::Details-->
-															</div>
-															<!--end::Details-->
-														</div>
-														<!--end::User-->
-														<!--begin::Separator-->
-														<div class="separator separator-dashed d-none"></div>
-														<!--end::Separator-->
-														<!--begin::User-->
-														<div class="d-flex flex-stack py-4">
-															<!--begin::Details-->
-															<div class="d-flex align-items-center">
-																<!--begin::Avatar-->
-																<div class="symbol symbol-40px symbol-circle">
-																	<span class="symbol-label bg-light-warning text-warning fs-6 fw-bolder">R</span>
-																</div>
-																<!--end::Avatar-->
-																<!--begin::Details-->
-																<div class="ms-4">
-																	<a href="apps/contacts/view-contact.html" class="fs-6 fw-bold text-gray-900 text-hover-primary mb-2">LegalLoom Solutions</a>
-																	<div class="fw-semibold fs-7 text-muted">LegalTech</div>
-																</div>
-																<!--end::Details-->
-															</div>
-															<!--end::Details-->
-														</div>
-														<!--end::User-->
-														<!--begin::Separator-->
-														<div class="separator separator-dashed d-none"></div>
-														<!--end::Separator-->
-														<!--begin::User-->
-														<div class="d-flex flex-stack py-4">
-															<!--begin::Details-->
-															<div class="d-flex align-items-center">
-																<!--begin::Avatar-->
-																<div class="symbol symbol-40px symbol-circle">
-																	<img alt="Pic" src="{% static 'assets/media/avatars/300-9.jpg' %}" />
-
-																</div>
-																<!--end::Avatar-->
-																<!--begin::Details-->
-																<div class="ms-4">
-																	<a href="apps/contacts/view-contact.html" class="fs-6 fw-bold text-gray-900 text-hover-primary mb-2">FashionFusion Studio</a>
-																	<div class="fw-semibold fs-7 text-muted">Fashion/Apparel</div>
-																</div>
-																<!--end::Details-->
-															</div>
-															<!--end::Details-->
-														</div>
-														<!--end::User-->
-														<!--begin::Separator-->
-														<div class="separator separator-dashed d-none"></div>
-														<!--end::Separator-->
-														<!--begin::User-->
-														<div class="d-flex flex-stack py-4">
-															<!--begin::Details-->
-															<div class="d-flex align-items-center">
-																<!--begin::Avatar-->
-																<div class="symbol symbol-40px symbol-circle">
-																	<span class="symbol-label bg-light-danger text-danger fs-6 fw-bolder">O</span>
-
-																</div>
-																<!--end::Avatar-->
-																<!--begin::Details-->
-																<div class="ms-4">
-																	<a href="apps/contacts/view-contact.html" class="fs-6 fw-bold text-gray-900 text-hover-primary mb-2">SparkleTech CleanTech</a>
-																	<div class="fw-semibold fs-7 text-muted">Clean Technology</div>
-																</div>
-																<!--end::Details-->
-															</div>
-															<!--end::Details-->
-														</div>
-														<!--end::User-->
-														<!--begin::Separator-->
-														<div class="separator separator-dashed d-none"></div>
-														<!--end::Separator-->
-														<!--begin::User-->
-														<div class="d-flex flex-stack py-4">
-															<!--begin::Details-->
-															<div class="d-flex align-items-center">
-																<!--begin::Avatar-->
-																<div class="symbol symbol-40px symbol-circle">
-																	<span class="symbol-label bg-light-primary text-primary fs-6 fw-bolder">N</span>
-																</div>
-																<!--end::Avatar-->
-																<!--begin::Details-->
-																<div class="ms-4">
-																	<a href="apps/contacts/view-contact.html" class="fs-6 fw-bold text-gray-900 text-hover-primary mb-2">PetPals Haven</a>
-																	<div class="fw-semibold fs-7 text-muted">Wellness</div>
-																</div>
-																<!--end::Details-->
-															</div>
-															<!--end::Details-->
-														</div>
-														<!--end::User-->
-														<!--begin::Separator-->
-														<div class="separator separator-dashed d-none"></div>
-														<!--end::Separator-->
-														<!--begin::User-->
-														<div class="d-flex flex-stack py-4">
-															<!--begin::Details-->
-															<div class="d-flex align-items-center">
-																<!--begin::Avatar-->
-																<div class="symbol symbol-40px symbol-circle">
-																	<img alt="Pic" src="{% static 'assets/media/avatars/300-23.jpg' %}" />
-																</div>
-																<!--end::Avatar-->
-																<!--begin::Details-->
-																<div class="ms-4">
-																	<a href="apps/contacts/view-contact.html" class="fs-6 fw-bold text-gray-900 text-hover-primary mb-2">BioGenesis BioTech</a>
-																	<div class="fw-semibold fs-7 text-muted">Biotechnology</div>
-																</div>
-																<!--end::Details-->
-															</div>
-															<!--end::Details-->
-														</div>
-														<!--end::User-->
-														<!--begin::Separator-->
-														<div class="separator separator-dashed d-none"></div>
-														<!--end::Separator-->
-														<!--begin::User-->
-														<div class="d-flex flex-stack py-4">
-															<!--begin::Details-->
-															<div class="d-flex align-items-center">
-																<!--begin::Avatar-->
-																<div class="symbol symbol-40px symbol-circle">
-																	<span class="symbol-label bg-light-danger text-danger fs-6 fw-bolder">S</span>
-																</div>
-																<!--end::Avatar-->
-																<!--begin::Details-->
-																<div class="ms-4">
-																	<a href="apps/contacts/view-contact.html" class="fs-6 fw-bold text-gray-900 text-hover-primary mb-2">GreenHarbor</a>
-																	<div class="fw-semibold fs-7 text-muted">Renewable</div>
-																</div>
-																<!--end::Details-->
-															</div>
-															<!--end::Details-->
-														</div>
-														<!--end::User-->
-														<!--begin::Separator-->
-														<div class="separator separator-dashed d-none"></div>
-														<!--end::Separator-->
-														<!--begin::User-->
-														<div class="d-flex flex-stack py-4">
-															<!--begin::Details-->
-															<div class="d-flex align-items-center">
-																<!--begin::Avatar-->
-																<div class="symbol symbol-40px symbol-circle">
-																	<img alt="Pic" src="{% static 'assets/media/avatars/300-12.jpg' %}" />
-																</div>
-																<!--end::Avatar-->
-																<!--begin::Details-->
-																<div class="ms-4">
-																	<a href="apps/contacts/view-contact.html" class="fs-6 fw-bold text-gray-900 text-hover-primary mb-2">EduSpark</a>
-																	<div class="fw-semibold fs-7 text-muted">Education</div>
-																</div>
-																<!--end::Details-->
-															</div>
-															<!--end::Details-->
-														</div>
-														<!--end::User-->
-														<!--begin::Separator-->
-														<div class="separator separator-dashed d-none"></div>
-														<!--end::Separator-->
-														<!--begin::User-->
-														<div class="d-flex flex-stack py-4">
-															<!--begin::Details-->
-															<div class="d-flex align-items-center">
-																<!--begin::Avatar-->
-																<div class="symbol symbol-40px symbol-circle">
-																	<span class="symbol-label bg-light-info text-info fs-6 fw-bolder">A</span>
-																	<div class="symbol-badge bg-success start-100 top-100 border-4 h-15px w-15px ms-n2 mt-n2"></div>
-																</div>
-																<!--end::Avatar-->
-																<!--begin::Details-->
-																<div class="ms-4">
-																	<a href="apps/contacts/view-contact.html" class="fs-6 fw-bold text-gray-900 text-hover-primary mb-2">ArtisanAura Crafts</a>
-																	<div class="fw-semibold fs-7 text-muted">Handicrafts</div>
-																</div>
-																<!--end::Details-->
-															</div>
-															<!--end::Details-->
-														</div>
-														<!--end::User-->
-														<!--begin::Separator-->
-														<div class="separator separator-dashed d-none"></div>
-														<!--end::Separator-->
-														<!--begin::User-->
-														<div class="d-flex flex-stack py-4">
-															<!--begin::Details-->
-															<div class="d-flex align-items-center">
-																<!--begin::Avatar-->
-																<div class="symbol symbol-40px symbol-circle">
-																	<img alt="Pic" src="{% static 'assets/media/avatars/300-13.jpg' %}" />
-																</div>
-																<!--end::Avatar-->
-																<!--begin::Details-->
-																<div class="ms-4">
-																	<a href="apps/contacts/view-contact.html" class="fs-6 fw-bold text-gray-900 text-hover-primary mb-2">InfiniteSky</a>
-																	<div class="fw-semibold fs-7 text-muted">Aerospace</div>
-																</div>
-																<!--end::Details-->
-															</div>
-															<!--end::Details-->
-														</div>
-														<!--end::User-->
-														<!--begin::Separator-->
-														<div class="separator separator-dashed d-none"></div>
-														<!--end::Separator-->
-														<!--begin::User-->
-														<div class="d-flex flex-stack py-4">
-															<!--begin::Details-->
-															<div class="d-flex align-items-center">
-																<!--begin::Avatar-->
-																<div class="symbol symbol-40px symbol-circle">
-																	<span class="symbol-label bg-light-success text-success fs-6 fw-bolder">L</span>
-																</div>
-																<!--end::Avatar-->
-																<!--begin::Details-->
-																<div class="ms-4">
-																	<a href="apps/contacts/view-contact.html" class="fs-6 fw-bold text-gray-900 text-hover-primary mb-2">MindMatrix AI</a>
-																	<div class="fw-semibold fs-7 text-muted">Artificial Intelligence</div>
-																</div>
-																<!--end::Details-->
-															</div>
-															<!--end::Details-->
-														</div>
-														<!--end::User-->
-														<!--begin::Separator-->
-														<div class="separator separator-dashed d-none"></div>
-														<!--end::Separator-->
-														<!--begin::User-->
-														<div class="d-flex flex-stack py-4">
-															<!--begin::Details-->
-															<div class="d-flex align-items-center">
-																<!--begin::Avatar-->
-																<div class="symbol symbol-40px symbol-circle">
-																	<img alt="Pic" src="{% static 'assets/media/avatars/300-21.jpg' %}" />
-																</div>
-																<!--end::Avatar-->
-																<!--begin::Details-->
-																<div class="ms-4">
-																	<a href="apps/contacts/view-contact.html" class="fs-6 fw-bold text-gray-900 text-hover-primary mb-2">TechSage</a>
-																	<div class="fw-semibold fs-7 text-muted">Technology Consulting</div>
-																</div>
-																<!--end::Details-->
-															</div>
-															<!--end::Details-->
-														</div>
-														<!--end::User-->
+													<div class="scroll-y me-n5 pe-5 h-300px h-xl-auto" data-kt-scroll="true" data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-max-height="auto" data-kt-scroll-dependencies="#kt_header, #kt_toolbar, #kt_footer, #kt_contacts_list_header" data-kt-scroll-wrappers="#kt_content, #kt_contacts_list_body" data-kt-scroll-stretch="#kt_contacts_list, #kt_contacts_main" data-kt-scroll-offset="5px">	
+																							{% for profile in start_up_profiles%}	
+																												<!--begin::User-->
+																												<div class="d-flex flex-stack py-4">
+																													<!--begin::Details-->
+																													<div class="d-flex align-items-center">
+																														<!--begin::Avatar-->
+																														<div class="symbol symbol-40px symbol-circle">
+																															<span class="symbol-label bg-light-danger text-danger fs-6 fw-bolder">{{profile.startup_id}}</span>
+																														</div>
+																														<!--end::Avatar-->
+																														<!--begin::Details-->
+																														<div class="ms-4">
+																															<a href="apps/contacts/view-contact.html" class="fs-6 fw-bold text-gray-900 text-hover-primary mb-2">{{profile.startup_name}}</a>
+																															<div class="fw-semibold fs-7 text-muted">{{profile.funding_stage}}</div>
+																														</div>
+																														<!--end::Details-->
+																													</div>
+																													<!--end::Details-->
+																												</div>
+																												<!--end::User-->
+																												<!--begin::Separator-->
+																												<div class="separator separator-dashed d-none"></div>
+																												<!--end::Separator-->
+																								{%endfor%}
+														
 													</div>
 													<!--end::List-->
 												</div>

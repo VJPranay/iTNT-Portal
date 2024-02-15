@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'django_extensions',
     'marketplace',
     'dashboard',
+    'common',
 ]
 
 AUTH_USER_MODEL = 'profiles.User'
