@@ -99,7 +99,7 @@ class StartUp(models.Model):
     video_link = models.URLField(blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
-    short_video = models.FileField(upload_to='short_video/', blank=True, null=True)
+    short_video =  models.URLField(blank=True, null=True)
 
     def __str__(self):
         return self.name

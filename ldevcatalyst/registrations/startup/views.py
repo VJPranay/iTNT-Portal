@@ -12,7 +12,7 @@ from django.db.utils import IntegrityError
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-
+from profiles.models import StartUp
 
 
 @login_required
@@ -63,13 +63,28 @@ def startup_approve_registration(request):
                     user.save()
                 except IntegrityError:
                     user = User.objects.get(username=username)
-                    user.delete()
-                    user = User.objects.create_user(username=username, password=password)
-                    user.is_active = True
-                    user.user_role = 6
-                    user.email = registration.email
+                    user.set_password(password)
                     user.save()
-                print(user.username)
+                startup_profile = StartUp.objects.create(
+                    user_id = user.id,
+                    name = registration.name,
+                    co_founder_count = registration.co_founder_count,
+                    founder_names = registration.founder_names,
+                    state = registration.state,
+                    district = registration.district,
+                    team_size = registration.team_size,
+                    email = registration.email,
+                    mobile = registration.mobile,
+                    website = registration.website,
+                    dpiit_number = registration.dpiit_number,
+                    area_of_interest = registration.area_of_interest,
+                    description = registration.description,
+                    funding_stage = registration.funding_stage,
+                    pitch_deck = registration.pitch_deck,
+                    video_link = registration.video_link,
+                    short_video = registration.short_video
+                )
+                startup_profile.save()
                 email_host = 'mail.ldev.in'
                 email_port = 465
                 email_username = 'itntadmin@ldev.in'
@@ -79,6 +94,7 @@ def startup_approve_registration(request):
                         Username: {user.username}
                         Password: {password}
                         Login URL: https://ldev.in
+                        
                         '''
                 message = MIMEMultipart()
                 message['From'] = email_username

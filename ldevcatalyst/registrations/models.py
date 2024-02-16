@@ -98,6 +98,7 @@ class StartUpRegistrations(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     registration_id = models.CharField(max_length=100,unique=True)
+    short_video =  models.URLField(blank=True, null=True)
     status = models.CharField(
         max_length=10,
         choices=[('pending', 'pending'), ('approved', 'approved'), ('rejected', 'rejected')],
