@@ -68,7 +68,7 @@ def fetch_startup_details(request):
         # Construct HTML for the startup details
         html = f"""
            													<!--begin::Profile-->
-													<div class="d-flex gap-7 align-items-center">
+													<div class="d-flex gap-7 align-items-center" id="startup-id" data-startup-id="{startup.id}">
 														<!--begin::Avatar-->
 														<div class="symbol symbol-circle symbol-100px">
 															<span class="symbol-label bg-light-success fs-1 fw-bolder">{startup.name[:1]}</span>
@@ -226,7 +226,25 @@ def vc_meeting_request(request):
                     return JsonResponse({'success': 'true'})
             except VC.DoesNotExist:
                 return JsonResponse({'success': 'false'})
+    elif request.user.user_role == 8:
+        startup_id = request.POST.get('startup_id', None)
+        meeting_status = request.POST.get('meeting_status', True)
+        meeting_status = True if meeting_status == 'true' else False
+        if startup_id is None:
+            return JsonResponse({'success': 'false'})
+        else:
+            try:
+                vc_id = VC.objects.get(user_id=request.user.id).id
+                check_meeting = MeetingRequests.objects.get(start_up_id=startup_id,vc_id=vc_id, status='pending')
+                check_meeting.status = 'accepted' if meeting_status else 'rejected'
+                check_meeting.save()
+                return JsonResponse({'success': 'true'})
+            except MeetingRequests.DoesNotExist:
+                return JsonResponse({'success': 'false'})
     else:
         return JsonResponse({'success': 'false'})
+    
+    
+
 
        
