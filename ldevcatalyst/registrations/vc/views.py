@@ -7,7 +7,7 @@ from django.http import JsonResponse
 import random
 import string
 from django.http import JsonResponse
-from profiles.models import User
+from profiles.models import User,VC
 from django.db.utils import IntegrityError
 import smtplib
 from email.mime.text import MIMEText
@@ -66,13 +66,24 @@ def vc_approve_registration(request):
                     user.save()
                 except IntegrityError:
                     user = User.objects.get(username=username)
-                    user.delete()
-                    user = User.objects.create_user(username=username, password=password)
-                    user.is_active = True
-                    user.user_role = 8
-                    user.email = registration.email
-                    user.save()
-                print(user.username)
+                    return JsonResponse({'success': True})
+                # vc profile creation
+                vc_profile = VC.objects.create(
+                    user_id = user.id,
+                    partner_name = registration.partner_name,
+                    firm_name = registration.firm_name,
+                    email = registration.email,
+                    mobile = registration.mobile,
+                    deal_size_range = registration.deal_size_range,
+                    portfolio_size = registration.portfolio_size,
+                    district_id = registration.district.id,
+                    state_id = registration.state.id,
+                    area_of_interest_id = registration.area_of_interest.id,
+                    funding_stage_id = registration.funding_stage.id,
+                    company_website = registration.company_website,
+                    linkedin_profile = registration.linkedin_profile,
+                )
+                vc_profile.save()
                 email_host = 'mail.ldev.in'
                 email_port = 465
                 email_username = 'itntadmin@ldev.in'
@@ -101,8 +112,6 @@ def vc_approve_registration(request):
 
 def vc_registration(request):
     if request.method == 'POST':
-        # Retrieve data from the POST request
-        print(request.POST)
         partner_name = request.POST.get('partner_name')
         firm_name = request.POST.get('firm_name')
         email = request.POST.get('poc_email')
@@ -111,12 +120,16 @@ def vc_registration(request):
         state_id = request.POST.get('location_state')
         area_of_interest_id = request.POST.get('collaboration_sector')
         funding_stage_id = request.POST.get('funding_stage_id')
+        deal_size_range = request.POST.get('deal_size_range')
+        portfolio_size = request.POST.get('portfolio_size')
         company_website = request.POST.get('company_website')
         linkedin_profile = request.POST.get('linkedin_profile')
         try:
             new_vc_registration = VCRegistrations.objects.create(
                 partner_name = partner_name,
                 firm_name = firm_name,
+                deal_size_range = deal_size_range,
+                portfolio_size = portfolio_size,
                 email = email,
                 mobile = mobile,
                 district_id = district_id,
@@ -141,8 +154,7 @@ def vc_registration(request):
                     'success': False,
                     'registration_id': "Failed",
                     'error': str(e),
-                }
-                )
+                }) 
     elif request.method == 'GET':
         return render(request,'registrations/vc_registration.html',context={ 
                          

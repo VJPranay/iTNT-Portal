@@ -204,6 +204,20 @@ var KTCreateAccount = function () {
 							}
 						}
 					},
+					portfolio_size: {
+						validators: {
+							notEmpty: {
+								message: 'Please enter your portfolio size '
+							}
+						}
+					},
+					deal_size_range: {
+						validators: {
+							notEmpty: {
+								message: 'Please enter your deal size range'
+							}
+						}
+					},
                     location_state: {
 						validators: {
 							notEmpty: {

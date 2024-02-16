@@ -49,6 +49,8 @@ class VC(models.Model):
     firm_name = models.CharField(max_length=100,blank=True, null=True)
     email = models.EmailField(blank=True, null=True)
     mobile = models.CharField(max_length=15,blank=True, null=True)
+    deal_size_range = models.CharField(max_length=255,blank=True, null=True)
+    portfolio_size = models.PositiveIntegerField(blank=True, null=True)
     district = models.ForeignKey(District, on_delete=models.SET_NULL,blank=True, null=True)
     state = models.ForeignKey(State, on_delete=models.SET_NULL,blank=True, null=True)
     area_of_interest = models.ForeignKey(AreaOfInterest, on_delete=models.SET_NULL,blank=True, null=True)
@@ -79,6 +81,7 @@ class Researcher(models.Model):
 
     def __str__(self):
         return self.name
+    
     
 class StartUp(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL,blank=True, null=True)
