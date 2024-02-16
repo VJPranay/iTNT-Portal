@@ -21,6 +21,7 @@ class PublicationInfo(models.Model):
     def __str__(self):
         return self.title
 
+
 class VCRegistrations(models.Model):
     partner_name = models.CharField(max_length=100,blank=True, null=True)
     firm_name = models.CharField(max_length=100,blank=True, null=True)

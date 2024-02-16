@@ -203,7 +203,7 @@ def startup_registration(request):
         
         
 @login_required
-def fetch_startup_registrtaion_details(request):
+def fetch_startup_registration_details(request):
     if request.method == 'POST':
         data = json.loads(request.body.decode('utf-8'))
         startup_id = data.get('startup_id',None)

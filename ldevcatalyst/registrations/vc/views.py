@@ -12,7 +12,7 @@ from django.db.utils import IntegrityError
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-
+import json
 
 
 
@@ -176,3 +176,116 @@ def vc_registration(request):
                 'area_of_interest_value' : x.name,
             } for x in AreaOfInterest.objects.all()    
         ]})
+        
+        
+@login_required
+def vc_registration_details(request):
+    if request.method == 'POST':
+        data = json.loads(request.body.decode('utf-8'))
+        vc_id = data.get('vc_id',None)
+        if not vc_id:
+            return JsonResponse({'error': 'Invalid vc ID'}, status=400)
+        # Fetch startup details based on startup_id
+        print(vc_id)
+        vc = VCRegistrations.objects.get(id=vc_id)
+        # Construct HTML for the startup details
+        html = f"""
+            	<!--begin::Profile-->
+													<div class="d-flex gap-7 align-items-center">
+														<!--begin::Avatar-->
+														<div class="symbol symbol-circle symbol-100px">
+															<span class="symbol-label bg-light-success fs-1 fw-bolder">{vc.firm_name[:1]}</span>
+														</div>
+														<!--end::Avatar-->
+														<!--begin::Contact details-->
+														<div class="d-flex flex-column gap-2">
+															<!--begin::Name-->
+															<h3 class="mb-0">{vc.firm_name}</h3>
+															<!--end::Name-->
+															<!--begin::Email-->
+															<div class="d-flex align-items-center gap-2">
+																<i class="ki-outline ki-sms fs-2"></i>
+																<a href="#" class="text-muted text-hover-primary">{vc.area_of_interest.name}</a>
+															</div>
+															<!--end::Email-->
+															<!--begin::Phone-->
+															<div class="d-flex align-items-center gap-2">
+																<i class="ki-outline ki-phone fs-2"></i>
+																<a href="#" class="text-muted text-hover-primary">{vc.funding_stage.name}</a>
+															</div>
+															<!--end::Phone-->
+														</div>
+														<!--end::Contact details-->
+													</div>
+													<!--end::Profile-->
+													<!--begin:::Tabs-->
+													<ul class="nav nav-custom nav-tabs nav-line-tabs nav-line-tabs-2x fs-6 fw-semibold mt-6 mb-8 gap-2">
+														<!--begin:::Tab item-->
+														<li class="nav-item">
+															<a class="nav-link text-active-primary d-flex align-items-center pb-4 active" data-bs-toggle="tab" href="#kt_contact_view_general">
+															<i class="ki-outline ki-home fs-4 me-1"></i>Information</a>
+														</li>
+														<!--end:::Tab item-->
+													</ul>
+													<!--end:::Tabs-->
+													<!--begin::Tab content-->
+													<div class="tab-content" id="">
+														<!--begin:::Tab pane-->
+														<div class="tab-pane fade show active" id="kt_contact_view_general" role="tabpanel">
+															<!--begin::Additional details-->
+															<div class="d-flex flex-column gap-5 mt-7">
+
+																<div class="d-flex flex-column gap-1">
+																	<div class="fw-bold text-muted">Partner Name</div>
+																	<div class="fw-bold fs-5">{vc.partner_name}</div>
+																</div>
+																<!--end::Company description-->
+																<!--begin::market_size-->
+																<div class="d-flex flex-column gap-1">
+																	<div class="fw-bold text-muted">Market size</div>
+																	<div class="fw-bold fs-5">{vc.deal_size_range}</div>
+																</div>
+																<!--end::market_size-->
+																<!--begin::funding_stage-->
+																<div class="d-flex flex-column gap-1">
+																	<div class="fw-bold text-muted">Portfolio size</div>
+																	<div class="fw-bold fs-5">{vc.portfolio_size}</div>
+																</div>
+																<!--end::funding_stage-->
+                											    <!--begin::area_of_interest-->
+																<div class="d-flex flex-column gap-1">
+																	<div class="fw-bold text-muted">District</div>
+																	<div class="fw-bold fs-5">{vc.district}</div>
+																</div>
+																<!--end::area_of_interest-->
+                                								<!--begin::area_of_interest-->
+																<div class="d-flex flex-column gap-1">
+																	<div class="fw-bold text-muted">State</div>
+																	<div class="fw-bold fs-5">{vc.state}</div>
+																</div>
+																<!--end::area_of_interest-->
+                                                			    <!--begin::area_of_interest-->
+																<div class="d-flex flex-column gap-1">
+																	<div class="fw-bold text-muted">LinkedIn</div>
+																	<a href="{vc.linkedin_profile}"><div class="fw-bold fs-5">{vc.linkedin_profile}</div></a>
+																</div>
+																<!--end::area_of_interest-->
+                                                                <!--begin::area_of_interest-->
+																<div class="d-flex flex-column gap-1">
+																	<div class="fw-bold text-muted">Website</div>
+																	<a href="{vc.linkedin_profile}"><div class="fw-bold fs-5">{vc.company_website}</div></a>
+																</div>
+                
+															</div>
+															<!--end::Additional details-->
+														</div>
+														<!--end:::Tab pane-->
+													</div>
+													<!--end::Tab content-->
+        """
+        # Send the HTML response to the JavaScript function
+        return JsonResponse({'html': html})
+    else:
+        # Handle invalid request
+        return JsonResponse({'error': 'Invalid request'}, status=400)
+    
