@@ -13,7 +13,26 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 import json
+from profiles.models import VC
 
+
+
+
+@login_required
+def vc_meeting_request(request):
+    if request.user.user_role ==  6:
+        # get the vc id
+        # add to database
+        # change the button to meeting requested
+        vc_id = request.POST.get('vc_id',None)
+        if vc_id is None:
+			return HttpResponseRedirect(reverse('not_found'))
+        try:
+            vc_q = VC.objects.get(vc_id = request.user.id)
+        except 
+        return render(request,'dashboard/meetings/vc/meeting_requests.html',context={})
+    else:
+        return HttpResponseRedirect(reverse('not_found'))
 
 # Create your views here.
 @login_required
