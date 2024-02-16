@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import vc_list,fetch_vc_profiles,fetch_vc_details
+from .vc.views import vc_list,fetch_vc_profiles,fetch_vc_details
 
 
 urlpatterns = [

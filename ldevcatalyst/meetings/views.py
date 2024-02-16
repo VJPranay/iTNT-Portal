@@ -14,25 +14,8 @@ from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 import json
 from profiles.models import VC
+from .models import MeetingRequests
 
-
-
-
-@login_required
-def vc_meeting_request(request):
-    if request.user.user_role ==  6:
-        # get the vc id
-        # add to database
-        # change the button to meeting requested
-        vc_id = request.POST.get('vc_id',None)
-        # if vc_id is None:
-		# 	return HttpResponseRedirect(reverse('not_found'))
-        # try:
-        #     vc_q = VC.objects.get(vc_id = request.user.id)
-        # except 
-        return render(request,'dashboard/meetings/vc/meeting_requests.html',context={})
-    else:
-        return HttpResponseRedirect(reverse('not_found'))
 
 # Create your views here.
 @login_required
@@ -40,8 +23,9 @@ def vc_meeting_requests(request):
     if request.user.user_role ==  8:
         # load profiles from frist category loaded
         # load profile details from the first profile
+        vc_profile_id = VC.objects.get(user_id=request.user.id).id
         template_data = {
-            'interest_areas_data' : MeetingRequests.objects.filter(vc_id=request.user.id,status='pending').values('start_up__area_of_interest__id', 'start_up__area_of_interest__name').annotate(requests_count=Count('id')),
+            'interest_areas_data' : MeetingRequests.objects.filter(vc_id=vc_profile_id,status='pending').values('start_up__area_of_interest__id', 'start_up__area_of_interest__name').annotate(requests_count=Count('id')),
             'start_up_profiles' : []
         }
         print(template_data)
@@ -56,7 +40,8 @@ def fetch_startup_profiles(request):
         area_of_interest_id = data.get('area_of_interest_id')
         if not area_of_interest_id:
             return JsonResponse([], safe=False)
-        vc_meetings_reqests_startup_ids = MeetingRequests.objects.filter(vc_id=request.user.id, status='pending', start_up__area_of_interest=area_of_interest_id).values_list('start_up', flat=True)
+        vc_profile_id = VC.objects.get(user_id=request.user.id).id
+        vc_meetings_reqests_startup_ids = MeetingRequests.objects.filter(vc_id=vc_profile_id, status='pending', start_up__area_of_interest=area_of_interest_id).values_list('start_up', flat=True)
         startup_profiles = StartUp.objects.filter(id__in=vc_meetings_reqests_startup_ids)
         # Prepare data to be sent as JSON response
         profiles_data = []
@@ -79,7 +64,6 @@ def fetch_startup_details(request):
         if not startup_id:
             return JsonResponse({'error': 'Invalid startup ID'}, status=400)
         # Fetch startup details based on startup_id
-        print(startup_id)
         startup = StartUp.objects.get(id=startup_id)
         # Construct HTML for the startup details
         html = f"""
@@ -130,7 +114,7 @@ def fetch_startup_details(request):
 																<!--begin::Company description-->
                                                                 <div class="d-flex flex-column gap-1">
                                                                     <div class="fw-bold text-muted">Pitch Deck</div>
-                                                                    <iframe width="560" height="315" src="https://docs.google.com/presentation/d/{startup.pitch_deck}/embed?start=true&loop=false" frameborder="0" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+                                                                    <iframe width="560" height="315" src="https://docs.google.com/presentation/d/{startup.pitch_deck}/embed?start=false&loop=false" frameborder="0" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
                                                                 </div>
                                                                  <div class="d-flex flex-column gap-1">
                                                                     <div class="fw-bold text-muted">Short video</div>
@@ -218,3 +202,31 @@ def fetch_startup_details(request):
     else:
         # Handle invalid request
         return JsonResponse({'error': 'Invalid request'}, status=400)
+    
+@login_required
+def vc_meeting_request(request):
+    if request.user.user_role == 6:
+        vc_id = request.POST.get('vc_id', None)
+        if vc_id is None:
+            return JsonResponse({'success': 'false'})
+        else:
+            try:
+                vc_info = VC.objects.get(id=vc_id)
+                startup_id = StartUp.objects.get(user_id=request.user.id).id
+                try:
+                    check_meeting = MeetingRequests.objects.get(start_up_id=startup_id, vc_id=vc_info.id, status='pending')
+                    return JsonResponse({'success': 'false'})
+                except MeetingRequests.DoesNotExist:
+                    new_meeting_request = MeetingRequests.objects.create(
+                        start_up_id=startup_id,
+                        vc_id=vc_info.id,
+                        status='pending'
+                    )
+                    new_meeting_request.save()
+                    return JsonResponse({'success': 'true'})
+            except VC.DoesNotExist:
+                return JsonResponse({'success': 'false'})
+    else:
+        return JsonResponse({'success': 'false'})
+
+       

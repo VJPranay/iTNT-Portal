@@ -116,8 +116,10 @@ VC's
 														<i class="ki-outline ki-message-text-2 fs-2"></i>Chat</button>
 														<!--end::Chat--> {% endcomment %}
 														<!--begin::Chat-->
-														<a href="#" class="btn btn-sm btn-light btn-active-light-primary">
-														<i class="ki-outline ki-messages fs-2"></i>Send meeting request</a>
+								
+															{% if user.user_role == 6 %}
+															<a href="#" id="sendMeetingRequest" class="btn btn-sm btn-light btn-active-light-primary" onclick="handleMeetingRequest()"> <i class="ki-outline ki-messages fs-2"></i>Send meeting request</a>
+															{%endif%}
 														<!--end::Chat-->
 														<!--begin::Action menu-->
 														<a href="#" class="btn btn-sm btn-icon btn-light btn-active-light-primary" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
@@ -156,6 +158,49 @@ VC's
 {% block custom_js %}
 <script src="assets/js/custom/apps/contacts/view-contact.js"></script>
 <script>
+
+		function handleMeetingRequest() {
+			var csrftoken = getCookie('csrftoken');
+			var vcId = $("#vcid").data('vc-id'); // Get VC ID from data-vc-id attribute
+			$.ajax({
+				type: "POST",
+				url: "{% url 'startup_vc_meeting_request' %}",
+				data: {
+					'vc_id': vcId,
+					'csrfmiddlewaretoken': csrftoken
+				},
+				success: function(response) {
+					if (response.success === 'true') {
+						// Update link text and disable it
+						$("#sendMeetingRequest").text('Meeting Request Sent');
+						// Change class
+						$("#sendMeetingRequest").addClass('btn-success').removeClass('btn-light btn-active-light-primary');
+						// Prevent default behavior
+						$("#sendMeetingRequest").removeAttr('onclick').click(function(event) {
+							event.preventDefault();
+						});
+					} else {
+						$("#sendMeetingRequest").text('Meeting Request failed');
+						// Change class
+						$("#sendMeetingRequest").addClass('btn-danger').removeClass('btn-light btn-active-light-primary');
+						// Prevent default behavior
+						$("#sendMeetingRequest").removeAttr('onclick').click(function(event) {
+							event.preventDefault();
+						});
+					}
+				},
+				error: function(xhr, textStatus, errorThrown) {
+					$("#sendMeetingRequest").text('Meeting Request failed');
+						// Change class
+						$("#sendMeetingRequest").addClass('btn-danger').removeClass('btn-light btn-active-light-primary');
+						// Prevent default behavior
+						$("#sendMeetingRequest").removeAttr('onclick').click(function(event) {
+							event.preventDefault();
+						});
+				}
+			});
+		}
+
 	function fetchVCProfiles(areaOfInterestId) {
         var csrftoken = getCookie('csrftoken'); // Function to retrieve CSRF token from cookies
 
