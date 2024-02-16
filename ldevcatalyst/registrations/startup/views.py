@@ -13,6 +13,7 @@ import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from profiles.models import StartUp
+import json
 
 
 @login_required
@@ -24,7 +25,7 @@ def startup_registrations(request,registration_status=None):
     startup_registrations_list = []
     for x in startup_registrations:
         temp = {
-            'id' : x.id,
+            'startup_id' : x.id,
             'name' : x.name,
             'area_of_interest' : x.area_of_interest.name,
             'district' : x.district.name,
@@ -53,6 +54,7 @@ def startup_approve_registration(request):
 
                 # Generate random 6-digit number
                 password = ''.join(random.choices(string.digits, k=6))
+                print(password)
 
                 # Create user with the generated username and random password
                 try:
@@ -63,8 +65,7 @@ def startup_approve_registration(request):
                     user.save()
                 except IntegrityError:
                     user = User.objects.get(username=username)
-                    user.set_password(password)
-                    user.save()
+                    return JsonResponse({'success': True},status=200)
                 startup_profile = StartUp.objects.create(
                     user_id = user.id,
                     name = registration.name,
@@ -83,9 +84,9 @@ def startup_approve_registration(request):
                     pitch_deck = registration.pitch_deck,
                     video_link = registration.video_link,
                     market_size = registration.market_size,
-                    required_amount = registration.required_ammount,
+                    required_amount = registration.required_amount,
                     founding_year = registration.founding_year,
-                    founding_experience = registration.founding_experince,
+                    founding_experience = registration.founding_experience,
                     short_video = registration.short_video,
                 )
                 startup_profile.save()
@@ -110,7 +111,6 @@ def startup_approve_registration(request):
                     print(server.sendmail(email_username, [registration.email], message.as_string()))
                 return JsonResponse({'success': True})
             except StartUpRegistrations.DoesNotExist:
-                print("error")
                 return JsonResponse({'success': False, 'error': 'Registration not found'}, status=404)
     else:
         return JsonResponse({'success': False, 'error': 'Method not allowed'}, status=405)
@@ -143,9 +143,9 @@ def startup_registration(request):
             new_startup_registration = StartUpRegistrations.objects.create(
                 name = name,
                 market_size = market_size,
-                required_ammount = required_amount,
+                required_amount = required_amount,
                 founding_year = founding_year,
-                founding_experince = founding_experience,
+                founding_experience = founding_experience,
                 short_video = short_video_link,
                 co_founder_count = co_founder_count,
                 founder_names = founder_names,
@@ -199,3 +199,153 @@ def startup_registration(request):
                 'area_of_interest_value' : x.name,
             } for x in AreaOfInterest.objects.all()    
         ]})
+        
+        
+        
+@login_required
+def fetch_startup_registrtaion_details(request):
+    if request.method == 'POST':
+        data = json.loads(request.body.decode('utf-8'))
+        startup_id = data.get('startup_id',None)
+        if not startup_id:
+            return JsonResponse({'error': 'Invalid startup ID'}, status=400)
+        # Fetch startup details based on startup_id
+        print(startup_id)
+        startup = StartUpRegistrations.objects.get(id=startup_id)
+        # Construct HTML for the startup details
+        html = f"""
+           													<!--begin::Profile-->
+													<div class="d-flex gap-7 align-items-center">
+														<!--begin::Avatar-->
+														<div class="symbol symbol-circle symbol-100px">
+															<span class="symbol-label bg-light-success fs-1 fw-bolder">{startup.name[:1]}</span>
+														</div>
+														<!--end::Avatar-->
+														<!--begin::Contact details-->
+														<div class="d-flex flex-column gap-2">
+															<!--begin::Name-->
+															<h3 class="mb-0">{startup.name}</h3>
+															<!--end::Name-->
+															<!--begin::Email-->
+															<div class="d-flex align-items-center gap-2">
+																<i class="ki-outline ki-sms fs-2"></i>
+																<a href="#" class="text-muted text-hover-primary">{startup.area_of_interest.name}</a>
+															</div>
+															<!--end::Email-->
+															<!--begin::Phone-->
+															<div class="d-flex align-items-center gap-2">
+																<i class="ki-outline ki-phone fs-2"></i>
+																<a href="#" class="text-muted text-hover-primary">{startup.funding_stage.name}</a>
+															</div>
+															<!--end::Phone-->
+														</div>
+														<!--end::Contact details-->
+													</div>
+													<!--end::Profile-->
+													<!--begin:::Tabs-->
+													<ul class="nav nav-custom nav-tabs nav-line-tabs nav-line-tabs-2x fs-6 fw-semibold mt-6 mb-8 gap-2">
+														<!--begin:::Tab item-->
+														<li class="nav-item">
+															<a class="nav-link text-active-primary d-flex align-items-center pb-4 active" data-bs-toggle="tab" href="#kt_contact_view_general">
+															<i class="ki-outline ki-home fs-4 me-1"></i>Information</a>
+														</li>
+														<!--end:::Tab item-->
+													</ul>
+													<!--end:::Tabs-->
+													<!--begin::Tab content-->
+													<div class="tab-content" id="">
+														<!--begin:::Tab pane-->
+														<div class="tab-pane fade show active" id="kt_contact_view_general" role="tabpanel">
+															<!--begin::Additional details-->
+															<div class="d-flex flex-column gap-5 mt-7">
+																<!--begin::Company description-->
+                                                                <div class="d-flex flex-column gap-1">
+                                                                    <div class="fw-bold text-muted">Pitch Deck</div>
+                                                                    <iframe width="560" height="315" src="https://docs.google.com/presentation/d/{startup.pitch_deck}/embed?start=false&loop=false" frameborder="0" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+                                                                </div>
+                                                                 <div class="d-flex flex-column gap-1">
+                                                                    <div class="fw-bold text-muted">Short video</div>
+                                                                    <iframe width="560" height="315" src="https://www.youtube.com/embed/{startup.short_video}" frameborder="0" allowfullscreen></iframe>
+                                                                </div>
+																<div class="d-flex flex-column gap-1">
+																	<div class="fw-bold text-muted">Description</div>
+																	<div class="fw-bold fs-5">{startup.description}</div>
+																</div>
+																<!--end::Company description-->
+																<!--begin::market_size-->
+																<div class="d-flex flex-column gap-1">
+																	<div class="fw-bold text-muted">Market size</div>
+																	<div class="fw-bold fs-5">{startup.market_size}</div>
+																</div>
+																<!--end::market_size-->
+																<!--begin::funding_stage-->
+																<div class="d-flex flex-column gap-1">
+																	<div class="fw-bold text-muted">Current funding stage</div>
+																	<div class="fw-bold fs-5">{startup.funding_stage.name}</div>
+																</div>
+																<!--end::funding_stage-->
+                											    <!--begin::area_of_interest-->
+																<div class="d-flex flex-column gap-1">
+																	<div class="fw-bold text-muted">Industry</div>
+																	<div class="fw-bold fs-5">{startup.area_of_interest.name}</div>
+																</div>
+																<!--end::area_of_interest-->
+                                								<!--begin::area_of_interest-->
+																<div class="d-flex flex-column gap-1">
+																	<div class="fw-bold text-muted">Requried Amount</div>
+																	<div class="fw-bold fs-5">{startup.required_amount}</div>
+																</div>
+																<!--end::area_of_interest-->
+                                                			    <!--begin::area_of_interest-->
+																<div class="d-flex flex-column gap-1">
+																	<div class="fw-bold text-muted">Founding year</div>
+																	<div class="fw-bold fs-5">{startup.founding_year}</div>
+																</div>
+																<!--end::area_of_interest-->
+                                                                <!--begin::area_of_interest-->
+																<div class="d-flex flex-column gap-1">
+																	<div class="fw-bold text-muted">Co-Founder team size </div>
+																	<div class="fw-bold fs-5">{startup.co_founder_count}</div>
+																</div>
+																<!--end::area_of_interest-->
+                                                                <!--begin::area_of_interest-->
+																<div class="d-flex flex-column gap-1">
+																	<div class="fw-bold text-muted">Total team size</div>
+																	<div class="fw-bold fs-5">{startup.team_size}</div>
+																</div>
+																<!--end::area_of_interest-->
+                                                                <!--begin::area_of_interest-->
+																<div class="d-flex flex-column gap-1">
+																	<div class="fw-bold text-muted">Founding experince</div>
+																	<div class="fw-bold fs-5">{ "Yes" if startup.founding_experience else "No" }</div>
+																</div>
+																<!--end::area_of_interest-->
+                                                                <!--begin::area_of_interest-->
+																<div class="d-flex flex-column gap-1">
+																	<div class="fw-bold text-muted">State</div>
+																	<div class="fw-bold fs-5">{startup.state.name}</div>
+																</div>
+																<!--end::area_of_interest-->
+                                                                <!--begin::district-->
+																<div class="d-flex flex-column gap-1">
+																	<div class="fw-bold text-muted">City</div>
+																	<div class="fw-bold fs-5">{startup.district.name}</div>
+																</div>
+																<!--end::district-->
+                                                                 <div class="d-flex flex-column gap-1">
+                                                                    <div class="fw-bold text-muted">Full Video</div>
+                                                                    <iframe width="560" height="315" src="https://www.youtube.com/embed/{startup.video_link}" frameborder="0" allowfullscreen></iframe>
+                                                                </div>
+                
+															</div>
+															<!--end::Additional details-->
+														</div>
+														<!--end:::Tab pane-->
+													</div>
+													<!--end::Tab content-->
+        """
+        # Send the HTML response to the JavaScript function
+        return JsonResponse({'html': html})
+    else:
+        # Handle invalid request
+        return JsonResponse({'error': 'Invalid request'}, status=400)

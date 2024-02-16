@@ -25,11 +25,11 @@ def vc_meeting_request(request):
         # add to database
         # change the button to meeting requested
         vc_id = request.POST.get('vc_id',None)
-        if vc_id is None:
-			return HttpResponseRedirect(reverse('not_found'))
-        try:
-            vc_q = VC.objects.get(vc_id = request.user.id)
-        except 
+        # if vc_id is None:
+		# 	return HttpResponseRedirect(reverse('not_found'))
+        # try:
+        #     vc_q = VC.objects.get(vc_id = request.user.id)
+        # except 
         return render(request,'dashboard/meetings/vc/meeting_requests.html',context={})
     else:
         return HttpResponseRedirect(reverse('not_found'))
