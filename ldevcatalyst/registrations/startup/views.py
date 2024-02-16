@@ -82,7 +82,11 @@ def startup_approve_registration(request):
                     funding_stage = registration.funding_stage,
                     pitch_deck = registration.pitch_deck,
                     video_link = registration.video_link,
-                    short_video = registration.short_video
+                    market_size = registration.market_size,
+                    required_amount = registration.required_ammount,
+                    founding_year = registration.founding_year,
+                    founding_experience = registration.founding_experince,
+                    short_video = registration.short_video,
                 )
                 startup_profile.save()
                 email_host = 'mail.ldev.in'
@@ -114,8 +118,6 @@ def startup_approve_registration(request):
 
 def startup_registration(request):
     if request.method == 'POST':
-        # Retrieve data from the POST request
-        print(request.POST)
         name = request.POST.get('name')
         co_founder_count = request.POST.get('co_founder_count')
         founder_names = request.POST.get('founder_names')
@@ -131,9 +133,20 @@ def startup_registration(request):
         pitch_deck = request.POST.get('pitch_deck')
         video_link = request.POST.get('video_link')
         website = request.POST.get('company_website')
+        market_size = request.POST.get('market_size')
+        required_amount = request.POST.get('required_amount')
+        founding_year = request.POST.get('founding_year')
+        founding_experience = request.POST.get('founding_experience')
+        founding_experience = True if founding_experience == 'True' else False
+        short_video_link = request.POST.get('short_video_link')
         try:
             new_startup_registration = StartUpRegistrations.objects.create(
                 name = name,
+                market_size = market_size,
+                required_ammount = required_amount,
+                founding_year = founding_year,
+                founding_experince = founding_experience,
+                short_video = short_video_link,
                 co_founder_count = co_founder_count,
                 founder_names = founder_names,
                 district_id = district_id,
@@ -150,7 +163,6 @@ def startup_registration(request):
                 website = website,
             )
             new_startup_registration.save()
-            # Optionally, you can return a success response
             return JsonResponse(
                 {
                     'success': True,

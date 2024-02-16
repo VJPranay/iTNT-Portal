@@ -161,7 +161,43 @@
 											<label class="form-label required">Team size</label>
 											<!--end::Label-->
 											<!--begin::Input-->
-											<input name="team_size" class="form-control form-control-lg form-control-solid" placeholder="6" value="" />
+											<input name="team_size" class="form-control form-control-lg form-control-solid" placeholder="4" value="" />
+											<!--end::Input-->
+										</div>
+										<div class="fv-row mb-10">
+											<!--begin::Label-->
+											<label class="form-label required">Market size</label>
+											<!--end::Label-->
+											<!--begin::Input-->
+											<input name="market_size" class="form-control form-control-lg form-control-solid" style="min-height: calc(1.5em + 1.65rem + 60px) !important; white-space: pre;" placeholder="Behavioral Health Care Software and Services Market (2020): roughly ca. 2 bn (10-20% CAGR) – depending on the source" value="" />
+											<!--end::Input-->
+										</div>
+										<div class="fv-row mb-10">
+											<!--begin::Label-->
+											<label class="form-label required">Required Amount</label>
+											<!--end::Label-->
+											<!--begin::Input-->
+											<input name="required_amount" class="form-control form-control-lg form-control-solid" placeholder=">5M" value="" />
+											<!--end::Input-->
+										</div>
+										<div class="fv-row mb-10">
+											<!--begin::Label-->
+											<label class="form-label required">Year of establishment</label>
+											<!--end::Label-->
+											<!--begin::Input-->
+											<input name="founding_year" class="form-control form-control-lg form-control-solid" placeholder=">2020" value="" />
+											<!--end::Input-->
+										</div>
+										<div class="fv-row mb-10">
+											<!--begin::Label-->
+											<label class="form-label required">Founding experience</label>
+											<!--end::Label-->
+											<!--begin::Input-->
+											<select name="founding_experience" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="true">
+												<option>Select</option>
+												<option value="True">Yes</option>
+												<option value="False">No</option>
+											</select>
 											<!--end::Input-->
 										</div>
 										<div class="fv-row mb-10">
@@ -294,7 +330,16 @@
 											<label class="form-label required">Video link</label>
 											<!--end::Label-->
 											<!--begin::Input-->
-											<input type="text" class="form-control form-control-lg form-control-solid" name="video_link" placeholder="LinkedIn" value="" />
+											<input type="text" class="form-control form-control-lg form-control-solid" name="video_link" placeholder="Youtube video ID" value="" />
+											{% csrf_token %}
+											<!--end::Input-->
+										</div>
+										<div class="fv-row mb-10">
+											<!--begin::Label-->
+											<label class="form-label required">Short video link</label>
+											<!--end::Label-->
+											<!--begin::Input-->
+											<input type="text" class="form-control form-control-lg form-control-solid" name="short_video_link" placeholder="Youtube video ID" value="" />
 											{% csrf_token %}
 											<!--end::Input-->
 										</div>
@@ -305,7 +350,7 @@
 											<label class="form-label required">Pitch deck</label>
 											<!--end::Label-->
 											<!--begin::Input-->
-											<input type="text" class="form-control form-control-lg form-control-solid" name="pitch_deck" placeholder="LinkedIn" value="" />
+											<input type="text" class="form-control form-control-lg form-control-solid" name="pitch_deck" placeholder="pitch deck" value="" />
 											<!--end::Input-->
 										</div>
 					

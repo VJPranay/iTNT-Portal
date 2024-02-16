@@ -252,6 +252,34 @@ var KTCreateAccount = function () {
 								message: 'Please select Preferred Investment Stage'
 							}
 						}
+					},
+					market_size: {
+						validators: {
+							notEmpty: {
+								message: 'Please add market size'
+							}
+						}
+					},
+					required_amount: {
+						validators: {
+							notEmpty: {
+								message: 'Please add requried ammount'
+							}
+						}
+					},
+					founding_year: {
+						validators: {
+							notEmpty: {
+								message: 'Please add founding year'
+							}
+						}
+					},
+					founding_experience: {
+						validators: {
+							notEmpty: {
+								message: 'Please add founding experience'
+							}
+						}
 					}
 				},
 				plugins: {
@@ -304,6 +332,13 @@ var KTCreateAccount = function () {
 						validators: {
 							notEmpty: {
 								message: 'LinkedIn profile is required'
+							}
+						}
+					},
+					short_video_link: {
+						validators: {
+							notEmpty: {
+								message: 'Short video link is required'
 							}
 						}
 					},

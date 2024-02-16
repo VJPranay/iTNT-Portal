@@ -94,12 +94,17 @@ class StartUp(models.Model):
     dpiit_number = models.CharField(max_length=20,blank=True, null=True)
     area_of_interest = models.ForeignKey(AreaOfInterest, on_delete=models.SET_NULL,blank=True, null=True)
     description = models.TextField(blank=True, null=True)
+    market_size = models.CharField(max_length=100,blank=True, null=True)
+    required_amount = models.CharField(max_length=100,blank=True, null=True)
+    founding_year = models.PositiveIntegerField(blank=True, null=True)
+    founding_experience= models.BooleanField(blank=True, null=True)
     funding_stage = models.ForeignKey(PreferredInvestmentStage, on_delete=models.SET_NULL,blank=True, null=True)
-    pitch_deck = models.FileField(upload_to='pitch_decks/', blank=True, null=True)
-    video_link = models.URLField(blank=True, null=True)
+    pitch_deck = models.CharField(max_length=255,blank=True, null=True)
+    video_link = models.CharField(max_length=255,blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
-    short_video =  models.URLField(blank=True, null=True)
+    short_video =  models.CharField(max_length=255,blank=True, null=True)
+
 
     def __str__(self):
         return self.name

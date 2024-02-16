@@ -97,8 +97,8 @@ class StartUpRegistrations(models.Model):
     founding_year = models.PositiveIntegerField(blank=True, null=True)
     founding_experince = models.BooleanField(blank=True, null=True)
     funding_stage = models.ForeignKey(PreferredInvestmentStage, on_delete=models.SET_NULL,blank=True, null=True)
-    pitch_deck = models.URLField(blank=True, null=True)
-    video_link = models.URLField(blank=True, null=True)
+    pitch_deck = models.CharField(max_length=100,blank=True, null=True)
+    video_link = models.CharField(max_length=100,blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     registration_id = models.CharField(max_length=100,unique=True)
@@ -115,8 +115,8 @@ class StartUpRegistrations(models.Model):
         super().save(*args, **kwargs)
 
 
-    def __str__(self):
-        return self.name
+    # def __str__(self):
+    #     return self.name
     
     
 class StudentRegistrations(models.Model):
