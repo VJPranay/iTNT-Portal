@@ -128,7 +128,7 @@ License: For each use you must have a valid license purchased only from above li
 										<!--begin::Menu separator-->
 										<div class="separator my-2"></div>
 										<!--end::Menu separator-->
-										<!--begin::Menu item-->
+										{% comment %} <!--begin::Menu item-->
 										<div class="menu-item px-5">
 											<a href="account/overview.html" class="menu-link px-5">My Profile</a>
 										</div>
@@ -141,7 +141,7 @@ License: For each use you must have a valid license purchased only from above li
 										<div class="menu-item px-5 my-1">
 											<a href="account/settings.html" class="menu-link px-5">Account Settings</a>
 										</div>
-										<!--end::Menu item-->
+										<!--end::Menu item--> {% endcomment %}
 										<!--begin::Menu item-->
 										<div class="menu-item px-5">
 											<a href="{% url 'logout' %}" class="menu-link px-5">Sign Out</a>
