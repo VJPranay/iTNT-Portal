@@ -180,7 +180,7 @@ def startup_registration(request):
                 )
     elif request.method == 'GET':
         return render(request,'registrations/startup_registration.html',context={ 
-                         
+         
         'preferred_investment_stages' : [
             {
                 'preferred_investment_stage_id' : x.id,
