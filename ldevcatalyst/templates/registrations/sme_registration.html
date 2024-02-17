@@ -154,8 +154,8 @@
 											<!--end::Label-->
 											<!--begin::Input-->
 											<select name="sme_type" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="true">
-												{% for industry_type in industry_types %}
-												<option value="{{industry_type.industry_id}}">{{industry_type.industry_value}}</option>
+												{% for area_of_interest in area_of_interests %}
+												<option value="{{area_of_interest.area_of_interest_id}}">{{area_of_interest.area_of_interest_value}}</option>
 												{%endfor%}
 											</select>
 											<!--end::Input-->
