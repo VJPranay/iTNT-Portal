@@ -141,7 +141,7 @@ def industry_registration(request):
     elif request.method == 'GET':
         return render(request,'registrations/industry_registration.html',context={ 
                          
-        'indsutry_types' : [
+        'industry_types' : [
             {
                 'industry_id' : x.id,
                 'industry_value' : x.name,
