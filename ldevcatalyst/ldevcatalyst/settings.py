@@ -30,7 +30,14 @@ ALLOWED_HOSTS = [
 '127.0.0.1',
 'innovationportal.tnthub.org.ldev.in',
 ]
-CSRF_TRUSTED_ORIGINS = ['http://itntportal.ldev.in:9898'] 
+
+CSRF_TRUSTED_ORIGINS = [
+    'innovationportal.tnthub.org.ldev.in',
+    'https://innovationportal.tnthub.org.ldev.in',
+    'https://innovationportal.tnthub.org.ldev.in',
+    '127.0.0.1',
+    'http://127.0.0.1',
+]
 
 
 
