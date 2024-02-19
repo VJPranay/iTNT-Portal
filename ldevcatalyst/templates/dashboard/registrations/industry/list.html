@@ -25,7 +25,7 @@
 																	</li>
 																	<!--end::Item-->
 																	<!--begin::Item-->
-																	<li class="breadcrumb-item text-white fw-bold lh-1">VC</li>
+																	<li class="breadcrumb-item text-white fw-bold lh-1">Industry</li>
 																	<!--end::Item-->
 																</ul>
 																<!--end::Breadcrumb-->
@@ -35,7 +35,7 @@
 Registrations
 {% endblock  %}
 {% block pagedescription %}
-Start up's
+Industry
 {% endblock  %}
 
 
@@ -174,11 +174,10 @@ Start up's
 									<input class="form-check-input" type="checkbox" data-kt-check="true" data-kt-check-target="#kt_customers_table .form-check-input" value="1" />
 								</div>
 							</th>
-							<th class="min-w-125px">Company Name</th>
-							<th class="min-w-125px">Category</th>
+							<th class="min-w-125px"> Name</th>
 							<th class="min-w-125px">Mobile</th>
+							<th class="min-w-125px">State</th>
 							<th class="min-w-125px">District</th>
-							<th class="min-w-125px">Funding Stage</th>
 							<th class="min-w-125px">Registered on</th>
 							<th class="text-end min-w-70px">Actions</th>
 						</tr>
@@ -195,13 +194,12 @@ Start up's
 								<a href="#" class="text-gray-800 text-hover-primary mb-1" data-bs-toggle="modal" data-bs-target="#kt_modal_new_address" data-industry-id="{{industry_registration.industry_id}}" data-fetch-url="{% url 'industry_registration_details' %}">{{industry_registration.name}}</a>
 							</td>
 							<td>
-								<a href="#" class="text-gray-600 text-hover-primary mb-1" data-bs-toggle="modal" data-bs-target="#kt_modal_new_address">{{industry_registration.area_of_interest}}</a>
+								<a href="#" class="text-gray-600 text-hover-primary mb-1" data-bs-toggle="modal" data-bs-target="#kt_modal_new_address">{{industry_registration.mobile}}</a>
 							</td>
-							<td>{{industry_registration.mobile}}</td>
+							<td>{{industry_registration.state}}</td>
 							<td>
 								{{industry_registration.district}}
 							</td>
-							<td>{{industry_registration.funding_stage}}</td>
 							<td>{{industry_registration.created}}</td>
 							<td class="text-end">
 								<a href="#" class="btn btn-sm btn-light btn-flex btn-center btn-active-light-primary" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">Actions 

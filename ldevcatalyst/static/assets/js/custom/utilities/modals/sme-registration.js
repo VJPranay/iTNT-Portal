@@ -1,339 +1,388 @@
 "use strict";
 
-
 // Class definition
 var KTCreateAccount = function () {
-	// Elements
-	var modal;	
-	var modalEl;
+    // Elements
+    var modal;
+    var modalEl;
 
-	var stepper;
-	var form;
-	var formSubmitButton;
-	var formContinueButton;
-	var formPreviousButton;
+    var stepper;
+    var form;
+    var formSubmitButton;
+    var formContinueButton;
+    var formPreviousButton;
 
+    // Variables
+    var stepperObj;
+    var validations = [];
 
-	// Variables
-	var stepperObj;
-	var validations = [];
+    // Private Functions
+    var initStepper = function () {
+        // Initialize Stepper
+        stepperObj = new KTStepper(stepper);
 
-	// Private Functions
-	var initStepper = function () {
-		// Initialize Stepper
-		stepperObj = new KTStepper(stepper);
+        // Stepper change event
+        stepperObj.on('kt.stepper.changed', function (stepper) {
+            if (stepperObj.getCurrentStepIndex() === 2) {
+                formSubmitButton.classList.remove('d-none');
+                formSubmitButton.classList.add('d-inline-block');
+                formContinueButton.classList.add('d-none');
+            } else if (stepperObj.getCurrentStepIndex() === 3) {
+                formSubmitButton.classList.add('d-none');
+                formContinueButton.classList.add('d-none');
+                formPreviousButton.classList.add('d-none');
+            } else {
+                formSubmitButton.classList.remove('d-inline-block');
+                formSubmitButton.classList.remove('d-none');
+                formContinueButton.classList.remove('d-none');
+            }
+        });
 
-		// Stepper change event
-		stepperObj.on('kt.stepper.changed', function (stepper) {
-			if (stepperObj.getCurrentStepIndex() === 2) {
-				formSubmitButton.classList.remove('d-none');
-				formSubmitButton.classList.add('d-inline-block');
-				formContinueButton.classList.add('d-none');
-			} else if (stepperObj.getCurrentStepIndex() === 3) {
-				formSubmitButton.classList.add('d-none');
-				formContinueButton.classList.add('d-none');
-				formPreviousButton.classList.add('d-none');
-			} else {
-				formSubmitButton.classList.remove('d-inline-block');
-				formSubmitButton.classList.remove('d-none');
-				formContinueButton.classList.remove('d-none');
-			}
-		});
+        // Validation before going to next page
+        stepperObj.on('kt.stepper.next', function (stepper) {
+            // Validate form before change stepper step
+            var validator = validations[stepper.getCurrentStepIndex() - 1]; // get validator for current step
 
-		// Validation before going to next page
-		stepperObj.on('kt.stepper.next', function (stepper) {
+            if (validator) {
+                validator.validate().then(function (status) {
+                    if (status == 'Valid') {
+                        stepper.goNext();
+                        KTUtil.scrollTop();
+                    } else {
+                        Swal.fire({
+                            text: "Sorry, looks like there are some errors detected, please try again.",
+                            icon: "error",
+                            buttonsStyling: false,
+                            confirmButtonText: "Ok, got it!",
+                            customClass: {
+                                confirmButton: "btn btn-light"
+                            }
+                        }).then(function () {
+                            KTUtil.scrollTop();
+                        });
+                    }
+                });
+            } else {
+                stepper.goNext();
+                KTUtil.scrollTop();
+            }
+        });
 
+        // Prev event
+        stepperObj.on('kt.stepper.previous', function (stepper) {
+            stepper.goPrevious();
+            KTUtil.scrollTop();
+        });
+    };
 
-			// Validate form before change stepper step
-			var validator = validations[stepper.getCurrentStepIndex() - 1]; // get validator for currnt step
+    var handleForm = function () {
+        formSubmitButton.addEventListener('click', function (e) {
+            // Validate form before change stepper step
+            var validator = validations[1]; // get validator for last form
 
-			if (validator) {
-				validator.validate().then(function (status) {
+            validator.validate().then(function (status) {
+                if (status == 'Valid') {
+                    // Prevent default button action
+                    e.preventDefault();
+                    var formData = new FormData(form);
+                    var actionUrl = form.getAttribute('action');
 
+                    // Disable button to avoid multiple click 
+                    formSubmitButton.disabled = true;
 
-					if (status == 'Valid') {
+                    // Show loading indication
+                    formSubmitButton.setAttribute('data-kt-indicator', 'on');
 
-						stepper.goNext();
-						KTUtil.scrollTop();
-					} else {
+                    $.ajax({
+                        url: actionUrl, // Use the action URL generated by {% url %}
+                        type: 'POST',
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        success: function (response) {
+                            if (response.success) {
+                                // Optionally, display a success message
+                                Swal.fire({
+                                    text: "Form submitted successfully!",
+                                    icon: "success",
+                                    buttonsStyling: false,
+                                    confirmButtonText: "Ok, got it!",
+                                    customClass: {
+                                        confirmButton: "btn btn-light"
+                                    }
+                                }).then(function () {
+                                    formSubmitButton.removeAttribute('data-kt-indicator');
+                                    formSubmitButton.disabled = false;
+                                    formPreviousButton.disabled = false;
+                                    stepperObj.goNext();
+                                    var registrationIdDisplay = document.getElementById('registrationIdDisplay');
+                                    registrationIdDisplay.innerText = response.registration_id;
+                                });
+                            } else {
+                                Swal.fire({
+                                    text: "An error occurred while submitting the form. Please try again later.",
+                                    icon: "error",
+                                    buttonsStyling: false,
+                                    confirmButtonText: "Ok, got it!",
+                                    customClass: {
+                                        confirmButton: "btn btn-light"
+                                    }
+                                }).then(function () {
+                                    stepperObj.goPrevious();
+                                    stepperObj.goPrevious();
+                                    KTUtil.scrollTop();
+                                });
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            // Handle error response
+                            // Show error message
+                            Swal.fire({
+                                text: "An error occurred while submitting the form. Please try again later.",
+                                icon: "error",
+                                buttonsStyling: false,
+                                confirmButtonText: "Ok, got it!",
+                                customClass: {
+                                    confirmButton: "btn btn-light"
+                                }
+                            });
+                        }
+                    });
+                } else {
+                    Swal.fire({
+                        text: "Sorry, looks like there are some errors detected, please try again.",
+                        icon: "error",
+                        buttonsStyling: false,
+                        confirmButtonText: "Ok, got it!",
+                        customClass: {
+                            confirmButton: "btn btn-light"
+                        }
+                    }).then(function () {
+                        KTUtil.scrollTop();
+                    });
+                }
+            });
+        });
 
-						Swal.fire({
-							text: "Sorry, looks like there are some errors detected, please try again.",
-							icon: "error",
-							buttonsStyling: false,
-							confirmButtonText: "Ok, got it!",
-							customClass: {
-								confirmButton: "btn btn-light"
-							}
-						}).then(function () {
-							KTUtil.scrollTop();
-						});
-					}
-				});
-			} else {
-				stepper.goNext();
+    };
 
-				KTUtil.scrollTop();
-			}
-		});
-
-		// Prev event
-		stepperObj.on('kt.stepper.previous', function (stepper) {
-
-
-			stepper.goPrevious();
-			KTUtil.scrollTop();
-		});
-	}
-
-	var handleForm = function() {
-		formSubmitButton.addEventListener('click', function (e) {
-			// Validate form before change stepper step
-			var validator = validations[1]; // get validator for last form
-
-			validator.validate().then(function (status) {
-
-
-				if (status == 'Valid') {
-					// Prevent default button action
-					e.preventDefault();
-					var formData = new FormData(form);
-					var actionUrl = form.getAttribute('action');
-
-					// Disable button to avoid multiple click 
-					formSubmitButton.disabled = true;
-
-					// Show loading indication
-					formSubmitButton.setAttribute('data-kt-indicator', 'on');
-						$.ajax({
-							url: actionUrl, // Use the action URL generated by {% url %}
-							type: 'POST',
-							data: formData,
-							processData: false,
-							contentType: false,
-							success: function (response) {
-								if (response.success) {
-									// Optionally, display a success message
-									Swal.fire({
-										text: "Form submitted successfully!",
-										icon: "success",
-										buttonsStyling: false,
-										confirmButtonText: "Ok, got it!",
-										customClass: {
-											confirmButton: "btn btn-light"
-										}
-									}).then(function () {
-													
-											formSubmitButton.removeAttribute('data-kt-indicator');
-											formSubmitButton.disabled = false;
-											formPreviousButton.disabled = false;
-											stepperObj.goNext();
-											var registrationIdDisplay = document.getElementById('registrationIdDisplay');
-                        					registrationIdDisplay.innerText = response.registration_id;
-
-									});
-								} else {
-									Swal.fire({
-										text: "An error occurred while submitting the form. Please try again later.",
-										icon: "error",
-										buttonsStyling: false,
-										confirmButtonText: "Ok, got it!",
-										customClass: {
-											confirmButton: "btn btn-light"
-										}
-									}).then(function () {
-										stepperObj.goPrevious();
-										stepperObj.goPrevious();
-										KTUtil.scrollTop();
-										});			
-								}
-							},
-							error: function (xhr, status, error) {
-								// Handle error response
-								// Show error message
-								Swal.fire({
-									text: "An error occurred while submitting the form. Please try again later.",
-									icon: "error",
-									buttonsStyling: false,
-									confirmButtonText: "Ok, got it!",
-									customClass: {
-										confirmButton: "btn btn-light"
-									}
-								});
-							}
-						});
-
-
-
-	
-				} else {
-					Swal.fire({
-						text: "Sorry, looks like there are some errors detected, please try again.",
-						icon: "error",
-						buttonsStyling: false,
-						confirmButtonText: "Ok, got it!",
-						customClass: {
-							confirmButton: "btn btn-light"
-						}
-					}).then(function () {
-						KTUtil.scrollTop();
-					});
-				}
-			});
-		});
-
-	}
-
-	var initValidation = function () {
-		// Step 1
-		validations.push(FormValidation.formValidation(
-			form,
-			{
-				fields: {
-					full_name: {
-						validators: {
-							notEmpty: {
-								message: 'Please enter company name'
-							}
-						}
-					},
-                    industry_type: {
-						validators: {
-							notEmpty: {
-								message: 'Please select your industry type'
-							}
-						}
-					},
+    var initValidation = function () {
+        // Step 1
+        validations.push(FormValidation.formValidation(
+            form,
+            {
+                fields: {
+                    name: {
+                        validators: {
+                            notEmpty: {
+                                message: 'Please enter your Full Name'
+                            }
+                        }
+                    },
+                    area_of_interest: {
+                        validators: {
+                            notEmpty: {
+                                message: 'Please select your Research Area...'
+                            }
+                        }
+                    },
+                    institution: {
+                        validators: {
+                            notEmpty: {
+                                message: 'Please select your Institution...'
+                            }
+                        }
+                    },
+                    department: {
+                        validators: {
+                            notEmpty: {
+                                message: 'Please select your Department..'
+                            }
+                        }
+                    },
                     location_state: {
-						validators: {
-							notEmpty: {
-								message: 'Please select your state'
-							}
-						}
-					},
+                        validators: {
+                            notEmpty: {
+                                message: 'Please select your State...'
+                            }
+                        }
+                    },
                     location_district: {
-						validators: {
-							notEmpty: {
-								message: 'Please select your district'
-							}
-						}
-					},
-                    collaboration_sector: {
-						validators: {
-							notEmpty: {
-								message: 'Area of collaboration is required'
-							}
-						}
-					}
-				},
-				plugins: {
-					trigger: new FormValidation.plugins.Trigger(),
-					bootstrap: new FormValidation.plugins.Bootstrap5({
-						rowSelector: '.fv-row',
-                        eleInvalidClass: '',
-                        eleValidClass: ''
-					})
-				}
-			}
-		));
-
-		// Step 2
-		validations.push(FormValidation.formValidation(
-			form,
-			{
-				fields: {
-                    poc_name: {
-						validators: {
-							notEmpty: {
-								message: 'Point of contact name is required'
-							}
-						}
-					},
-                    poc_email: {
-						validators: {
-							notEmpty: {
-								message: 'Point of contact email is required'
-							},
-                            emailAddress: {
-                                message: 'Invalid email address',
+                        validators: {
+                            notEmpty: {
+                                message: 'Please select your District... '
+                            }
+                        }
+                    },
+                    mobile: {
+                        validators: {
+                            notEmpty: {
+                                message: 'Mobile number is required'
                             },
-						}
-					},
-                    poc_mobile: {
-						validators: {
-							notEmpty: {
-								message: 'Point of contact mobile number is required'
-							},
                             phone: {
                                 country: function () {
                                     return 'IN';
                                 },
                                 message: 'Invalid phone number',
                             },
-						}
-					},
-				},
-				plugins: {
-					trigger: new FormValidation.plugins.Trigger(),
-					// Bootstrap Framework Integration
-					bootstrap: new FormValidation.plugins.Bootstrap5({
-						rowSelector: '.fv-row',
+                        }
+                    },
+                    email: {
+                        validators: {
+                            notEmpty: {
+                                message: 'Email is required'
+                            },
+                            emailAddress: {
+                                message: 'The value is not a valid email address'
+                            }
+                        }
+                    },
+                },
+                plugins: {
+                    trigger: new FormValidation.plugins.Trigger(),
+                    bootstrap: new FormValidation.plugins.Bootstrap5({
+                        rowSelector: '.fv-row',
                         eleInvalidClass: '',
                         eleValidClass: ''
-					})
-				}
-			}
-		));
+                    })
+                }
+            }
+        ));
 
-		// Step 3
-		validations.push(FormValidation.formValidation(
-			form,
-			{
-				fields: {
-					
-				},
-				plugins: {
-					trigger: new FormValidation.plugins.Trigger(),
-					// Bootstrap Framework Integration
-					bootstrap: new FormValidation.plugins.Bootstrap5({
-						rowSelector: '.fv-row',
+        // Step 2
+        validations.push(FormValidation.formValidation(
+            form,
+            {
+                fields: {
+                    highest_qualification: {
+                        validators: {
+                            notEmpty: {
+                                message: 'Please enter your Highest Qualification'
+                            }
+                        }
+                    },
+                    number: {
+                        validators: {
+                            notEmpty: {
+                                message: 'Please enter Patent Number'
+                            }
+                        }
+                    },
+                    title: {
+                        validators: {
+                            notEmpty: {
+                                message: 'Please enter Title'
+                            }
+                        }
+                    },
+                    inventors: {
+                        validators: {
+                            notEmpty: {
+                                message: 'Please enter Inventor(s) and Applicant(s)'
+                            }
+                        }
+                    },
+                    filing_date: {
+                        validators: {
+                            notEmpty: {
+                                message: 'Please enter Filing Date'
+                            }
+                        }
+                    },
+                    status: {
+                        validators: {
+                            notEmpty: {
+                                message: 'Please enter Status'
+                            }
+                        }
+                    },
+                    publication_title: {
+                        validators: {
+                            notEmpty: {
+                                message: 'Please enter Publication Title'
+                            }
+                        }
+                    },
+                    paper_link: {
+                        validators: {
+                            notEmpty: {
+                                message: 'Please enter Paper Link'
+                            },
+                            uri: {
+                                message: 'Invalid URL format'
+                            }
+                        }
+                    },
+                    journal: {
+                        validators: {
+                            notEmpty: {
+                                message: 'Please enter Journal'
+                            }
+                        }
+                    },
+                },
+                plugins: {
+                    trigger: new FormValidation.plugins.Trigger(),
+                    // Bootstrap Framework Integration
+                    bootstrap: new FormValidation.plugins.Bootstrap5({
+                        rowSelector: '.fv-row',
                         eleInvalidClass: '',
                         eleValidClass: ''
-					})
-				}
-			}
-		));
-	}
+                    })
+                }
+            }
+        ));
 
-	return {
-		// Public Functions
-		init: function () {
-			// Elements
-			modalEl = document.querySelector('#kt_modal_create_account');
+        // Step 3
+        validations.push(FormValidation.formValidation(
+            form,
+            {
+                fields: {
 
-			if ( modalEl ) {
-				modal = new bootstrap.Modal(modalEl);	
-			}					
+                },
+                plugins: {
+                    trigger: new FormValidation.plugins.Trigger(),
+                    // Bootstrap Framework Integration
+                    bootstrap: new FormValidation.plugins.Bootstrap5({
+                        rowSelector: '.fv-row',
+                        eleInvalidClass: '',
+                        eleValidClass: ''
+                    })
+                }
+            }
+        ));
+    };
 
-			stepper = document.querySelector('#kt_create_account_stepper');
+    return {
+        // Public Functions
+        init: function () {
+            // Elements
+            modalEl = document.querySelector('#kt_modal_create_account');
 
-			if ( !stepper ) {
-				return;
-			}
+            if (modalEl) {
+                modal = new bootstrap.Modal(modalEl);
+            }
 
-			form = stepper.querySelector('#kt_create_account_form');
-			formSubmitButton = stepper.querySelector('[data-kt-stepper-action="submit"]');
-			formContinueButton = stepper.querySelector('[data-kt-stepper-action="next"]');
-			formPreviousButton = stepper.querySelector('[data-kt-stepper-action="previous"]');
+            stepper = document.querySelector('#kt_create_account_stepper');
 
-			initStepper();
-			initValidation();
-			handleForm();
-		}
-	};
+            if (!stepper) {
+                return;
+            }
+
+            form = stepper.querySelector('#kt_create_account_form');
+            formSubmitButton = stepper.querySelector('[data-kt-stepper-action="submit"]');
+            formContinueButton = stepper.querySelector('[data-kt-stepper-action="next"]');
+            formPreviousButton = stepper.querySelector('[data-kt-stepper-action="previous"]');
+
+            initStepper();
+            initValidation();
+            handleForm();
+        }
+    };
 }();
 
+
 // On document ready
-KTUtil.onDOMContentLoaded(function() {
+KTUtil.onDOMContentLoaded(function () {
     KTCreateAccount.init();
 });

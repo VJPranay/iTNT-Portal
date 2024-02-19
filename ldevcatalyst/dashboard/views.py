@@ -6,6 +6,8 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
 from django.contrib.auth import logout as auth_logout
 from django.urls import reverse
+from django.http import HttpResponseNotAllowed
+
 
 def custom_login(request,):
     if request.user.is_authenticated:
@@ -26,6 +28,8 @@ def custom_login(request,):
                     return JsonResponse({'success': False})
         elif request.method == 'GET':
             return render(request, 'login.html')
+        else:
+            return HttpResponseNotAllowed(['GET', 'POST'])
     
 
 

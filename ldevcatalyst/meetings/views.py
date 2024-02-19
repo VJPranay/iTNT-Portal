@@ -246,5 +246,44 @@ def vc_meeting_request(request):
     
     
 
+@login_required
+def student_meeting_request(request):
+    if request.user.user_role == 4:  # For industry users
+        student_id = request.POST.get('student_id', None)
+        if student_id is None:
+            return JsonResponse({'success': 'false'})
+        else:
+            try:
+                # Here you would handle the meeting request for industry users
+                # with the specified student_id
+                # Placeholder code to create a new meeting request
+                new_meeting_request = MeetingRequests.objects.create(
+                    industry_user_id=request.user.id,
+                    student_id=student_id,
+                    status='pending'
+                )
+                new_meeting_request.save()
+                return JsonResponse({'success': 'true'})
+            except Exception as e:
+                print(e)
+                return JsonResponse({'success': 'false'})
+    elif request.user.user_role is None:  # For users without a specific role (e.g., students)
+        # Here you would handle the meeting request for students
+        # Placeholder code to update the meeting status
+        student_id = request.user.id  # Assuming student_id is the user ID for students
+        meeting_status = request.POST.get('meeting_status', None)
+        if meeting_status is None:
+            return JsonResponse({'success': 'false'})
+        else:
+            try:
+                meeting_request = MeetingRequests.objects.get(student_id=student_id, status='pending')
+                meeting_request.status = 'accepted' if meeting_status == 'true' else 'rejected'
+                meeting_request.save()
+                return JsonResponse({'success': 'true'})
+            except Exception as e:
+                print(e)
+                return JsonResponse({'success': 'false'})
+    else:
+        return JsonResponse({'success': 'false'})
 
        

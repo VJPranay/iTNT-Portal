@@ -118,6 +118,7 @@ class Student(models.Model):
     name = models.CharField(max_length=100,blank=True, null=True)
     institution = models.ForeignKey(Institution, on_delete=models.SET_NULL, null=True, blank=True)
     area_of_interest = models.ManyToManyField(AreaOfInterest)
+    email=models.EmailField(blank=True, null=True)
     department = models.ForeignKey(Department, on_delete=models.SET_NULL, null=True, blank=True)
     year_of_graduation = models.PositiveIntegerField(blank=True, null=True)
     district = models.ForeignKey(District, on_delete=models.SET_NULL, null=True, blank=True)

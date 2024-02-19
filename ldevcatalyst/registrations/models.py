@@ -10,16 +10,12 @@ class PatentInfo(models.Model):
     filing_date = models.DateField(blank=True, null=True)
     status = models.CharField(max_length=50,blank=True, null=True)
 
-    def __str__(self):
-        return self.title
 
 class PublicationInfo(models.Model):
     title = models.CharField(max_length=255,blank=True, null=True)
     paper_link = models.URLField(blank=True, null=True)
     journal = models.CharField(max_length=100,blank=True, null=True)
 
-    def __str__(self):
-        return self.title
 
 
 class VCRegistrations(models.Model):
@@ -49,9 +45,6 @@ class VCRegistrations(models.Model):
             self.registration_id = 'VCRG-' + str(uuid.uuid4())[:4].upper()  # Using part of UUID to ensure uniqueness
         super().save(*args, **kwargs)
 
-    # def __str__(self):
-    #     return self.partner_name
-
 class ResearcherRegistrations(models.Model):
     name = models.CharField(max_length=100,blank=True, null=True)
     department = models.ForeignKey(Department, on_delete=models.SET_NULL,blank=True, null=True)
@@ -61,7 +54,7 @@ class ResearcherRegistrations(models.Model):
     email = models.EmailField(blank=True, null=True)
     mobile = models.CharField(max_length=15,blank=True, null=True)
     picture = models.ImageField(upload_to='researcher_pictures/', blank=True, null=True)
-    area_of_interest = models.ManyToManyField(AreaOfInterest)
+    area_of_interest = models.ManyToManyField(AreaOfInterest,blank=True, null=True)
     highest_qualification = models.CharField(max_length=100, blank=True, null=True)
     patents = models.ForeignKey(PatentInfo, on_delete=models.SET_NULL, blank=True, null=True)
     publications = models.ForeignKey(PublicationInfo, on_delete=models.SET_NULL, blank=True, null=True)
@@ -78,9 +71,6 @@ class ResearcherRegistrations(models.Model):
             # Generate a unique registration ID
             self.registration_id = 'RCRG-' + str(uuid.uuid4())[:4].upper()  # Using part of UUID to ensure uniqueness
         super().save(*args, **kwargs)
-
-    def __str__(self):
-        return self.name
     
 class StartUpRegistrations(models.Model):
     name = models.CharField(max_length=100,blank=True, null=True)
@@ -116,10 +106,6 @@ class StartUpRegistrations(models.Model):
             # Generate a unique registration ID
             self.registration_id = 'SURG-' + str(uuid.uuid4())[:4].upper()  # Using part of UUID to ensure uniqueness
         super().save(*args, **kwargs)
-
-
-    # def __str__(self):
-    #     return self.name
     
     
 class StudentRegistrations(models.Model):
@@ -128,6 +114,7 @@ class StudentRegistrations(models.Model):
     area_of_interest = models.ManyToManyField(AreaOfInterest)
     department = models.ForeignKey(Department, on_delete=models.SET_NULL, null=True, blank=True)
     year_of_graduation = models.PositiveIntegerField(blank=True, null=True)
+    email=models.EmailField(blank=True,null=True)
     district = models.ForeignKey(District, on_delete=models.SET_NULL, null=True, blank=True)
     state = models.ForeignKey(State, on_delete=models.SET_NULL, null=True, blank=True)
     project_idea = models.TextField(blank=True, null=True)
@@ -144,10 +131,6 @@ class StudentRegistrations(models.Model):
             # Generate a unique registration ID
             self.registration_id = 'SDRG-' + str(uuid.uuid4())[:4].upper()  # Using part of UUID to ensure uniqueness
         super().save(*args, **kwargs)
-
-    def __str__(self):
-        return f'{self.name}-{self.status}-{self.institution}-{self.year_of_graduation},{self.district}-{self.state}-{self.department}'
-
 
 
 class IndustryRegistrations(models.Model):
