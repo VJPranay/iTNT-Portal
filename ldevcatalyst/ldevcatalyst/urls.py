@@ -18,6 +18,7 @@ from django.urls import path,include
 from django.conf import settings
 from django.conf.urls.static import static
 from datarepo.views import districts
+from common.views import not_found
 
 
 urlpatterns = [
@@ -28,6 +29,7 @@ urlpatterns = [
     path('profiles/', include('profiles.urls')),
     path('meetings/', include('meetings.urls')),
     path('common/', include('common.urls')),
+    path('', not_found),
 ]
 
 if settings.DEBUG:
