@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-68bn2*xnujz@*i2(xb61^kk3vhzo8sfyw3mrn7***srqkm49_*'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [
 'itntportal.ldev.in',
@@ -72,6 +72,7 @@ MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
+    'csp.middleware.CSPMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -160,3 +161,8 @@ LOGIN_URL = '/dashboard/'
 LOGOUT_URL = '/dashboard/logout/'
 # LOGIN_REDIRECT_URL = '/dashboard/index/'
 LOGIN_FAILURE_URL = '/dashboard/'
+
+CSP_DEFAULT_SRC = ("'self'",)
+CSP_STYLE_SRC = ("'self'", "'unsafe-inline'", "https://innovationportal.tnthub.org.ldev.in","https://fonts.googleapis.com")
+CSP_SCRIPT_SRC = ("'self'", "https://cdnjs.cloudflare.com","https://innovationportal.tnthub.org.ldev.in")
+CSP_IMG_SRC = ("'self'", "data:")
