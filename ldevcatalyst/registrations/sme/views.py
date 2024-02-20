@@ -61,7 +61,7 @@ def sme_approve_registrations(request):
                 try:
                     user=User.objects.create_user(username=username,password=password)
                     user.is_active=True
-                    user.user_role = 7
+                    user.user_role = 5
                     user.email = registration.email
                     user.save()
                 except IntegrityError :

@@ -59,7 +59,7 @@ def fetch_sme_profiles(request):
             sme_profiles.append({
                 'sme_id': profile.id,
                 'name': profile.name,
-                'department': profile.department.name,
+                'state': profile.state.name,
             })
         return JsonResponse(sme_profiles, safe=False)
     else:
@@ -75,13 +75,16 @@ def fetch_sme_details(request):
         # Fetch startup details based on startup_id
         print(sme_id)
         sme = Researcher.objects.get(id=sme_id)
+        area_of_interest_html = ""
+        for interest in sme.area_of_interest.all():
+            area_of_interest_html += f"<div>{interest.name}</div>"
         # Construct HTML for the startup details
         html = f"""
                                     <!--begin::Profile-->
                                     <div class="d-flex gap-7 align-items-center">
                                         <!--begin::Avatar-->
-                                        <div class="symbol symbol-circle symbol-200px">
-                                            <span class="symbol-label bg-light-success fs-1 fw-bolder">{sme.user}</span>
+                                        <div class="symbol symbol-circle symbol-100px">
+                                            <span class="symbol-label bg-light-success fs-1 fw-bolder">{sme.name[:1]}</span>
                                         </div>
                                         <!--end::Avatar-->
                                         <!--begin::Contact details-->
@@ -92,7 +95,7 @@ def fetch_sme_details(request):
                                             <!--begin::Email-->
                                             <div class="d-flex align-items-center gap-2">
                                                 <i class="ki-outline ki-sms fs-2"></i>
-                                                <a href="#" class="text-muted text-hover-primary">{sme.area_of_interest}</a>
+                                                <a href="#" class="text-muted text-hover-primary">{sme.email}</a>
                                             </div>
                                             <!--end::Email-->
                                         </div>
@@ -139,6 +142,12 @@ def fetch_sme_details(request):
                                                     <div class="fw-bold fs-5">{sme.institution}</div>
                                                 </div>
                                                 <!--end::institution-->
+                                                 <!--begin::area_of_interest-->
+                                                <div class="d-flex flex-column gap-1">
+                                                    <div class="fw-bold text-muted">Area of Interest</div>
+                                                    <div class="fw-bold fs-5">{area_of_interest_html}</div>
+                                                </div>
+                                                <!--end::area_of_interest-->
                                                 <!--begin::mobile-->
                                                 <div class="d-flex flex-column gap-1">
                                                     <div class="fw-bold text-muted">Mobile</div>

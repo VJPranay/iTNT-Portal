@@ -59,7 +59,7 @@ def fetch_student_profiles(request):
             student_profiles.append({
                 'student_id': profile.id,
                 'name': profile.name,
-                'department': profile.department.name,
+                'state': profile.state.name,
             })
         return JsonResponse(student_profiles, safe=False)
     else:
@@ -75,13 +75,16 @@ def fetch_student_details(request):
         # Fetch startup details based on startup_id
         print(student_id)
         student = Student.objects.get(id=student_id)
+        area_of_interest_html = ""
+        for interest in student.area_of_interest.all():
+            area_of_interest_html += f"<div>{interest.name}</div>"
         # Construct HTML for the startup details
-        html = f"""
+        html = f"""                                 
            													<!--begin::Profile-->
                                                             <div class="d-flex gap-7 align-items-center">
                                                                 <!--begin::Avatar-->
-                                                                <div class="symbol symbol-circle symbol-200px">
-                                                                    <span class="symbol-label bg-light-success fs-1 fw-bolder">{student.user}</span>
+                                                                <div class="symbol symbol-circle symbol-100px">
+                                                                    <span class="symbol-label bg-light-success fs-1 fw-bolder">{student.name[:1]}</span>
                                                                 </div>
                                                                 <!--end::Avatar-->
                                                                 <!--begin::Contact details-->
@@ -151,12 +154,12 @@ def fetch_student_details(request):
                                                                             <div class="fw-bold fs-5">{student.project_idea}</div>
                                                                         </div>
                                                                         <!--end::project_idea-->
-                                                                        <!--begin::area_of_interest_id-->
-                                                                        <div class="d-flex flex-column gap-1">
-                                                                            <div class="fw-bold text-muted">Area{'s' if student.area_of_interest.count() > 1 else ''} of Interest:</div>
-                                                                            {student.area_of_interest}
-                                                                        </div>
-                                                                        <!--end::area_of_interest_id-->
+                                                                        <!--begin::area_of_interest-->
+                                                                    <div class="d-flex flex-column gap-1">
+                                                                        <div class="fw-bold text-muted">Area of Interest</div>
+                                                                        <div class="fw-bold fs-5">{area_of_interest_html}</div>
+                                                                    </div>
+                                                                    <!--end::area_of_interest-->
                                                                      
                                                                     </div>
                                                                     <!--end::Additional details-->
