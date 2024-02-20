@@ -162,9 +162,12 @@ LOGIN_URL = '/dashboard/'
 LOGOUT_URL = '/dashboard/logout/'
 # LOGIN_REDIRECT_URL = '/dashboard/index/'
 LOGIN_FAILURE_URL = '/dashboard/'
+
+
+
 CSP_INCLUDE_NONCE_IN = ['script-src']
 CSP_DEFAULT_SRC = ("'self'", "https://cdnjs.cloudflare.com","https://innovationportal.tnthub.org.ldev.in","https://cdn.jsdelivr.net")
-CSP_STYLE_SRC = ("'self'", "'unsafe-inline'", "https://innovationportal.tnthub.org.ldev.in","https://fonts.googleapis.com")
-CSP_SCRIPT_SRC = ("'self'", "https://cdnjs.cloudflare.com","https://innovationportal.tnthub.org.ldev.in","https://cdn.jsdelivr.net")
+CSP_STYLE_SRC = ("'self'", "'unsafe-inline'", "https://innovationportal.tnthub.org.ldev.in","https://fonts.googleapis.com","https://cdn.jsdelivr.net")
+CSP_SCRIPT_SRC = ("'self'","'unsafe-inline'","'unsafe-eval'","https://cdnjs.cloudflare.com","https://innovationportal.tnthub.org.ldev.in","https://cdn.jsdelivr.net")
 CSP_IMG_SRC = ("'self'", "data:","https://innovationportal.tnthub.org.ldev.in","https://cdn.jsdelivr.net")
 CSP_FONT_SRC = ("'self'", "https://fonts.gstatic.com/","https://fonts.googleapis.com")
