@@ -32,7 +32,7 @@
 
 							<a href="/">
 								<img alt="Logo" src="{% static 'assets/media/logos/custom-1.png' %}" class="h-90px" />
-								<h1 style="color: #FFFFFF !important;">Student Registration</h1>
+								<h1 style="color: #FFFFFF !important;">student Registration</h1>
 							</a>
 
 						</div>
@@ -51,8 +51,8 @@
 										</div>
 			
 										<div class="stepper-label">
-											<h3 class="stepper-title fs-2">Student information</h3>
-											<div class="stepper-desc fw-normal">Fill in The Student information</div>
+											<h3 class="stepper-title fs-2">Company information</h3>
+											<div class="stepper-desc fw-normal">Fill in your company information</div>
 										</div>
 		
 									</div>
@@ -72,8 +72,8 @@
 										</div>
 				
 										<div class="stepper-label">
-											<h3 class="stepper-title fs-2">Project Idea</h3>
-											<div class="stepper-desc fw-normal">Fill in the project details</div>
+											<h3 class="stepper-title fs-2">PoC Information</h3>
+											<div class="stepper-desc fw-normal">Point of contact details</div>
 										</div>
 					
 									</div>
@@ -122,7 +122,8 @@
 
 						<div class="w-lg-650px w-xl-700px p-10 p-lg-15 mx-auto">
 							<!--begin::Form-->
-							<form class="my-auto pb-5"  action="{% url 'student_registration' %}" novalidate="novalidate" id="kt_create_account_form">
+							<form class="my-auto pb-5" action="{% url 'student_registration' %}" novalidate="novalidate" id="kt_create_account_form">
+								
 								<!--begin::Step 1-->
 								<div class="current" data-kt-stepper-element="content">
 									<!--begin::Wrapper-->
@@ -144,10 +145,9 @@
 											<label class="form-label required">Name</label>
 											<!--end::Label-->
 											<!--begin::Input-->
-											<input name="name"  class="form-control form-control-lg form-control-solid" placeholder="Plese enter your name" value="" />
+											<input name="name" class="form-control form-control-lg form-control-solid" placeholder="Enter Your First and Last Name" value="" />
 											<!--end::Input-->
 										</div>
-
 										<div class="fv-row mb-10">
 											<!--begin::Label-->
 											<label class="form-label required">Institution</label>
@@ -155,22 +155,11 @@
 											<!--begin::Input-->
 											<select name="institution" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="true">
 												{% for institution in institutions %}
-												<option value="{{institution.institution_id}}" id = "{{institution.institution_id}}">{{institution.institution_name}}</option>
-												{% endfor %}
+												<option value="{{institution.institution_id}}">{{institution.institution_value}}</option>
+												{%endfor%}
 											</select>
-											
 											<!--end::Input-->
 										</div>
-
-										<div class="fv-row mb-10">
-											<!--begin::Label-->
-											<label class="form-label required">Year Of Graduation</label>
-											<!--end::Label-->
-											<!--begin::Input-->
-											<input name="year_of_graduation" class="form-control form-control-lg form-control-solid" placeholder="Year Of Graduation" value="" />
-											<!--end::Input-->
-										</div>
-									
 										<div class="fv-row mb-10">
 											<!--begin::Label-->
 											<label class="form-label required">Department</label>
@@ -178,10 +167,17 @@
 											<!--begin::Input-->
 											<select name="department" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="true">
 												{% for department in departments %}
-												<option value="{{department.department_id}}" id="department_{{department.department_id}}">{{department.department_name}}</option>
-												{% endfor %}
+												<option value="{{department.department_id}}">{{department.department_value}}</option>
+												{%endfor%}
 											</select>
-											
+											<!--end::Input-->
+										</div>
+										<div class="fv-row mb-10">
+											<!--begin::Label-->
+											<label class="form-label required">Year Of Graduation</label>
+											<!--end::Label-->
+											<!--begin::Input-->
+											<input name="year_of_graduation" class="form-control form-control-lg form-control-solid" placeholder="2022" value="" />
 											<!--end::Input-->
 										</div>
 										<div class="fv-row mb-10" data-district-url="{{ request.scheme }}://{{ request.get_host }}{% url 'districts' %}"  data-district-urlid="districtslink">
@@ -192,37 +188,42 @@
 											<select name="location_state" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="true" onchange="fetchDistricts(this.value)">
 												<option>Select state</option>
 												{% for state in states %}
-												<option value="{{state.state_id}}" id="state_{{state.state_id}}">{{state.state_name}}</option>
+												<option value="{{state.state_id}}">{{state.state_value}}</option>
 												{%endfor%}
 											</select>
 											<!--end::Input-->
 										</div>
 										<div class="fv-row mb-10">
 											<!--begin::Label-->
-											<label class="form-label required" for="district-id">District</label>
+											<label class="form-label required">District</label>
 											<!--end::Label-->
 											<!--begin::Input-->
-											<select id="location_district" name="location_district" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="true">
+											<select id="districtshere" name="location_district" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="true">
 												<option value=""></option>
 											</select>
 											<!--end::Input-->
-
 										</div>
 										<div class="fv-row mb-10">
 											<!--begin::Label-->
 											<label class="form-label required">Area of interest for collaboration</label>
 											<!--end::Label-->
 											<!--begin::Input-->
-											<select name="area_of_interest" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="true">
+											<select name="collaboration_sector" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="true">
 												{% for area_of_interest in area_of_interests %}
-												<option value="{{area_of_interest.area_of_interest_id}}" id = "area_of_interest_{{area_of_interest.area_of_interest_id}}">{{area_of_interest.area_of_interest_name}}</option>
-												{% endfor %}
+												<option value="{{area_of_interest.area_of_interest_id}}">{{area_of_interest.area_of_interest_value}}</option>
+												{%endfor%}
 											</select>
-											
 											<!--end::Input-->
 										</div>
-									
-									
+										<div class="fv-row mb-10">
+											<!--begin::Label-->
+											<label class="form-label required">Email</label>
+											<!--end::Label-->
+											<!--begin::Input-->
+											<input type="email" class="form-control form-control-lg form-control-solid" name="poc_email" placeholder="email@domain.com" value="" />
+											<!--end::Input-->
+										</div>
+
 										
 									</div>
 									<!--end::Wrapper-->
@@ -248,7 +249,7 @@
 											<label class="form-label required">Project Idea</label>
 											<!--end::Label-->
 											<!--begin::Input-->
-											<input type="text" class="form-control form-control-lg form-control-solid" name="project_idea" placeholder="Enter here" value="" />
+											<input type="text" class="form-control form-control-lg form-control-solid" name="project_idea" placeholder="Project Information Here" value="" />
 											{% csrf_token %}
 											<!--end::Input-->
 										</div>
@@ -257,8 +258,7 @@
 									<!--end::Wrapper-->
 								</div>
 								<!--end::Step 2-->
-								
-							
+
 								<!--begin::Step 3-->
 								<div class="" data-kt-stepper-element="content">
 									<!--begin::Wrapper-->
@@ -329,7 +329,6 @@
 			</div>
 			<!--end::Authentication - Multi-steps-->
 		</div>
-		
 		<!--end::Root-->
 		<!--begin::Javascript-->
 		<script>var hostUrl = "assets/";</script>

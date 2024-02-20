@@ -326,6 +326,24 @@ def fetch_startup_registration_details(request):
 																	<div class="fw-bold fs-5">{startup.state.name}</div>
 																</div>
 																<!--end::area_of_interest-->
+                                                                 <!--begin::dpiit number-->
+																<div class="d-flex flex-column gap-1">
+																	<div class="fw-bold text-muted">DPIIT number</div>
+																	<div class="fw-bold fs-5">{startup.dpiit_number}</div>
+																</div>
+																<!--end::dpiit number-->
+                                                                <!--begin::Website-->
+																<div class="d-flex flex-column gap-1">
+																	<div class="fw-bold text-muted">Website</div>
+																	<div class="fw-bold fs-5">{startup.website}</div>
+																</div>
+																<!--end::=Website-->
+                                                                 <!--begin::Website-->
+																<div class="d-flex flex-column gap-1">
+																	<div class="fw-bold text-muted">Email</div>
+																	<div class="fw-bold fs-5">{startup.email}</div>
+																</div>
+																<!--end::=Website-->
                                                                 <!--begin::district-->
 																<div class="d-flex flex-column gap-1">
 																	<div class="fw-bold text-muted">City</div>

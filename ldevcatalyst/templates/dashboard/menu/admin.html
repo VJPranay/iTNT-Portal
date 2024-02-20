@@ -184,7 +184,7 @@
 													<!--begin:Menu item-->
 													<div class="menu-item">
 														<!--begin:Menu link-->
-														<a class="menu-link" href="{% url 'industry_registrations' registration_status='pending' %}">
+														<a class="menu-link" href="{% url 'student_registrations' registration_status='pending' %}">
 															<span class="menu-bullet">
 																<span class="bullet bullet-dot"></span>
 															</span>
@@ -196,7 +196,7 @@
 													<!--begin:Menu item-->
 													<div class="menu-item">
 														<!--begin:Menu link-->
-														<a class="menu-link" href="{% url 'industry_registrations' registration_status='approved' %}">
+														<a class="menu-link" href="{% url 'student_registrations' registration_status='approved' %}">
 															<span class="menu-bullet">
 																<span class="bullet bullet-dot"></span>
 															</span>
@@ -208,7 +208,60 @@
 													<!--begin:Menu item-->
 													<div class="menu-item">
 														<!--begin:Menu link-->
-														<a class="menu-link" href="{% url 'industry_registrations' registration_status='rejected' %}">
+														<a class="menu-link" href="{% url 'student_registrations' registration_status='rejected' %}">
+															<span class="menu-bullet">
+																<span class="bullet bullet-dot"></span>
+															</span>
+															<span class="menu-title">Rejected</span>
+														</a>
+														<!--end:Menu link-->
+													</div>
+													<!--end:Menu item-->
+												</div>
+												<!--end:Menu sub-->
+											</div>
+											<!--end:Menu item-->
+											<!--begin:Menu item-->
+											<div data-kt-menu-trigger="{default:'click', lg: 'hover'}" data-kt-menu-placement="right-start" class="menu-item menu-lg-down-accordion">
+												<!--begin:Menu link-->
+												<span class="menu-link">
+													<span class="menu-icon">
+														<i class="ki-outline ki-code fs-2"></i>
+													</span>
+													<span class="menu-title">Sme / Researcher</span>
+													<span class="menu-arrow"></span>
+												</span>
+												<!--end:Menu link-->
+												<!--begin:Menu sub-->
+												<div class="menu-sub menu-sub-lg-down-accordion menu-sub-lg-dropdown menu-active-bg px-lg-2 py-lg-4 w-lg-225px">
+													<!--begin:Menu item-->
+													<div class="menu-item">
+														<!--begin:Menu link-->
+														<a class="menu-link" href="{% url 'sme_registrations' registration_status='pending' %}">
+															<span class="menu-bullet">
+																<span class="bullet bullet-dot"></span>
+															</span>
+															<span class="menu-title">Pending</span>
+														</a>
+														<!--end:Menu link-->
+													</div>
+													<!--end:Menu item-->
+													<!--begin:Menu item-->
+													<div class="menu-item">
+														<!--begin:Menu link-->
+														<a class="menu-link" href="{% url 'sme_registrations' registration_status='approved' %}">
+															<span class="menu-bullet">
+																<span class="bullet bullet-dot"></span>
+															</span>
+															<span class="menu-title">Approved</span>
+														</a>
+														<!--end:Menu link-->
+													</div>
+													<!--end:Menu item-->
+													<!--begin:Menu item-->
+													<div class="menu-item">
+														<!--begin:Menu link-->
+														<a class="menu-link" href="{% url 'sme_registrations' registration_status='rejected' %}">
 															<span class="menu-bullet">
 																<span class="bullet bullet-dot"></span>
 															</span>
@@ -292,9 +345,9 @@
 											<!--begin:Menu item-->
 											<div class="menu-item">
 												<!--begin:Menu link-->
-												<a class="menu-link" href="https://preview.LDevKTheme.com/html/metronic/docs/base/utilities" target="_blank" title="Approve or deny registrations here" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss="click" data-bs-placement="right">
+												<a class="menu-link" href="{% url 'industry_list' %}" target="_blank" title="Industry Details Here" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss="click" data-bs-placement="right">
 													<span class="menu-icon">
-														<i class="ki-outline ki-rocket fs-2"></i>
+														<i class="ki-outline ki-abstract-26 fs-2"></i>
 													</span>
 													<span class="menu-title">Industry</span>
 												</a>
@@ -304,7 +357,7 @@
 											<!--begin:Menu item-->
 											<div class="menu-item">
 												<!--begin:Menu link-->
-												<a class="menu-link" href="" target="_blank" title="All profiles and profile" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss="click" data-bs-placement="right">
+												<a class="menu-link" href="{% url 'startup_list' %}" target="_blank" title="Startup Details Here " data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss="click" data-bs-placement="right">
 													<span class="menu-icon">
 														<i class="ki-outline ki-abstract-26 fs-2"></i>
 													</span>
@@ -328,9 +381,9 @@
 											<!--begin:Menu item-->
 											<div class="menu-item">
 												<!--begin:Menu link-->
-												<a class="menu-link" href="https://preview.LDevKTheme.com/html/metronic/docs/getting-started/changelog" target="_blank">
+												<a class="menu-link" href="{% url 'student_list' %}" title="Student Details here" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss="click" data-bs-placement="right">
 													<span class="menu-icon">
-														<i class="ki-outline ki-code fs-2"></i>
+														<i class="ki-outline ki-switch fs-2"></i>
 													</span>
 													<span class="menu-title">Student</span>
 												</a>
@@ -340,11 +393,11 @@
 											<!--begin:Menu item-->
 											<div class="menu-item">
 												<!--begin:Menu link-->
-												<a class="menu-link" href="https://preview.LDevKTheme.com/html/metronic/docs/getting-started/changelog" target="_blank">
+												<a class="menu-link" href="{% url 'sme_list' %}" title="Reseaarcher Details Here" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss="click" data-bs-placement="right">
 													<span class="menu-icon">
-														<i class="ki-outline ki-code fs-2"></i>
+														<i class="ki-outline ki-switch fs-2"></i>
 													</span>
-													<span class="menu-title">SME / Researcher</span>
+													<span class="menu-title">Sme / Researcher</span>
 												</a>
 												<!--end:Menu link-->
 											</div>

@@ -74,8 +74,8 @@ def fetch_vc_details(request):
             	<!--begin::Profile-->
 													<div class="d-flex gap-7 align-items-center" id="vcid" data-vc-id="{vc.id}">
 														<!--begin::Avatar-->
-														<div class="symbol symbol-circle symbol-100px">
-															<span class="symbol-label bg-light-success fs-1 fw-bolder">{vc.firm_name[:1]}</span>
+														<div class="symbol symbol-circle symbol-200px">
+															<span class="symbol-label bg-light-success fs-1 fw-bolder">{vc.user}</span>
 														</div>
 														<!--end::Avatar-->
 														<!--begin::Contact details-->
@@ -120,6 +120,15 @@ def fetch_vc_details(request):
 																	<div class="fw-bold text-muted">Partner Name</div>
 																	<div class="fw-bold fs-5">{vc.partner_name}</div>
 																</div>
+                                                                <div class="d-flex flex-column gap-1">
+																	<div class="fw-bold text-muted">Email</div>
+																	<div class="fw-bold fs-5">{vc.email}</div>
+																</div>
+                                                                <div class="d-flex flex-column gap-1">
+																	<div class="fw-bold text-muted">Funding Stage</div>
+																	<div class="fw-bold fs-5">{vc.funding_stage}</div>
+																</div>
+                                                                
 																<!--end::Company description-->
 																<!--begin::market_size-->
 																<div class="d-flex flex-column gap-1">

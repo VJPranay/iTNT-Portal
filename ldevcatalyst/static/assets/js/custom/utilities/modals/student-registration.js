@@ -4,7 +4,7 @@
 // Class definition
 var KTCreateAccount = function () {
 	// Elements
-	var modal;
+	var modal;	
 	var modalEl;
 
 	var stepper;
@@ -12,6 +12,7 @@ var KTCreateAccount = function () {
 	var formSubmitButton;
 	var formContinueButton;
 	var formPreviousButton;
+
 
 	// Variables
 	var stepperObj;
@@ -41,16 +42,21 @@ var KTCreateAccount = function () {
 
 		// Validation before going to next page
 		stepperObj.on('kt.stepper.next', function (stepper) {
+
+
 			// Validate form before change stepper step
-			var validator = validations[stepper.getCurrentStepIndex() - 1]; // get validator for current step
+			var validator = validations[stepper.getCurrentStepIndex() - 1]; // get validator for currnt step
 
 			if (validator) {
 				validator.validate().then(function (status) {
-					
+
+
 					if (status == 'Valid') {
+
 						stepper.goNext();
 						KTUtil.scrollTop();
 					} else {
+
 						Swal.fire({
 							text: "Sorry, looks like there are some errors detected, please try again.",
 							icon: "error",
@@ -66,25 +72,28 @@ var KTCreateAccount = function () {
 				});
 			} else {
 				stepper.goNext();
+
 				KTUtil.scrollTop();
 			}
 		});
 
 		// Prev event
 		stepperObj.on('kt.stepper.previous', function (stepper) {
+
+
 			stepper.goPrevious();
 			KTUtil.scrollTop();
 		});
 	}
 
-    var handleForm = function() {
+	var handleForm = function() {
 		formSubmitButton.addEventListener('click', function (e) {
 			// Validate form before change stepper step
 			var validator = validations[1]; // get validator for last form
 
 			validator.validate().then(function (status) {
 
-            console.log(status)
+
 				if (status == 'Valid') {
 					// Prevent default button action
 					e.preventDefault();
@@ -125,6 +134,7 @@ var KTCreateAccount = function () {
 									});
 								} else {
 									Swal.fire({
+										
 										text: "An error occurred while submitting the form. Please try again later.",
 										icon: "error",
 										buttonsStyling: false,
@@ -174,10 +184,111 @@ var KTCreateAccount = function () {
 		});
 
 	}
-	
 
 	var initValidation = function () {
 		// Step 1
+		validations.push(FormValidation.formValidation(
+			form,
+			{
+				fields: {
+					name: {
+						validators: {
+							notEmpty: {
+								message: 'Please enter your name'
+							}
+						}
+					},
+                    institution: {
+						validators: {
+							notEmpty: {
+								message: 'Please select Institution'
+							}
+						}
+					},
+                    department: {
+						validators: {
+							notEmpty: {
+								message: 'Please select your department'
+							}
+						}
+					},
+                    year_of_graduation: {
+						validators: {
+							notEmpty: {
+								message: 'Enter year of Graduation'
+							}
+						}
+					},
+                    location_state: {
+						validators: {
+							notEmpty: {
+								message: 'Please Select your State'
+							}
+						}
+					},
+					location_district: {
+						validators: {
+							notEmpty: {
+								message: 'Please Select your District'
+							}
+						}
+					},
+					collaboration_sector: {
+						validators: {
+							notEmpty: {
+								message: 'Area of collaboration is required'
+							}
+						}
+					},
+					poc_email: {
+						validators: {
+							notEmpty: {
+								message: 'Point of contact email is required'
+							},
+                            emailAddress: {
+                                message: 'Invalid email address',
+                            },
+						}
+					},
+					
+				},
+				plugins: {
+					trigger: new FormValidation.plugins.Trigger(),
+					bootstrap: new FormValidation.plugins.Bootstrap5({
+						rowSelector: '.fv-row',
+                        eleInvalidClass: '',
+                        eleValidClass: ''
+					})
+				}
+			}
+		));
+
+		// Step 2
+		validations.push(FormValidation.formValidation(
+			form,
+			{
+				fields: {
+                    project_idea: {
+						validators: {
+							notEmpty: {
+								message: 'Enter your Project details'
+							}
+						}
+					},
+				},
+				plugins: {
+					trigger: new FormValidation.plugins.Trigger(),
+					// Bootstrap Framework Integration
+					bootstrap: new FormValidation.plugins.Bootstrap5({
+						rowSelector: '.fv-row',
+                        eleInvalidClass: '',
+                        eleValidClass: ''
+					})
+				}
+			}
+		));
+
+		// Step 3
 		validations.push(FormValidation.formValidation(
 			form,
 			{
@@ -186,32 +297,16 @@ var KTCreateAccount = function () {
 				},
 				plugins: {
 					trigger: new FormValidation.plugins.Trigger(),
+					// Bootstrap Framework Integration
 					bootstrap: new FormValidation.plugins.Bootstrap5({
 						rowSelector: '.fv-row',
-						eleInvalidClass: '',
-						eleValidClass: ''
+                        eleInvalidClass: '',
+                        eleValidClass: ''
 					})
 				}
 			}
 		));
-	
-		// Step 2
-		validations.push(FormValidation.formValidation(
-			form,
-			{
-				
-				plugins: {
-					trigger: new FormValidation.plugins.Trigger(),
-					bootstrap: new FormValidation.plugins.Bootstrap5({
-						rowSelector: '.fv-row',
-						eleInvalidClass: '',
-						eleValidClass: ''
-					})
-				}
-			}
-		));
-	};
-	
+	}
 
 	return {
 		// Public Functions
@@ -219,13 +314,13 @@ var KTCreateAccount = function () {
 			// Elements
 			modalEl = document.querySelector('#kt_modal_create_account');
 
-			if (modalEl) {
-				modal = new bootstrap.Modal(modalEl);
-			}
+			if ( modalEl ) {
+				modal = new bootstrap.Modal(modalEl);	
+			}					
 
 			stepper = document.querySelector('#kt_create_account_stepper');
 
-			if (!stepper) {
+			if ( !stepper ) {
 				return;
 			}
 
@@ -242,6 +337,6 @@ var KTCreateAccount = function () {
 }();
 
 // On document ready
-KTUtil.onDOMContentLoaded(function () {
-	KTCreateAccount.init();
+KTUtil.onDOMContentLoaded(function() {
+    KTCreateAccount.init();
 });

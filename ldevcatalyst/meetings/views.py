@@ -13,7 +13,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 import json
-from profiles.models import VC
+from profiles.models import VC ,Student,Industry
 from .models import MeetingRequests
 
 
@@ -70,8 +70,8 @@ def fetch_startup_details(request):
            													<!--begin::Profile-->
 													<div class="d-flex gap-7 align-items-center" id="startup-id" data-startup-id="{startup.id}">
 														<!--begin::Avatar-->
-														<div class="symbol symbol-circle symbol-100px">
-															<span class="symbol-label bg-light-success fs-1 fw-bolder">{startup.name[:1]}</span>
+														<div class="symbol symbol-circle symbol-200px">
+															<span class="symbol-label bg-light-success fs-1 fw-bolder">{startup.user}</span>
 														</div>
 														<!--end::Avatar-->
 														<!--begin::Contact details-->
@@ -125,6 +125,24 @@ def fetch_startup_details(request):
 																	<div class="fw-bold fs-5">{startup.description}</div>
 																</div>
 																<!--end::Company description-->
+                                                                 <!--begin::dpiit number-->
+																<div class="d-flex flex-column gap-1">
+																	<div class="fw-bold text-muted">DPIIT number</div>
+																	<div class="fw-bold fs-5">{startup.dpiit_number}</div>
+																</div>
+																<!--end::dpiit number-->
+                                                                <!--begin::Website-->
+																<div class="d-flex flex-column gap-1">
+																	<div class="fw-bold text-muted">Website</div>
+																	<div class="fw-bold fs-5">{startup.website}</div>
+																</div>
+																<!--end::=Website-->
+                                                                 <!--begin::Website-->
+																<div class="d-flex flex-column gap-1">
+																	<div class="fw-bold text-muted">Email</div>
+																	<div class="fw-bold fs-5">{startup.email}</div>
+																</div>
+																<!--end::=Website-->
 																<!--begin::market_size-->
 																<div class="d-flex flex-column gap-1">
 																	<div class="fw-bold text-muted">Market size</div>
@@ -247,4 +265,3 @@ def vc_meeting_request(request):
     
 
 
-       

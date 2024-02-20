@@ -6,13 +6,13 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
 from django.contrib.auth import logout as auth_logout
 from django.urls import reverse
+from django.http import HttpResponseNotAllowed
+
 
 def custom_login(request,):
     if request.user.is_authenticated:
-        print("working")
         return redirect('dashboard_index')
     else:
-        print("not working")
         if request.method == 'POST':
             form = AuthenticationForm(request, data=request.POST)
             if form.is_valid():
@@ -25,6 +25,8 @@ def custom_login(request,):
                 else:
                     return JsonResponse({'success': False})
         elif request.method == 'GET':
+            return render(request, 'login.html')
+        else:
             return render(request, 'login.html')
     
 
