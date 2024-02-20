@@ -173,3 +173,4 @@ CSP_IMG_SRC = ("'self'", "data:","https://innovationportal.tnthub.org.ldev.in","
 CSP_FONT_SRC = ("'self'", "https://fonts.gstatic.com/","https://fonts.googleapis.com")
 CSP_OBJECT_SRC = ("'none'",)
 CSP_BASE_URI = ("'self'",)
+CSP_REPORT_URI = '/csp-report/'
