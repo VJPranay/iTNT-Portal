@@ -223,25 +223,37 @@ VC's
         });
     }
 
+	function sanitizeHTML(html) {
+		// Create a temporary element
+		var temp = document.createElement('div');
+		// Set the HTML content of the temporary element
+		temp.innerHTML = html;
+		// Get the text content of the temporary element
+		var text = temp.textContent || temp.innerText;
+		// Return the sanitized text
+		return text;
+	}
     function renderVCProfiles(profiles) {
         var section = document.getElementById('vc-profiles-list');
         section.innerHTML = ''; 
 
         if (Array.isArray(profiles)) {
             profiles.forEach(function(profile) {
-                var profileHTML = `
-                    <div class="d-flex flex-stack py-4">
-                        <div class="d-flex align-items-center">
-                            <div class="symbol symbol-40px symbol-circle">
-                                <span class="symbol-label bg-light-danger text-danger fs-6 fw-bolder">${profile.vc_id}</span>
-                            </div>
-                            <div class="ms-4">
-                                <a href="#"  onclick="fetchVCDetails(${profile.vc_id})" class="fs-6 fw-bold text-gray-900 text-hover-primary mb-2">${profile.firm_name}</a>
-                                <div class="fw-semibold fs-7 text-muted">${profile.funding_stage}</div>
-                            </div>
-                        </div>
-                    </div>`;
-                section.innerHTML += profileHTML;
+				var profileHTML = `
+				<div class="d-flex flex-stack py-4">
+					<div class="d-flex align-items-center">
+						<div class="symbol symbol-40px symbol-circle">
+							<span class="symbol-label bg-light-danger text-danger fs-6 fw-bolder">${sanitizeHTML(DOMPurify.sanitize(profile.vc_id))}</span>
+						</div>
+						<div class="ms-4">
+							<a href="#"  onclick="fetchVCDetails(${sanitizeHTML(DOMPurify.sanitize(profile.vc_id))})" class="fs-6 fw-bold text-gray-900 text-hover-primary mb-2">${sanitizeHTML(DOMPurify.sanitize(profile.firm_name))}</a>
+							<div class="fw-semibold fs-7 text-muted">${sanitizeHTML(DOMPurify.sanitize(profile.funding_stage))}</div>
+						</div>
+					</div>
+				</div>`;
+	
+			// Appending the profileHTML to the section
+			section.innerHTML += profileHTML;
             });
         } else {
             console.error('Error: profiles is not an array');

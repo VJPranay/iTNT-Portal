@@ -14,6 +14,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 import json
 from ..models import VC
+from django.utils.html import escape
 # Create your views here.
 
 
@@ -72,27 +73,27 @@ def fetch_vc_details(request):
         # Construct HTML for the startup details
         html = f"""
             	<!--begin::Profile-->
-													<div class="d-flex gap-7 align-items-center" id="vcid" data-vc-id="{vc.id}">
+													<div class="d-flex gap-7 align-items-center" id="vcid" data-vc-id=""""+escape(vc.id)+"""">
 														<!--begin::Avatar-->
 														<div class="symbol symbol-circle symbol-100px">
-															<span class="symbol-label bg-light-success fs-1 fw-bolder">{vc.firm_name[:1]}</span>
+															<span class="symbol-label bg-light-success fs-1 fw-bolder">"""+escape(vc.firm_name[:1])+"""</span>
 														</div>
 														<!--end::Avatar-->
 														<!--begin::Contact details-->
 														<div class="d-flex flex-column gap-2">
 															<!--begin::Name-->
-															<h3 class="mb-0">{vc.firm_name}</h3>
+															<h3 class="mb-0">"""+escape(vc.firm_name)+"""</h3>
 															<!--end::Name-->
 															<!--begin::Email-->
 															<div class="d-flex align-items-center gap-2">
 																<i class="ki-outline ki-sms fs-2"></i>
-																<a href="#" class="text-muted text-hover-primary">{vc.area_of_interest.name}</a>
+																<a href="#" class="text-muted text-hover-primary">"""+escape(vc.area_of_interest.name)+"""</a>
 															</div>
 															<!--end::Email-->
 															<!--begin::Phone-->
 															<div class="d-flex align-items-center gap-2">
 																<i class="ki-outline ki-phone fs-2"></i>
-																<a href="#" class="text-muted text-hover-primary">{vc.funding_stage.name}</a>
+																<a href="#" class="text-muted text-hover-primary">"""+escape(vc.funding_stage.name)+"""</a>
 															</div>
 															<!--end::Phone-->
 														</div>
@@ -118,43 +119,43 @@ def fetch_vc_details(request):
 
 																<div class="d-flex flex-column gap-1">
 																	<div class="fw-bold text-muted">Partner Name</div>
-																	<div class="fw-bold fs-5">{vc.partner_name}</div>
+																	<div class="fw-bold fs-5">"""+escape(vc.partner_name)+"""</div>
 																</div>
 																<!--end::Company description-->
 																<!--begin::market_size-->
 																<div class="d-flex flex-column gap-1">
 																	<div class="fw-bold text-muted">Market size</div>
-																	<div class="fw-bold fs-5">{vc.deal_size_range}</div>
+																	<div class="fw-bold fs-5">"""+escape(vc.deal_size_range)+"""</div>
 																</div>
 																<!--end::market_size-->
 																<!--begin::funding_stage-->
 																<div class="d-flex flex-column gap-1">
 																	<div class="fw-bold text-muted">Portfolio size</div>
-																	<div class="fw-bold fs-5">{vc.portfolio_size}</div>
+																	<div class="fw-bold fs-5">"""+escape(vc.portfolio_size)+"""</div>
 																</div>
 																<!--end::funding_stage-->
                 											    <!--begin::area_of_interest-->
 																<div class="d-flex flex-column gap-1">
 																	<div class="fw-bold text-muted">District</div>
-																	<div class="fw-bold fs-5">{vc.district}</div>
+																	<div class="fw-bold fs-5">"""+escape(vc.district)+"""</div>
 																</div>
 																<!--end::area_of_interest-->
                                 								<!--begin::area_of_interest-->
 																<div class="d-flex flex-column gap-1">
 																	<div class="fw-bold text-muted">State</div>
-																	<div class="fw-bold fs-5">{vc.state}</div>
+																	<div class="fw-bold fs-5">"""+escape(vc.state)+"""</div>
 																</div>
 																<!--end::area_of_interest-->
                                                 			    <!--begin::area_of_interest-->
 																<div class="d-flex flex-column gap-1">
 																	<div class="fw-bold text-muted">LinkedIn</div>
-																	<a href="{vc.linkedin_profile}"><div class="fw-bold fs-5">{vc.linkedin_profile}</div></a>
+																	<a href="{vc.linkedin_profile}"><div class="fw-bold fs-5">"""+escape(vc.linkedin_profile)+"""</div></a>
 																</div>
 																<!--end::area_of_interest-->
                                                                 <!--begin::area_of_interest-->
 																<div class="d-flex flex-column gap-1">
 																	<div class="fw-bold text-muted">Website</div>
-																	<a href="{vc.linkedin_profile}"><div class="fw-bold fs-5">{vc.company_website}</div></a>
+																	<a href="{vc.linkedin_profile}"><div class="fw-bold fs-5">"""+escape(vc.company_website)+"""</div></a>
 																</div>
                 
 															</div>

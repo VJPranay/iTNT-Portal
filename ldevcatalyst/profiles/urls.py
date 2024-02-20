@@ -7,3 +7,5 @@ urlpatterns = [
     path('vc-profiles', fetch_vc_profiles, name='fetch_vc_profiles'),
     path('vc-details', fetch_vc_details, name='fetch_vc_details')    
 ]
+
+
