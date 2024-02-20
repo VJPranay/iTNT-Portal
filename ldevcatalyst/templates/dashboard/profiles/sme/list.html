@@ -25,7 +25,7 @@
     </li>
     <!--end::Item-->
     <!--begin::Item-->
-    <li class="breadcrumb-item text-white fw-bold lh-1">student's</li>
+    <li class="breadcrumb-item text-white fw-bold lh-1">sme's</li>
     <!--end::Item-->
 </ul>
 <!--end::Breadcrumb-->
@@ -35,7 +35,7 @@
 Profiles
 {% endblock  %}
 {% block pagedescription %}
-Student's
+Sme / Researcher
 {% endblock  %}
 
 
@@ -66,7 +66,7 @@ Student's
                             <!--begin::Contact group-->
                             {% for x in areas_list %}
                             <div class="d-flex flex-stack">
-                                <a href="#" class="fs-6 fw-bold text-gray-800 text-hover-primary text-active-primary active student-cat-data="{{x.id}}" onclick="fetchstudentProfiles('{{ x.id }}')"">{{x.name}}</a>
+                                <a href="#" class="fs-6 fw-bold text-gray-800 text-hover-primary text-active-primary active sme-cat-data="{{x.id}}" onclick="fetchsmeProfiles('{{ x.id }}')"">{{x.name}}</a>
                                 <div class="badge badge-light-primary">{{x.count}}</div>
                             </div>
                             {% endfor %}
@@ -90,7 +90,7 @@ Student's
                             data-kt-scroll-dependencies="#kt_header, #kt_toolbar, #kt_footer, #kt_contacts_list_header"
                             data-kt-scroll-wrappers="#kt_content, #kt_contacts_list_body"
                             data-kt-scroll-stretch="#kt_contacts_list, #kt_contacts_main" data-kt-scroll-offset="5px"
-                            id="student-profiles-list">
+                            id="sme-profiles-list">
 
                         </div>
                         <!--end::List-->
@@ -109,13 +109,13 @@ Student's
                         <!--begin::Card title-->
                         <div class="card-title">
                             <i class="ki-outline ki-badge fs-1 me-2"></i>
-                            <h2>Student Details</h2>
+                            <h2>Sme Details</h2>
                         </div>
                         <!--end::Card title-->
                     </div>
                     <!--end::Card header-->
                     <!--begin::Card body-->
-                    <div class="card-body pt-5" id="student_profile_data">
+                    <div class="card-body pt-5" id="sme_profile_data">
 
 
                     </div>
@@ -137,11 +137,10 @@ Student's
 {% block custom_js %}
 <script src="assets/js/custom/apps/contacts/view-contact.js"></script>
 <script>
-
-    function fetchstudentProfiles(areaOfInterestId) {
+    function fetchsmeProfiles(areaOfInterestId) {
         var csrftoken = getCookie('csrftoken'); // Function to retrieve CSRF token from cookies
 
-        fetch('{% url "fetch_student_profiles" %}', {
+        fetch('{% url "fetch_sme_profiles" %}', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -153,15 +152,15 @@ Student's
             return response.json();
         })
         .then(function(data) {
-            renderstudentProfiles(data);
+            rendersmeProfiles(data);
         })
         .catch(function(error) {
-            console.error('Error fetching student profiles:', error);
+            console.error('Error fetching sme profiles:', error);
         });
     }
 
-    function renderstudentProfiles(profiles) {
-        var section = document.getElementById('student-profiles-list');
+    function rendersmeProfiles(profiles) {
+        var section = document.getElementById('sme-profiles-list');
         section.innerHTML = ''; 
 
         if (Array.isArray(profiles)) {
@@ -170,10 +169,10 @@ Student's
                     <div class="d-flex flex-stack py-4">
                         <div class="d-flex align-items-center">
                             <div class="symbol symbol-40px symbol-circle">
-                                <span class="symbol-label bg-light-danger text-danger fs-6 fw-bolder">${profile.student_id}</span>
+                                <span class="symbol-label bg-light-danger text-danger fs-6 fw-bolder">${profile.sme_id}</span>
                             </div>
                             <div class="ms-4">
-                                <a href="#"  onclick="fetchstudentDetails(${profile.student_id})" class="fs-6 fw-bold text-gray-900 text-hover-primary mb-2">${profile.name}</a>
+                                <a href="#"  onclick="fetchsmeDetails(${profile.sme_id})" class="fs-6 fw-bold text-gray-900 text-hover-primary mb-2">${profile.name}</a>
                                 <div class="fw-semibold fs-7 text-muted">${profile.department}</div>
                             </div>
                         </div>
@@ -185,45 +184,45 @@ Student's
         }
     }
 
-    function fetchstudentDetails(studentId) {
+    function fetchsmeDetails(smeId) {
         // Get CSRF token
         const csrftoken = getCookie('csrftoken');
 
-        // Fetch student details using AJAX POST request
-        fetch('{% url 'fetch_student_details' %}', {
+        // Fetch sme details using AJAX POST request
+        fetch('{% url 'fetch_sme_details' %}', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'X-CSRFToken': csrftoken
             },
             body: JSON.stringify({
-                student_id: studentId
+                sme_id: smeId
             })
         })
         .then(response => {
             if (!response.ok) {
-                throw new Error('Failed to fetch student details');
+                throw new Error('Failed to fetch sme details');
             }
             return response.json();
         })
         .then(data => {
             // Check if HTML data is present
             if (data.html) {
-                // Render the student details HTML
-                renderstudentDetails(data.html);
+                // Render the sme details HTML
+                rendersmeDetails(data.html);
             } else {
                 throw new Error('No HTML data received');
             }
         })
         .catch(error => {
-            console.error('Error fetching student details:', error);
+            console.error('Error fetching sme details:', error);
         });
     }
 
-    // Function to render student details HTML
-    function renderstudentDetails(html) {
-        // Update the HTML of the student profile data element
-        document.getElementById('student_profile_data').innerHTML = html;
+    // Function to render sme details HTML
+    function rendersmeDetails(html) {
+        // Update the HTML of the sme profile data element
+        document.getElementById('sme_profile_data').innerHTML = html;
     }
 
     function getCookie(name) {
@@ -242,5 +241,4 @@ Student's
     }
 
 </script>
-
 {% endblock %}

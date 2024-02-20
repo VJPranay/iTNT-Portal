@@ -54,7 +54,7 @@ def sme_approve_registrations(request):
                 print(username)
                 
                 #Generating Randon 6 digit number
-                password=" ".join(random.choices(string.digits,k=6))
+                password="".join(random.choices(string.digits,k=6))
                 print(password)
                 
                 #Create User with Username and random Password

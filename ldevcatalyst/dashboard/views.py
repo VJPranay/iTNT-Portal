@@ -11,10 +11,8 @@ from django.http import HttpResponseNotAllowed
 
 def custom_login(request,):
     if request.user.is_authenticated:
-        print("working")
         return redirect('dashboard_index')
     else:
-        print("not working")
         if request.method == 'POST':
             form = AuthenticationForm(request, data=request.POST)
             if form.is_valid():
@@ -29,7 +27,7 @@ def custom_login(request,):
         elif request.method == 'GET':
             return render(request, 'login.html')
         else:
-            return HttpResponseNotAllowed(['GET', 'POST'])
+            return render(request, 'login.html')
     
 
 

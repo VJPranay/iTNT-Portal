@@ -1,163 +1,28 @@
-<!-- Step 1: Personal Details -->
-<div class="current" data-kt-stepper-element="content">
-    <div class="w-100">
-        <div class="pb-10 pb-lg-12">
-            <h2 class="fw-bold text-gray-900">Personal Details</h2>
-            <div class="text-muted fw-semibold fs-6">Know more about the registration process <a href="#" class="link-primary fw-bold">here</a>.</div>
+<div class="menu menu-roundedx menu-active-bg menu-state-primary menu-column menu-lg-row menu-title-gray-700 menu-icon-gray-500 menu-arrow-gray-500 menu-bullet-gray-500 my-5 my-lg-0 align-items-stretch fw-semibold px-2 px-lg-0" id="kt_app_header_menu" data-kt-menu="true">
+    <!--begin:Menu item-->
+    <div data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-placement="bottom-start" class="menu-item menu-lg-down-accordion menu-sub-lg-down-indention me-0 me-lg-2">
+        <!--begin:Menu link-->
+        <span class="menu-link">
+            <span class="menu-title">Profiles</span>
+            <span class="menu-arrow d-lg-none"></span>
+        </span>
+        <!--end:Menu link-->
+        <!--begin:Menu sub-->
+        <div class="menu-sub menu-sub-lg-down-accordion menu-sub-lg-dropdown px-lg-2 py-lg-4 w-lg-200px">
+            <!--begin:Menu item-->
+            <div class="menu-item">
+                <!--begin:Menu link-->
+                <a class="menu-link" href="{% url 'sme_list' %}" title="sme Details here" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss="click" data-bs-placement="right">
+                    <span class="menu-icon">
+                        <i class="ki-outline ki-switch fs-2"></i>
+                    </span>
+                    <span class="menu-title">Rme / Reasercher</span>
+                </a>
+                <!--end:Menu link-->
+            </div>
+            <!--end:Menu item-->
         </div>
-        <div class="fv-row mb-10">
-            <label class="form-label required">Full Name</label>
-            <input name="name" class="form-control form-control-lg form-control-solid" placeholder="Enter your Name Here" value="" required />
-        </div>
-
-        <div class="fv-row mb-10">
-            <label class="form-label required">Area of Interest</label>
-            <select name="area_of_interest" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="true" required>
-                {% for area_of_interest in area_of_interests %}
-                    <option value="{{ area_of_interest.area_of_interest_id }}">{{ area_of_interest.area_of_interest_name}}</option>
-                {% endfor %}
-            </select>
-        </div>
-        
-        <div class="fv-row mb-10">
-            <label class="form-label required">Institutions</label>
-            <select name="institution" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="true" required>
-                {% for institution in institutions %}
-                    <option value="{{ institution.institution_id }}">{{ institution.institution_name }}</option>
-                {% endfor %}
-            </select>
-        </div>
-        
-        <div class="fv-row mb-10">
-            <label class="form-label required">Department</label>
-            <select name="department" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="true" required>
-                {% for department in departments %}
-                    <option value="{{ department.department_id }}">{{ department.department_name }}</option>
-                {% endfor %}
-            </select>
-        </div>
-        
-        <div class="fv-row mb-10" data-district-url="{{ request.scheme }}://{{ request.get_host }}{% url 'districts' %}" data-district-urlid="districtslink">
-            <label class="form-label required">State</label>
-            <select name="location_state" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="true" onchange="fetchDistricts(this.value)" required>
-                <option>Select state</option>
-                {% for state in states %}
-                <option value="{{ state.state_id }}">{{ state.state_name }}</option>
-                {% endfor %}
-            </select>
-        </div>
-        <div class="fv-row mb-10">
-            <label class="form-label required">District</label>
-            <select id="districtshere" name="location_district" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="true" required>
-                <option value=""></option>
-            </select>
-        </div>
-        <div class="fv-row mb-10">
-            <label class="form-label required">Mobile</label>
-            <input type="tel" pattern="[0-9]{10}" class="form-control form-control-lg form-control-solid" name="mobile" placeholder="9876543210" value="" required />
-        </div>
-        <div class="fv-row mb-10">
-            <label class="form-label required">Email</label>
-            <input type="email" class="form-control form-control-lg form-control-solid" name="email" placeholder="email@domain.com" value="" required />
-        </div>
+        <!--end:Menu sub-->
     </div>
+    <!--end:Menu item-->
 </div>
-
-<!--begin::Step 2-->
-<div class="" data-kt-stepper-element="content">
-    <!--begin::Wrapper-->
-    <div class="w-100">
-        <!--begin::Heading-->
-        <div class="pb-10 pb-lg-15">
-            <!--begin::Title-->
-            <h2 class="fw-bold text-gray-900"> Patent Information</h2>
-            <!--end::Title-->
-            <!--begin::Notice-->
-            <div class="text-muted fw-semibold fs-6">Patent details</div>
-            <!--end::Notice-->
-        </div>
-        <!--end::Heading-->
-        <!--begin::Input group-->
-        <div class="fv-row mb-10">
-            <!--begin::Label-->
-            <label class="form-label required">Highest Qualification </label>
-            <!--end::Label-->
-            <!--begin::Input-->
-            <input type="text" class="form-control form-control-lg form-control-solid" name="highest_qualification" placeholder=" Please Enter Your Highest Qualification " value="" required />
-            {% csrf_token %}
-            <!--end::Input-->
-        </div>
-        <!--end::Input group-->
-        <div class="fv-row mb-10">
-            <!--begin::Label-->
-            <label class="form-label r">Patent Number</label>
-            <!--end::Label-->
-            <!--begin::Input-->
-            <input name="number" class="form-control form-control-lg form-control-solid" placeholder="Enter Patent Number" value="" required />
-            <!--end::Input-->
-        </div>
-        <div class="fv-row mb-10">
-            <!--begin::Label-->
-            <label class="form-label ">Title</label>
-            <!--end::Label-->
-            <!--begin::Input-->
-            <input name="title" class="form-control form-control-lg form-control-solid" placeholder="Enter Title" value="" required />
-            <!--end::Input-->
-        </div>
-        <div class="fv-row mb-10">
-            <!--begin::Label-->
-            <label class="form-label ">Inventor(s) and Applicant(s)</label>
-            <!--end::Label-->
-            <!--begin::Input-->
-            <input name="inventors" class="form-control form-control-lg form-control-solid" placeholder="Enter Inventor(s) and Applicant(s)" value="" required />
-            <!--end::Input-->
-        </div>
-        <div class="fv-row mb-10">
-            <!--begin::Label-->
-            <label class="form-label">Filing Date</label>
-            <!--end::Label-->
-            <!--begin::Input-->
-            <input name="filing_date" class="form-control form-control-lg form-control-solid" type="date" value="" required />
-            <!--end::Input-->
-        </div>
-        <div class="fv-row mb-10">
-            <!--begin::Label-->
-            <label class="form-label ">Status</label>
-            <!--end::Label-->
-            <!--begin::Input-->
-            <select name="status" class="form-select form-select-lg form-select-solid" required>
-                <option value="pending">Pending</option>
-                <option value="granted">Granted</option>
-                <option value="expired">Expired</option>
-            </select>
-            <!--end::Input-->
-        </div>
-        <div class="fv-row mb-10">
-            <!--begin::Label-->
-            <label class="form-label ">Publication Title</label>
-            <!--end::Label-->
-            <!--begin::Input-->
-            <input name="publication_title" class="form-control form-control-lg form-control-solid" placeholder="Enter Publication Title" value="" required />
-            <!--end::Input-->
-        </div>
-        <div class="fv-row mb-10">
-            <!--begin::Label-->
-            <label class="form-label ">Paper Link</label>
-            <!--end::Label-->
-            <!--begin::Input-->
-            <input name="paper_link" class="form-control form-control-lg form-control-solid" type="url" placeholder="Enter Paper Link" value="" required />
-            <!--end::Input-->
-        </div>
-        <div class="fv-row mb-10">
-            <!--begin::Label-->
-            <label class="form-label ">Journal</label>
-            <!--end::Label-->
-            <!--begin::Input-->
-            <input name="journal" class="form-control form-control-lg form-control-solid" placeholder="Enter Journal" value="" required />
-            <!--end::Input-->
-        </div>
-        <!--end::Input group-->
-    </div>
-    <!--end::Wrapper-->
-</div>
-<!--end::Step 2-->

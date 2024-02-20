@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from datarepo.models import AreaOfInterest
-
+from django.template.defaultfilters import pluralize
 from profiles.models import Student
 from django.http import HttpResponseRedirect
 from django.urls import reverse
@@ -11,6 +11,8 @@ from django.db.models import Count
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_POST
+
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 import json
@@ -40,16 +42,18 @@ def student_list(request):
 
 
 
+@require_POST
 @login_required
 def fetch_student_profiles(request):
     if request.method == 'POST':
         data = json.loads(request.body.decode('utf-8'))
-        depetment_id = data.get('department')
-        if not depetment_id:
-            return JsonResponse([], safe=False)
+        area_of_interest_ids = data.get('area_of_interest', None)
+        if not area_of_interest_ids:
+            return JsonResponse({'error': 'Area of Interest ID(s) are required'}, status=400)
         student_profiles_q = Student.objects.filter(
-            area_of_interest__id = depetment_id
-        )
+            area_of_interest__id=area_of_interest_ids
+        ) # Ensure unique student profiles
+        
         student_profiles = []
         for profile in student_profiles_q:
             student_profiles.append({
@@ -59,8 +63,7 @@ def fetch_student_profiles(request):
             })
         return JsonResponse(student_profiles, safe=False)
     else:
-        return JsonResponse({'error': 'Invalid request'}, status=400)
-    
+        return JsonResponse({'error': 'Invalid request method'}, status=405)
     
 @login_required
 def fetch_student_details(request):
@@ -77,8 +80,8 @@ def fetch_student_details(request):
            													<!--begin::Profile-->
                                                             <div class="d-flex gap-7 align-items-center">
                                                                 <!--begin::Avatar-->
-                                                                <div class="symbol symbol-circle symbol-100px">
-                                                                    <span class="symbol-label bg-light-success fs-1 fw-bolder">{student.name[:1]}</span>
+                                                                <div class="symbol symbol-circle symbol-200px">
+                                                                    <span class="symbol-label bg-light-success fs-1 fw-bolder">{student.user}</span>
                                                                 </div>
                                                                 <!--end::Avatar-->
                                                                 <!--begin::Contact details-->
@@ -115,19 +118,19 @@ def fetch_student_details(request):
                                                                         <!--begin::state-->
                                                                         <div class="d-flex flex-column gap-1">
                                                                             <div class="fw-bold text-muted">State</div>
-                                                                            <div class="fw-bold fs-5">{student.state.name}</div>
+                                                                            <div class="fw-bold fs-5">{student.state}</div>
                                                                         </div>
                                                                         <!--end::state-->
                                                                         <!--begin::district-->
                                                                         <div class="d-flex flex-column gap-1">
                                                                             <div class="fw-bold text-muted">District</div>
-                                                                            <div class="fw-bold fs-5">{student.district.name}</div>
+                                                                            <div class="fw-bold fs-5">{student.district}</div>
                                                                         </div>
                                                                         <!--end::district-->
                                                                         <!--begin::department_id-->
                                                                         <div class="d-flex flex-column gap-1">
                                                                             <div class="fw-bold text-muted">Department ID</div>
-                                                                            <div class="fw-bold fs-5">{student.department.name}</div>
+                                                                            <div class="fw-bold fs-5">{student.department}</div>
                                                                         </div>
                                                                         <!--end::department_id-->
                                                                         <!--begin::year_of_graduation-->
@@ -138,8 +141,8 @@ def fetch_student_details(request):
                                                                         <!--end::year_of_graduation-->
                                                                         <!--begin::email-->
                                                                         <div class="d-flex flex-column gap-1">
-                                                                            <div class="fw-bold text-muted">Email</div>
-                                                                            <div class="fw-bold fs-5">{student.email}</div>
+                                                                            <div class="fw-bold text-muted">Institution</div>
+                                                                            <div class="fw-bold fs-5">{student.institution}</div>
                                                                         </div>
                                                                         <!--end::email-->
                                                                         <!--begin::project_idea-->
@@ -150,10 +153,11 @@ def fetch_student_details(request):
                                                                         <!--end::project_idea-->
                                                                         <!--begin::area_of_interest_id-->
                                                                         <div class="d-flex flex-column gap-1">
-                                                                            <div class="fw-bold text-muted">Area of Interest ID</div>
-                                                                            <div class="fw-bold fs-5">{student.area_of_interest}</div>
+                                                                            <div class="fw-bold text-muted">Area{'s' if student.area_of_interest.count() > 1 else ''} of Interest:</div>
+                                                                            {student.area_of_interest}
                                                                         </div>
                                                                         <!--end::area_of_interest_id-->
+                                                                     
                                                                     </div>
                                                                     <!--end::Additional details-->
                                                                 </div>

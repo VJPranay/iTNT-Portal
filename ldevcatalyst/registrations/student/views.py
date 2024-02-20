@@ -284,10 +284,12 @@ def fetch_student_registration_details(request):
                                                                         </div>
                                                                         <!--end::project_idea-->
                                                                         <!--begin::area_of_interest_id-->
-                                                                        <div class="d-flex flex-column gap-1">
-                                                                            <div class="fw-bold text-muted">Area of Interest ID</div>
-                                                                            <div class="fw-bold fs-5">{student.area_of_interest}</div>
+                                                                       <div class="d-flex flex-column gap-1">
+                                                                        <div class="fw-bold text-muted">Area of Interest</div>
+                                                                        <div class="fw-bold fs-5">
+                                                                            
                                                                         </div>
+                                                                    </div>
                                                                         <!--end::area_of_interest_id-->
                                                                     </div>
                                                                     <!--end::Additional details-->
