@@ -14,6 +14,9 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from profiles.models import StartUp
 import json
+import yaml
+from cerberus import Validator
+from django.db import IntegrityError
 
 
 @login_required
@@ -139,45 +142,130 @@ def startup_registration(request):
         founding_experience = request.POST.get('founding_experience')
         founding_experience = True if founding_experience == 'True' else False
         short_video_link = request.POST.get('short_video_link')
-        try:
-            new_startup_registration = StartUpRegistrations.objects.create(
-                name = name,
-                market_size = market_size,
-                required_amount = required_amount,
-                founding_year = founding_year,
-                founding_experience = founding_experience,
-                short_video = short_video_link,
-                co_founder_count = co_founder_count,
-                founder_names = founder_names,
-                district_id = district_id,
-                state_id = state_id,
-                team_size = team_size,
-                email = email,
-                mobile = mobile,
-                dpiit_number = dpiit_number,
-                area_of_interest_id = area_of_interest_id,
-                description = description,
-                funding_stage_id = funding_stage_id,
-                pitch_deck = pitch_deck,
-                video_link = video_link,
-                website = website,
-            )
-            new_startup_registration.save()
-            return JsonResponse(
-                {
-                    'success': True,
-                    'registration_id': str(new_startup_registration.registration_id),
-                }
+        request_schema = '''
+        name:
+            type: string
+            required: true
+            minlength: 5
+        csrfmiddlewaretoken:
+            type: string
+            required: true
+            minlength: 5
+        co_founder_count:
+            type: string
+            required: true
+        founder_names:
+            type: string
+            required: true
+            minlength: 5
+        location_district:
+            type: string
+            required: true
+        location_state:
+            type: string
+            required: true
+        collaboration_sector:
+            type: string
+            required: true
+        funding_stage_id:
+            type: string
+            required: true
+        team_size:
+            type: string
+            required: true
+        poc_email:
+            type: string
+            required: true
+            regex: '^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'
+            minlength: 6
+        poc_mobile:
+            type: string
+            required: true
+            regex: '^\d{10}$'
+        dpiit_number:
+            type: string
+            required: true
+        description:
+            type: string
+            required: true
+        pitch_deck:
+            type: string
+            required: true
+            regex: '^[A-Za-z0-9\-_\.]+$'
+        video_link:
+            type: string 
+            required: true
+            regex: '^[A-Za-z0-9_-]{11}$'
+        company_website:
+            type: string
+            required: true
+            regex: '(https?:\/\/(?:www\.|(?!www))[^\s\.]+\.[^\s]{2,}|www\.[^\s]+\.[^\s]{2,})'
+            minlength: 6
+        market_size:
+            type: string
+            required: true
+        required_amount:
+            type: string
+            required: true
+        founding_year:
+            type: string
+            required: true
+        founding_experience:
+            type: string
+            required: true
+        short_video_link:
+            type: string
+            required: true
+            regex: '^[A-Za-z0-9_-]{11}$'
+        '''
+        v = Validator()
+        post_data = request.POST.dict()
+        schema = yaml.load(request_schema, Loader=yaml.SafeLoader)
+        if v.validate(post_data, schema):
+            try:
+                new_startup_registration = StartUpRegistrations.objects.create(
+                    name = name,
+                    market_size = market_size,
+                    required_amount = required_amount,
+                    founding_year = founding_year,
+                    founding_experience = founding_experience,
+                    short_video = short_video_link,
+                    co_founder_count = co_founder_count,
+                    founder_names = founder_names,
+                    district_id = district_id,
+                    state_id = state_id,
+                    team_size = team_size,
+                    email = email,
+                    mobile = mobile,
+                    dpiit_number = dpiit_number,
+                    area_of_interest_id = area_of_interest_id,
+                    description = description,
+                    funding_stage_id = funding_stage_id,
+                    pitch_deck = pitch_deck,
+                    video_link = video_link,
+                    website = website,
                 )
-        except Exception as e:
-            print(e)
+                new_startup_registration.save()
+                return JsonResponse(
+                    {
+                        'success': True,
+                        'registration_id': str(new_startup_registration.registration_id),
+                    }
+                    )
+            except IntegrityError as e:
+                return JsonResponse(
+                        {
+                            'success': False,
+                            'registration_id': "Failed",
+                            'error': str(e),
+                        })
+        else:
             return JsonResponse(
-                {
-                    'success': False,
-                    'registration_id': "Failed",
-                    'error': str(e),
-                }
-                )
+                    {
+                        'success': False,
+                        'registration_id': "Failed",
+                        'error': v.errors,
+                    })
     elif request.method == 'GET':
         return render(request,'registrations/startup_registration.html',context={ 
          
