@@ -171,3 +171,4 @@ CSP_STYLE_SRC = ("'self'", "'unsafe-inline'", "https://innovationportal.tnthub.o
 CSP_SCRIPT_SRC = ("'self'","https://innovationportal.tnthub.org.ldev.in")
 CSP_IMG_SRC = ("'self'", "data:","https://innovationportal.tnthub.org.ldev.in","https://cdn.jsdelivr.net")
 CSP_FONT_SRC = ("'self'", "https://fonts.gstatic.com/","https://fonts.googleapis.com")
+CSP_OBJECT_SRC = ("'none'",)
