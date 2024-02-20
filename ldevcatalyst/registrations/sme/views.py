@@ -120,7 +120,7 @@ def sme_approve_registrations(request):
                 body = f'''
                         Username: {user.username}
                         Password: {password}
-                        Login URL: https://ldev.in
+                        Login URL: http://innovationportal.tnthub.org.ldev.in/dashboard
                         '''
                 print(password)
 

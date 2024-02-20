@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-68bn2*xnujz@*i2(xb61^kk3vhzo8sfyw3mrn7***srqkm49_*'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [
 'itntportal.ldev.in',
@@ -38,6 +38,9 @@ CSRF_TRUSTED_ORIGINS = [
     #'127.0.0.1',
     'http://127.0.0.1',
 ]
+
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
 
 
 
@@ -65,10 +68,12 @@ INSTALLED_APPS = [
 AUTH_USER_MODEL = 'profiles.User'
 
 MIDDLEWARE = [
+        'csp.middleware.CSPMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
+    'csp.middleware.CSPMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -146,6 +151,7 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 MEDIA_URL = 'media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticf')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
@@ -156,3 +162,15 @@ LOGIN_URL = '/dashboard/'
 LOGOUT_URL = '/dashboard/logout/'
 # LOGIN_REDIRECT_URL = '/dashboard/index/'
 LOGIN_FAILURE_URL = '/dashboard/'
+
+
+
+CSP_INCLUDE_NONCE_IN = ['script-src']
+CSP_DEFAULT_SRC = ("'self'", "https://cdnjs.cloudflare.com","https://innovationportal.tnthub.org.ldev.in","https://cdn.jsdelivr.net")
+CSP_STYLE_SRC = ("'self'", "'unsafe-inline'", "https://innovationportal.tnthub.org.ldev.in","https://fonts.googleapis.com","https://cdn.jsdelivr.net",)
+CSP_SCRIPT_SRC = ()
+CSP_IMG_SRC = ("'self'", "data:","https://innovationportal.tnthub.org.ldev.in","https://cdn.jsdelivr.net")
+CSP_FONT_SRC = ("'self'", "https://fonts.gstatic.com/","https://fonts.googleapis.com")
+CSP_OBJECT_SRC = ("'none'",)
+CSP_BASE_URI = ("'self'",)
+CSP_REPORT_URI = '/csp-report/'

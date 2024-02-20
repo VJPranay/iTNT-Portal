@@ -7,15 +7,15 @@ from django.http import JsonResponse
 import random
 import string
 from django.http import JsonResponse
-from profiles.models import User
+from profiles.models import User,Student
 from django.db.utils import IntegrityError
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
+import random
+import yaml
+from cerberus import Validator
 import json
-from profiles.models import Student
-
-
 
 @login_required
 def student_registrations(request,registration_status=None):
@@ -94,7 +94,7 @@ def student_approve_registration(request):
                 body = f'''
                         Username: {user.username}
                         Password: {password}
-                        Login URL: https://ldev.in
+                        Login URL: http://innovationportal.tnthub.org.ldev.in/dashboard
                         '''
                 print(password)
                 message = MIMEMultipart()
@@ -127,7 +127,18 @@ def student_registration(request):
         project_idea = request.POST.get('project_idea')
         
         try:
-            # Create a new StudentRegistrations object
+            # Retrieve data from the POST request
+            name = request.POST.get('name')
+            institution_id = request.POST.get('institution_id')
+            department_id = request.POST.get('department_id')
+            year_of_graduation = request.POST.get('year_of_graduation')
+            district_id = request.POST.get('location_district')
+            state_id = request.POST.get('location_state')
+            project_idea = request.POST.get('project_idea')
+            area_of_interest_ids = request.POST.getlist('area_of_interest')
+            
+
+            # Creating a new StudentRegistration object
             new_student_registration = StudentRegistrations.objects.create(
                 name=name,
                 institution_id=institution_id,

@@ -160,10 +160,47 @@
 											<!--begin::Label-->
 											<label class="form-label required">Deal Size Range</label>
 											<!--end::Label-->
-											<!--begin::Input-->
-											<input name="deal_size_range" class="form-control form-control-lg form-control-solid" placeholder="₹10L - ₹2Cr" value="" />
-											<!--end::Input-->
+											<!--begin::Inputs-->
+											<div class="row">
+												<!-- Minimum Value Dropdown -->
+												<div class="col">
+													<select id="deal_size_range_min" name="deal_size_range_min" class="form-select form-select-lg form-select-solid" onchange="checkMinMax()">
+														<option value="1">1 Cr</option>
+														<option value="10">10 Cr</option>
+														<option value="20">20 Cr</option>
+														<option value="20">30 Cr</option>
+														<option value="30">40 Cr</option>
+														<option value="40">50 Cr</option>
+														<option value="50">60 Cr</option>
+														<option value="60">70 Cr</option>
+														<option value="70">80 Cr</option>
+														<option value="80">80 Cr</option>
+														<option value="90">90 Cr</option>
+														<option value="100">110 Cr</option>
+
+													</select>
+												</div>
+												<!-- Maximum Value Input -->
+												<div class="col">
+													<select id="deal_size_range_max" name="deal_size_range_max" class="form-select form-select-lg form-select-solid" onchange="checkMinMax()">
+														<option value="1">1 Cr</option>
+														<option value="10">10 Cr</option>
+														<option value="20">20 Cr</option>
+														<option value="20">30 Cr</option>
+														<option value="30">40 Cr</option>
+														<option value="40">50 Cr</option>
+														<option value="50">60 Cr</option>
+														<option value="60">70 Cr</option>
+														<option value="70">80 Cr</option>
+														<option value="80">80 Cr</option>
+														<option value="90">90 Cr</option>
+														<option value="100">110 Cr</option>
+													</select>
+												</div>
+											</div>
+											<!--end::Inputs-->
 										</div>
+										
 										<div class="fv-row mb-10">
 											<!--begin::Label-->
 											<label class="form-label required">Portfolio Size</label>
@@ -172,7 +209,7 @@
 											<input name="portfolio_size" class="form-control form-control-lg form-control-solid" placeholder="5345" value="" />
 											<!--end::Input-->
 										</div>
-										<div class="fv-row mb-10" data-district-url="{{ request.scheme }}://{{ request.get_host }}{% url 'districts' %}"  data-district-urlid="districtslink">
+										<div class="fv-row mb-10" data-district-url="https://innovationportal.tnthub.org.ldev.in/{% url 'districts' %}"  data-district-urlid="districtslink">
 											<!--begin::Label-->
 											<label class="form-label required">State</label>
 											<!--end::Label-->
@@ -264,7 +301,7 @@
 											<label class="form-label required">Website</label>
 											<!--end::Label-->
 											<!--begin::Input-->
-											<input type="text" class="form-control form-control-lg form-control-solid" name="company_website" placeholder="Company website" value="" />
+											<input type="text" class="form-control form-control-lg form-control-solid" name="company_website" placeholder="Company website" value="https://" />
 											{% csrf_token %}
 											<!--end::Input-->
 										</div>
@@ -275,7 +312,7 @@
 											<label class="form-label required">LinkedIn</label>
 											<!--end::Label-->
 											<!--begin::Input-->
-											<input type="text" class="form-control form-control-lg form-control-solid" name="linkedin_profile" placeholder="LinkedIn" value="" />
+											<input type="text" class="form-control form-control-lg form-control-solid" name="linkedin_profile" placeholder="LinkedIn" value="https://" />
 											{% csrf_token %}
 											<!--end::Input-->
 										</div>
@@ -400,6 +437,26 @@
 		</script>
 		
 		
+		<script>
+			function checkMinMax() {
+				var minSelect = document.getElementById("deal_size_range_min");
+				var maxSelect = document.getElementById("deal_size_range_max");
+				
+				// Get the selected minimum value
+				var minValue = parseInt(minSelect.value);
+				
+				// Get the selected maximum value
+				var maxValue = parseInt(maxSelect.value);
+				
+				// If minimum is greater than maximum, adjust maximum
+				if (minValue >= maxValue) {
+					// Set maximum value to the next value after minimum
+					maxSelect.value = (minValue + 10).toString();
+				}
+			}
+		</script>
+		
+
 		<!--end::Custom Javascript-->
 		<!--end::Javascript-->
 	</body>

@@ -95,7 +95,7 @@ def industry_approve_registration(request):
                 body = f'''
                         Username: {user.username}
                         Password: {password}
-                        Login URL: https://ldev.in
+                        Login URL: http://innovationportal.tnthub.org.ldev.in/dashboard
                         '''
                 print(password)
                 message = MIMEMultipart()
