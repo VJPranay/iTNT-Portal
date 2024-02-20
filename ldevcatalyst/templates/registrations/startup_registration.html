@@ -184,10 +184,22 @@
 											<!--begin::Label-->
 											<label class="form-label required">Year of establishment</label>
 											<!--end::Label-->
-											<!--begin::Input-->
-											<input name="founding_year" class="form-control form-control-lg form-control-solid" placeholder=">2020" value="" />
-											<!--end::Input-->
+											<!--begin::Inputs-->
+											<div class="row">
+												<!-- Year Dropdown -->
+												<div class="col">
+													<select id="founding_year" name="founding_year" class="form-select form-select-lg form-select-solid">
+														<!-- Generate options from 2000 to 2024 -->
+														<option value="">Select Year</option>
+														{% for year in startup_years %}
+														<option value="{{ year }}">{{ year }}</option>
+													{% endfor %}
+													</select>
+												</div>
+											</div>
+											<!--end::Inputs-->
 										</div>
+										
 										<div class="fv-row mb-10">
 											<!--begin::Label-->
 											<label class="form-label required">Founding experience</label>

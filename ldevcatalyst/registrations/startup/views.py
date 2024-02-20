@@ -276,6 +276,9 @@ def startup_registration(request):
                     })
     elif request.method == 'GET':
         return render(request,'registrations/startup_registration.html',context={ 
+                                                                                 'startup_years' : [
+                                                                                     x for x in range(2009,2024)
+                                                                                 ],
          
         'preferred_investment_stages' : [
             {
