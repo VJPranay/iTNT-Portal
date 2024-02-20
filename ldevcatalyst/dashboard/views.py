@@ -34,7 +34,7 @@ def logout(request):
     return HttpResponseRedirect(reverse('login'))
     
 
-@login_required
+
 def dashboard_index(request):
-    return render(request,'dashboard/dashboard.html')
+    return render(request,'dashboard/innovation/creation/create_challenge.html')
 
