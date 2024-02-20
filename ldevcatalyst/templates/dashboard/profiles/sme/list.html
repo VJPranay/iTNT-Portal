@@ -38,8 +38,6 @@ Profiles
 Sme / Researcher
 {% endblock  %}
 
-
-
 {% block page_content %}
 <div class="d-flex flex-column flex-column-fluid">
     <!--begin::Content-->
@@ -133,7 +131,6 @@ Sme / Researcher
 <!--begin::Footer-->
 {% endblock %}
 
-
 {% block custom_js %}
 <script src="assets/js/custom/apps/contacts/view-contact.js"></script>
 <script>
@@ -173,7 +170,7 @@ Sme / Researcher
                             </div>
                             <div class="ms-4">
                                 <a href="#"  onclick="fetchsmeDetails(${profile.sme_id})" class="fs-6 fw-bold text-gray-900 text-hover-primary mb-2">${profile.name}</a>
-                                <div class="fw-semibold fs-7 text-muted">${profile.department}</div>
+                                <div class="fw-semibold fs-7 text-muted">${profile.state}</div>
                             </div>
                         </div>
                     </div>`;

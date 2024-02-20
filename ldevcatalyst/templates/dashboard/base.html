@@ -80,10 +80,12 @@ License: For each use you must have a valid license purchased only from above li
 									{% include 'dashboard/menu/vc.html' %}
 									{% elif user.user_role == 6 %}
 									{% include 'dashboard/menu/startup.html' %}
-									{% elif user.user_role == 4 %}
+									{% elif user.user_role == 7 %}
 									{% include 'dashboard/menu/student.html' %}
-									{% elif user.user_role == 10 %}
+									{% elif user.user_role == 5 %}
 									{% include 'dashboard/menu/sme.html' %}
+									{% elif user.user_role == 4 %}
+									{% include 'dashboard/menu/industry.html' %}
 									{% else %}
 									<h1>pending!</h1>
 									{% endif %}
@@ -120,7 +122,11 @@ License: For each use you must have a valid license purchased only from above li
 														<span class="badge badge-light-success fw-bold fs-8 px-2 py-1 ms-2">Startup</span></div>
 														{% elif user.user_role == 4 %}
 														<span class="badge badge-light-success fw-bold fs-8 px-2 py-1 ms-2">Industry</span></div>
+														{% elif user.user_role == 7 %}
+														<span class="badge badge-light-success fw-bold fs-8 px-2 py-1 ms-2">Student</span></div>
+														
 														{% else %}
+														<span class="badge badge-light-success fw-bold fs-8 px-2 py-1 ms-2">guest</span></div>
 														{% endif %}
 													
 													<a href="#" class="fw-semibold text-muted text-hover-primary fs-7">{{user.email}}</a>

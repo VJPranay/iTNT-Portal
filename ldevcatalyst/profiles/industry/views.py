@@ -59,7 +59,7 @@ def fetch_industry_profiles(request):
             industry_profiles.append({
                 'industry_id': profile.id,
                 'name': profile.name,
-                'industry':profile.industry.name
+                'state':profile.state.name
             })
         return JsonResponse(industry_profiles, safe=False)
     else:
@@ -75,13 +75,17 @@ def fetch_industry_details(request):
         # Fetch startup details based on startup_id
         print(industry_id)
         industry = Industry.objects.get(id=industry_id)
+         # Construct HTML for the area_of_interest
+        area_of_interest_html = ""
+        for interest in industry.area_of_interest.all():
+            area_of_interest_html += f"<div>{interest.name}</div>"
         # Construct HTML for the startup details
         html = f"""
                                             <!--begin::Profile-->
                                             <div class="d-flex gap-7 align-items-center">
                                                 <!--begin::Avatar-->
-                                                <div class="symbol symbol-circle symbol-200px">
-                                                    <span class="symbol-label bg-light-success fs-1 fw-bolder">{industry.user}</span>
+                                                <div class="symbol symbol-circle symbol-100px">
+                                                    <span class="symbol-label bg-light-success fs-1 fw-bolder">{industry.name[:1]}</span>
                                                 </div>
                                                 <!--end::Avatar-->
                                                 <!--begin::Contact details-->
@@ -152,7 +156,7 @@ def fetch_industry_details(request):
                                                         <!--begin::area_of_interest-->
                                                         <div class="d-flex flex-column gap-1">
                                                             <div class="fw-bold text-muted">Area of Interest</div>
-                                                            <div class="fw-bold fs-5">{industry.area_of_interest}</div>
+                                                            <div class="fw-bold fs-5">{area_of_interest_html}</div>
                                                         </div>
                                                         <!--end::area_of_interest-->
                                                         

@@ -74,8 +74,8 @@ def fetch_vc_details(request):
             	<!--begin::Profile-->
 													<div class="d-flex gap-7 align-items-center" id="vcid" data-vc-id="{vc.id}">
 														<!--begin::Avatar-->
-														<div class="symbol symbol-circle symbol-200px">
-															<span class="symbol-label bg-light-success fs-1 fw-bolder">{vc.user}</span>
+														<div class="symbol symbol-circle symbol-100px">
+															<span class="symbol-label bg-light-success fs-1 fw-bolder">{vc.firm_name[:1]}</span>
 														</div>
 														<!--end::Avatar-->
 														<!--begin::Contact details-->
