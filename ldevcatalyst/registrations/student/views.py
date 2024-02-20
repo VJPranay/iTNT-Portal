@@ -11,6 +11,8 @@ import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 import random
+import yaml
+from cerberus import Validator
 
 
 @login_required
@@ -90,9 +92,6 @@ def student_registration(request):
             project_idea = request.POST.get('project_idea')
             area_of_interest_ids = request.POST.getlist('area_of_interest')
             
-            # Perform validation on the received data (e.g., ensure required fields are not empty)
-            if not (name and institution_id and department_id and year_of_graduation and district_id and state_id and project_idea and area_of_interest_ids):
-                raise ValueError("Missing required fields")
 
             # Creating a new StudentRegistration object
             new_student_registration = StudentRegistrations.objects.create(

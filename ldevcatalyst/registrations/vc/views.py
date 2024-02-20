@@ -13,6 +13,9 @@ import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 import json
+import yaml
+from cerberus import Validator
+from django.db import IntegrityError
 
 
 
@@ -42,7 +45,6 @@ def vc_registrations(request,registration_status=None):
 def vc_approve_registration(request):
     if request.method == 'POST':
         registration_id = request.POST.get('registration_id',None)
-
         if not registration_id:
             return JsonResponse({'success': False, 'error': 'Missing registration ID'}, status=400)
         else:
@@ -124,37 +126,99 @@ def vc_registration(request):
         portfolio_size = request.POST.get('portfolio_size')
         company_website = request.POST.get('company_website')
         linkedin_profile = request.POST.get('linkedin_profile')
-        try:
-            new_vc_registration = VCRegistrations.objects.create(
-                partner_name = partner_name,
-                firm_name = firm_name,
-                deal_size_range = deal_size_range,
-                portfolio_size = portfolio_size,
-                email = email,
-                mobile = mobile,
-                district_id = district_id,
-                state_id = state_id,
-                funding_stage_id = funding_stage_id,
-                area_of_interest_id = area_of_interest_id,
-                company_website = company_website,
-                linkedin_profile = linkedin_profile,
-            )
-            new_vc_registration.save()
-            # Optionally, you can return a success response
-            return JsonResponse(
-                {
-                    'success': True,
-                    'registration_id': str(new_vc_registration.registration_id),
-                }
-                )
-        except Exception as e:
-            print(e)
-            return JsonResponse(
-                {
-                    'success': False,
-                    'registration_id': "Failed",
-                    'error': str(e),
-                }) 
+        request_schema = '''
+        partner_name:
+            type: string
+            required: true
+            minlength: 5
+        csrfmiddlewaretoken:
+            type: string
+            required: true
+            minlength: 5
+        firm_name:
+            type: string
+            required: true
+            minlength: 6
+        poc_email:
+            type: string
+            required: true
+            regex: '^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'
+            minlength: 6
+        poc_mobile:
+            type: string
+            required: true
+            regex: '^\d{10}$'
+        location_district:
+            type: string
+            required: true
+        location_state:
+            type: string
+            required: true
+        collaboration_sector:
+            type: string
+            required: true
+        funding_stage_id:
+            type: string
+            required: true
+        deal_size_range:
+            type: string
+            required: true
+        portfolio_size:
+            type: string
+            required: true
+        company_website:
+            type: string
+            required: true
+            regex: '(https?:\/\/(?:www\.|(?!www))[^\s\.]+\.[^\s]{2,}|www\.[^\s]+\.[^\s]{2,})'
+            minlength: 6
+        linkedin_profile:
+            type: string
+            required: true
+            regex: '(https?:\/\/(?:www\.|(?!www))[^\s\.]+\.[^\s]{2,}|www\.[^\s]+\.[^\s]{2,})'
+            minlength: 6
+
+        '''
+        v = Validator()
+        post_data = request.POST.dict()
+        schema = yaml.load(request_schema, Loader=yaml.SafeLoader)
+        if v.validate(post_data, schema):
+                try:
+                    new_vc_registration = VCRegistrations.objects.create(
+                        partner_name = partner_name,
+                        firm_name = firm_name,
+                        deal_size_range = deal_size_range,
+                        portfolio_size = portfolio_size,
+                        email = email,
+                        mobile = mobile,
+                        district_id = district_id,
+                        state_id = state_id,
+                        funding_stage_id = funding_stage_id,
+                        area_of_interest_id = area_of_interest_id,
+                        company_website = company_website,
+                        linkedin_profile = linkedin_profile,
+                    )
+                    new_vc_registration.save()
+                    # Optionally, you can return a success response
+                    return JsonResponse(
+                        {
+                            'success': True,
+                            'registration_id': str(new_vc_registration.registration_id),
+                        }
+                        )
+                except IntegrityError:
+                    return JsonResponse(
+                        {
+                            'success': False,
+                            'registration_id': "Failed",
+                            'error': str(e),
+                        })
+        else:
+                return JsonResponse(
+                        {
+                            'success': False,
+                            'registration_id': "Failed",
+                            'error': v.errors,
+                        })
     elif request.method == 'GET':
         return render(request,'registrations/vc_registration.html',context={ 
                          
