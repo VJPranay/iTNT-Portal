@@ -174,3 +174,4 @@ CSP_FONT_SRC = ("'self'", "https://fonts.gstatic.com/","https://fonts.googleapis
 CSP_OBJECT_SRC = ("'none'",)
 CSP_BASE_URI = ("'self'",)
 CSP_REPORT_URI = '/csp-report/'
+CSP_REQUIRE_TRUSTED_TYPES_FOR = ('script',)
