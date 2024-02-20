@@ -211,10 +211,17 @@ var KTCreateAccount = function () {
 							}
 						}
 					},
-					deal_size_range: {
+					deal_size_range_min: {
 						validators: {
 							notEmpty: {
-								message: 'Please enter your deal size range'
+								message: 'Please select your deal size range'
+							}
+						}
+					},
+					deal_size_range_max: {
+						validators: {
+							notEmpty: {
+								message: 'Please select your deal size range'
 							}
 						}
 					},

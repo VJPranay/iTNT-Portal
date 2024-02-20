@@ -125,7 +125,7 @@ def fetch_vc_details(request):
 																<!--begin::market_size-->
 																<div class="d-flex flex-column gap-1">
 																	<div class="fw-bold text-muted">Market size</div>
-																	<div class="fw-bold fs-5">"""+escape(vc.deal_size_range)+"""</div>
+																	<div class="fw-bold fs-5">"""+escape(vc.deal_size_range_min)+" "+escape(vc.deal_size_range_max)+"""</div>
 																</div>
 																<!--end::market_size-->
 																<!--begin::funding_stage-->

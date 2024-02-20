@@ -80,7 +80,8 @@ def vc_approve_registration(request):
                         firm_name = registration.firm_name,
                         email = registration.email,
                         mobile = registration.mobile,
-                        deal_size_range = registration.deal_size_range,
+                        deal_size_range_min = registration.deal_size_range_min,
+                        deal_size_range_max = registration.deal_size_range_max,
                         portfolio_size = registration.portfolio_size,
                         district_id = registration.district.id,
                         state_id = registration.state.id,
@@ -128,7 +129,8 @@ def vc_registration(request):
         state_id = request.POST.get('location_state')
         area_of_interest_id = request.POST.get('collaboration_sector')
         funding_stage_id = request.POST.get('funding_stage_id')
-        deal_size_range = request.POST.get('deal_size_range')
+        deal_size_range_min = request.POST.get('deal_size_range_min')
+        deal_size_range_max = request.POST.get('deal_size_range_max')
         portfolio_size = request.POST.get('portfolio_size')
         company_website = request.POST.get('company_website')
         linkedin_profile = request.POST.get('linkedin_profile')
@@ -166,7 +168,10 @@ def vc_registration(request):
         funding_stage_id:
             type: string
             required: true
-        deal_size_range:
+        deal_size_range_min:
+            type: string
+            required: true
+        deal_size_range_max:
             type: string
             required: true
         portfolio_size:
@@ -192,7 +197,8 @@ def vc_registration(request):
                     new_vc_registration = VCRegistrations.objects.create(
                         partner_name = partner_name,
                         firm_name = firm_name,
-                        deal_size_range = deal_size_range,
+                        deal_size_range_min = deal_size_range_min,
+                        deal_size_range_max = deal_size_range_max,
                         portfolio_size = portfolio_size,
                         email = email,
                         mobile = mobile,
@@ -314,7 +320,7 @@ def vc_registration_details(request):
                                                                     <!--begin::market_size-->
                                                                     <div class="d-flex flex-column gap-1">
                                                                         <div class="fw-bold text-muted">Market size</div>
-                                                                        <div class="fw-bold fs-5">{vc.deal_size_range}</div>
+                                                                        <div class="fw-bold fs-5">{vc.deal_size_range_min} - {vc.deal_size_range_max}</div>
                                                                     </div>
                                                                     <!--end::market_size-->
                                                                     <!--begin::funding_stage-->
