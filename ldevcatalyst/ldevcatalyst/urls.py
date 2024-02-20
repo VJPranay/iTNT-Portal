@@ -21,7 +21,7 @@ from datarepo.views import districts
 
 
 urlpatterns = [
-    #path('admin/', admin.site.urls,name="django_admin"),
+    path('admin/', admin.site.urls,name="django_admin"),
     path('districts/', districts,name="districts"),
     path('dashboard/', include('dashboard.urls')),
     path('registrations/', include('registrations.urls')),
