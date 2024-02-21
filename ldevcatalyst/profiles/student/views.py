@@ -16,6 +16,7 @@ from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 import json
+from django.utils.html import escape
 
 from ..models import Student
 # Create your views here.
@@ -79,23 +80,23 @@ def fetch_student_details(request):
         for interest in student.area_of_interest.all():
             area_of_interest_html += f"<div>{interest.name}</div>"
         # Construct HTML for the startup details
-        html = f"""                                 
+        html = f"""                                         <div class="d-flex gap-7 align-items-center" id="studentid" data-student-id=""""+escape(student.id)+"""">
            													<!--begin::Profile-->
                                                             <div class="d-flex gap-7 align-items-center">
                                                                 <!--begin::Avatar-->
                                                                 <div class="symbol symbol-circle symbol-100px">
-                                                                    <span class="symbol-label bg-light-success fs-1 fw-bolder">{student.name[:1]}</span>
+                                                                    <span class="symbol-label bg-light-success fs-1 fw-bolder">"""+escape(student.name[:1])+"""</span>
                                                                 </div>
                                                                 <!--end::Avatar-->
                                                                 <!--begin::Contact details-->
                                                                 <div class="d-flex flex-column gap-2">
                                                                     <!--begin::Name-->
-                                                                    <h3 class="mb-0">{student.name}</h3>
+                                                                    <h3 class="mb-0">"""+escape(student.name)+"""</h3>
                                                                     <!--end::Name-->
                                                                     <!--begin::Email-->
                                                                     <div class="d-flex align-items-center gap-2">
                                                                         <i class="ki-outline ki-sms fs-2"></i>
-                                                                        <a href="#" class="text-muted text-hover-primary">{student.email}</a>
+                                                                        <a href="#" class="text-muted text-hover-primary">"""+escape(student.email)+"""</a>
                                                                     </div>
                                                                     <!--end::Email-->
                                                                 </div>
@@ -121,48 +122,48 @@ def fetch_student_details(request):
                                                                         <!--begin::state-->
                                                                         <div class="d-flex flex-column gap-1">
                                                                             <div class="fw-bold text-muted">State</div>
-                                                                            <div class="fw-bold fs-5">{student.state}</div>
+                                                                            <div class="fw-bold fs-5">"""+escape(student.state.name)+"""</div>
                                                                         </div>
                                                                         <!--end::state-->
                                                                         <!--begin::district-->
                                                                         <div class="d-flex flex-column gap-1">
                                                                             <div class="fw-bold text-muted">District</div>
-                                                                            <div class="fw-bold fs-5">{student.district}</div>
+                                                                            <div class="fw-bold fs-5">"""+escape(student.district)+"""</div>
                                                                         </div>
                                                                         <!--end::district-->
                                                                         <!--begin::department_id-->
                                                                         <div class="d-flex flex-column gap-1">
-                                                                            <div class="fw-bold text-muted">Department ID</div>
-                                                                            <div class="fw-bold fs-5">{student.department}</div>
+                                                                            <div class="fw-bold text-muted">Department</div>
+                                                                            <div class="fw-bold fs-5">"""+escape(student.department.name)+"""</div>
                                                                         </div>
                                                                         <!--end::department_id-->
                                                                         <!--begin::year_of_graduation-->
                                                                         <div class="d-flex flex-column gap-1">
                                                                             <div class="fw-bold text-muted">Year of Graduation</div>
-                                                                            <div class="fw-bold fs-5">{student.year_of_graduation}</div>
+                                                                            <div class="fw-bold fs-5">"""+escape(student.year_of_graduation)+"""</div>
                                                                         </div>
                                                                         <!--end::year_of_graduation-->
                                                                         <!--begin::email-->
                                                                         <div class="d-flex flex-column gap-1">
                                                                             <div class="fw-bold text-muted">Institution</div>
-                                                                            <div class="fw-bold fs-5">{student.institution}</div>
+                                                                            <div class="fw-bold fs-5">"""+escape(student.institution.name)+"""</div>
                                                                         </div>
                                                                         <!--end::email-->
                                                                         <!--begin::project_idea-->
                                                                         <div class="d-flex flex-column gap-1">
                                                                             <div class="fw-bold text-muted">Project Idea</div>
-                                                                            <div class="fw-bold fs-5">{student.project_idea}</div>
+                                                                            <div class="fw-bold fs-5">"""+escape(student.project_idea)+"""</div>
                                                                         </div>
                                                                         <!--end::project_idea-->
                                                                         <!--begin::area_of_interest-->
                                                                     <div class="d-flex flex-column gap-1">
                                                                         <div class="fw-bold text-muted">Area of Interest</div>
-                                                                        <div class="fw-bold fs-5">{area_of_interest_html}</div>
+                                                                        <div class="fw-bold fs-5">"""+escape(area_of_interest_html)+"""</div>
                                                                     </div>
                                                                     <!--end::area_of_interest-->
                                                                      
                                                                     </div>
-                                                                    <!--end::Additional details-->
+                                                                    <!--end::Additional details--> 
                                                                 </div>
                                                                 <!--end:::Tab pane-->
                                                             </div>

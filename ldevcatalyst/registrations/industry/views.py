@@ -14,6 +14,10 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 import json
 from profiles.models import Industry
+from cerberus import Validator
+import json
+from django.utils.html import escape
+import yaml
 
 
 
@@ -125,34 +129,91 @@ def industry_registration(request):
         poc_email = request.POST.get('poc_email')
         poc_mobile = request.POST.get('poc_mobile')
         area_of_interest_id = request.POST.get('collaboration_sector')
-        try:
-            new_industry_registration = IndustryRegistrations.objects.create(
-                name = name,
-                industry_id = industry_id,
-                state_id = state_id,
-                district_id = district_id,
-                point_of_contact_name = poc_name,
-                email = poc_email,
-                mobile = poc_mobile,
-            )
-            new_industry_registration.save()
-            new_industry_registration.area_of_interest.add(area_of_interest_id)
-            new_industry_registration.save()
-            # Optionally, you can return a success response
-            return JsonResponse(
-                {
-                    'success': True,
-                    'registration_id': str(new_industry_registration.registration_id),
-                }
+        request_schema ='''
+        company_name:
+            type: string
+            required: true
+            minlength: 10
+            
+        csrfmiddlewaretoken:
+            type: string
+            required: true
+            minlength: 5
+
+        industry_type:
+            type: string
+            required: true
+
+        location_state:
+            type: string
+            required: true
+
+        location_district:
+            type: string
+            required: true
+
+        poc_name:
+            type: string
+            required: true
+
+
+        poc_email:
+            type: string
+            required: true
+            regex: '^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'
+
+
+        poc_mobile:
+            type: string
+            required: true
+            regex: '^\d{10}$'
+
+
+        collaboration_sector:
+            type: string
+            required: true
+
+        '''
+        v=Validator()
+        post_data = request.POST.dict()
+        schema=yamal.load(request_schema, Loader=yamal.SafeLoader)
+        if v.validate(post_data,schema):
+            print(post_data)
+            try:
+                new_industry_registration = IndustryRegistrations.objects.create(
+                    name = name,
+                    industry_id = industry_id,
+                    state_id = state_id,
+                    district_id = district_id,
+                    point_of_contact_name = poc_name,
+                    email = poc_email,
+                    mobile = poc_mobile,
                 )
-        except Exception as e:
+                new_industry_registration.save()
+                new_industry_registration.area_of_interest.add(area_of_interest_id)
+                new_industry_registration.save()
+                # Optionally, you can return a success response
+                return JsonResponse(
+                    {
+                        'success': True,
+                        'registration_id': str(new_industry_registration.registration_id),
+                    }
+                    )
+            except Exception as e:
+                return JsonResponse(
+                    {
+                        'success': False,
+                        'registration_id': "Failed",
+                        'error': str(e),
+                    }
+                    )
+        else:
             return JsonResponse(
-                {
-                    'success': False,
-                    'registration_id': "Failed",
-                    'error': str(e),
-                }
-                )
+                    {
+                        'success': False,
+                        'registration_id': "Failed",
+                        'error': v.errors,
+                    })
     elif request.method == 'GET':
         return render(request,'registrations/industry_registration.html',context={ 
                          
@@ -187,30 +248,26 @@ def fetch_industry_registration_details(request):
         # Fetch industry details based on industry_id
         print(industry_id)
         industry = IndustryRegistrations.objects.get(id=industry_id)
+        for interest in industry.area_of_interest.all():
+            area_of_interest_html += f"<div>{interest.name}</div>"
         # Construct HTML for the industry details
         html = f"""
                                             <!--begin::Profile-->
                                             <div class="d-flex gap-7 align-items-center">
                                                 <!--begin::Avatar-->
                                                 <div class="symbol symbol-circle symbol-100px">
-                                                    <span class="symbol-label bg-light-success fs-1 fw-bolder">{industry.name[:1]}</span>
+                                                    <span class="symbol-label bg-light-success fs-1 fw-bolder">"""+escape(industry.name[:1])+"""</span>
                                                 </div>
                                                 <!--end::Avatar-->
                                                 <!--begin::Contact details-->
                                                 <div class="d-flex flex-column gap-2">
                                                     <!--begin::Name-->
-                                                    <h3 class="mb-0">{industry.name}</h3>
+                                                    <h3 class="mb-0">"""+escape(industry.name)+"""</h3>
                                                     <!--end::Name-->
-                                                    <!--begin::Email-->
-                                                    <div class="d-flex align-items-center gap-2">
-                                                        <i class="ki-outline ki-sms fs-2"></i>
-                                                        <a href="#" class="text-muted text-hover-primary">{industry.area_of_interest}</a>
-                                                    </div>
-                                                    <!--end::Email-->
                                                     <!--begin::Phone-->
                                                     <div class="d-flex align-items-center gap-2">
                                                         <i class="ki-outline ki-phone fs-2"></i>
-                                                        <a href="#" class="text-muted text-hover-primary">{industry.industry}</a>
+                                                        <a href="#" class="text-muted text-hover-primary">"""+escape(industry.mobile)+"""</a>
                                                     </div>
                                                     <!--end::Phone-->
                                                 </div>
@@ -236,51 +293,40 @@ def fetch_industry_registration_details(request):
                                                         <!--begin::state-->
                                                         <div class="d-flex flex-column gap-1">
                                                             <div class="fw-bold text-muted">State</div>
-                                                            <div class="fw-bold fs-5">{industry.state}</div>
+                                                            <div class="fw-bold fs-5">"""+escape(industry.state.name)+"""</div>
                                                         </div>
                                                         <!--end::state-->
                                                         <!--begin::district-->
                                                         <div class="d-flex flex-column gap-1">
                                                             <div class="fw-bold text-muted">District</div>
-                                                            <div class="fw-bold fs-5">{industry.district}</div>
+                                                            <div class="fw-bold fs-5">"""+escape(industry.district.name)+"""</div>
                                                         </div>
                                                         <!--end::district-->
                                                         <!--begin::point_of_contact_name-->
                                                         <div class="d-flex flex-column gap-1">
                                                             <div class="fw-bold text-muted">Point of Contact Name</div>
-                                                            <div class="fw-bold fs-5">{industry.point_of_contact_name}</div>
+                                                            <div class="fw-bold fs-5">"""+escape(industry.point_of_contact_name)+"""</div>
                                                         </div>
                                                         <!--end::point_of_contact_name-->
                                                         <!--begin::email-->
                                                         <div class="d-flex flex-column gap-1">
                                                             <div class="fw-bold text-muted">Email</div>
-                                                            <div class="fw-bold fs-5">{industry.email}</div>
+                                                            <div class="fw-bold fs-5">"""+escape(industry.email)+"""</div>
                                                         </div>
                                                         <!--end::email-->
-                                                        <!--begin::mobile-->
+                                                       
+                                                        <!--begin::industry-->
                                                         <div class="d-flex flex-column gap-1">
-                                                            <div class="fw-bold text-muted">Mobile</div>
-                                                            <div class="fw-bold fs-5">{industry.mobile}</div>
+                                                            <div class="fw-bold text-muted">Industry</div>
+                                                            <div class="fw-bold fs-5">"""+escape(industry.industry.name)+"""</div>
                                                         </div>
                                                         <!--end::mobile-->
                                                         <!--begin::area_of_interest-->
                                                         <div class="d-flex flex-column gap-1">
                                                             <div class="fw-bold text-muted">Area of Interest</div>
-                                                            <div class="fw-bold fs-5">{industry.area_of_interest}</div>
+                                                            <div class="fw-bold fs-5">"""+escape(area_of_interest_html)+"""</div>
                                                         </div>
                                                         <!--end::area_of_interest-->
-                                                        <!--begin::created-->
-                                                        <div class="d-flex flex-column gap-1">
-                                                            <div class="fw-bold text-muted">Created</div>
-                                                            <div class="fw-bold fs-5">{industry.created}</div>
-                                                        </div>
-                                                        <!--end::created-->
-                                                        <!--begin::updated-->
-                                                        <div class="d-flex flex-column gap-1">
-                                                            <div class="fw-bold text-muted">Updated</div>
-                                                            <div class="fw-bold fs-5">{industry.updated}</div>
-                                                        </div>
-                                                        <!--end::updated-->
                                                     </div>
                                                     <!--end::Additional details-->
                                                 </div>

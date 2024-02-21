@@ -15,7 +15,10 @@ from email.mime.multipart import MIMEMultipart
 import json
 from registrations.models import PatentInfo,PublicationInfo
 from profiles.models import Researcher,Patent,Publication
-
+import yaml
+from cerberus import Validator
+from django.db import IntegrityError
+from django.utils.html import escape
 
 @login_required
 def sme_registrations(request,registration_status=None):
@@ -167,63 +170,145 @@ def sme_registration(request):
         title = request.POST.get('title')
         paper_link = request.POST.get('paper_link')
         journal = request.POST.get('journal')
-
-        try:
-            new_patent_info = PatentInfo.objects.create(
-                number=number,
-                title=title,
-                inventors=inventors,
-                filing_date=filing_date,
-                status=status
-                
-            )
-            new_patent_info.save()
-            new_publication_info = PublicationInfo.objects.create(
-                title=title,
-                paper_link=paper_link,
-                journal=journal
-            )
-            new_publication_info.save()
+        request_schema='''
+        name:
+            type: string
+            required: true
+            minlength: 10
             
+        csrfmiddlewaretoken:
+            type: string
+            required: true
+            minlength: 5
 
-            new_sme_registration = ResearcherRegistrations.objects.create(
-                name=name,
-                institution_id=institution_id,
-                department_id=department_id,
-                district_id=district_id,
-                state_id=state_id,
-                mobile=mobile,
-                email=email,
-                highest_qualification=highest_qualification,
-                patents_id = new_patent_info.id,
-                publications_id = new_publication_info.id,
-            )
-            new_sme_registration.save()
-            for x in area_of_interest_ids:
-                new_sme_registration.area_of_interest.add(x)
+        institution:
+            type: string
+            required: true
+
+        department:
+            type: string
+            required: true
+
+        year_of_graduation:
+            type: string
+            required: true
+            regex: '^(19|20)\d{2}$'
+
+        location_state:
+            type: string
+            required: true
+
+        location_district:
+            type: string
+            required: true
+
+        email:
+            type: string
+            required: true
+            regex: '^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'
+           
+        area_of_interest:
+            type: string
+            required: true
+        
+        mobile:
+            type: string
+            required: true
+            regex: '^\d{10}$'
+
+        highest_qualification:
+            type: string
+            required: true
+
+        number:
+            type: string
+            required: true
+
+        title:
+            type: string
+            required: true
+
+        inventors:
+            type: string
+            required: true
+
+        filing_date:
+            type: string
+            required: true
+
+        status:
+            type: string
+            required: true
+
+        title:
+            type: string
+            required: true
+
+        paper_link:
+            type: string
+            required: true
+            regex: '^(http|https)://.*$'
+
+        journal:
+            type: string
+            required: true
+'''
+        v=Validator()
+        post_data = request.POST.dict()
+        schema=yaml.load(request_schema, Loader=yaml.SafeLoader)     
+        if v.validate(post_data,schema):   
+            try:
+                new_patent_info = PatentInfo.objects.create(
+                    number=number,
+                    title=title,
+                    inventors=inventors,
+                    filing_date=filing_date,
+                    status=status
+                    
+                )
+                new_patent_info.save()
+                new_publication_info = PublicationInfo.objects.create(
+                    title=title,
+                    paper_link=paper_link,
+                    journal=journal
+                )
+                new_publication_info.save()
+                
+
+                new_sme_registration = ResearcherRegistrations.objects.create(
+                    name=name,
+                    institution_id=institution_id,
+                    department_id=department_id,
+                    district_id=district_id,
+                    state_id=state_id,
+                    mobile=mobile,
+                    email=email,
+                    highest_qualification=highest_qualification,
+                    patents_id = new_patent_info.id,
+                    publications_id = new_publication_info.id,
+                )
                 new_sme_registration.save()
-            return JsonResponse({
-                'success': True,
-                'registration_id': str(new_sme_registration.registration_id),
-            })
-        except IntegrityError as e:
-            return JsonResponse({
-                'success': False,
-                'registration_id': "Failed",
-                'error': "IntegrityError: " + str(e),
-            })
-        except ValueError as e:
-            return JsonResponse({
-                'success': False,
-                'registration_id': "Failed",
-                'error': str(e),
-            })
-        except Exception as e:
-            return JsonResponse({
-                'success': False,
-                'registration_id': "Failed",
-                'error': "An error occurred: " + str(e),
-            })
+                for x in area_of_interest_ids:
+                    new_sme_registration.area_of_interest.add(x)
+                    new_sme_registration.save()
+                return JsonResponse({
+                    'success': True,
+                    'registration_id': str(new_sme_registration.registration_id),
+                })
+            except IntegrityError:
+                    return JsonResponse(
+                        {
+                            'success': False,
+                            'registration_id': "Failed",
+                            'error': str(e),
+                        })
+        else:
+            return JsonResponse(
+                    {
+                        'success': False,
+                        'registration_id': "Failed",
+                        'error': v.errors,
+                    })
 
     elif request.method == 'GET':
         # Return the initial form data
@@ -256,24 +341,26 @@ def fetch_sme_registration_details(request):
         # Fetch sme details based on sme_id
         print(sme_id)
         sme = ResearcherRegistrations.objects.get(id=sme_id)
+        for interest in sme.area_of_interest.all():
+            area_of_interest_html += f"<div>{interest.name}</div>"
         # Construct HTML for the sme details
         html = f"""
                                     <!--begin::Profile-->
                                     <div class="d-flex gap-7 align-items-center">
                                         <!--begin::Avatar-->
                                         <div class="symbol symbol-circle symbol-100px">
-                                            <span class="symbol-label bg-light-success fs-1 fw-bolder">{sme.name[:1]}</span>
+                                            <span class="symbol-label bg-light-success fs-1 fw-bolder">"""+escape(sme.name[:1])+"""</span>
                                         </div>
                                         <!--end::Avatar-->
                                         <!--begin::Contact details-->
                                         <div class="d-flex flex-column gap-2">
                                             <!--begin::Name-->
-                                            <h3 class="mb-0">{sme.name}</h3>
+                                            <h3 class="mb-0">"""+escape(sme.name) + """</h3>
                                             <!--end::Name-->
                                             <!--begin::Email-->
                                             <div class="d-flex align-items-center gap-2">
                                                 <i class="ki-outline ki-sms fs-2"></i>
-                                                <a href="#" class="text-muted text-hover-primary">{sme.area_of_interest}</a>
+                                                <a href="#" class="text-muted text-hover-primary">"""+escape(sme.email) + """</a>
                                             </div>
                                             <!--end::Email-->
                                         </div>
@@ -299,64 +386,103 @@ def fetch_sme_registration_details(request):
                                                 <!--begin::state-->
                                                 <div class="d-flex flex-column gap-1">
                                                     <div class="fw-bold text-muted">State</div>
-                                                    <div class="fw-bold fs-5">{sme.state.name}</div>
+                                                    <div class="fw-bold fs-5">"""+escape(sme.state.name) +"""</div>
                                                 </div>
                                                 <!--end::state-->
                                                 <!--begin::district-->
                                                 <div class="d-flex flex-column gap-1">
                                                     <div class="fw-bold text-muted">District</div>
-                                                    <div class="fw-bold fs-5">{sme.district.name}</div>
+                                                    <div class="fw-bold fs-5">"""+escape(sme.district.name)+"""</div>
                                                 </div>
                                                 <!--end::district-->
                                                 <!--begin::department-->
                                                 <div class="d-flex flex-column gap-1">
                                                     <div class="fw-bold text-muted">Department</div>
-                                                    <div class="fw-bold fs-5">{sme.department}</div>
+                                                    <div class="fw-bold fs-5">"""+escape(sme.department.name)+"""</div>
                                                 </div>
                                                 <!--end::department-->
                                                 <!--begin::institution-->
                                                 <div class="d-flex flex-column gap-1">
                                                     <div class="fw-bold text-muted">Institution</div>
-                                                    <div class="fw-bold fs-5">{sme.institution}</div>
+                                                    <div class="fw-bold fs-5">"""+escape(sme.institution.name)+"""</div>
                                                 </div>
                                                 <!--end::institution-->
                                                 <!--begin::mobile-->
                                                 <div class="d-flex flex-column gap-1">
                                                     <div class="fw-bold text-muted">Mobile</div>
-                                                    <div class="fw-bold fs-5">{sme.mobile}</div>
+                                                    <div class="fw-bold fs-5">"""+escape(sme.mobile)+"""</div>
                                                 </div>
                                                 <!--end::mobile-->
                                                 <!--end::picture-->
                                                 <!--begin::highest_qualification-->
                                                 <div class="d-flex flex-column gap-1">
                                                     <div class="fw-bold text-muted">Highest Qualification</div>
-                                                    <div class="fw-bold fs-5">{sme.highest_qualification}</div>
+                                                    <div class="fw-bold fs-5">"""+escape(sme.highest_qualification)+"""</div>
                                                 </div>
                                                 <!--end::highest_qualification-->
-                                                <!--begin::patents-->
+                                                <!--begin::area_of_interest-->
                                                 <div class="d-flex flex-column gap-1">
-                                                    <div class="fw-bold text-muted">Patents</div>
-                                                    <div class="fw-bold fs-5">{sme.patents}</div>
+                                                    <div class="fw-bold text-muted">Area of Interest</div>
+                                                    <div class="fw-bold fs-5">"""+escape(area_of_interest_html) +"""</div>
                                                 </div>
-                                                <!--end::patents-->
-                                                <!--begin::publications-->
+                                                <!--end::area_of_interest-->
+                                                <!-- begin::number -->
                                                 <div class="d-flex flex-column gap-1">
-                                                    <div class="fw-bold text-muted">Publications</div>
-                                                    <div class="fw-bold fs-5">{sme.publications}</div>
+                                                    <div class="fw-bold text-muted">Patent Number</div>
+                                                    <div class="fw-bold fs-5">"""+escape(sme.patents.number)+"""</div>
                                                 </div>
-                                                <!--end::publications-->
-                                                <!--begin::created-->
+                                                <!-- end::number-->
+
+                                                <!-- begin::title -->
                                                 <div class="d-flex flex-column gap-1">
-                                                    <div class="fw-bold text-muted">Created</div>
-                                                    <div class="fw-bold fs-5">{sme.created}</div>
+                                                    <div class="fw-bold text-muted">Title</div>
+                                                    <div class="fw-bold fs-5">"""+escape(sme.patents.title)+"""</div>
                                                 </div>
-                                                <!--end::created-->
-                                                <!--begin::updated-->
+                                                <!-- end::title -->
+
+                                                <!-- begin::inventors -->
                                                 <div class="d-flex flex-column gap-1">
-                                                    <div class="fw-bold text-muted">Updated</div>
-                                                    <div class="fw-bold fs-5">{sme.updated}</div>
+                                                    <div class="fw-bold text-muted">Inventors</div>
+                                                    <div class="fw-bold fs-5">"""+escape(sme.patents.inventors)+"""</div>
                                                 </div>
-                                                <!--end::updated-->
+                                                <!-- end::inventors -->
+
+                                                <!-- begin::filing_date -->
+                                                <div class="d-flex flex-column gap-1">
+                                                    <div class="fw-bold text-muted">Filing Date</div>
+                                                    <div class="fw-bold fs-5">"""+escape(sme.patents.filing_date)+"""</div>
+                                                </div>
+                                                <!-- end::filing_date -->
+
+                                                <!-- begin::status -->
+                                                <div class="d-flex flex-column gap-1">
+                                                    <div class="fw-bold text-muted">Status</div>
+                                                    <div class="fw-bold fs-5">"""+escape(sme.patents.status)+"""</div>
+                                                </div>
+                                                <!-- end::status -->
+
+                                                <!-- begin::paper_title -->
+                                                <div class="d-flex flex-column gap-1">
+                                                    <div class="fw-bold text-muted">Paper Title</div>
+                                                    <div class="fw-bold fs-5">"""+escape(sme.publications.title)+"""</div>
+                                                </div>
+                                                <!-- end::paper_title -->
+
+                                                <!-- begin::paper_link -->
+                                                <div class="d-flex flex-column gap-1">
+                                                    <div class="fw-bold text-muted">Paper Link</div>
+                                                    <div class="fw-bold fs-5">"""+escape(sme.publications.paper_link)+"""</div>
+                                                </div>
+                                                <!-- end::paper_link -->
+
+                                                <!-- begin::journal -->
+                                                <div class="d-flex flex-column gap-1">
+                                                    <div class="fw-bold text-muted">Journal</div>
+                                                    <div class="fw-bold fs-5">"""+escape(sme.publications.journal)+"""</div>
+                                                </div>
+                                                <!-- end::journal -->
+
+                                                
                                             </div>
                                             <!--end::Additional details-->
                                         </div>

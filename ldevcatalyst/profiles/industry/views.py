@@ -12,7 +12,7 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
-
+from django.utils.html import escape
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 import json
@@ -81,28 +81,24 @@ def fetch_industry_details(request):
             area_of_interest_html += f"<div>{interest.name}</div>"
         # Construct HTML for the startup details
         html = f"""
+                                            <div class="d-flex gap-7 align-items-center" id="industryid" data-industry-id=""""+escape(industry.id)+"""">
                                             <!--begin::Profile-->
                                             <div class="d-flex gap-7 align-items-center">
                                                 <!--begin::Avatar-->
                                                 <div class="symbol symbol-circle symbol-100px">
-                                                    <span class="symbol-label bg-light-success fs-1 fw-bolder">{industry.name[:1]}</span>
+                                                    <span class="symbol-label bg-light-success fs-1 fw-bolder">"""+escape(industry.name[:1])+"""</span>
                                                 </div>
                                                 <!--end::Avatar-->
                                                 <!--begin::Contact details-->
                                                 <div class="d-flex flex-column gap-2">
                                                     <!--begin::Name-->
-                                                    <h3 class="mb-0">{industry.name}</h3>
+                                                    <h3 class="mb-0">"""+escape(industry.name)+"""</h3>
                                                     <!--end::Name-->
-                                                    <!--begin::Email-->
-                                                    <div class="d-flex align-items-center gap-2">
-                                                        <i class="ki-outline ki-sms fs-2"></i>
-                                                        <a href="#" class="text-muted text-hover-primary">{industry.mobile}</a>
-                                                    </div>
-                                                    <!--end::Email-->
+                            
                                                     <!--begin::Phone-->
                                                     <div class="d-flex align-items-center gap-2">
                                                         <i class="ki-outline ki-phone fs-2"></i>
-                                                        <a href="#" class="text-muted text-hover-primary">{industry.email}</a>
+                                                        <a href="#" class="text-muted text-hover-primary">"""+escape(industry.mobile)+"""</a>
                                                     </div>
                                                     <!--end::Phone-->
                                                 </div>
@@ -128,13 +124,13 @@ def fetch_industry_details(request):
                                                         <!--begin::state-->
                                                         <div class="d-flex flex-column gap-1">
                                                             <div class="fw-bold text-muted">State</div>
-                                                            <div class="fw-bold fs-5">{industry.state}</div>
+                                                            <div class="fw-bold fs-5">"""+escape(industry.state.name)+"""</div>
                                                         </div>
                                                         <!--end::state-->
                                                         <!--begin::district-->
                                                         <div class="d-flex flex-column gap-1">
                                                             <div class="fw-bold text-muted">District</div>
-                                                            <div class="fw-bold fs-5">{industry.district}</div>
+                                                            <div class="fw-bold fs-5">"""+escape(industry.district.name)+"""</div>
                                                         </div>
                                                         <!--end::district-->
                                                        
@@ -142,21 +138,26 @@ def fetch_industry_details(request):
                                                         <!--begin::point_of_contact_name-->
                                                         <div class="d-flex flex-column gap-1">
                                                             <div class="fw-bold text-muted">point of contact name</div>
-                                                            <div class="fw-bold fs-5">{industry.point_of_contact_name}</div>
+                                                            <div class="fw-bold fs-5">"""+escape(industry.point_of_contact_name)+"""</div>
                                                         </div>
                                                         <!--end::point_of_contact_name-->
-                                                
+                                                         <!--begin::email-->
+                                                        <div class="d-flex flex-column gap-1">
+                                                            <div class="fw-bold text-muted">Email</div>
+                                                            <div class="fw-bold fs-5">"""+escape(industry.email)+"""</div>
+                                                        </div>
+                                                        <!--end::email-->
                                                         
-                                                        <!--begin::mobile-->
+                                                        <!--begin::industry-->
                                                         <div class="d-flex flex-column gap-1">
                                                             <div class="fw-bold text-muted">Industry</div>
-                                                            <div class="fw-bold fs-5">{industry.industry}</div>
+                                                            <div class="fw-bold fs-5">"""+escape(industry.name)+"""</div>
                                                         </div>
-                                                        <!--end::mobile-->
+                                                        <!--end::indusrty-->
                                                         <!--begin::area_of_interest-->
                                                         <div class="d-flex flex-column gap-1">
                                                             <div class="fw-bold text-muted">Area of Interest</div>
-                                                            <div class="fw-bold fs-5">{area_of_interest_html}</div>
+                                                            <div class="fw-bold fs-5">"""+escape(area_of_interest_html)+"""</div>
                                                         </div>
                                                         <!--end::area_of_interest-->
                                                         

@@ -16,6 +16,7 @@ import random
 import yaml
 from cerberus import Validator
 import json
+from django.utils.html import escape
 
 @login_required
 def student_registrations(request,registration_status=None):
@@ -125,54 +126,110 @@ def student_registration(request):
         state_id = request.POST.get('location_state')
         district_id = request.POST.get('location_district')
         project_idea = request.POST.get('project_idea')
-        
-        try:
-            # Retrieve data from the POST request
-            name = request.POST.get('name')
-            institution_id = request.POST.get('institution_id')
-            department_id = request.POST.get('department_id')
-            year_of_graduation = request.POST.get('year_of_graduation')
-            district_id = request.POST.get('location_district')
-            state_id = request.POST.get('location_state')
-            project_idea = request.POST.get('project_idea')
-            area_of_interest_ids = request.POST.getlist('area_of_interest')
+        request_schema ='''
+        name:
+            type: string
+            required: true
+            minlength: 10
             
+        csrfmiddlewaretoken:
+            type: string
+            required: true
+            minlength: 5
 
-            # Creating a new StudentRegistration object
-            new_student_registration = StudentRegistrations.objects.create(
-                name=name,
-                institution_id=institution_id,
-                department_id=department_id,
-                year_of_graduation=year_of_graduation,
-                email=poc_email,
-                state_id=state_id,
-                district_id=district_id,
-                project_idea=project_idea,
-            )
-            new_student_registration.save()
-            new_student_registration.area_of_interest.add(area_of_interest_id)
-            # Save the object
-            new_student_registration.save()
-            # Save the object
-           
-            # Optionally, you can return a success response
-            return JsonResponse(
-                {
-                    'success': True,
-                    'registration_id': str(new_student_registration.registration_id),
-                }
+        institution:
+            type: string
+            required: true
+
+        collaboration_sector:
+            type: string
+            required: true
+
+        department:
+            type: string
+            required: true
+
+        year_of_graduation:
+            type: string
+            required: true
+            regex: '^(19|20)\d{2}$'
+
+
+        poc_email:
+            type: string
+            required: true
+            regex: '^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'
+
+        location_state:
+            type: string
+            required: true
+
+        location_district:
+            type: string
+            required: true
+
+        project_idea:
+            type: string
+            required: true
+
+        '''
+        v=Validator()
+        post_data = request.POST.dict()
+        schema=yaml.load(request_schema, Loader=yaml.SafeLoader)     
+        if v.validate(post_data,schema):   
+            try:
+                # Retrieve data from the POST request
+                name = request.POST.get('name')
+                institution_id = request.POST.get('institution_id')
+                department_id = request.POST.get('department_id')
+                year_of_graduation = request.POST.get('year_of_graduation')
+                district_id = request.POST.get('location_district')
+                state_id = request.POST.get('location_state')
+                project_idea = request.POST.get('project_idea')
+                area_of_interest_ids = request.POST.getlist('area_of_interest')
+                
+
+                # Creating a new StudentRegistration object
+                new_student_registration = StudentRegistrations.objects.create(
+                    name=name,
+                    institution_id=institution_id,
+                    department_id=department_id,
+                    year_of_graduation=year_of_graduation,
+                    email=poc_email,
+                    state_id=state_id,
+                    district_id=district_id,
+                    project_idea=project_idea,
                 )
-        except Exception as e:
+                new_student_registration.save()
+                new_student_registration.area_of_interest.add(area_of_interest_id)
+                # Save the object
+                new_student_registration.save()
+                # Save the object
+            
+                # Optionally, you can return a success response
+                return JsonResponse(
+                    {
+                        'success': True,
+                        'registration_id': str(new_student_registration.registration_id),
+                    }
+                    )
+            except IntegrityError:
+                    return JsonResponse(
+                        {
+                            'success': False,
+                            'registration_id': "Failed",
+                            'error': str(e),
+                        })
+        else:
             return JsonResponse(
-                {
-                    'success': False,
-                    'registration_id': "Failed",
-                    'error': str(e),
-                }
-                )
+                    {
+                        'success': False,
+                        'registration_id': "Failed",
+                        'error': v.errors,
+                    })
     elif request.method == 'GET':
         return render(request,'registrations/student_registration.html',context={ 
-                         
+                        
         'student_types' : [
             {
                 'student_id' : x.id,
@@ -205,7 +262,7 @@ def student_registration(request):
         ]
 
         })
-    
+
 
 
 @login_required
@@ -218,24 +275,27 @@ def fetch_student_registration_details(request):
         # Fetch student details based on student_id
         print(student_id)
         student = StudentRegistrations.objects.get(id=student_id)
+        area_of_interest_html = ""
+        for interest in student.area_of_interest.all():
+            area_of_interest_html += f"<div>{interest.name}</div>"
         # Construct HTML for the student details
         html = f"""
            													<!--begin::Profile-->
                                                             <div class="d-flex gap-7 align-items-center">
                                                                 <!--begin::Avatar-->
                                                                 <div class="symbol symbol-circle symbol-100px">
-                                                                    <span class="symbol-label bg-light-success fs-1 fw-bolder">{student.name[:1]}</span>
+                                                                    <span class="symbol-label bg-light-success fs-1 fw-bolder">"""+escape(student.name[:1])+"""</span>
                                                                 </div>
                                                                 <!--end::Avatar-->
                                                                 <!--begin::Contact details-->
                                                                 <div class="d-flex flex-column gap-2">
                                                                     <!--begin::Name-->
-                                                                    <h3 class="mb-0">{student.name}</h3>
+                                                                    <h3 class="mb-0">"""+escape(student.name)+"""</h3>
                                                                     <!--end::Name-->
                                                                     <!--begin::Email-->
                                                                     <div class="d-flex align-items-center gap-2">
                                                                         <i class="ki-outline ki-sms fs-2"></i>
-                                                                        <a href="#" class="text-muted text-hover-primary">{student.email}</a>
+                                                                        <a href="#" class="text-muted text-hover-primary">"""+escape(student.email)+"""</a>
                                                                     </div>
                                                                     <!--end::Email-->
                                                                 </div>
@@ -261,42 +321,43 @@ def fetch_student_registration_details(request):
                                                                         <!--begin::state-->
                                                                         <div class="d-flex flex-column gap-1">
                                                                             <div class="fw-bold text-muted">State</div>
-                                                                            <div class="fw-bold fs-5">{student.state.name}</div>
+                                                                            <div class="fw-bold fs-5">"""+escape(student.state.name)+"""</div>
                                                                         </div>
                                                                         <!--end::state-->
                                                                         <!--begin::district-->
                                                                         <div class="d-flex flex-column gap-1">
                                                                             <div class="fw-bold text-muted">District</div>
-                                                                            <div class="fw-bold fs-5">{student.district.name}</div>
+                                                                            <div class="fw-bold fs-5">"""+escape(student.district.name)+"""</div>
                                                                         </div>
                                                                         <!--end::district-->
                                                                         <!--begin::department_id-->
                                                                         <div class="d-flex flex-column gap-1">
-                                                                            <div class="fw-bold text-muted">Department ID</div>
-                                                                            <div class="fw-bold fs-5">{student.department.name}</div>
+                                                                            <div class="fw-bold text-muted">Department </div>
+                                                                            <div class="fw-bold fs-5">"""+escape(student.department.name)+"""</div>
                                                                         </div>
                                                                         <!--end::department_id-->
                                                                         <!--begin::year_of_graduation-->
                                                                         <div class="d-flex flex-column gap-1">
                                                                             <div class="fw-bold text-muted">Year of Graduation</div>
-                                                                            <div class="fw-bold fs-5">{student.year_of_graduation}</div>
+                                                                            <div class="fw-bold fs-5">"""+escape(student.year_of_graduation)+"""</div>
                                                                         </div>
                                                                         <!--end::year_of_graduation-->
-                                                                        <!--begin::email-->
+                                                                        <!--begin::institution-->
                                                                         <div class="d-flex flex-column gap-1">
-                                                                            <div class="fw-bold text-muted">Email</div>
-                                                                            <div class="fw-bold fs-5">{student.email}</div>
+                                                                            <div class="fw-bold text-muted">Institution</div>
+                                                                            <div class="fw-bold fs-5">"""+escape(student.institution.name)+"""</div>
                                                                         </div>
-                                                                        <!--end::email-->
+                                                                        <!--end::institution-->
                                                                         <!--begin::project_idea-->
                                                                         <div class="d-flex flex-column gap-1">
                                                                             <div class="fw-bold text-muted">Project Idea</div>
-                                                                            <div class="fw-bold fs-5">{student.project_idea}</div>
+                                                                            <div class="fw-bold fs-5">"""+escape(student.project_idea)+"""</div>
                                                                         </div>
                                                                         <!--end::project_idea-->
                                                                         <!--begin::area_of_interest_id-->
                                                                        <div class="d-flex flex-column gap-1">
                                                                         <div class="fw-bold text-muted">Area of Interest</div>
+                                                                        <div class="fw-bold fs-5">"""+escape(area_of_interest_html)+"""</div>
                                                                         <div class="fw-bold fs-5">
                                                                             
                                                                         </div>

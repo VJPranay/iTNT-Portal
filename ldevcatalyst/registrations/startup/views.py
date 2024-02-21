@@ -17,6 +17,7 @@ import json
 import yaml
 from cerberus import Validator
 from django.db import IntegrityError
+from django.utils.html import escape
 
 
 
@@ -318,24 +319,24 @@ def fetch_startup_registration_details(request):
                                                         <div class="d-flex gap-7 align-items-center">
                                                             <!--begin::Avatar-->
                                                             <div class="symbol symbol-circle symbol-100px">
-                                                                <span class="symbol-label bg-light-success fs-1 fw-bolder">{startup.name[:1]}</span>
+                                                                <span class="symbol-label bg-light-success fs-1 fw-bolder">"""+escape(startup.name[:1])+"""</span>
                                                             </div>
                                                             <!--end::Avatar-->
                                                             <!--begin::Contact details-->
                                                             <div class="d-flex flex-column gap-2">
                                                                 <!--begin::Name-->
-                                                                <h3 class="mb-0">{startup.name}</h3>
+                                                                <h3 class="mb-0">"""+escape(startup.name)+"""</h3>
                                                                 <!--end::Name-->
                                                                 <!--begin::Email-->
                                                                 <div class="d-flex align-items-center gap-2">
                                                                     <i class="ki-outline ki-sms fs-2"></i>
-                                                                    <a href="#" class="text-muted text-hover-primary">{startup.area_of_interest.name}</a>
+                                                                    <a href="#" class="text-muted text-hover-primary">"""+escape(startup.area_of_interest)+"""</a>
                                                                 </div>
                                                                 <!--end::Email-->
                                                                 <!--begin::Phone-->
                                                                 <div class="d-flex align-items-center gap-2">
                                                                     <i class="ki-outline ki-phone fs-2"></i>
-                                                                    <a href="#" class="text-muted text-hover-primary">{startup.funding_stage.name}</a>
+                                                                    <a href="#" class="text-muted text-hover-primary">"""+escape(startup.funding_stage.name)+"""</a>
                                                                 </div>
                                                                 <!--end::Phone-->
                                                             </div>
@@ -361,80 +362,80 @@ def fetch_startup_registration_details(request):
                                                                     <!--begin::Company description-->
                                                                     <div class="d-flex flex-column gap-1">
                                                                         <div class="fw-bold text-muted">Pitch Deck</div>
-                                                                        <iframe width="560" height="315" src="https://docs.google.com/presentation/d/{startup.pitch_deck}/embed?start=false&loop=false" frameborder="0" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+                                                                        <iframe width="560" height="315" src="https://docs.google.com/presentation/d/"""+escape(startup.pitch_deck)+"""/embed?start=false&loop=false" frameborder="0" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
                                                                     </div>
                                                                     <div class="d-flex flex-column gap-1">
                                                                         <div class="fw-bold text-muted">Short video</div>
-                                                                        <iframe width="560" height="315" src="https://www.youtube.com/embed/{startup.short_video}" frameborder="0" allowfullscreen></iframe>
+                                                                        <iframe width="560" height="315" src="https://www.youtube.com/embed/"""+escape(startup.short_video)+"""" frameborder="0" allowfullscreen></iframe>
                                                                     </div>
                                                                     <div class="d-flex flex-column gap-1">
                                                                         <div class="fw-bold text-muted">Description</div>
-                                                                        <div class="fw-bold fs-5">{startup.description}</div>
+                                                                        <div class="fw-bold fs-5">"""+escape(startup.description)+"""</div>
                                                                     </div>
                                                                     <!--end::Company description-->
                                                                     <!--begin::market_size-->
                                                                     <div class="d-flex flex-column gap-1">
                                                                         <div class="fw-bold text-muted">Market size</div>
-                                                                        <div class="fw-bold fs-5">{startup.market_size}</div>
+                                                                        <div class="fw-bold fs-5">"""+escape(startup.market_size)+"""</div>
                                                                     </div>
                                                                     <!--end::market_size-->
                                                                     <!--begin::funding_stage-->
                                                                     <div class="d-flex flex-column gap-1">
                                                                         <div class="fw-bold text-muted">Current funding stage</div>
-                                                                        <div class="fw-bold fs-5">{startup.funding_stage.name}</div>
+                                                                        <div class="fw-bold fs-5">"""+escape(startup.funding_stage.name)+"""</div>
                                                                     </div>
                                                                     <!--end::funding_stage-->
                                                                     <!--begin::area_of_interest-->
                                                                     <div class="d-flex flex-column gap-1">
                                                                         <div class="fw-bold text-muted">Industry</div>
-                                                                        <div class="fw-bold fs-5">{startup.area_of_interest.name}</div>
+                                                                        <div class="fw-bold fs-5">"""+escape(startup.area_of_interest.name)+"""</div>
                                                                     </div>
                                                                     <!--end::area_of_interest-->
                                                                     <!--begin::area_of_interest-->
                                                                     <div class="d-flex flex-column gap-1">
                                                                         <div class="fw-bold text-muted">Requried Amount</div>
-                                                                        <div class="fw-bold fs-5">{startup.required_amount}</div>
+                                                                        <div class="fw-bold fs-5">"""+escape(startup.required_amount)+"""</div>
                                                                     </div>
                                                                     <!--end::area_of_interest-->
                                                                     <!--begin::area_of_interest-->
                                                                     <div class="d-flex flex-column gap-1">
                                                                         <div class="fw-bold text-muted">Founding year</div>
-                                                                        <div class="fw-bold fs-5">{startup.founding_year}</div>
+                                                                        <div class="fw-bold fs-5">"""+escape(startup.founding_year)+"""</div>
                                                                     </div>
                                                                     <!--end::area_of_interest-->
                                                                     <!--begin::area_of_interest-->
                                                                     <div class="d-flex flex-column gap-1">
                                                                         <div class="fw-bold text-muted">Co-Founder team size </div>
-                                                                        <div class="fw-bold fs-5">{startup.co_founder_count}</div>
+                                                                        <div class="fw-bold fs-5">"""+escape(startup.co_founder_count)+"""</div>
                                                                     </div>
                                                                     <!--end::area_of_interest-->
                                                                     <!--begin::area_of_interest-->
                                                                     <div class="d-flex flex-column gap-1">
                                                                         <div class="fw-bold text-muted">Total team size</div>
-                                                                        <div class="fw-bold fs-5">{startup.team_size}</div>
+                                                                        <div class="fw-bold fs-5">"""+escape(startup.team_size)+"""</div>
                                                                     </div>
                                                                     <!--end::area_of_interest-->
                                                                     <!--begin::area_of_interest-->
                                                                     <div class="d-flex flex-column gap-1">
                                                                         <div class="fw-bold text-muted">Founding experince</div>
-                                                                        <div class="fw-bold fs-5">{ "Yes" if startup.founding_experience else "No" }</div>
+                                                                        <div class="fw-bold fs-5">"""+escape( "yes" if startup.founding_experience else "no")+"""</div>
                                                                     </div>
                                                                     <!--end::area_of_interest-->
                                                                     <!--begin::area_of_interest-->
                                                                     <div class="d-flex flex-column gap-1">
                                                                         <div class="fw-bold text-muted">State</div>
-                                                                        <div class="fw-bold fs-5">{startup.state.name}</div>
+                                                                        <div class="fw-bold fs-5">"""+escape(startup.state.name)+"""</div>
                                                                     </div>
                                                                     <!--end::area_of_interest-->
                                                                     <!--begin::district-->
                                                                     <div class="d-flex flex-column gap-1">
                                                                         <div class="fw-bold text-muted">City</div>
-                                                                        <div class="fw-bold fs-5">{startup.district.name}</div>
+                                                                        <div class="fw-bold fs-5">"""+escape(startup.district.name)+"""</div>
                                                                     </div>
                                                                     <!--end::district-->
                                                                     <div class="d-flex flex-column gap-1">
                                                                         <div class="fw-bold text-muted">Full Video</div>
-                                                                        <iframe width="560" height="315" src="https://www.youtube.com/embed/{startup.video_link}" frameborder="0" allowfullscreen></iframe>
+                                                                        <iframe width="560" height="315" src="https://www.youtube.com/embed/"""+escape(startup.video_link)+""" frameborder="0" allowfullscreen></iframe>
                                                                     </div>
                     
                                                                 </div>

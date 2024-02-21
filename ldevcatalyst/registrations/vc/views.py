@@ -268,7 +268,7 @@ def vc_registration_details(request):
             vc = VCRegistrations.objects.get(id=vc_id)
             # Construct HTML for the startup details
             html = f"""
-                    <!--begin::Profile-->
+
                                                         <div class="d-flex gap-7 align-items-center">
                                                             <!--begin::Avatar-->
                                                             <div class="symbol symbol-circle symbol-100px">
@@ -321,7 +321,7 @@ def vc_registration_details(request):
                                                                     <!--begin::market_size-->
                                                                     <div class="d-flex flex-column gap-1">
                                                                         <div class="fw-bold text-muted">Market size</div>
-                                                                        <div class="fw-bold fs-5">"""+escape(vc.deal_size_range_min) + escape(vc.deal_size_range_max)+"""</div>
+                                                                        <div class="fw-bold fs-5">"""+escape(vc.deal_size_range_min) +" "+ escape(vc.deal_size_range_max)+"""</div>
                                                                     </div>
                                                                     <!--end::market_size-->
                                                                     <!--begin::funding_stage-->
@@ -333,13 +333,13 @@ def vc_registration_details(request):
                                                                     <!--begin::area_of_interest-->
                                                                     <div class="d-flex flex-column gap-1">
                                                                         <div class="fw-bold text-muted">District</div>
-                                                                        <div class="fw-bold fs-5">"""+escape(vc.district)+"""</div>
+                                                                        <div class="fw-bold fs-5">"""+escape(vc.district.name)+"""</div>
                                                                     </div>
                                                                     <!--end::area_of_interest-->
                                                                     <!--begin::area_of_interest-->
                                                                     <div class="d-flex flex-column gap-1">
                                                                         <div class="fw-bold text-muted">State</div>
-                                                                        <div class="fw-bold fs-5">"""+escape(vc.state)+"""</div>
+                                                                        <div class="fw-bold fs-5">"""+escape(vc.state.name)+"""</div>
                                                                     </div>
                                                                     <!--end::area_of_interest-->
                                                                     <!--begin::area_of_interest-->

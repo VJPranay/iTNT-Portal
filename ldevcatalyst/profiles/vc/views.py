@@ -72,7 +72,7 @@ def fetch_vc_details(request):
         vc = VC.objects.get(id=vc_id)
         # Construct HTML for the startup details
         html = f"""
-            	<!--begin::Profile-->
+            	                                   <!--begin::Profile-->
 													<div class="d-flex gap-7 align-items-center" id="vcid" data-vc-id=""""+escape(vc.id)+"""">
 														<!--begin::Avatar-->
 														<div class="symbol symbol-circle symbol-100px">
@@ -123,11 +123,11 @@ def fetch_vc_details(request):
 																</div>
                                                                 <div class="d-flex flex-column gap-1">
 																	<div class="fw-bold text-muted">Email</div>
-																	<div class="fw-bold fs-5">{vc.email}</div>
+																	<div class="fw-bold fs-5">"""+escape(vc.email)+"""</div>
 																</div>
                                                                 <div class="d-flex flex-column gap-1">
 																	<div class="fw-bold text-muted">Funding Stage</div>
-																	<div class="fw-bold fs-5">{vc.funding_stage}</div>
+																	<div class="fw-bold fs-5">"""+escape(vc.funding_stage.name)+"""</div>
 																</div>
                                                                 
 																<!--end::Company description-->
@@ -172,7 +172,7 @@ def fetch_vc_details(request):
 														</div>
 														<!--end:::Tab pane-->
 													</div>
-													<!--end::Tab content-->  """
+								"""
         # Send the HTML response to the JavaScript function
         return JsonResponse({'html': html})
     else:
