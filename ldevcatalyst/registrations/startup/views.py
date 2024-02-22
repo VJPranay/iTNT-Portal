@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import JsonResponse
 from ..models import StartUpRegistrations
-from datarepo.models import AreaOfInterest,State,PreferredInvestmentStage
+from datarepo.models import AreaOfInterest,State,PreferredInvestmentStage,District
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 import random
@@ -292,6 +292,12 @@ def startup_registration(request):
                 'state_id' : x.id,
                 'state_value' : x.name,
             } for x in State.objects.all()
+        ],
+        'districts' : [
+            {
+                'district_id' : x.id,
+                'district_value' : x.name,
+            } for x in District.objects.all()
         ],
         'area_of_interests' : [
             {

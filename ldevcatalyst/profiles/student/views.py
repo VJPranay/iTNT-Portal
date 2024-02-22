@@ -78,9 +78,10 @@ def fetch_student_details(request):
         student = Student.objects.get(id=student_id)
         area_of_interest_html = ""
         for interest in student.area_of_interest.all():
-            area_of_interest_html += f"<div>{interest.name}</div>"
+            area_of_interest_html += f"{interest.name}"
+            ""
         # Construct HTML for the startup details
-        html = f"""                                         <div class="d-flex gap-7 align-items-center" id="studentid" data-student-id=""""+escape(student.id)+"""">
+        html = f"""                                        
            													<!--begin::Profile-->
                                                             <div class="d-flex gap-7 align-items-center">
                                                                 <!--begin::Avatar-->
@@ -158,7 +159,7 @@ def fetch_student_details(request):
                                                                         <!--begin::area_of_interest-->
                                                                     <div class="d-flex flex-column gap-1">
                                                                         <div class="fw-bold text-muted">Area of Interest</div>
-                                                                        <div class="fw-bold fs-5">"""+escape(area_of_interest_html)+"""</div>
+                                                                        <div class="fw-bold fs-5">"""+escape(area_of_interest_html)+ """</div>
                                                                     </div>
                                                                     <!--end::area_of_interest-->
                                                                      

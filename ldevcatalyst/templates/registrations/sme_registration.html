@@ -135,17 +135,7 @@
 											<label class="form-label required">Full Name</label>
 											<input name="name" class="form-control form-control-lg form-control-solid" placeholder="Enter your First Name and Last Name" value="" required />
 										</div>
-
-										<div class="fv-row mb-10">
-											<label class="form-label required">Area of Interest</label>
-											<select name="area_of_interest" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="true" required>
-												{% for area_of_interest in area_of_interests %}
-													<option value="{{ area_of_interest.area_of_interest_id }}">{{ area_of_interest.area_of_interest_name}}</option>
-												{% endfor %}
-											</select>
-											<!--end::Input-->
-										</div>
-										<div class="fv-row mb-10" data-district-url="https://{{ request.get_host }}{% url 'districts' %}"  data-district-urlid="districtslink">
+										<div class="fv-row mb-10" data-district-url="http://{{ request.get_host }}{% url 'districts' %}"  data-district-urlid="districtslink">
 											<!--begin::Label-->
 											<label class="form-label required">State</label>
 											<!--end::Label-->
@@ -153,7 +143,7 @@
 											<select name="location_state" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="true" onchange="fetchDistricts(this.value)">
 												<option>Select state</option>
 												{% for state in states %}
-												<option value="{{state.state_id}}">{{state.state_value}}</option>
+												<option value="{{state.state_id}}">{{state.state_name}}</option>
 												{%endfor%}
 											</select>
 											<!--end::Input-->
@@ -161,7 +151,7 @@
 										<div class="fv-row mb-10">
 											<!--begin::Label-->
 											<label class="form-label required">District</label>
-											<!--end::Label-->
+											<!--end::Label-->	
 											<!--begin::Input-->
 											<select id="districtshere" name="location_district" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="true">
 												<option value=""></option>
@@ -175,7 +165,7 @@
 											<!--begin::Input-->
 											<select name="collaboration_sector" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="true">
 												{% for area_of_interest in area_of_interests %}
-												<option value="{{area_of_interest.area_of_interest_id}}">{{area_of_interest.area_of_interest_value}}</option>
+												<option value="{{area_of_interest.area_of_interest_id}}">{{area_of_interest.area_of_interest_name}}</option>
 												{%endfor%}
 											</select>
 											<!--end::Input-->
@@ -198,22 +188,7 @@
 												{% endfor %}
 											</select>
 										</div>
-										
-										<div class="fv-row mb-10" data-district-url="{{ request.scheme }}://{{ request.get_host }}{% url 'districts' %}" data-district-urlid="districtslink">
-											<label class="form-label required">State</label>
-											<select name="location_state" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="true" onchange="fetchDistricts(this.value)" required>
-												<option>Select state</option>
-												{% for state in states %}
-												<option value="{{ state.state_id }}">{{ state.state_name }}</option>
-												{% endfor %}
-											</select>
-										</div>
-										<div class="fv-row mb-10">
-											<label class="form-label required">District</label>
-											<select id="districtshere" name="location_district" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="true" required>
-												<option value=""></option>
-											</select>
-										</div>
+
 										<div class="fv-row mb-10">
 											<label class="form-label required">Mobile</label>
 											<input type="tel" pattern="[0-9]{10}" class="form-control form-control-lg form-control-solid" name="mobile" placeholder="9876543210" value="" required />
@@ -395,49 +370,49 @@
 		</div>
 		<!--end::Root-->
 		<!--begin::Javascript-->
-		<script>var hostUrl = "assets/";</script>
-		<!--begin::Global Javascript Bundle(mandatory for all pages)-->
-		<script src="{% static 'assets/plugins/global/plugins.bundle.js' %}"></script>
-		<script src="{% static 'assets/js/scripts.bundle.js' %}"></script>
-		<!--end::Global Javascript Bundle-->
-		<!--begin::Custom Javascript(used for this page only)-->
-		<script src="{% static 'assets/js/custom/utilities/modals/sme-registration.js' %}"></script>
-		<script>
-			// Define fetchDistricts function
-			function fetchDistricts(stateId) {
-				var stateMainSelect = document.querySelector('div[data-district-urlid="districtslink"]');
-				var districtUrl = stateMainSelect.getAttribute('data-district-url');
-				var districtSelect = document.querySelector('select[name="location_district"]');
-				fetch(`${districtUrl}?state_id=${stateId}`)
-					.then(response => response.json())
-					.then(data => {
-						// Clear existing options
-						districtSelect.innerHTML = '';
-						// Add default option
-						districtSelect.appendChild(new Option('', ''));
-						// Add districts
-						data.forEach(district => {
-							districtSelect.appendChild(new Option(district.name, district.id));
-						});
-					})
-					.catch(error => console.error('Error fetching districts:', error));
-			}
-		
-			// Event listener for state dropdown
-			document.addEventListener('DOMContentLoaded', function() {
-				var stateSelect = document.querySelector('select[name="location_state"]');
-				var districtSelect = document.querySelector('select[name="location_district"]');
-				stateSelect.addEventListener('change', function() {
-					var stateId = this.value;
-					if (stateId) {
-						fetchDistricts(stateId);
-					} else {
-						districtSelect.innerHTML = '<option value=""></option>';
-					}
+<script>var hostUrl = "assets/";</script>
+<!--begin::Global Javascript Bundle(mandatory for all pages)-->
+<script src="{% static 'assets/plugins/global/plugins.bundle.js' %}"></script>
+<script src="{% static 'assets/js/scripts.bundle.js' %}"></script>
+<!--end::Global Javascript Bundle-->
+<!--begin::Custom Javascript(used for this page only)-->
+<script src="{% static 'assets/js/custom/utilities/modals/sme-registration.js' %}"></script>
+<script>
+	// Define fetchDistricts function
+	function fetchDistricts(stateId) {
+		var stateMainSelect = document.querySelector('div[data-district-urlid="districtslink"]');
+		var districtUrl = stateMainSelect.getAttribute('data-district-url');
+		var districtSelect = document.querySelector('select[name="location_district"]');
+		fetch(`${districtUrl}?state_id=${stateId}`)
+			.then(response => response.json())
+			.then(data => {
+				// Clear existing options
+				districtSelect.innerHTML = '';
+				// Add default option
+				districtSelect.appendChild(new Option('', ''));
+				// Add districts
+				data.forEach(district => {
+					districtSelect.appendChild(new Option(district.name, district.id));
 				});
-			});
-		</script>
-		
+			})
+			.catch(error => console.error('Error fetching districts:', error));
+	}
+
+	// Event listener for state dropdown
+	document.addEventListener('DOMContentLoaded', function() {
+		var stateSelect = document.querySelector('select[name="location_state"]');
+		var districtSelect = document.querySelector('select[name="location_district"]');
+		stateSelect.addEventListener('change', function() {
+			var stateId = this.value;
+			if (stateId) {
+				fetchDistricts(stateId);
+			} else {
+				districtSelect.innerHTML = '<option value=""></option>';
+			}
+		});
+	});
+</script>
+	
 		
 		<!--end::Custom Javascript-->
 		<!--end::Javascript-->

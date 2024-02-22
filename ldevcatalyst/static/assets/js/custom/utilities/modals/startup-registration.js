@@ -49,14 +49,12 @@ var KTCreateAccount = function () {
 
 			if (validator) {
 				validator.validate().then(function (status) {
-
-
+					console.log(validator);
 					if (status == 'Valid') {
 
 						stepper.goNext();
 						KTUtil.scrollTop();
 					} else {
-
 						Swal.fire({
 							text: "Sorry, looks like there are some errors detected, please try again.",
 							icon: "error",
@@ -204,80 +202,80 @@ var KTCreateAccount = function () {
 							}
 						}
 					},
-                    team_size: {
+					team_size: {
 						validators: {
 							notEmpty: {
 								message: 'Please enter team size'
 							}
 						}
 					},
-                    dpiit_number: {
+                    market_size: {
 						validators: {
 							notEmpty: {
-								message: 'Please enter dpiit_number'
+								message: 'Please enter market size'
 							}
 						}
 					},
-					description: {
+                    required_amount: {
 						validators: {
 							notEmpty: {
-								message: 'Please enter description'
-							}
-						}
-					},
-					location_state: {
-						validators: {
-							notEmpty: {
-								message: 'Please select state'
-							}
-						}
-					},
-					location_district: {
-						validators: {
-							notEmpty: {
-								message: 'Please select district'
-							}
-						}
-					},
-					collaboration_sector: {
-						validators: {
-							notEmpty: {
-								message: 'Please select collaboration sector'
-							}
-						}
-					},
-					funding_stage_id: {
-						validators: {
-							notEmpty: {
-								message: 'Please select Preferred Investment Stage'
-							}
-						}
-					},
-					market_size: {
-						validators: {
-							notEmpty: {
-								message: 'Please add market size'
-							}
-						}
-					},
-					required_amount: {
-						validators: {
-							notEmpty: {
-								message: 'Please add requried ammount'
+								message: 'Please enter required amount'
 							}
 						}
 					},
 					founding_year: {
 						validators: {
 							notEmpty: {
-								message: 'Please add founding year'
+								message: 'Please select founding year'
 							}
 						}
 					},
 					founding_experience: {
 						validators: {
 							notEmpty: {
-								message: 'Please add founding experience'
+								message: 'Please select founding experience'
+							}
+						}
+					},
+					dpiit_number: {
+						validators: {
+							notEmpty: {
+								message: 'Please enter dpiit number'
+							}
+						}
+					},
+					description: {
+						validators: {
+							notEmpty: {
+								message: 'Please add description'
+							}
+						}
+					},
+					location_state: {
+						validators: {
+							notEmpty: {
+								message: 'Please add state'
+							}
+						}
+					},
+					location_district: {
+						validators: {
+							notEmpty: {
+								message: 'please add district  '
+							}
+						}
+					},
+					collaboration_sector: {
+						validators: {
+							notEmpty: {
+								message: 'please add collaboration sector'
+							}
+						}
+					},
+					funding_stage_id: {
+						validators: {
+							notEmpty: {
+								message: 'please add funding stage number'
 							}
 						}
 					}
@@ -298,40 +296,50 @@ var KTCreateAccount = function () {
 			form,
 			{
 				fields: {
-                    poc_email: {
+					founder_names: {
+						validators: {
+							notEmpty: {
+								message: 'Please enter founder names'
+							}
+						}
+					},
+					poc_email: {
 						validators: {
 							notEmpty: {
 								message: 'Point of contact email is required'
 							},
-                            emailAddress: {
-                                message: 'Invalid email address',
-                            },
+							emailAddress: {
+								message: 'Invalid email address'
+							}
 						}
 					},
-                    poc_mobile: {
+					poc_mobile: {
 						validators: {
 							notEmpty: {
 								message: 'Point of contact mobile number is required'
 							},
-                            phone: {
-                                country: function () {
-                                    return 'IN';
-                                },
-                                message: 'Invalid phone number',
-                            },
+							phone: {
+								country: function () {
+									return 'IN';
+								},
+								message: 'Invalid phone number'
+							}
 						}
 					},
 					company_website: {
 						validators: {
 							notEmpty: {
 								message: 'Company website is required'
+							},
+							uri: {
+								message: 'Invalid website URL'
 							}
 						}
 					},
 					video_link: {
 						validators: {
 							notEmpty: {
-								message: 'LinkedIn profile is required'
+								message: 'Video link is required'
 							}
 						}
 					},
@@ -345,7 +353,7 @@ var KTCreateAccount = function () {
 					pitch_deck: {
 						validators: {
 							notEmpty: {
-								message: 'LinkedIn profile is required'
+								message: 'Pitch deck is required'
 							}
 						}
 					}

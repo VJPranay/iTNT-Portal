@@ -23,14 +23,16 @@ var KTModalNewAddress = function () {
             },
             body: JSON.stringify(data)
         };
-			// Access the anchor tag element
-			var anchorTag = document.querySelector('[data-bs-target="#kt_modal_new_address"]');
 
-			// Get the value of the data-fetch-url attribute
-			var fetchUrl = anchorTag.getAttribute('data-fetch-url');
+        // Access the anchor tag element
+        var anchorTag = document.querySelector('[data-bs-target="#kt_modal_new_address"]');
 
-			// Make the fetch request
-			fetch(fetchUrl, options).then(response => {
+        // Get the value of the data-fetch-url attribute
+        var fetchUrl = anchorTag.getAttribute('data-fetch-url');
+
+        // Make the fetch request
+        fetch(fetchUrl, options)
+            .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }

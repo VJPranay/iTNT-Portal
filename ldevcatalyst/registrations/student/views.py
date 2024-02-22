@@ -130,7 +130,7 @@ def student_registration(request):
         name:
             type: string
             required: true
-            minlength: 10
+            minlength: 5
             
         csrfmiddlewaretoken:
             type: string
@@ -180,13 +180,13 @@ def student_registration(request):
             try:
                 # Retrieve data from the POST request
                 name = request.POST.get('name')
-                institution_id = request.POST.get('institution_id')
-                department_id = request.POST.get('department_id')
+                institution_id = request.POST.get('institution')
+                department_id = request.POST.get('department')
                 year_of_graduation = request.POST.get('year_of_graduation')
                 district_id = request.POST.get('location_district')
                 state_id = request.POST.get('location_state')
                 project_idea = request.POST.get('project_idea')
-                area_of_interest_ids = request.POST.getlist('area_of_interest')
+                area_of_interest_id = request.POST.getlist('area_of_interest')
                 
 
                 # Creating a new StudentRegistration object
@@ -277,9 +277,10 @@ def fetch_student_registration_details(request):
         student = StudentRegistrations.objects.get(id=student_id)
         area_of_interest_html = ""
         for interest in student.area_of_interest.all():
-            area_of_interest_html += f"<div>{interest.name}</div>"
+            area_of_interest_html += f"{interest.name}"
         # Construct HTML for the student details
         html = f"""
+           		
            													<!--begin::Profile-->
                                                             <div class="d-flex gap-7 align-items-center">
                                                                 <!--begin::Avatar-->
@@ -327,12 +328,12 @@ def fetch_student_registration_details(request):
                                                                         <!--begin::district-->
                                                                         <div class="d-flex flex-column gap-1">
                                                                             <div class="fw-bold text-muted">District</div>
-                                                                            <div class="fw-bold fs-5">"""+escape(student.district.name)+"""</div>
+                                                                            <div class="fw-bold fs-5">"""+escape(student.district)+"""</div>
                                                                         </div>
                                                                         <!--end::district-->
                                                                         <!--begin::department_id-->
                                                                         <div class="d-flex flex-column gap-1">
-                                                                            <div class="fw-bold text-muted">Department </div>
+                                                                            <div class="fw-bold text-muted">Department</div>
                                                                             <div class="fw-bold fs-5">"""+escape(student.department.name)+"""</div>
                                                                         </div>
                                                                         <!--end::department_id-->
@@ -342,29 +343,27 @@ def fetch_student_registration_details(request):
                                                                             <div class="fw-bold fs-5">"""+escape(student.year_of_graduation)+"""</div>
                                                                         </div>
                                                                         <!--end::year_of_graduation-->
-                                                                        <!--begin::institution-->
+                                                                        <!--begin::email-->
                                                                         <div class="d-flex flex-column gap-1">
                                                                             <div class="fw-bold text-muted">Institution</div>
                                                                             <div class="fw-bold fs-5">"""+escape(student.institution.name)+"""</div>
                                                                         </div>
-                                                                        <!--end::institution-->
+                                                                        <!--end::email-->
                                                                         <!--begin::project_idea-->
                                                                         <div class="d-flex flex-column gap-1">
                                                                             <div class="fw-bold text-muted">Project Idea</div>
                                                                             <div class="fw-bold fs-5">"""+escape(student.project_idea)+"""</div>
                                                                         </div>
                                                                         <!--end::project_idea-->
-                                                                        <!--begin::area_of_interest_id-->
-                                                                       <div class="d-flex flex-column gap-1">
+                                                                        <!--begin::area_of_interest-->
+                                                                    <div class="d-flex flex-column gap-1">
                                                                         <div class="fw-bold text-muted">Area of Interest</div>
-                                                                        <div class="fw-bold fs-5">"""+escape(area_of_interest_html)+"""</div>
-                                                                        <div class="fw-bold fs-5">
-                                                                            
-                                                                        </div>
+                                                                        <div class="fw-bold fs-5">"""+escape(area_of_interest_html)+ """</div>
                                                                     </div>
-                                                                        <!--end::area_of_interest_id-->
+                                                                    <!--end::area_of_interest-->
+                                                                     
                                                                     </div>
-                                                                    <!--end::Additional details-->
+                                                                    <!--end::Additional details--> 
                                                                 </div>
                                                                 <!--end:::Tab pane-->
                                                             </div>

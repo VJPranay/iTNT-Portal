@@ -78,10 +78,10 @@ def fetch_industry_details(request):
          # Construct HTML for the area_of_interest
         area_of_interest_html = ""
         for interest in industry.area_of_interest.all():
-            area_of_interest_html += f"<div>{interest.name}</div>"
+            area_of_interest_html += f"{interest.name}"
         # Construct HTML for the startup details
         html = f"""
-                                            <div class="d-flex gap-7 align-items-center" id="industryid" data-industry-id=""""+escape(industry.id)+"""">
+                                            
                                             <!--begin::Profile-->
                                             <div class="d-flex gap-7 align-items-center">
                                                 <!--begin::Avatar-->

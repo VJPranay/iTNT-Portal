@@ -15,6 +15,7 @@ from django.utils.decorators import method_decorator
 import json
 from profiles.models import VC ,Student,Industry
 from .models import MeetingRequests
+from django.utils.html import escape
 
 
 # Create your views here.
@@ -70,8 +71,8 @@ def fetch_startup_details(request):
            													<!--begin::Profile-->
 													<div class="d-flex gap-7 align-items-center" id="startup-id" data-startup-id="{startup.id}">
 														<!--begin::Avatar-->
-														<div class="symbol symbol-circle symbol-200px">
-															<span class="symbol-label bg-light-success fs-1 fw-bolder">{startup.user}</span>
+														<div class="symbol symbol-circle symbol-100px">
+															<span class="symbol-label bg-light-success fs-1 fw-bolder">{startup.name[:1]}</span>
 														</div>
 														<!--end::Avatar-->
 														<!--begin::Contact details-->

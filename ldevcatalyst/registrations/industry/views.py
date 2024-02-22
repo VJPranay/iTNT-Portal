@@ -128,12 +128,12 @@ def industry_registration(request):
         poc_name = request.POST.get('poc_name')
         poc_email = request.POST.get('poc_email')
         poc_mobile = request.POST.get('poc_mobile')
-        area_of_interest_id = request.POST.get('collaboration_sector')
+        area_of_interest_id = request.POST.getlist('collaboration_sector')
         request_schema ='''
         company_name:
             type: string
             required: true
-            minlength: 10
+            minlength: 5
             
         csrfmiddlewaretoken:
             type: string
@@ -155,6 +155,7 @@ def industry_registration(request):
         poc_name:
             type: string
             required: true
+            minlength: 5
 
 
         poc_email:
@@ -176,7 +177,7 @@ def industry_registration(request):
         '''
         v=Validator()
         post_data = request.POST.dict()
-        schema=yamal.load(request_schema, Loader=yamal.SafeLoader)
+        schema=yaml.load(request_schema, Loader=yaml.SafeLoader)
         if v.validate(post_data,schema):
             print(post_data)
             try:
@@ -248,10 +249,12 @@ def fetch_industry_registration_details(request):
         # Fetch industry details based on industry_id
         print(industry_id)
         industry = IndustryRegistrations.objects.get(id=industry_id)
+        area_of_interest_html = ""
         for interest in industry.area_of_interest.all():
-            area_of_interest_html += f"<div>{interest.name}</div>"
+            area_of_interest_html += f"{interest.name}"
         # Construct HTML for the industry details
         html = f"""
+                
                                             <!--begin::Profile-->
                                             <div class="d-flex gap-7 align-items-center">
                                                 <!--begin::Avatar-->
@@ -264,6 +267,7 @@ def fetch_industry_registration_details(request):
                                                     <!--begin::Name-->
                                                     <h3 class="mb-0">"""+escape(industry.name)+"""</h3>
                                                     <!--end::Name-->
+                            
                                                     <!--begin::Phone-->
                                                     <div class="d-flex align-items-center gap-2">
                                                         <i class="ki-outline ki-phone fs-2"></i>
@@ -302,40 +306,41 @@ def fetch_industry_registration_details(request):
                                                             <div class="fw-bold fs-5">"""+escape(industry.district.name)+"""</div>
                                                         </div>
                                                         <!--end::district-->
+                                                       
+                                                        <!--end::end year_of_graduation-->
                                                         <!--begin::point_of_contact_name-->
                                                         <div class="d-flex flex-column gap-1">
-                                                            <div class="fw-bold text-muted">Point of Contact Name</div>
+                                                            <div class="fw-bold text-muted">point of contact name</div>
                                                             <div class="fw-bold fs-5">"""+escape(industry.point_of_contact_name)+"""</div>
                                                         </div>
                                                         <!--end::point_of_contact_name-->
-                                                        <!--begin::email-->
+                                                         <!--begin::email-->
                                                         <div class="d-flex flex-column gap-1">
                                                             <div class="fw-bold text-muted">Email</div>
                                                             <div class="fw-bold fs-5">"""+escape(industry.email)+"""</div>
                                                         </div>
                                                         <!--end::email-->
-                                                       
+                                                        
                                                         <!--begin::industry-->
                                                         <div class="d-flex flex-column gap-1">
                                                             <div class="fw-bold text-muted">Industry</div>
-                                                            <div class="fw-bold fs-5">"""+escape(industry.industry.name)+"""</div>
+                                                            <div class="fw-bold fs-5">"""+escape(industry.name)+"""</div>
                                                         </div>
-                                                        <!--end::mobile-->
+                                                        <!--end::indusrty-->
                                                         <!--begin::area_of_interest-->
                                                         <div class="d-flex flex-column gap-1">
                                                             <div class="fw-bold text-muted">Area of Interest</div>
-                                                            <div class="fw-bold fs-5">"""+escape(area_of_interest_html)+"""</div>
+                                                            <div class="fw-bold fs-5">""" +escape(area_of_interest_html)+"""</div>
                                                         </div>
                                                         <!--end::area_of_interest-->
+                                                        
                                                     </div>
                                                     <!--end::Additional details-->
                                                 </div>
                                                 <!--end:::Tab pane-->
                                             </div>
                                             <!--end::Tab content-->
-            """
-
-        # Send the HTML response to the JavaScript function
+                        """
         return JsonResponse({'html': html})
     else:
         # Handle invalid request

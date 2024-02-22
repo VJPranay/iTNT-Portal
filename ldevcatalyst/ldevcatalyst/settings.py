@@ -68,12 +68,11 @@ INSTALLED_APPS = [
 AUTH_USER_MODEL = 'profiles.User'
 
 MIDDLEWARE = [
-        'csp.middleware.CSPMiddleware',
+        #'csp.middleware.CSPMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
-    'csp.middleware.CSPMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -163,13 +162,3 @@ LOGOUT_URL = '/dashboard/logout/'
 #LOGIN_REDIRECT_URL = '/dashboard/index/'
 LOGIN_FAILURE_URL = '/dashboard/'
 
-
-"""CSP_INCLUDE_NONCE_IN = ['script-src']
-CSP_DEFAULT_SRC = ("'self'", "https://cdnjs.cloudflare.com","https://innovationportal.tnthub.org.ldev.in","https://cdn.jsdelivr.net")
-CSP_STYLE_SRC = ("'self'", "'unsafe-inline'", "https://innovationportal.tnthub.org.ldev.in","https://fonts.googleapis.com","https://cdn.jsdelivr.net",)
-CSP_SCRIPT_SRC = ()
-CSP_IMG_SRC = ("'self'", "data:","https://innovationportal.tnthub.org.ldev.in","https://cdn.jsdelivr.net")
-CSP_FONT_SRC = ("'self'", "https://fonts.gstatic.com/","https://fonts.googleapis.com")
-CSP_OBJECT_SRC = ("'none'",)
-CSP_BASE_URI = ("'self'",)
-CSP_REPORT_URI = '/csp-report/'"""

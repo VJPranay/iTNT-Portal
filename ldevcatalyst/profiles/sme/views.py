@@ -17,6 +17,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 import json
 from django.utils.html import escape
+from ..models import Patent,Publication
 
 from ..models import Researcher
 # Create your views here.
@@ -75,13 +76,16 @@ def fetch_sme_details(request):
             return JsonResponse({'error': 'Invalid sme ID'}, status=400)
         # Fetch startup details based on startup_id
         print(sme_id)
+        
         sme = Researcher.objects.get(id=sme_id)
+        patents=Patent.objects.get(id=sme.patents_id)
+        publications=Publication.objects.get(id=sme.publications_id)
         area_of_interest_html = ""
         for interest in sme.area_of_interest.all():
-            area_of_interest_html += f"<div>{interest.name}</div>"
+            area_of_interest_html += f"{interest.name}"
         # Construct HTML for the startup details
         html = f"""
-                                    <div class="d-flex gap-7 align-items-center" id="smeid" data-sme-id=""""+escape(sme.id)+"""">
+                                  
                                     <!--begin::Profile-->
                                     <div class="d-flex gap-7 align-items-center">
                                         <!--begin::Avatar-->
@@ -166,63 +170,63 @@ def fetch_sme_details(request):
                         
                                                 <!--end::mobile-->
                                                 <!--end::picture-->
-                                                
-                                                <!-- begin::number -->
+                                               <!-- begin::number -->
                                                 <div class="d-flex flex-column gap-1">
                                                     <div class="fw-bold text-muted">Patent Number</div>
-                                                    <div class="fw-bold fs-5">"""+escape(sme.patents.number) + """</div>
+                                                    <div class="fw-bold fs-5">""" + escape(patents.number) + """</div>
                                                 </div>
                                                 <!-- end::number-->
 
                                                 <!-- begin::title -->
                                                 <div class="d-flex flex-column gap-1">
                                                     <div class="fw-bold text-muted">Title</div>
-                                                    <div class="fw-bold fs-5">"""+escape(sme.patents.title) + """</div>
+                                                    <div class="fw-bold fs-5">""" + escape(patents.title) + """</div>
                                                 </div>
                                                 <!-- end::title -->
 
                                                 <!-- begin::inventors -->
                                                 <div class="d-flex flex-column gap-1">
                                                     <div class="fw-bold text-muted">Inventors</div>
-                                                    <div class="fw-bold fs-5">"""+escape(sme.patents.inventors) + """</div>
+                                                    <div class="fw-bold fs-5">""" + escape(patents.inventors) + """</div>
                                                 </div>
                                                 <!-- end::inventors -->
 
                                                 <!-- begin::filing_date -->
                                                 <div class="d-flex flex-column gap-1">
                                                     <div class="fw-bold text-muted">Filing Date</div>
-                                                    <div class="fw-bold fs-5">"""+escape(sme.patents.filing_date) + """</div>
+                                                    <div class="fw-bold fs-5">""" + escape(str(patents.filing_date)) + """</div>
                                                 </div>
                                                 <!-- end::filing_date -->
 
                                                 <!-- begin::status -->
                                                 <div class="d-flex flex-column gap-1">
                                                     <div class="fw-bold text-muted">Status</div>
-                                                    <div class="fw-bold fs-5">"""+escape(sme.patents.status) + """</div>
+                                                    <div class="fw-bold fs-5">""" + escape(patents.status) + """</div>
                                                 </div>
                                                 <!-- end::status -->
-
                                                 <!-- begin::paper_title -->
                                                 <div class="d-flex flex-column gap-1">
                                                     <div class="fw-bold text-muted">Paper Title</div>
-                                                    <div class="fw-bold fs-5">"""+escape(sme.publications.title) + """</div>
+                                                    <div class="fw-bold fs-5">"""+escape(publications.title) + """</div>
                                                 </div>
                                                 <!-- end::paper_title -->
 
                                                 <!-- begin::paper_link -->
                                                 <div class="d-flex flex-column gap-1">
                                                     <div class="fw-bold text-muted">Paper Link</div>
-                                                    <div class="fw-bold fs-5">"""+escape(sme.publications.paper_link) + """</div>
+                                                    <div class="fw-bold fs-5">"""+escape(publications.paper_link) + """</div>
                                                 </div>
                                                 <!-- end::paper_link -->
 
                                                 <!-- begin::journal -->
                                                 <div class="d-flex flex-column gap-1">
                                                     <div class="fw-bold text-muted">Journal</div>
-                                                    <div class="fw-bold fs-5">"""+escape(sme.publications.journal) + """</div>
+                                                    <div class="fw-bold fs-5">"""+escape(publications.journal) + """</div>
                                                 </div>
                                                 <!-- end::journal -->
 
+                                                
+                                                
                                                 <!--begin::Additional details-->    
 
                                                 

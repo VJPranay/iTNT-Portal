@@ -229,7 +229,7 @@
 											<input name="description" class="form-control form-control-lg form-control-solid" placeholder="Your startup idea description" value="" />
 											<!--end::Input-->
 										</div>
-										<div class="fv-row mb-10" data-district-url="https://innovationportal.tnthub.org.ldev.in/{% url 'districts' %}"  data-district-urlid="districtslink">
+										<div class="fv-row mb-10" data-district-url="http://{{ request.get_host }}{% url 'districts' %}"  data-district-urlid="districtslink">
 											<!--begin::Label-->
 											<label class="form-label required">State</label>
 											<!--end::Label-->

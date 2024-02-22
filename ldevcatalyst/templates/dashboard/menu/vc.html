@@ -11,7 +11,7 @@
     </div>
     <!--end:Menu item-->
     <!--begin:Menu item-->
-    {% comment %} <div data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-placement="bottom-start" class="menu-item menu-lg-down-accordion menu-sub-lg-down-indention me-0 me-lg-2">
+     <div data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-placement="bottom-start" class="menu-item menu-lg-down-accordion menu-sub-lg-down-indention me-0 me-lg-2">
         <!--begin:Menu link-->
         <span class="menu-link">
             <span class="menu-title">Profiles</span>
@@ -23,7 +23,7 @@
             <!--begin:Menu item-->
             <div class="menu-item">
                 <!--begin:Menu link-->
-                <a class="menu-link" href="#" target="_blank" title="All profiles and profile" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss="click" data-bs-placement="right">
+                <a class="menu-link" href="{% url 'startup_list' %}" target="_blank" title="All profiles and profile" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss="click" data-bs-placement="right">
                     <span class="menu-icon">
                         <i class="ki-outline ki-abstract-26 fs-2"></i>
                     </span>
@@ -34,7 +34,7 @@
             <!--end:Menu item-->
         </div>
         <!--end:Menu sub-->
-    </div> {% endcomment %}
+    </div> 
     <!--end:Menu item-->
     <!--end:Menu item-->
 </div>
