@@ -23,16 +23,18 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-68bn2*xnujz@*i2(xb61^kk3vhzo8sfyw3mrn7***srqkm49_*'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [
 'itntportal.ldev.in',
+'itnthub.tn.gov.in',
 '127.0.0.1',
 'innovationportal.tnthub.org.ldev.in',
 ]
 
 CSRF_TRUSTED_ORIGINS = [
     #'innovationportal.tnthub.org.ldev.in',
+    'https://itnthub.tn.gov.in',
     'http://innovationportal.tnthub.org.ldev.in',
     'https://innovationportal.tnthub.org.ldev.in',
     #'127.0.0.1',
