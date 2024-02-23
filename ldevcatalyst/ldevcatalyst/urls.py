@@ -22,7 +22,7 @@ from common.views import not_found
 
 
 urlpatterns = [
-    path('admin/password/5ec', admin.site.urls,name="django_admin"),
+    path('innovation-portal/admin/test34345/', admin.site.urls,name="django_admin"),
     path('districts/', districts,name="districts"),
     #path('dashboard/', include('dashboard.urls')),
     path('registrations/', include('registrations.urls')),
