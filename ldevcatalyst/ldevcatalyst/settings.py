@@ -155,7 +155,7 @@ USE_TZ = True
 
 #STATIC_URL = 'static/'
 #STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
-MEDIA_URL = 'media/'
+MEDIA_URL = '/innovation-portal/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 #STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
@@ -170,7 +170,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # URL prefix for static files.
 # Example: "http://example.com/static/", "http://static.example.com/"
-STATIC_URL = '/static/'
+STATIC_URL = '/innovation-portal/static/'
 
 # Additional locations of static files
 STATICFILES_DIRS = [
@@ -189,4 +189,6 @@ LOGIN_URL = '/dashboard/'
 LOGOUT_URL = '/dashboard/logout/'
 #LOGIN_REDIRECT_URL = '/dashboard/index/'
 LOGIN_FAILURE_URL = '/dashboard/'
+
+FORCE_SCRIPT_NAME = '/innovation-portal'
 
