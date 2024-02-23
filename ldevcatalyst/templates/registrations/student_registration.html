@@ -32,7 +32,7 @@
 
 							<a href="/">
 								<img alt="Logo" src="{% static 'assets/media/logos/custom-1.png' %}" class="h-90px" />
-								<h1 style="color: #FFFFFF !important;">student Registration</h1>
+								<h1 style="color: #FFFFFF !important;">Student Registration</h1>
 							</a>
 
 						</div>
@@ -153,11 +153,12 @@
 											<label class="form-label required">Institution</label>
 											<!--end::Label-->
 											<!--begin::Input-->
-											<select name="institution" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="true">
+											<input name="institution" class="form-control form-control-lg form-control-solid" placeholder="Your institution name" value="" />
+											{% comment %} <select name="institution" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="true">
 												{% for institution in institutions %}
 												<option value="{{institution.institution_id}}">{{institution.institution_value}}</option>
 												{%endfor%}
-											</select>
+											</select> {% endcomment %}
 											<!--end::Input-->
 										</div>
 										<div class="fv-row mb-10">
@@ -165,16 +166,17 @@
 											<label class="form-label required">Department</label>
 											<!--end::Label-->
 											<!--begin::Input-->
-											<select name="department" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="true">
+											<input name="department" class="form-control form-control-lg form-control-solid" placeholder="Your department" value="" />
+											{% comment %} <select name="department" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="true">
 												{% for department in departments %}
 												<option value="{{department.department_id}}">{{department.department_value}}</option>
 												{%endfor%}
-											</select>
+											</select> {% endcomment %}
 											<!--end::Input-->
 										</div>
 										<div class="fv-row mb-10">
 											<!--begin::Label-->
-											<label class="form-label required">Year Of Graduation</label>
+											<label class="form-label required">Year Of graduation</label>
 											<!--end::Label-->
 											<!--begin::Input-->
 											<input name="year_of_graduation" class="form-control form-control-lg form-control-solid" placeholder="2022" value="" />

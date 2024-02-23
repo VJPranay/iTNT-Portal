@@ -128,7 +128,8 @@ def industry_registration(request):
         poc_name = request.POST.get('poc_name')
         poc_email = request.POST.get('poc_email')
         poc_mobile = request.POST.get('poc_mobile')
-        area_of_interest_id = request.POST.getlist('collaboration_sector')
+        area_of_interest_id = request.POST.get('collaboration_sector')
+        print(request.POST)
         request_schema ='''
         company_name:
             type: string
@@ -191,7 +192,9 @@ def industry_registration(request):
                     mobile = poc_mobile,
                 )
                 new_industry_registration.save()
-                new_industry_registration.area_of_interest.add(area_of_interest_id)
+                for x in area_of_interest_id:
+                    new_industry_registration.area_of_interest.add(x)
+                    new_industry_registration.save()
                 new_industry_registration.save()
                 # Optionally, you can return a success response
                 return JsonResponse(

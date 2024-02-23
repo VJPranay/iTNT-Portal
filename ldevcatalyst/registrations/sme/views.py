@@ -173,6 +173,17 @@ def sme_registration(request):
         title = request.POST.get('publication_title')
         paper_link = request.POST.get('paper_link')
         journal = request.POST.get('journal')
+        try:
+            institution_info = Institution.objects.get(name=institution_id)
+        except Institution.DoesNotExist:
+            institution_info = Institution.objects.create(name=institution_id)
+            institution_info.save()
+        try:
+            department_info = Department.objects.get(name=department_id)
+        except Department.DoesNotExist:
+            department_info = Department.objects.create(name=department_id)
+            department_info.save()
+        print(request.POST)
         request_schema='''
         name:
             type: string
@@ -277,8 +288,8 @@ def sme_registration(request):
                 # Create ResearcherRegistrations object
                 new_sme_registration = ResearcherRegistrations.objects.create(
                     name=name,
-                    institution_id=institution_id,
-                    department_id=department_id,
+                    institution_id=institution_info.id,
+                    department_id=department_info.id,
                     district_id=district_id,
                     state_id=state_id,
                     mobile=mobile,

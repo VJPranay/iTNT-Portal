@@ -126,6 +126,7 @@ def student_registration(request):
         state_id = request.POST.get('location_state')
         district_id = request.POST.get('location_district')
         project_idea = request.POST.get('project_idea')
+        print(request.POST)
         request_schema ='''
         name:
             type: string
@@ -152,9 +153,6 @@ def student_registration(request):
         year_of_graduation:
             type: string
             required: true
-            regex: '^(19|20)\d{2}$'
-
-
         poc_email:
             type: string
             required: true
@@ -178,22 +176,21 @@ def student_registration(request):
         schema=yaml.load(request_schema, Loader=yaml.SafeLoader)     
         if v.validate(post_data,schema):   
             try:
-                # Retrieve data from the POST request
-                name = request.POST.get('name')
-                institution_id = request.POST.get('institution')
-                department_id = request.POST.get('department')
-                year_of_graduation = request.POST.get('year_of_graduation')
-                district_id = request.POST.get('location_district')
-                state_id = request.POST.get('location_state')
-                project_idea = request.POST.get('project_idea')
-                area_of_interest_id = request.POST.getlist('area_of_interest')
-                
-
                 # Creating a new StudentRegistration object
+                try:
+                    institution_info = Institution.objects.get(name=department_id)
+                except Institution.DoesNotExist:
+                    institution_info = Institution.objects.create(name=department_id)
+                    institution_info.save()
+                try:
+                    department_info = Department.objects.get(name=department_id)
+                except District.DoesNotExist:
+                    department_info = Department.objects.create(name=department_id)
+                    department_info.save()
                 new_student_registration = StudentRegistrations.objects.create(
                     name=name,
-                    institution_id=institution_id,
-                    department_id=department_id,
+                    institution_id=institution_info.id,
+                    department_id=department_info.id,
                     year_of_graduation=year_of_graduation,
                     email=poc_email,
                     state_id=state_id,
@@ -201,12 +198,9 @@ def student_registration(request):
                     project_idea=project_idea,
                 )
                 new_student_registration.save()
-                new_student_registration.area_of_interest.add(area_of_interest_id)
-                # Save the object
-                new_student_registration.save()
-                # Save the object
-            
-                # Optionally, you can return a success response
+                for x in area_of_interest_id:
+                     new_student_registration.area_of_interest.add(area_of_interest_id)
+                     new_student_registration.save()
                 return JsonResponse(
                     {
                         'success': True,

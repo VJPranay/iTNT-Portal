@@ -151,6 +151,7 @@ def startup_registration(request):
         founding_experience = request.POST.get('founding_experience')
         founding_experience = True if founding_experience == 'True' else False
         short_video_link = request.POST.get('short_video_link')
+        print(request.POST)
         request_schema = '''
         name:
             type: string
