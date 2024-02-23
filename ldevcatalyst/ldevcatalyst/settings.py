@@ -109,8 +109,12 @@ WSGI_APPLICATION = 'ldevcatalyst.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'tempordb',
+        'USER': 'temporusr',
+        'PASSWORD': 'J35u53253#@%#',
+        'HOST': '10.236.205.46',
+        'PORT': '5432',
     }
 }
 
