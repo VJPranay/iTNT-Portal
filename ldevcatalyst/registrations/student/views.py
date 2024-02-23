@@ -172,6 +172,7 @@ def student_registration(request):
 
         '''
         v=Validator()
+        "Test"
         post_data = request.POST.dict()
         schema=yaml.load(request_schema, Loader=yaml.SafeLoader)     
         if v.validate(post_data,schema):   
