@@ -22,13 +22,13 @@ from common.views import not_found
 
 
 urlpatterns = [
-    path('innovation-portal/admin/test34345/', admin.site.urls,name="django_admin"),
-    path('innovation-portal/districts/', districts,name="districts"),
+    path('admin/test34345/', admin.site.urls,name="django_admin"),
+    path('districts/', districts,name="districts"),
     #path('dashboard/', include('dashboard.urls')),
-    path('innovation-portal/registrations/', include('registrations.urls')),
+    path('registrations/', include('registrations.urls')),
     #path('profiles/', include('profiles.urls')),
     #path('meetings/', include('meetings.urls')),
-    path('innovation-portal/common/', include('common.urls')),
+    path('common/', include('common.urls')),
     path('', not_found),
 ]
 
