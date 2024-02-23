@@ -251,7 +251,7 @@ def sme_registration(request):
         journal:
             type: string
             required: true
-'''
+        '''
         v=Validator()
         post_data = request.POST.dict()
         schema=yaml.load(request_schema, Loader=yaml.SafeLoader)     

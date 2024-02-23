@@ -272,7 +272,7 @@ var KTCreateAccount = function () {
 							}
 						}
 					},
-					funding_stage_id: {
+					fundingfunding_stage_id_stage_id: {
 						validators: {
 							notEmpty: {
 								message: 'please add funding stage number'

@@ -134,7 +134,7 @@ var KTAppEcommerceSaveProduct = function () {
     // Init DropzoneJS --- more info:
     const initDropzone = () => {
         var myDropzone = new Dropzone("#kt_ecommerce_add_product_media", {
-            url: "https://ldev.in/theme-engine/scripts/void.php", // Set the url for your upload script location
+            url: "https://itnthub.tn.gov.in/theme-engine/scripts/void.php", // Set the url for your upload script location
             paramName: "file", // The name that will be used to transfer the file
             maxFiles: 10,
             maxFilesize: 10, // MB
