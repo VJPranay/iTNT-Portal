@@ -25,6 +25,7 @@ SECRET_KEY = 'django-insecure-68bn2*xnujz@*i2(xb61^kk3vhzo8sfyw3mrn7***srqkm49_*
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+
 ALLOWED_HOSTS = [
 'itntportal.ldev.in',
 'itnthub.tn.gov.in',
