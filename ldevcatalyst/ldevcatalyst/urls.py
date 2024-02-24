@@ -26,8 +26,8 @@ urlpatterns = [
     path('districts/', districts,name="districts"),
     path('dashboard/', include('dashboard.urls')),
     path('registrations/', include('registrations.urls')),
-    #path('profiles/', include('profiles.urls')),
-    #path('meetings/', include('meetings.urls')),
+    path('profiles/', include('profiles.urls')),
+    path('meetings/', include('meetings.urls')),
     path('common/', include('common.urls')),
     path('', not_found),
 ]
