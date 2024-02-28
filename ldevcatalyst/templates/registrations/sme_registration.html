@@ -487,6 +487,21 @@
 			paperLinkLabel.classList.remove('required');
 			journalLabel.classList.remove('required');
 		}
+
+		
+		var inputElement = document.getElementById("highest_qualification_input");
+        
+        if (selectElement.value === "others") {
+            inputElement.style.display = "block";
+            inputElement.name = "highest_qualification";
+            selectElement.name = "";
+        } else {
+            inputElement.style.display = "none";
+            inputElement.name = "";
+            selectElement.name = "highest_qualification";
+        }
+
+
 	}
 	function handleSelectionChange() {
         var selectElement = document.getElementById("collaboration_sector_select");
@@ -500,19 +515,6 @@
             inputElement.style.display = "none";
             inputElement.name = "";
             selectElement.name = "collaboration_sector";
-        }
-    }
-	function handleHighestQualificationChange(selectElement) {
-        var inputElement = document.getElementById("highest_qualification_input");
-        
-        if (selectElement.value === "others") {
-            inputElement.style.display = "block";
-            inputElement.name = "highest_qualification";
-            selectElement.name = "";
-        } else {
-            inputElement.style.display = "none";
-            inputElement.name = "";
-            selectElement.name = "highest_qualification";
         }
     }
 	// Function to add more patents dynamically
@@ -529,23 +531,23 @@
 				<div class="fw-bold text-gray-900">Patent Information - ${numPatents}</div>
 			</div>
 			<div class="fv-row mb-10">
-				<label class="form-label r">Patent Number</label>
+				<label class="form-label required">Patent Number</label>
 				<input name="number[]" class="form-control form-control-lg form-control-solid" placeholder="Enter Patent Number" value="" required />
 			</div>
 			<div class="fv-row mb-10">
-				<label class="form-label ">Title</label>
+				<label class="form-label required">Title</label>
 				<input name="title[]" class="form-control form-control-lg form-control-solid" placeholder="Enter Title" value="" required />
 			</div>
 			<div class="fv-row mb-10">
-				<label class="form-label ">Inventor(s) and Applicant(s)</label>
+				<label class="form-label required">Inventor(s) and Applicant(s)</label>
 				<input name="inventors[]" class="form-control form-control-lg form-control-solid" placeholder="Enter Inventor(s) and Applicant(s)" value="" required />
 			</div>
 			<div class="fv-row mb-10">
-				<label class="form-label">Filing Date</label>
+				<label class="form-label required">Filing Date</label>
 				<input name="filing_date[]" class="form-control form-control-lg form-control-solid" type="date" value="" required />
 			</div>
 			<div class="fv-row mb-10">
-				<label class="form-label ">Status</label>
+				<label class="form-label required">Status</label>
 				<select name="status[]" class="form-select form-select-lg form-select-solid" required>
 					<option value="pending">Pending</option>
 					<option value="granted">Granted</option>
@@ -583,8 +585,6 @@ function collectPatentsData() {
 
 	
 </script>
-	
-		
 		<!--end::Custom Javascript-->
 		<!--end::Javascript-->
 	</body>
