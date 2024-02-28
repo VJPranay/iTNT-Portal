@@ -55,11 +55,11 @@ def sme_approve_registrations(request):
                 
                 #Generate Userneme from Registaration Id
                 username=registration.registration_id
-                print(username)
+  
                 
                 #Generating Randon 6 digit number
                 password="".join(random.choices(string.digits,k=6))
-                print(password)
+
                 
                 #Create User with Username and random Password
                 try:
@@ -117,7 +117,7 @@ def sme_approve_registrations(request):
                     sme_profile.save()
                 registration.status='approved'
                 registration.save()
-                print(user.username)
+
                 email_host='mail.ldev.in'
                 email_port = 465
                 email_username = 'itntadmin@ldev.in'
@@ -128,7 +128,7 @@ def sme_approve_registrations(request):
                         Password: {password}
                         Login URL: http://innovationportal.tnthub.org.ldev.in/dashboard
                         '''
-                print(password)
+
 
                 message=MIMEMultipart()
                 message['From']=email_username
@@ -136,12 +136,11 @@ def sme_approve_registrations(request):
                 message['Subject']=subject
                 message.attach(MIMEText(body,'plain'))
                 with smtplib.SMTP_SSL(email_host,email_port) as server:
-                    print(server.login(email_username,email_password))   
-                    print(server.sendmail(email_username,[registration.email],message.as_string()))
+                    server.login(email_username,email_password)   
+                    server.sendmail(email_username,[registration.email],message.as_string())
  
                 return JsonResponse({'success':True}) 
             except  ResearcherRegistrations.DoesNotExist:
-                print('error')
                 return JsonResponse({'status':False,'error':'Registration not found'},status=404)
     else:
         return JsonResponse({'status':False,'error':'Method not allowed'},status=405)
@@ -152,7 +151,6 @@ def sme_approve_registrations(request):
 def sme_registration(request):
     if request.method == 'POST':
         # Retrieve data from the POST request
-        print(request.POST)
         name = request.POST.get('name')
         institution_id = request.POST.get('institution')
         department_id = request.POST.get('department')
@@ -183,7 +181,6 @@ def sme_registration(request):
         except Department.DoesNotExist:
             department_info = Department.objects.create(name=department_id)
             department_info.save()
-        print(request.POST)
         request_schema='''
         name:
             type: string
@@ -283,6 +280,7 @@ def sme_registration(request):
                     journal=journal
                 )
 
+
                 # Create ResearcherRegistrations object
                 new_sme_registration = ResearcherRegistrations.objects.create(
                     name=name,
@@ -296,9 +294,14 @@ def sme_registration(request):
                     patents_id=new_patent_info.id,
                     publications_id=new_publication_info.id,
                 )
-                # Add area_of_interest
-                for x in area_of_interest_id:
-                    new_sme_registration.area_of_interest.add(x)
+                try:
+                    area_of_interest_id_int = int(area_of_interest_id)
+                    area_of_interest_info = AreaOfInterest.objects.get(id=area_of_interest_id_int)
+                    new_sme_registration.area_of_interest.add(area_of_interest_id_int)
+                except (ValueError, AreaOfInterest.DoesNotExist):
+                    area_of_interest_info = AreaOfInterest.objects.create(name=area_of_interest_id)
+                    area_of_interest_info.save()
+                    new_sme_registration.area_of_interest.add(area_of_interest_info)
                 new_sme_registration.save()
 
                 return JsonResponse({
@@ -345,7 +348,6 @@ def fetch_sme_registration_details(request):
         if not sme_id:
             return JsonResponse({'error': 'Invalid sme ID'}, status=400)
         # Fetch sme details based on sme_id
-        print(sme_id)
         sme = ResearcherRegistrations.objects.get(id=sme_id)
         patent=PatentInfo.objects.get(id=sme.patents_id)
         publication=PublicationInfo.objects.get(id=sme.publications_id)

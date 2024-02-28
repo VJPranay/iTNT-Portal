@@ -10,9 +10,9 @@
 		<meta property="og:locale" content="en_US" />
 		<meta property="og:type" content="article" />
 		<meta property="og:title" content="iTNT Innovation portal" />
-		<meta property="og:url" content="https://itnthub.tn.gov.in" />
+		<meta property="og:url" content="http://127.0.0.1:8000" />
 		<meta property="og:site_name" content="iTNT Hub - JIGSAW" />
-		<link rel="canonical" href="https://itnthub.tn.gov.in/dashboard" />
+		<link rel="canonical" href="http://127.0.0.1:8000/dashboard" />
 		<link rel="shortcut icon" href="assets/media/logos/favicon.ico" />
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700" />
 		<link href="{% static 'assets/plugins/global/plugins.bundle.css' %}" rel="stylesheet" type="text/css" />
@@ -106,9 +106,9 @@
 						<div class="d-flex flex-center flex-wrap px-5 py-10">
 
 							{% comment %} <div class="d-flex fw-normal">
-								<a href="https://itnthub.tn.gov.in/theme-engine" class="text-success px-5" target="_blank">Terms</a>
-								<a href="https://itnthub.tn.gov.in/theme-engine/devs" class="text-success px-5" target="_blank">Plans</a>
-								<a href="https://itnthub.tn.gov.in/theme-engine/market" class="text-success px-5" target="_blank">Contact Us</a>
+								<a href="http://127.0.0.1:8000/theme-engine" class="text-success px-5" target="_blank">Terms</a>
+								<a href="http://127.0.0.1:8000/theme-engine/devs" class="text-success px-5" target="_blank">Plans</a>
+								<a href="http://127.0.0.1:8000/theme-engine/market" class="text-success px-5" target="_blank">Contact Us</a>
 							</div> {% endcomment %}
 
 						</div>
@@ -131,12 +131,13 @@
 											<h2 class="fw-bold text-gray-900">Personal Details</h2>
 											<div class="text-muted fw-semibold fs-6">Know more about the registration process <a href="#" class="link-primary fw-bold">here</a>.</div>
 										</div>
+										{% csrf_token %}
 										<div class="fv-row mb-10">
 											<label class="form-label required">Full Name</label>
 											<input name="name" class="form-control form-control-lg form-control-solid" placeholder="Enter your First Name and Last Name" value="" required />
 										</div>
-										{% comment %} https://itnthub.tn.gov.in{% endcomment %}
-										<div class="fv-row mb-10" data-district-url="https://itnthub.tn.gov.in{% url 'districts' %}"  data-district-urlid="districtslink">
+										{% comment %} http://127.0.0.1:8000{% endcomment %}
+										<div class="fv-row mb-10" data-district-url="http://127.0.0.1:8000{% url 'districts' %}"  data-district-urlid="districtslink">
 											
 											<!--begin::Label-->
 											<label class="form-label required">State</label>
@@ -165,15 +166,18 @@
 											<label class="form-label required">Area of interest for collaboration</label>
 											<!--end::Label-->
 											<!--begin::Input-->
-											<select name="collaboration_sector" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="true">
+											<select id="collaboration_sector_select" name="collaboration_sector" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="true" onchange="handleSelectionChange()">
+												<option value="">Select...</option>
 												{% for area_of_interest in area_of_interests %}
-												<option value="{{area_of_interest.area_of_interest_id}}">{{area_of_interest.area_of_interest_name}}</option>
-												{%endfor%}
+												<option value="{{area_of_interest.area_of_interest_id}}" data-value="{{area_of_interest.area_of_interest_name}}">{{area_of_interest.area_of_interest_name}}</option>
+												{% endfor %}
+												<option value="Others (Please specify)">Others (Please specify)</option>
 											</select>
+											<input id="collaboration_sector_input" name="collaboration_sector_other" class="form-control form-control-lg form-control-solid" placeholder="Please enter the other area of collaboration" style="display: none; margin-top: 10px !important;" required />
 											<!--end::Input-->
 										</div>
 										
-										<div class="fv-row mb-10" data-institution-url="https://itnthub.tn.gov.in{% url 'institutions' %}"  data-institution-urlid="institutionslink">
+										<div class="fv-row mb-10" data-institution-url="http://127.0.0.1:8000{% url 'institutions' %}"  data-institution-urlid="institutionslink">
 											<label class="form-label required">Institutions</label>
 											{% comment %} <input name="institution" class="form-control form-control-lg form-control-solid" placeholder="Your institution name" value="" required /> {% endcomment %}
 											<select id="institutionshere" name="institution" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="false" required>
@@ -219,15 +223,16 @@
 										<!--begin::Input group-->
 										<div class="fv-row mb-10">
 											<!--begin::Label-->
-											<label class="form-label required">Highest Qualification </label>
+											<label class="form-label required">Highest Qualification</label>
 											<!--end::Label-->
 											<!--begin::Input-->
-											<select name="highest_qualification" class="form-select form-select-lg form-select-solid" onchange="handleHighestQualificationChange(this)" required>
+											<select id="highest_qualification_select" name="highest_qualification" class="form-select form-select-lg form-select-solid" onchange="handleHighestQualificationChange(this)" required>
 												<option value="UG">UG</option>
 												<option value="granted">PG</option>
 												<option value="Ph.D">Ph.D</option>
+												<option value="others">Others (Please specify)</option>
 											</select>
-											{% csrf_token %}
+											<input id="highest_qualification_input" name="highest_qualification_input" class="form-control form-control-lg form-control-solid" placeholder="Please enter your highest qualification" style="display: none; margin-top: 10px !important;" required />
 											<!--end::Input-->
 										</div>
 										<!--end::Input group-->
@@ -463,6 +468,33 @@
 			journalLabel.classList.remove('required');
 		}
 	}
+	function handleSelectionChange() {
+        var selectElement = document.getElementById("collaboration_sector_select");
+        var inputElement = document.getElementById("collaboration_sector_input");
+        
+        if (selectElement.value === "Others (Please specify)") {
+            inputElement.style.display = "block";
+            inputElement.name = "collaboration_sector";
+            selectElement.name = "";
+        } else {
+            inputElement.style.display = "none";
+            inputElement.name = "";
+            selectElement.name = "collaboration_sector";
+        }
+    }
+	function handleHighestQualificationChange(selectElement) {
+        var inputElement = document.getElementById("highest_qualification_input");
+        
+        if (selectElement.value === "others") {
+            inputElement.style.display = "block";
+            inputElement.name = "highest_qualification";
+            selectElement.name = "";
+        } else {
+            inputElement.style.display = "none";
+            inputElement.name = "";
+            selectElement.name = "highest_qualification";
+        }
+    }
 	
 </script>
 	
