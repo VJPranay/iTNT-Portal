@@ -349,7 +349,7 @@ def sme_registration(request):
                 {'state_id': x.id, 'state_name': x.name} for x in State.objects.all()
             ],
             'area_of_interests': [
-                {'area_of_interest_id': x.id, 'area_of_interest_name': x.name} for x in AreaOfInterest.objects.all()
+                {'area_of_interest_id': x.id, 'area_of_interest_name': x.name} for x in AreaOfInterest.objects.filter(is_approved=True)
             ],
         })
     

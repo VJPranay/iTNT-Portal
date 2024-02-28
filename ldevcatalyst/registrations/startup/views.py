@@ -304,7 +304,7 @@ def startup_registration(request):
             {
                 'area_of_interest_id' : x.id,
                 'area_of_interest_value' : x.name,
-            } for x in AreaOfInterest.objects.all()    
+            } for x in AreaOfInterest.objects.filter(is_approved=True)    
         ]})
         
         

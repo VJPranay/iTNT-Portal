@@ -26,7 +26,7 @@ from ..models import Researcher
 @login_required
 def sme_list(request):
     # Get all areas of interests with profile count
-    areas_q = AreaOfInterest.objects.all()
+    areas_q = AreaOfInterest.objects.filter(is_approved=True)
     areas_list = []
     for x in areas_q:
         temp = {

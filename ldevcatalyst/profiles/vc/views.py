@@ -21,7 +21,7 @@ from django.utils.html import escape
 @login_required
 def vc_list(request):
     #get all area of interests with profile count
-    areas_q = AreaOfInterest.objects.all()
+    areas_q = AreaOfInterest.objects.filter(is_approved=True)
     areas_list = []
     for x in areas_q:
         temp = {
