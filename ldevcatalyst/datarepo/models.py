@@ -20,14 +20,13 @@ class Department(models.Model):
         return self.name
 
 
-
-
-
 class State(models.Model):
     name = models.CharField(max_length=100)
 
     def __str__(self):
         return self.name
+
+
 
 class District(models.Model):
     state = models.ForeignKey(State, on_delete=models.SET_NULL,blank=True,null=True)
