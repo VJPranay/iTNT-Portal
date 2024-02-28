@@ -12,5 +12,5 @@ def import_data_from_csv(file_path):
             District.objects.create(state=current_state, name=district_name)
 
 # Replace 'file_path' with the path to your CSV file
-file_path = '/opt/portal/iTNT-Portal/ldevcatalyst/scripts/import_data/disricts_states.csv'
+file_path = '/opt/portal/iTNT-Portal/ldevcatalyst/scripts/import_data/disricts.csv'
 import_data_from_csv(file_path)

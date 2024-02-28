@@ -6,7 +6,7 @@ from django.db import IntegrityError
 
 def add_institution_from_csv(csv_file_path):
     with open(csv_file_path, 'r') as file:
-        reader = csv.reader(file)
+        reader = csv.reader(file,delimiter='\t')
         for row in reader:
             district_name = row[0]
             college_name = row[2]
@@ -19,5 +19,5 @@ def add_institution_from_csv(csv_file_path):
                     print(e)
             except District.DoesNotExist:
                 print(f"{district_name} doesnt exist in DB")
-csv_file_path = os.path.join(BASE_DIR, "scripts/colleges/colleges.csv")
+csv_file_path = os.path.join(BASE_DIR, "scripts/colleges/colleges.tsv")
 add_institution_from_csv(csv_file_path)
