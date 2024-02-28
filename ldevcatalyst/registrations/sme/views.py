@@ -167,16 +167,16 @@ def sme_registration(request):
         title = request.POST.get('publication_title')
         paper_link = request.POST.get('paper_link')
         journal = request.POST.get('journal')
+        institution_info = None
+        department_info = None
         try:
-            institution_info = Institution.objects.get(name=institution_id)
+            institution_info = Institution.objects.get(id=institution_id)
         except Institution.DoesNotExist:
-            institution_info = Institution.objects.create(name=institution_id)
-            institution_info.save()
+            pass
         try:
-            department_info = Department.objects.get(name=department_id)
+            department_info = Department.objects.get(id=department_id)
         except Department.DoesNotExist:
-            department_info = Department.objects.create(name=department_id)
-            department_info.save()
+            pass
         request_schema='''
         name:
             type: string
@@ -276,16 +276,6 @@ def sme_registration(request):
         if v.validate(post_data,schema):   
             try:
                 
-                # # Create PatentInfo object
-                # new_patent_info = PatentInfo.objects.create(
-                #     number=number,
-                #     title=title,
-                #     inventors=inventors,
-                #     filing_date=filing_date,
-                #     status=status
-                # )
-
-                # Create PublicationInfo object
                 new_publication_info = PublicationInfo.objects.create(
                     title=title,
                     paper_link=paper_link,
