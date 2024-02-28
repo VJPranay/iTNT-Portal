@@ -222,7 +222,11 @@
 											<label class="form-label required">Highest Qualification </label>
 											<!--end::Label-->
 											<!--begin::Input-->
-											<input type="text" class="form-control form-control-lg form-control-solid" name="highest_qualification" placeholder=" Please Enter Your Highest Qualification " value="" required />
+											<select name="highest_qualification" class="form-select form-select-lg form-select-solid" required>
+												<option value="UG">UG</option>
+												<option value="granted">PG</option>
+												<option value="Ph.D">Ph.D</option>
+											</select>
 											{% csrf_token %}
 											<!--end::Input-->
 										</div>
