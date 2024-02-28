@@ -4,7 +4,7 @@
 	<head>
 		<title>iTNT Innovation portal</title>
 		<meta charset="utf-8" />
-		<meta name="description" content="iTHT Hub Innovation Portald" />
+		<meta name="description" content="iTHT Hub Innovation Portal" />
 		<meta name="keywords" content="iTNT,itnthub,innovation-portal,jigsaw" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<meta property="og:locale" content="en_US" />
@@ -51,8 +51,8 @@
 										</div>
 			
 										<div class="stepper-label">
-											<h3 class="stepper-title fs-2">Company information</h3>
-											<div class="stepper-desc fw-normal">Fill in your company information</div>
+											<h3 class="stepper-title fs-2">Professor's information</h3>
+											<div class="stepper-desc fw-normal">Fill in your professor's information</div>
 										</div>
 		
 									</div>
@@ -72,8 +72,8 @@
 										</div>
 				
 										<div class="stepper-label">
-											<h3 class="stepper-title fs-2">PoC Information</h3>
-											<div class="stepper-desc fw-normal">Point of contact details</div>
+											<h3 class="stepper-title fs-2">Technical Information</h3>
+											<div class="stepper-desc fw-normal">Fill in the technical details</div>
 										</div>
 					
 									</div>
@@ -135,7 +135,9 @@
 											<label class="form-label required">Full Name</label>
 											<input name="name" class="form-control form-control-lg form-control-solid" placeholder="Enter your First Name and Last Name" value="" required />
 										</div>
-										<div class="fv-row mb-10" data-district-url="https://itnthub.tn.gov.in{% url 'districts' %}"  data-district-urlid="districtslink">
+										{% comment %} https://itnthub.tn.gov.in{% endcomment %}
+										<div class="fv-row mb-10" data-district-url="http://127.0.0.1:8000{% url 'districts' %}"  data-district-urlid="districtslink">
+											
 											<!--begin::Label-->
 											<label class="form-label required">State</label>
 											<!--end::Label-->
@@ -153,7 +155,7 @@
 											<label class="form-label required">District</label>
 											<!--end::Label-->	
 											<!--begin::Input-->
-											<select id="districtshere" name="location_district" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="true">
+											<select id="districtshere" name="location_district" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="true" onchange="fetchInstitutions(this.value)">
 												<option value=""></option>
 											</select>
 											<!--end::Input-->
@@ -171,24 +173,24 @@
 											<!--end::Input-->
 										</div>
 										
-										<div class="fv-row mb-10">
+										<div class="fv-row mb-10" data-institution-url="http://127.0.0.1:8000{% url 'institutions' %}"  data-institution-urlid="institutionslink">
 											<label class="form-label required">Institutions</label>
-											<input name="institution" class="form-control form-control-lg form-control-solid" placeholder="Your institution name" value="" required />
-											{% comment %} <select name="institution" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="true" required>
-												{% for institution in institutions %}
-													<option value="{{ institution.institution_id }}">{{ institution.institution_name }}</option>
-												{% endfor %}
-											</select> {% endcomment %}
+											{% comment %} <input name="institution" class="form-control form-control-lg form-control-solid" placeholder="Your institution name" value="" required /> {% endcomment %}
+											<select id="institutionshere" name="institution" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="false" required>
+												
+													<option value="">Please select institution</option>
+												
+											</select> 
 										</div>
 										
 										<div class="fv-row mb-10">
 											<label class="form-label required">Department</label>
-											<input name="department" class="form-control form-control-lg form-control-solid" placeholder="Your department name" value="" required />
-											{% comment %} <select name="department" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="true" required>
+											{% comment %} <input name="department" class="form-control form-control-lg form-control-solid" placeholder="Your department name" value="" required /> {% endcomment %}
+											<select name="department" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="true" required>
 												{% for department in departments %}
 													<option value="{{ department.department_id }}">{{ department.department_name }}</option>
 												{% endfor %}
-											</select> {% endcomment %}
+											</select> 
 										</div>
 
 										<div class="fv-row mb-10">
@@ -222,7 +224,7 @@
 											<label class="form-label required">Highest Qualification </label>
 											<!--end::Label-->
 											<!--begin::Input-->
-											<select name="highest_qualification" class="form-select form-select-lg form-select-solid" required>
+											<select name="highest_qualification" class="form-select form-select-lg form-select-solid" onchange="handleHighestQualificationChange(this)" required>
 												<option value="UG">UG</option>
 												<option value="granted">PG</option>
 												<option value="Ph.D">Ph.D</option>
@@ -277,26 +279,26 @@
 										</div>
 										<div class="fv-row mb-10">
 											<!--begin::Label-->
-											<label class="form-label ">Publication Title</label>
+											<label for="publication_title" class="form-label ">Publication Title</label>
 											<!--end::Label-->
 											<!--begin::Input-->
-											<input name="publication_title" class="form-control form-control-lg form-control-solid" placeholder="Enter Publication Title" value="" required />
+											<input name="publication_title" class="form-control form-control-lg form-control-solid" placeholder="Enter Publication Title" value="" />
 											<!--end::Input-->
 										</div>
 										<div class="fv-row mb-10">
 											<!--begin::Label-->
-											<label class="form-label ">Paper Link</label>
+											<label for="paper_link" class="form-label ">Paper Link</label>
 											<!--end::Label-->
 											<!--begin::Input-->
-											<input name="paper_link" class="form-control form-control-lg form-control-solid" type="url" placeholder="Enter Paper Link" value="https://" required />
+											<input name="paper_link" class="form-control form-control-lg form-control-solid" type="url" placeholder="Enter Paper Link" value="https://" />
 											<!--end::Input-->
 										</div>
 										<div class="fv-row mb-10">
 											<!--begin::Label-->
-											<label class="form-label ">Journal</label>
+											<label for="journal" class="form-label ">Journal</label>
 											<!--end::Label-->
 											<!--begin::Input-->
-											<input name="journal" class="form-control form-control-lg form-control-solid" placeholder="Enter Journal" value="" required />
+											<input name="journal" class="form-control form-control-lg form-control-solid" placeholder="Enter Journal" value="" />
 											<!--end::Input-->
 										</div>
 										<!--end::Input group-->
@@ -403,8 +405,6 @@
 			})
 			.catch(error => console.error('Error fetching districts:', error));
 	}
-
-	// Event listener for state dropdown
 	document.addEventListener('DOMContentLoaded', function() {
 		var stateSelect = document.querySelector('select[name="location_state"]');
 		var districtSelect = document.querySelector('select[name="location_district"]');
@@ -417,6 +417,55 @@
 			}
 		});
 	});
+	function fetchInstitutions(districtId) {
+		var districtMainSelect = document.querySelector('div[data-institution-urlid="institutionslink"]');
+		var institutionUrl = districtMainSelect.getAttribute('data-institution-url');
+		var institutionSelect = document.querySelector('select[name="institution"]');
+		fetch(`${institutionUrl}?district_id=${districtId}`)
+			.then(response => response.json())
+			.then(data => {
+				// Clear existing options
+				institutionSelect.innerHTML = '';
+				// Add default option
+				institutionSelect.appendChild(new Option('', ''));
+				// Add districts
+				data.forEach(institution => {
+					institutionSelect.appendChild(new Option(institution.name, institution.id));
+				});
+			})
+			.catch(error => console.error('Error fetching institutions:', error));
+	}
+	document.addEventListener('DOMContentLoaded', function() {
+		var districtSelect = document.querySelector('select[name="location_district"]');
+		var institutionSelect = document.querySelector('select[name="institution"]');
+		institutionSelect.addEventListener('change', function() {
+			var districtId = this.value;
+			if (districtId) {
+				fetchInstitutions(districtId);
+			} else {
+				institutionSelect.innerHTML = '<option value=""></option>';
+			}
+		});
+	});
+	function handleHighestQualificationChange(selectElement) {
+		var publicationTitleLabel = document.querySelector('label[for="publication_title"]');
+		var paperLinkLabel = document.querySelector('label[for="paper_link"]');
+		var journalLabel = document.querySelector('label[for="journal"]');
+	
+		// Check if "Ph.D" is selected
+		if (selectElement.value === 'Ph.D') {
+			// Add the "required" class to the label elements
+			publicationTitleLabel.classList.add('required');
+			paperLinkLabel.classList.add('required');
+			journalLabel.classList.add('required');
+		} else {
+			// Remove the "required" class from the label elements
+			publicationTitleLabel.classList.remove('required');
+			paperLinkLabel.classList.remove('required');
+			journalLabel.classList.remove('required');
+		}
+	}
+	
 </script>
 	
 		

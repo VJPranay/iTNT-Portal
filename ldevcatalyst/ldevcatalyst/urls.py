@@ -17,13 +17,14 @@ from django.contrib import admin
 from django.urls import path,include
 from django.conf import settings
 from django.conf.urls.static import static
-from datarepo.views import districts
+from datarepo.views import districts,institutions
 from common.views import not_found
 
 
 urlpatterns = [
     path('admin/test34345/', admin.site.urls,name="django_admin"),
     path('districts/', districts,name="districts"),
+    path('institutions/', institutions,name="institutions"),
     path('dashboard/', include('dashboard.urls')),
     path('registrations/', include('registrations.urls')),
     path('profiles/', include('profiles.urls')),

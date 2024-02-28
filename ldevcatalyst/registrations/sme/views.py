@@ -188,12 +188,12 @@ def sme_registration(request):
         name:
             type: string
             required: true
-            minlength: 5
+
             
         csrfmiddlewaretoken:
             type: string
             required: true
-            minlength: 5
+
 
         institution:
             type: string
@@ -232,7 +232,6 @@ def sme_registration(request):
         number:
             type: string
             required: true
-            minlength: 5
 
         title:
             type: string
@@ -252,16 +251,15 @@ def sme_registration(request):
 
         publication_title:
             type: string
-            required: true
+            required: false
 
         paper_link:
             type: string
-            required: true
-            regex: '^(http|https)://.*$'
+            required: false
 
         journal:
             type: string
-            required: true
+            required: false
         '''
         v=Validator()
         post_data = request.POST.dict()
@@ -324,9 +322,6 @@ def sme_registration(request):
     elif request.method == 'GET':
         # Return the initial form data
         return render(request, 'registrations/sme_registration.html', context={
-            'institutions': [
-                {'institution_id': x.id, 'institution_name': x.name} for x in Institution.objects.all()
-            ],
             'departments': [
                 {'department_id': x.id, 'department_name': x.name} for x in Department.objects.all()
             ],

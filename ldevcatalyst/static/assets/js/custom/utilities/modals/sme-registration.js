@@ -42,7 +42,6 @@ var KTCreateAccount = function () {
         stepperObj.on('kt.stepper.next', function (stepper) {
             // Validate form before change stepper step
             var validator = validations[stepper.getCurrentStepIndex() - 1]; // get validator for current step
-
             if (validator) {
                 validator.validate().then(function (status) {
                     if (status == 'Valid') {
@@ -131,6 +130,8 @@ var KTCreateAccount = function () {
                                     stepperObj.goPrevious();
                                     stepperObj.goPrevious();
                                     KTUtil.scrollTop();
+                                    formSubmitButton.setAttribute('data-kt-indicator', 'off');
+                                    formSubmitButton.disabled = false;
                                 });
                             }
                         },
@@ -298,25 +299,26 @@ var KTCreateAccount = function () {
                     },
                     publication_title: {
                         validators: {
-                            notEmpty: {
-                                message: 'Please enter Publication Title'
+                            notEmptyIfPhD: {
+                                message: 'Please enter Publication Title',
+                                enabled: false // Initially disabled
                             }
                         }
                     },
                     paper_link: {
                         validators: {
-                            notEmpty: {
-                                message: 'Please enter Paper Link'
+                            notEmptyIfPhD: {
+                                message: 'Please enter Paper Link',
+                                enabled: false // Initially disabled
                             },
-                            uri: {
-                                message: 'Invalid URL format'
-                            }
+                            
                         }
                     },
                     journal: {
                         validators: {
-                            notEmpty: {
-                                message: 'Please enter Journal'
+                            notEmptyIfPhD: {
+                                message: 'Please enter Journal',
+                                enabled: false // Initially disabled
                             }
                         }
                     },
@@ -351,6 +353,19 @@ var KTCreateAccount = function () {
                 }
             }
         ));
+
+
+        FormValidation.validators.mandatoryIfPhD = {
+            validate: function(input) {
+                var highestQualification = form.querySelector('[name="highest_qualification"]').value.trim();
+                // If highest_qualification is "Ph.D", the field should not be empty
+                if (highestQualification === "Ph.D") {
+                    return (input.value.trim() !== '');
+                }
+                // If highest_qualification is not "Ph.D", the field can be empty
+                return true;
+            }
+        };
     };
 
     return {

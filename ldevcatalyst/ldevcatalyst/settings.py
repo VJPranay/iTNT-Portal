@@ -24,7 +24,7 @@ SECRET_KEY = 'django-insecure-68bn2*xnujz@*i2(xb61^kk3vhzo8sfyw3mrn7***srqkm49_*
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-DEV = False
+DEV = True
 
 ALLOWED_HOSTS = [
 'itntportal.ldev.in',
@@ -107,16 +107,25 @@ WSGI_APPLICATION = 'ldevcatalyst.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'tempordb',
-        'USER': 'temporusr',
-        'PASSWORD': 'J35u53253#@%#',
-        'HOST': '10.236.205.46',
-        'PORT': '5432',
+if DEV:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
     }
-}
+else:
+    FORCE_SCRIPT_NAME = '/innovation-portal'
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'tempordb',
+            'USER': 'temporusr',
+            'PASSWORD': 'J35u53253#@%#',
+            'HOST': '10.236.205.46',
+            'PORT': '5432',
+        }
+    }
 
 
 # Password validation
@@ -190,5 +199,5 @@ LOGOUT_URL = '/dashboard/logout/'
 #LOGIN_REDIRECT_URL = '/dashboard/index/'
 LOGIN_FAILURE_URL = '/dashboard/'
 
-FORCE_SCRIPT_NAME = '/innovation-portal'
+
 

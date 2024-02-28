@@ -19,11 +19,7 @@ class Department(models.Model):
     def __str__(self):
         return self.name
 
-class Institution(models.Model):
-    name = models.CharField(max_length=100)
 
-    def __str__(self):
-        return self.name
 
 
 
@@ -42,6 +38,15 @@ class District(models.Model):
 
 class IndustryCategory(models.Model):
     name = models.CharField(max_length=100,blank=True, null=True)
+
+    def __str__(self):
+        return self.name
+
+
+
+class Institution(models.Model):
+    district = models.ForeignKey(District, on_delete=models.SET_NULL,blank=True,null=True)
+    name = models.CharField(max_length=100)
 
     def __str__(self):
         return self.name
