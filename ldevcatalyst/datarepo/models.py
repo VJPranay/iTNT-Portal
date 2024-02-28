@@ -46,7 +46,7 @@ class IndustryCategory(models.Model):
 
 class Institution(models.Model):
     district = models.ForeignKey(District, on_delete=models.SET_NULL,blank=True,null=True)
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=255)
 
     def __str__(self):
         return self.name
