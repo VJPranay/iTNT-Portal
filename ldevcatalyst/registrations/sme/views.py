@@ -313,7 +313,7 @@ def sme_registration(request):
                     area_of_interest_info = AreaOfInterest.objects.get(id=area_of_interest_id_int)
                     new_sme_registration.area_of_interest.add(area_of_interest_id_int)
                 except (ValueError, AreaOfInterest.DoesNotExist):
-                    area_of_interest_info = AreaOfInterest.objects.create(name=area_of_interest_id)
+                    area_of_interest_info = AreaOfInterest.objects.create(name=area_of_interest_id,is_approved=False)
                     area_of_interest_info.save()
                     new_sme_registration.area_of_interest.add(area_of_interest_info)
                 new_sme_registration.save()
