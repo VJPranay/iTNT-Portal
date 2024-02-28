@@ -161,11 +161,7 @@ def sme_registration(request):
         mobile = request.POST.get('mobile')
         highest_qualification = request.POST.get('highest_qualification')
         # Patent
-        number = request.POST.get('number')
-        title = request.POST.get('title')
-        inventors = request.POST.get('inventors')
-        filing_date = request.POST.get('filing_date')
-        status = request.POST.get('status')
+        patent_data = request.POST.get('patents')
 
         # Publications
         title = request.POST.get('publication_title')
@@ -185,6 +181,14 @@ def sme_registration(request):
         name:
             type: string
             required: true
+
+        highest_qualification_input:
+            type: string
+            required: false
+        
+        collaboration_sector_other:
+            type: string
+            required: false
 
             
         csrfmiddlewaretoken:
@@ -225,27 +229,6 @@ def sme_registration(request):
         highest_qualification:
             type: string
             required: true
-
-        number:
-            type: string
-            required: true
-
-        title:
-            type: string
-            required: true
-
-        inventors:
-            type: string
-            required: true
-
-        filing_date:
-            type: string
-            required: true
-
-        status:
-            type: string
-            required: true
-
         publication_title:
             type: string
             required: false
@@ -257,6 +240,35 @@ def sme_registration(request):
         journal:
             type: string
             required: false
+
+        patents:
+            type: string
+            required: false
+
+        
+        filing_date[]:
+            type: string
+            required: false
+        
+            
+        inventors[]:
+            type: string
+            required: false
+
+        
+        number[]:
+            type: string
+            required: false
+
+        
+        status[]:
+            type: string
+            required: false
+
+        
+        title[]:
+            type: string
+            required: false
         '''
         v=Validator()
         post_data = request.POST.dict()
@@ -264,14 +276,14 @@ def sme_registration(request):
         if v.validate(post_data,schema):   
             try:
                 
-                # Create PatentInfo object
-                new_patent_info = PatentInfo.objects.create(
-                    number=number,
-                    title=title,
-                    inventors=inventors,
-                    filing_date=filing_date,
-                    status=status
-                )
+                # # Create PatentInfo object
+                # new_patent_info = PatentInfo.objects.create(
+                #     number=number,
+                #     title=title,
+                #     inventors=inventors,
+                #     filing_date=filing_date,
+                #     status=status
+                # )
 
                 # Create PublicationInfo object
                 new_publication_info = PublicationInfo.objects.create(
@@ -279,6 +291,7 @@ def sme_registration(request):
                     paper_link=paper_link,
                     journal=journal
                 )
+
 
 
                 # Create ResearcherRegistrations object
@@ -291,9 +304,20 @@ def sme_registration(request):
                     mobile=mobile,
                     email=email,
                     highest_qualification=highest_qualification,
-                    patents_id=new_patent_info.id,
+                    #patents_id=new_patent_info.id,
                     publications_id=new_publication_info.id,
                 )
+                patent_data = json.loads(patent_data)
+                for patent in patent_data:
+                    new_patent_info = PatentInfo.objects.create(
+                        number=patent['number'],
+                        title=patent['title'],
+                        inventors=patent['inventors'],
+                        filing_date=patent['filing_date'],
+                        status=patent['status']
+                    )
+                    new_patent_info.save()
+                    new_sme_registration.patents.add(new_patent_info)
                 try:
                     area_of_interest_id_int = int(area_of_interest_id)
                     area_of_interest_info = AreaOfInterest.objects.get(id=area_of_interest_id_int)

@@ -78,11 +78,13 @@ var KTCreateAccount = function () {
         formSubmitButton.addEventListener('click', function (e) {
             // Validate form before change stepper step
             var validator = validations[1]; // get validator for last form
+            collectPatentsData();
 
             validator.validate().then(function (status) {
                 if (status == 'Valid') {
                     // Prevent default button action
                     e.preventDefault();
+                    
                     var formData = new FormData(form);
                     var actionUrl = form.getAttribute('action');
 
@@ -259,41 +261,6 @@ var KTCreateAccount = function () {
                         validators: {
                             notEmpty: {
                                 message: 'Please enter your Highest Qualification'
-                            }
-                        }
-                    },
-                    number: {
-                        validators: {
-                            notEmpty: {
-                                message: 'Please enter Patent Number'
-                            }
-                        }
-                    },
-                    title: {
-                        validators: {
-                            notEmpty: {
-                                message: 'Please enter Title'
-                            }
-                        }
-                    },
-                    inventors: {
-                        validators: {
-                            notEmpty: {
-                                message: 'Please enter Inventor(s) and Applicant(s)'
-                            }
-                        }
-                    },
-                    filing_date: {
-                        validators: {
-                            notEmpty: {
-                                message: 'Please enter Filing Date'
-                            }
-                        }
-                    },
-                    status: {
-                        validators: {
-                            notEmpty: {
-                                message: 'Please enter Status'
                             }
                         }
                     },

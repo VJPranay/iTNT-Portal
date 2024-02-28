@@ -128,7 +128,7 @@
 								<div class="current" data-kt-stepper-element="content">
 									<div class="w-100">
 										<div class="pb-10 pb-lg-12">
-											<h2 class="fw-bold text-gray-900">Personal Details</h2>
+											<h2 class="fw-bold text-gray-900">Details</h2>
 											<div class="text-muted fw-semibold fs-6">Know more about the registration process <a href="#" class="link-primary fw-bold">here</a>.</div>
 										</div>
 										{% csrf_token %}
@@ -213,10 +213,10 @@
 										<!--begin::Heading-->
 										<div class="pb-10 pb-lg-15">
 											<!--begin::Title-->
-											<h2 class="fw-bold text-gray-900"> Patent Information</h2>
+											<h2 class="fw-bold text-gray-900">Information</h2>
 											<!--end::Title-->
 											<!--begin::Notice-->
-											<div class="text-muted fw-semibold fs-6">Patent details</div>
+											<div class="text-muted fw-semibold fs-6">More details</div>
 											<!--end::Notice-->
 										</div>
 										<!--end::Heading-->
@@ -236,50 +236,6 @@
 											<!--end::Input-->
 										</div>
 										<!--end::Input group-->
-										<div class="fv-row mb-10">
-											<!--begin::Label-->
-											<label class="form-label r">Patent Number</label>
-											<!--end::Label-->
-											<!--begin::Input-->
-											<input name="number" class="form-control form-control-lg form-control-solid" placeholder="Enter Patent Number" value="" required />
-											<!--end::Input-->
-										</div>
-										<div class="fv-row mb-10">
-											<!--begin::Label-->
-											<label class="form-label ">Title</label>
-											<!--end::Label-->
-											<!--begin::Input-->
-											<input name="title" class="form-control form-control-lg form-control-solid" placeholder="Enter Title" value="" required />
-											<!--end::Input-->
-										</div>
-										<div class="fv-row mb-10">
-											<!--begin::Label-->
-											<label class="form-label ">Inventor(s) and Applicant(s)</label>
-											<!--end::Label-->
-											<!--begin::Input-->
-											<input name="inventors" class="form-control form-control-lg form-control-solid" placeholder="Enter Inventor(s) and Applicant(s)" value="" required />
-											<!--end::Input-->
-										</div>
-										<div class="fv-row mb-10">
-											<!--begin::Label-->
-											<label class="form-label">Filing Date</label>
-											<!--end::Label-->
-											<!--begin::Input-->
-											<input name="filing_date" class="form-control form-control-lg form-control-solid" type="date" value="" required />
-											<!--end::Input-->
-										</div>
-										<div class="fv-row mb-10">
-											<!--begin::Label-->
-											<label class="form-label ">Status</label>
-											<!--end::Label-->
-											<!--begin::Input-->
-											<select name="status" class="form-select form-select-lg form-select-solid" required>
-												<option value="pending">Pending</option>
-												<option value="granted">Granted</option>
-												<option value="expired">Expired</option>
-											</select>
-											<!--end::Input-->
-										</div>
 										<div class="fv-row mb-10">
 											<!--begin::Label-->
 											<label for="publication_title" class="form-label ">Publication Title</label>
@@ -304,6 +260,69 @@
 											<input name="journal" class="form-control form-control-lg form-control-solid" placeholder="Enter Journal" value="" />
 											<!--end::Input-->
 										</div>
+										<div id="additional_patents">
+											<div class="patent">
+												<!--begin::Heading-->
+												<div class="pb-10 pb-lg-15">
+													<!--begin::Notice-->
+													<div class="fw-bold text-gray-900">Patent Information - 1</div>
+													<!--end::Notice-->
+												</div>
+												<!--end::Heading-->
+												<div class="fv-row mb-10">
+													<!--begin::Label-->
+													<label class="form-label r">Patent Number</label>
+													<!--end::Label-->
+													<!--begin::Input-->
+													<input name="number[]" class="form-control form-control-lg form-control-solid" placeholder="Enter Patent Number" value="" required />
+													<!--end::Input-->
+												</div>
+										
+												<div class="fv-row mb-10">
+													<!--begin::Label-->
+													<label class="form-label ">Title</label>
+													<!--end::Label-->
+													<!--begin::Input-->
+													<input name="title[]" class="form-control form-control-lg form-control-solid" placeholder="Enter Title" value="" required />
+													<!--end::Input-->
+												</div>
+												<div class="fv-row mb-10">
+													<!--begin::Label-->
+													<label class="form-label ">Inventor(s) and Applicant(s)</label>
+													<!--end::Label-->
+													<!--begin::Input-->
+													<input name="inventors[]" class="form-control form-control-lg form-control-solid" placeholder="Enter Inventor(s) and Applicant(s)" value="" required />
+													<!--end::Input-->
+												</div>
+												<div class="fv-row mb-10">
+													<!--begin::Label-->
+													<label class="form-label">Filing Date</label>
+													<!--end::Label-->
+													<!--begin::Input-->
+													<input name="filing_date[]" class="form-control form-control-lg form-control-solid" type="date" value="" required />
+													<!--end::Input-->
+												</div>
+												<div class="fv-row mb-10">
+													<!--begin::Label-->
+													<label class="form-label ">Status</label>
+													<!--end::Label-->
+													<!--begin::Input-->
+													<select name="status[]" class="form-select form-select-lg form-select-solid" required>
+														<option value="pending">Pending</option>
+														<option value="granted">Granted</option>
+														<option value="expired">Expired</option>
+													</select>
+													<!--end::Input-->
+												</div>
+											</div>
+										</div>
+										<div class="d-flex">
+											<p id="add_more_patents" class="btn btn-primary">+ Add one more patent</p>
+										</div>
+										
+										<!-- Hidden input field to store patents data -->
+										<input type="hidden" name="patents" id="patents">
+										
 										<!--end::Input group-->
 									</div>
 									<!--end::Wrapper-->
@@ -495,6 +514,72 @@
             selectElement.name = "highest_qualification";
         }
     }
+	// Function to add more patents dynamically
+	function addOneMorePatent() {
+		var additionalPatents = document.getElementById('additional_patents');
+		var numPatents = additionalPatents.getElementsByClassName('patent').length + 1;
+	
+		var newPatent = document.createElement('div');
+		newPatent.classList.add('patent');
+	
+		// Create the patent HTML structure
+		newPatent.innerHTML = `
+			<div class="pb-10 pb-lg-15">
+				<div class="fw-bold text-gray-900">Patent Information - ${numPatents}</div>
+			</div>
+			<div class="fv-row mb-10">
+				<label class="form-label r">Patent Number</label>
+				<input name="number[]" class="form-control form-control-lg form-control-solid" placeholder="Enter Patent Number" value="" required />
+			</div>
+			<div class="fv-row mb-10">
+				<label class="form-label ">Title</label>
+				<input name="title[]" class="form-control form-control-lg form-control-solid" placeholder="Enter Title" value="" required />
+			</div>
+			<div class="fv-row mb-10">
+				<label class="form-label ">Inventor(s) and Applicant(s)</label>
+				<input name="inventors[]" class="form-control form-control-lg form-control-solid" placeholder="Enter Inventor(s) and Applicant(s)" value="" required />
+			</div>
+			<div class="fv-row mb-10">
+				<label class="form-label">Filing Date</label>
+				<input name="filing_date[]" class="form-control form-control-lg form-control-solid" type="date" value="" required />
+			</div>
+			<div class="fv-row mb-10">
+				<label class="form-label ">Status</label>
+				<select name="status[]" class="form-select form-select-lg form-select-solid" required>
+					<option value="pending">Pending</option>
+					<option value="granted">Granted</option>
+					<option value="expired">Expired</option>
+				</select>
+			</div>
+		`;
+	
+		additionalPatents.appendChild(newPatent);
+	}
+var addMorePatents = document.getElementById('add_more_patents');
+if (addMorePatents) {
+    addMorePatents.addEventListener('click', function () {
+        addOneMorePatent();
+    });
+}
+function collectPatentsData() {
+    var patentsData = [];
+    var patents = document.getElementsByClassName('patent');
+
+    for (var i = 0; i < patents.length; i++) {
+        var patent = patents[i];
+        var patentData = {
+            number: patent.querySelector('[name="number[]"]').value,
+            title: patent.querySelector('[name="title[]"]').value,
+            inventors: patent.querySelector('[name="inventors[]"]').value,
+            filing_date: patent.querySelector('[name="filing_date[]"]').value,
+            status: patent.querySelector('[name="status[]"]').value
+        };
+        patentsData.push(patentData);
+    }
+
+    document.getElementById('patents').value = JSON.stringify(patentsData);
+}
+
 	
 </script>
 	
