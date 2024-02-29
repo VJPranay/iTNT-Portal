@@ -203,3 +203,20 @@ LOGIN_FAILURE_URL = '/dashboard/'
 
 
 
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'mail.tn.gov.in'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 465
+EMAIL_HOST_FROM = 'aso.itnt@tn.gov.in'
+
+EMAIL_HOST_EMAIL = 'aso.itnt@tn.gov.in'
+EMAIL_HOST_USER = 'aso.itnt'
+EMAIL_HOST_USERNAME = 'aso.itnt'
+EMAIL_RECEIVER_USER = 'aso.itnt@tn.gov.in'
+EMAIL_HOST_PASSWORD = "uheim}a3"
+CUSTOM_SMTP_HOST = 'mail.tn.gov.in'
+CUSTOM_SMTP_SENDER = 'aso.itnt@tn.gov.in'
+CUSTOM_SMTP_USERNAME = 'aso.itnt'
+CUSTOM_SMTP_PASSWORD = 'uheim}a3'
