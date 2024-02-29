@@ -96,9 +96,9 @@ def support_form_submit(request):
                     server.login(email_username, email_password)
                     server.sendmail(email_username, ['pranaymadasi1@gmail.com'], message.as_string())
                 
-                return JsonResponse({'success': True})
+                return JsonResponse({'success': True,'email_status' : False})
             except Exception as e:
-                return JsonResponse({'success': False, 'error_message': str(e)})
+                return JsonResponse({'success': True,'email_status' : False})
         else:
             return JsonResponse(
                     {
