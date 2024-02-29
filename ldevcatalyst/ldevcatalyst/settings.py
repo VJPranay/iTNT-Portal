@@ -67,6 +67,7 @@ INSTALLED_APPS = [
     'marketplace',
     'dashboard',
     'common',
+    'support'
 ]
 
 AUTH_USER_MODEL = 'profiles.User'
