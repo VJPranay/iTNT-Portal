@@ -177,6 +177,13 @@ def sme_registration(request):
             department_info = Department.objects.get(id=department_id)
         except Department.DoesNotExist:
             pass
+        if area_of_interest_id.replace(" ",'') == '' or highest_qualification.replace(" ",'') == '':
+            return JsonResponse(
+                    {
+                        'success': False,
+                        'registration_id': "Failed",
+                        'error': "area of interest field cant be empty",
+                    })
         request_schema='''
         name:
             type: string
@@ -229,6 +236,7 @@ def sme_registration(request):
         highest_qualification:
             type: string
             required: true
+
         publication_title:
             type: string
             required: false
@@ -244,28 +252,23 @@ def sme_registration(request):
         patents:
             type: string
             required: false
-
-        
+    
         filing_date[]:
             type: string
             required: false
-        
-            
+                    
         inventors[]:
             type: string
             required: false
 
-        
         number[]:
             type: string
             required: false
-
         
         status[]:
             type: string
             required: false
 
-        
         title[]:
             type: string
             required: false
