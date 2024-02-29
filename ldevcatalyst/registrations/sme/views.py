@@ -343,16 +343,16 @@ def sme_registration(request):
         # Return the initial form data
         return render(request, 'registrations/sme_registration.html', context={
             'departments': [
-                {'department_id': x.id, 'department_name': x.name} for x in Department.objects.all()
+                {'department_id': x.id, 'department_name': x.name} for x in Department.objects.all().order_by('name')
             ],
             'districts': [
-                {'district_id': x.id, 'district_name': x.name} for x in District.objects.all()
+                {'district_id': x.id, 'district_name': x.name} for x in District.objects.all().order_by('name')
             ],
             'states': [
-                {'state_id': x.id, 'state_name': x.name} for x in State.objects.all()
+                {'state_id': x.id, 'state_name': x.name} for x in State.objects.all().order_by('name')
             ],
             'area_of_interests': [
-                {'area_of_interest_id': x.id, 'area_of_interest_name': x.name} for x in AreaOfInterest.objects.filter(is_approved=True)
+                {'area_of_interest_id': x.id, 'area_of_interest_name': x.name} for x in AreaOfInterest.objects.filter(is_approved=True).order_by('name')
             ],
         })
     
