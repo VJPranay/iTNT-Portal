@@ -84,7 +84,6 @@ def support_form_submit(request):
                         Support Category: {support_category}
                         Short Description: {short_description}
                         '''
-
                 # Constructing email message
                 message = MIMEMultipart()
                 message['From'] = email_username
