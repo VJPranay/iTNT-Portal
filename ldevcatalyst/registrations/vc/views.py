@@ -97,7 +97,7 @@ def vc_approve_registration(request):
                     email_port = settings.email_port
                     email_username = settings.email_username
                     email_password = settings.email_password
-                email_from = settings.email_from
+                    email_from = settings.email_from
                     subject = 'You iTNT registration has been approved'
                     body = f'''
                             Username: {user.username}
