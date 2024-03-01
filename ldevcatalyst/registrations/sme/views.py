@@ -120,7 +120,7 @@ def sme_approve_registrations(request):
                 registration.status='approved'
                 registration.save()
 
-                email_host='mail.ldev.in'
+                email_host = settings.email_host
                 email_port = settings.email_port
                 email_username = settings.email_username
                 email_password = settings.email_password
