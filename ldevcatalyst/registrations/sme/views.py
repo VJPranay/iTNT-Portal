@@ -10,6 +10,7 @@ from django.http import JsonResponse
 from profiles.models import User
 from django.db.utils import IntegrityError
 import smtplib
+from ldevcatalyst import settings
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 import json
@@ -20,6 +21,7 @@ from cerberus import Validator
 from django.db import IntegrityError
 from django.utils.html import escape
 from django.db import transaction
+
 
 @login_required
 def sme_registrations(request,registration_status=None):
@@ -119,14 +121,15 @@ def sme_approve_registrations(request):
                 registration.save()
 
                 email_host='mail.ldev.in'
-                email_port = 465
-                email_username = 'itntadmin@ldev.in'
-                email_password = 'Pranay123@'
+                email_port = settings.email_port
+                email_username = settings.email_username
+                email_password = settings.email_password
+                email_from = settings.email_from
                 subject = 'You iTNT registration has been approved'
                 body = f'''
                         Username: {user.username}
                         Password: {password}
-                        Login URL: http://innovationportal.tnthub.org.ldev.in/dashboard
+                        Login URL: https://itnthub.tn.gov.in/innovation-portal/dashboard
                         '''
 
 

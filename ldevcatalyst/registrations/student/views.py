@@ -10,6 +10,7 @@ from django.http import JsonResponse
 from profiles.models import User,Student
 from django.db.utils import IntegrityError
 import smtplib
+from ldevcatalyst import settings
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 import random
@@ -87,15 +88,16 @@ def student_approve_registration(request):
                     student_profile.area_of_interest.add(x.id)
                     student_profile.save()
                 print(user.username)
-                email_host = 'mail.ldev.in'
-                email_port = 465
-                email_username = 'itntadmin@ldev.in'
-                email_password = 'Pranay123@'
+                email_host = settings.email_host
+                email_port = settings.email_port
+                email_username = settings.email_username
+                email_password = settings.email_password
+                email_from = settings.email_from
                 subject = 'You iTNT registration has been approved'
                 body = f'''
                         Username: {user.username}
                         Password: {password}
-                        Login URL: http://innovationportal.tnthub.org.ldev.in/dashboard
+                        Login URL: https://itnthub.tn.gov.in/innovation-portal/dashboard
                         '''
                 print(password)
                 message = MIMEMultipart()

@@ -1,4 +1,5 @@
 import smtplib
+from ldevcatalyst import settings
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from django.http import JsonResponse
@@ -69,10 +70,16 @@ def support_form_submit(request):
             # Sending email notification
             try:
                 # SMTP Configuration
-                email_host = 'mail.ldev.in'
-                email_port = 465
-                email_username = 'no-reply@itnthub.tn.gov.in.ldev.in'
-                email_password = 'Pranayy123@'
+                email_host = settings.email_host
+                email_port = settings.email_port
+                email_username = settings.email_username
+                email_password = settings.email_password
+                email_from = settings.email_from
+                email_to = [
+                    'support@ldev.in',
+                    'itsupport@tnthub.org',
+                    'Developer@tnthub.org'
+                ]
 
                 # Email content
                 subject = 'New Support Request'
@@ -93,7 +100,7 @@ def support_form_submit(request):
                 # Send email
                 with smtplib.SMTP_SSL(email_host, email_port) as server:
                     server.login(email_username, email_password)
-                    server.sendmail(email_username, ['pranaymadasi1@gmail.com'], message.as_string())
+                    server.sendmail(email_username, email_to, message.as_string())
                 
                 return JsonResponse({'success': True,'email_status' : False})
             except Exception as e:
