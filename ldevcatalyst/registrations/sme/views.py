@@ -309,6 +309,8 @@ def sme_registration(request):
                 )
                 patent_data = json.loads(patent_data)
                 for patent in patent_data:
+                    if patent['title'].replace(" ",'') == '' or patent['inventors'].replace(" ",'') == '':
+                        continue
                     new_patent_info = PatentInfo.objects.create(
                         number=patent['number'],
                         title=patent['title'],
