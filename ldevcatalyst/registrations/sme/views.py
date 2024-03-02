@@ -375,7 +375,10 @@ def fetch_sme_registration_details(request):
         
         sme = ResearcherRegistrations.objects.get(id=sme_id)
         patents = PatentInfo.objects.filter(id__in=sme.patents.values_list('id', flat=True))
-        publication = PublicationInfo.objects.get(id=sme.publications_id)
+        try:
+            publication = PublicationInfo.objects.get(id=sme.publications_id)
+        except PublicationInfo.DoesNotExist:
+            publication = None
         
         context = {
             'sme': sme,
