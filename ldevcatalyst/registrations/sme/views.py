@@ -287,12 +287,13 @@ def sme_registration(request):
             try:
                 new_publication_info = None
                 if title.replace(" ",'') != '' or journal.replace(" ",'') != '':
-                    new_publication_info = PublicationInfo.objects.create(
+                    new_publication_i = PublicationInfo.objects.create(
                         title=title,
                         paper_link=paper_link,
                         journal=journal
                     )
-                    new_publication_info.save()
+                    new_publication_i.save()
+                    new_publication_info = new_publication_i
                 # Create ResearcherRegistrations object
                 new_sme_registration = ResearcherRegistrations.objects.create(
                     name=name,
@@ -314,8 +315,7 @@ def sme_registration(request):
                         title=patent['title'],
                         inventors=patent['inventors'],
                         filing_date=patent['filing_date'],
-                        status=patent['status']
-                        )
+                        status=patent['status'])
                         new_patent_info.save()
                         new_sme_registration.patents.add(new_patent_info)
                     
