@@ -92,24 +92,24 @@ def vc_approve_registration(request):
                         linkedin_profile = registration.linkedin_profile,
                     )
                     vc_profile.save()
-                    email_host = 'mail.ldev.in'
+                    email_host = 'mail.tn.gov.in'
                     email_port = 465
-                    email_username = 'itntadmin@ldev.in'
-                    email_password = 'Pranay123@'
+                    email_username = 'aso.itnt'
+                    email_password = 'uheim}a3'
                     subject = 'You iTNT registration has been approved'
                     body = f'''
                             Username: {user.username}
                             Password: {password}
-                            Login URL: http://innovationportal.tnthub.org.ldev.in/dashboard
+                            Login URL: https://itnthub.tn.gov.in/innovation-portal/dashboard
                             '''
                     message = MIMEMultipart()
-                    message['From'] = email_username
+                    message['From'] = 'aso.itnt@tn.gov.in'
                     message['To'] = registration.email  # Add the additional email address
                     message['Subject'] = subject
                     message.attach(MIMEText(body, 'plain'))
                     with smtplib.SMTP_SSL(email_host, email_port) as server:
-                        print(server.login(email_username, email_password))
-                        print(server.sendmail(email_username, [registration.email], message.as_string()))
+                        server.login(email_username, email_password)
+                        server.sendmail('aso.itnt@tn.gov.in', [registration.email], message.as_string())
                     return JsonResponse({'success': True})
                 except VCRegistrations.DoesNotExist:
                     print("error")

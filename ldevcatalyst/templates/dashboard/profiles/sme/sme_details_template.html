@@ -1,0 +1,119 @@
+<!-- Your HTML template with Django template syntax to inject dynamic data -->
+<div class="d-flex gap-7 align-items-center">
+    <!--begin::Avatar-->
+    <div class="symbol symbol-circle symbol-100px">
+        <span class="symbol-label bg-light-success fs-1 fw-bolder">{{ sme.name|first }}</span>
+    </div>
+    <!--end::Avatar-->
+    <!--begin::Contact details-->
+    <div class="d-flex flex-column gap-2">
+        <!--begin::Name-->
+        <h3 class="mb-0">{{ sme.name }}</h3>
+        <!--end::Name-->
+        <!--begin::Email-->
+        <div class="d-flex align-items-center gap-2">
+            <i class="ki-outline ki-sms fs-2"></i>
+            <a href="#" class="text-muted text-hover-primary">{{ sme.email }}</a>
+        </div>
+        <!--end::Email-->
+    </div>
+    <!--end::Contact details-->
+</div>
+<!--begin:::Tabs-->
+<ul class="nav nav-custom nav-tabs nav-line-tabs nav-line-tabs-2x fs-6 fw-semibold mt-6 mb-8 gap-2">
+    <!--begin:::Tab item-->
+    <li class="nav-item">
+        <a class="nav-link text-active-primary d-flex align-items-center pb-4 active" data-bs-toggle="tab" href="#kt_contact_view_general">
+            <i class="ki-outline ki-home fs-4 me-1"></i>Information</a>
+    </li>
+    <!--end:::Tab item-->
+</ul>
+<!--end:::Tabs-->
+<!--begin::Tab content-->
+<div class="tab-content" id="">
+    <!--begin:::Tab pane-->
+    <div class="tab-pane fade show active" id="kt_contact_view_general" role="tabpanel">
+        <!--begin::Additional details-->
+        <div class="d-flex flex-column gap-5 mt-7">
+            <!--begin::state-->
+            <div class="d-flex flex-column gap-1">
+                <div class="fw-bold text-muted">State</div>
+                <div class="fw-bold fs-5">{{ sme.state.name }}</div>
+            </div>
+            <!--end::state-->
+            <!--begin::district-->
+            <div class="d-flex flex-column gap-1">
+                <div class="fw-bold text-muted">District</div>
+                <div class="fw-bold fs-5">{{ sme.district.name }}</div>
+            </div>
+            <!--end::district-->
+            <!--begin::department-->
+            <div class="d-flex flex-column gap-1">
+                <div class="fw-bold text-muted">Department</div>
+                <div class="fw-bold fs-5">{{ sme.department.name }}</div>
+            </div>
+            <!--end::department-->
+            <!--begin::institution-->
+            <div class="d-flex flex-column gap-1">
+                <div class="fw-bold text-muted">Institution</div>
+                <div class="fw-bold fs-5">{{ sme.institution.name }}</div>
+            </div>
+            <!--end::institution-->
+            <!--begin::mobile-->
+            <div class="d-flex flex-column gap-1">
+                <div class="fw-bold text-muted">Mobile</div>
+                <div class="fw-bold fs-5">{{ sme.mobile }}</div>
+            </div>
+            <!--end::mobile-->
+            <!--begin::highest_qualification-->
+            <div class="d-flex flex-column gap-1">
+                <div class="fw-bold text-muted">Highest Qualification</div>
+                <div class="fw-bold fs-5">{{ sme.highest_qualification }}</div>
+            </div>
+            <!--end::highest_qualification-->
+
+            <!--begin::area_of_interest-->
+            <div class="d-flex flex-column gap-1">
+                <div class="fw-bold text-muted">Area of Interest</div>
+                <div class="fw-bold fs-5">
+                    {% for interest in sme.area_of_interest.all %}
+                        {{ interest.name }}{% if not forloop.last %}, {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+            <!--end::area_of_interest-->
+
+            <!--begin::patents-->
+            <div class="d-flex flex-column gap-3">
+                <div class="fw-bold text-muted">Patents</div>
+                {% if patents %}
+                    {% for patent in patents %}
+                        <div class="d-flex flex-column gap-1">
+                            <div><strong>Number:</strong> {{ patent.number }}</div>
+                            <div><strong>Title:</strong> {{ patent.title }}</div>
+                            <div><strong>Inventors:</strong> {{ patent.inventors }}</div>
+                            <div><strong>Filing Date:</strong> {{ patent.filing_date }}</div>
+                            <div><strong>Status:</strong> {{ patent.status }}</div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div>No patents found.</div>
+                {% endif %}
+            </div>
+            <!--end::patents-->
+
+            <!--begin::publication-->
+            <div class="d-flex flex-column gap-1">
+                <div class="fw-bold text-muted">Publication</div>
+                <div class="fw-bold fs-5">{{ publication.title }}</div>
+                <div class="fw-bold fs-5">{{ publication.paper_link }}</div>
+                <div class="fw-bold fs-5">{{ publication.journal }}</div>
+            </div>
+            <!--end::publication-->
+
+        </div>
+        <!--end::Additional details-->
+    </div>
+    <!--end:::Tab pane-->
+</div>
+<!--end::Tab content-->

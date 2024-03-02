@@ -1,17 +1,22 @@
-from django.conf import settings
-from django.core.mail import EmailMessage, EmailMultiAlternatives
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 
-# message = get_template("emails/student_invite.html").render({
-#                     'registration_url': registration_url
-#                 })
-from_email = settings.EMAIL_HOST_FROM
-mail = EmailMultiAlternatives(
-                    "Test email",
-                    "This is a test email",
-                    from_email=from_email,
-                    to=['pranaymadasi1@gmail.com'],
-                )
-mail.content_subtype = "html"
-mail.mixed_subtype = 'related'
-mail.attach_alternative("This is a test email", "text/html")
-send = mail.send()
+email_host = 'mail.tn.gov.in'
+email_port = 465
+email_username = 'aso.itnt'
+email_password = 'uheim}a3'
+subject = 'You iTNT registration has been approved'
+body = f'''
+                        Username: test
+                        Password: test
+                        Login URL: https://itnthub.tn.gov.in/innovation-portal/dashboard
+                        '''
+message = MIMEMultipart()
+message['From'] = 'aso.itnt@tn.gov.in'
+message['To'] = 'pranaymadasi1@gmail.com'  
+message['Subject'] = subject
+message.attach(MIMEText(body, 'plain'))
+with smtplib.SMTP_SSL(email_host, email_port) as server:
+    server.login(email_username, email_password)
+    print(server.sendmail('aso.itnt@tn.gov.in', ['pranaymadasi1@gmail.com'], message.as_string()))

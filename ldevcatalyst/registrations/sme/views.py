@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import JsonResponse
-from ..models import ResearcherRegistrations
+from ..models import ResearcherRegistrations, PatentInfo, PublicationInfo
 from datarepo.models import AreaOfInterest,State,Department,District,Institution
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
@@ -20,6 +20,7 @@ from cerberus import Validator
 from django.db import IntegrityError
 from django.utils.html import escape
 from django.db import transaction
+from django.template.loader import render_to_string
 
 @login_required
 def sme_registrations(request,registration_status=None):
@@ -37,6 +38,7 @@ def sme_registrations(request,registration_status=None):
             'state':x.state.name,
             'district' : x.district.name,
             'created' : x.created,
+            'status' : x.status,
         }
         sme_registrations_list.append(temp)
     return render(request, 'dashboard/registrations/sme/list.html',context={'sme_registrations':sme_registrations_list})
@@ -44,108 +46,106 @@ def sme_registrations(request,registration_status=None):
 
 @login_required
 def sme_approve_registrations(request):
-    if request.method=='POST':
-        registration_id=request.POST.get('registration_id',None)
+    if request.method == 'POST':
+        registration_id = request.POST.get('registration_id', None)
         if not registration_id:
-            return JsonResponse({'success':False,'error':'Missing registration ID'},status=400)
+            return JsonResponse({'success': False, 'error': 'Missing registration ID'}, status=400)
         else:
             try:
-                registration=ResearcherRegistrations.objects.get(id=registration_id)
+                registration = ResearcherRegistrations.objects.get(id=registration_id)
 
-                
-                #Generate Userneme from Registaration Id
-                username=registration.registration_id
-  
-                
-                #Generating Randon 6 digit number
-                password="".join(random.choices(string.digits,k=6))
+                # Generate Username from Registration Id
+                username = registration.registration_id
 
-                
-                #Create User with Username and random Password
+                # Generating Random 6 digit number
+                password = ''.join(random.choices(string.digits, k=6))
+
+                # Create User with Username and random Password
                 try:
-                    user=User.objects.create_user(username=username,password=password)
-                    user.is_active=True
+                    user = User.objects.create_user(username=username, password=password)
+                    user.is_active = True
                     user.user_role = 5
                     user.email = registration.email
                     user.save()
-                except IntegrityError :
+                except IntegrityError:
                     user = User.objects.get(username=username)
-                    return JsonResponse({'success': True},status=200)
-                
+                    return JsonResponse({'success': True}, status=200)
 
-                patent_q = PatentInfo.objects.get(id=registration.patents_id)
-
-                new_patent= Patent.objects.create(
-                        user_id = user.id,
-                        number=patent_q.number,
-                        title=patent_q.title,
-                        inventors=patent_q.title,
-                        filing_date=patent_q.filing_date,
-                        status=patent_q.status
-                
+                # Create new publication
+                publication_info = registration.publications
+                new_publication = Publication.objects.create(
+                        user_id=user.id,
+                        title=publication_info.title,
+                        paper_link=publication_info.paper_link,
+                        journal=publication_info.journal,
                     )
-                new_patent.save()
 
-                publication_info_q = PublicationInfo.objects.get(id=registration.publications_id)
 
-                new_publication_info = Publication.objects.create(
+                # Create SME profile
+                sme_profile = Researcher.objects.create(
                     user_id=user.id,
-                    title=publication_info_q.title,
-                    paper_link=publication_info_q.paper_link,
-                    journal=publication_info_q.journal,
-                )
-                new_publication_info.save()
-                
-                sme_profile=Researcher.objects.create(
-                            user_id =user.id,
-                            name = registration.name,
-                            department = registration.department,
-                            institution = registration.institution,
-                            district = registration.district,
-                            state = registration.state,
-                            email = registration.email,
-                            mobile = registration.mobile,
-                            highest_qualification = registration.highest_qualification,
-                            created = registration.created,
-                            updated = registration.updated,
-                            patents_id=new_patent.id,
-                            publications_id=new_publication_info.id
+                    name=registration.name,
+                    department=registration.department,
+                    institution=registration.institution,
+                    district=registration.district,
+                    state=registration.state,
+                    email=registration.email,
+                    mobile=registration.mobile,
+                    highest_qualification=registration.highest_qualification,
+                    created=registration.created,
+                    updated=registration.updated,
+                    publications=new_publication
                 )
                 sme_profile.save()
-                for x in registration.area_of_interest.all():
-                    sme_profile.area_of_interest.add(x.id)
+
+                # Add area of interest
+                sme_profile.area_of_interest.set(registration.area_of_interest.all())
+
+                # Associate patents with SME profile
+                for x in registration.patents.all():
+                    print(x)
+                    new_patent = Patent.objects.create(
+                        user_id=user.id,
+                        number=x.number,
+                        title=x.title,
+                        inventors=x.inventors,
+                        filing_date=x.filing_date,
+                        status=x.status
+                    )
+                    new_patent.save()
+                    sme_profile.patents.add(new_patent)
                     sme_profile.save()
-                registration.status='approved'
+
+                # Change registration status to approved
+                registration.status = 'approved'
                 registration.save()
 
-                email_host='mail.ldev.in'
+                # Send email notification
+                email_host = 'mail.ldev.in'
                 email_port = 465
-                email_username = 'itntadmin@ldev.in'
-                email_password = 'Pranay123@'
-                subject = 'You iTNT registration has been approved'
+                email_username = 'aso.itnt'
+                email_password = 'uheim}a3'
+                subject = 'Your iTNT registration has been approved'
                 body = f'''
                         Username: {user.username}
                         Password: {password}
-                        Login URL: http://innovationportal.tnthub.org.ldev.in/dashboard
+                        Login URL: https://itnthub.tn.gov.in/innovation-portal/dashboard
                         '''
 
+                message = MIMEMultipart()
+                message['From'] = email_username
+                message['To'] = registration.email
+                message['Subject'] = subject
+                message.attach(MIMEText(body, 'plain'))
+                with smtplib.SMTP_SSL(email_host, email_port) as server:
+                    server.login(email_username, email_password)
+                    server.sendmail(email_username, [registration.email], message.as_string())
 
-                message=MIMEMultipart()
-                message['From']=email_username
-                message['To']=registration.email
-                message['Subject']=subject
-                message.attach(MIMEText(body,'plain'))
-                with smtplib.SMTP_SSL(email_host,email_port) as server:
-                    server.login(email_username,email_password)   
-                    server.sendmail(email_username,[registration.email],message.as_string())
- 
-                return JsonResponse({'success':True}) 
-            except  ResearcherRegistrations.DoesNotExist:
-                return JsonResponse({'status':False,'error':'Registration not found'},status=404)
+                return JsonResponse({'success': True})
+            except ResearcherRegistrations.DoesNotExist:
+                return JsonResponse({'status': False, 'error': 'Registration not found'}, status=404)
     else:
-        return JsonResponse({'status':False,'error':'Method not allowed'},status=405)
-                 
-                
+        return JsonResponse({'status': False, 'error': 'Method not allowed'}, status=405)
                 
         
 def sme_registration(request):
@@ -361,174 +361,21 @@ def sme_registration(request):
 def fetch_sme_registration_details(request):
     if request.method == 'POST':
         data = json.loads(request.body.decode('utf-8'))
-        sme_id = data.get('sme_id',None)
+        sme_id = data.get('sme_id', None)
         if not sme_id:
             return JsonResponse({'error': 'Invalid sme ID'}, status=400)
-        # Fetch sme details based on sme_id
+        
         sme = ResearcherRegistrations.objects.get(id=sme_id)
-        patent=PatentInfo.objects.get(id=sme.patents_id)
-        publication=PublicationInfo.objects.get(id=sme.publications_id)
-        area_of_interest_html = ""
-        for interest in sme.area_of_interest.all():
-            area_of_interest_html += f"{interest.name}"
-        # Construct HTML for the sme details
-        html = f"""
-                                   
-                                    <!--begin::Profile-->
-                                    <div class="d-flex gap-7 align-items-center">
-                                        <!--begin::Avatar-->
-                                        <div class="symbol symbol-circle symbol-100px">
-                                            <span class="symbol-label bg-light-success fs-1 fw-bolder">"""+escape(sme.name[:1])+"""</span>
-                                        </div>
-                                        <!--end::Avatar-->
-                                        <!--begin::Contact details-->
-                                        <div class="d-flex flex-column gap-2">
-                                            <!--begin::Name-->
-                                            <h3 class="mb-0">"""+escape(sme.name) + """</h3>
-                                            <!--end::Name-->
-                                            <!--begin::Email-->
-                                            <div class="d-flex align-items-center gap-2">
-                                                <i class="ki-outline ki-sms fs-2"></i>
-                                                <a href="#" class="text-muted text-hover-primary">"""+escape(sme.email) + """</a>
-                                            </div>
-                                            <!--end::Email-->
-                                        </div>
-                                        <!--end::Contact details-->
-                                    </div>
-                                    <!--end::Profile-->
-                                    <!--begin:::Tabs-->
-                                    <ul class="nav nav-custom nav-tabs nav-line-tabs nav-line-tabs-2x fs-6 fw-semibold mt-6 mb-8 gap-2">
-                                        <!--begin:::Tab item-->
-                                        <li class="nav-item">
-                                            <a class="nav-link text-active-primary d-flex align-items-center pb-4 active" data-bs-toggle="tab" href="#kt_contact_view_general">
-                                            <i class="ki-outline ki-home fs-4 me-1"></i>Information</a>
-                                        </li>
-                                        <!--end:::Tab item-->
-                                    </ul>
-                                    <!--end:::Tabs-->
-                                    <!--begin::Tab content-->
-                                    <div class="tab-content" id="">
-                                        <!--begin:::Tab pane-->
-                                        <div class="tab-pane fade show active" id="kt_contact_view_general" role="tabpanel">
-                                            <!--begin::Additional details-->
-                                            <div class="d-flex flex-column gap-5 mt-7">
-                                                <!--begin::state-->
-                                                <div class="d-flex flex-column gap-1">
-                                                    <div class="fw-bold text-muted">State</div>
-                                                    <div class="fw-bold fs-5">"""+escape(sme.state.name) + """</div>
-                                                </div>
-                                                <!--end::state-->
-                                                <!--begin::district-->
-                                                <div class="d-flex flex-column gap-1">
-                                                    <div class="fw-bold text-muted">District</div>
-                                                    <div class="fw-bold fs-5">"""+escape(sme.district.name) + """</div>
-                                                </div>
-                                                <!--end::district-->
-                                                <!--begin::department-->
-                                                <div class="d-flex flex-column gap-1">
-                                                    <div class="fw-bold text-muted">Department</div>
-                                                    <div class="fw-bold fs-5">"""+escape(sme.department.name) + """</div>
-                                                </div>
-                                                <!--end::department-->
-                                                <!--begin::institution-->
-                                                <div class="d-flex flex-column gap-1">
-                                                    <div class="fw-bold text-muted">Institution</div>
-                                                    <div class="fw-bold fs-5">"""+escape(sme.institution.name) + """</div>
-                                                </div>
-                                                <!--end::institution-->
-                                                <!--begin::mobile-->
-                                                <div class="d-flex flex-column gap-1">
-                                                    <div class="fw-bold text-muted">Mobile</div>
-                                                    <div class="fw-bold fs-5">"""+escape(sme.mobile) + """</div>
-                                                </div>
-                                                <!--end::mobile-->
-                                                <!--begin::highest_qualification-->
-                                                <div class="d-flex flex-column gap-1">
-                                                    <div class="fw-bold text-muted">Highest Qualification</div>
-                                                    <div class="fw-bold fs-5">"""+escape(sme.highest_qualification) + """</div>
-                                                </div>
-                                              <!--end::highest_qualification-->
-
-                                                 <!--begin::area_of_interest-->
-                                                <div class="d-flex flex-column gap-1">
-                                                    <div class="fw-bold text-muted">Area of Interest</div>
-                                                    <div class="fw-bold fs-5">"""+escape(area_of_interest_html) + """</div>
-                                                </div>
-                                                <!--end::area_of_interest-->
-                        
-                                                <!--end::mobile-->
-                                                <!--end::picture-->
-                                                
-                                                <!-- begin::number -->
-                                                <div class="d-flex flex-column gap-1">
-                                                    <div class="fw-bold text-muted">Patent Number</div>
-                                                    <div class="fw-bold fs-5">"""+escape(patent.number) + """</div>
-                                                </div>
-                                                <!-- end::number-->
-
-                                                <!-- begin::title -->
-                                                <div class="d-flex flex-column gap-1">
-                                                    <div class="fw-bold text-muted">Title</div>
-                                                    <div class="fw-bold fs-5">"""+escape(patent.title) + """</div>
-                                                </div>
-                                                <!-- end::title -->
-
-                                                <!-- begin::inventors -->
-                                                <div class="d-flex flex-column gap-1">
-                                                    <div class="fw-bold text-muted">Inventors</div>
-                                                    <div class="fw-bold fs-5">"""+escape(patent.inventors) + """</div>
-                                                </div>
-                                                <!-- end::inventors -->
-
-                                                <!-- begin::filing_date -->
-                                                <div class="d-flex flex-column gap-1">
-                                                    <div class="fw-bold text-muted">Filing Date</div>
-                                                    <div class="fw-bold fs-5">"""+escape(patent.filing_date) + """</div>
-                                                </div>
-                                                <!-- end::filing_date -->
-
-                                                <!-- begin::status -->
-                                                <div class="d-flex flex-column gap-1">
-                                                    <div class="fw-bold text-muted">Status</div>
-                                                    <div class="fw-bold fs-5">"""+escape(patent.status) + """</div>
-                                                </div>
-                                                <!-- end::status -->
-
-                                                <!-- begin::paper_title -->
-                                                <div class="d-flex flex-column gap-1">
-                                                    <div class="fw-bold text-muted">Paper Title</div>
-                                                    <div class="fw-bold fs-5">"""+escape(publication.title) + """</div>
-                                                </div>
-                                                <!-- end::paper_title -->
-
-                                                <!-- begin::paper_link -->
-                                                <div class="d-flex flex-column gap-1">
-                                                    <div class="fw-bold text-muted">Paper Link</div>
-                                                    <div class="fw-bold fs-5">"""+escape(publication.paper_link) + """</div>
-                                                </div>
-                                                <!-- end::paper_link -->
-
-                                                <!-- begin::journal -->
-                                                <div class="d-flex flex-column gap-1">
-                                                    <div class="fw-bold text-muted">Journal</div>
-                                                    <div class="fw-bold fs-5">"""+escape(publication.journal) + """</div>
-                                                </div>
-                                                <!-- end::journal -->
-
-                                                <!--begin::Additional details-->    
-
-                                                
-                                               
-                                            </div>
-                                            <!--end::Additional details-->
-                                        </div>
-                                        <!--end:::Tab pane-->
-                                    </div>
-                                    <!--end::Tab content-->
-                                    """
-
-        # Send the HTML response to the JavaScript function
+        patents = PatentInfo.objects.filter(id__in=sme.patents.values_list('id', flat=True))
+        publication = PublicationInfo.objects.get(id=sme.publications_id)
+        
+        context = {
+            'sme': sme,
+            'patents': patents,
+            'publication': publication,
+        }
+        
+        html = render_to_string('dashboard/profiles/sme/sme_details_template.html', context)
         return JsonResponse({'html': html})
     else:
-        # Handle invalid request
         return JsonResponse({'error': 'Invalid request'}, status=400)

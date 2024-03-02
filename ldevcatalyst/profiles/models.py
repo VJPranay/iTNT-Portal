@@ -75,7 +75,7 @@ class Researcher(models.Model):
     picture = models.ImageField(upload_to='researcher_pictures/', blank=True, null=True)
     area_of_interest = models.ManyToManyField(AreaOfInterest)
     highest_qualification = models.CharField(max_length=100, blank=True, null=True)
-    patents = models.ForeignKey(Patent, on_delete=models.SET_NULL, blank=True, null=True)
+    patents = models.ManyToManyField(Patent, blank=True, null=True)
     publications = models.ForeignKey(Publication, on_delete=models.SET_NULL, blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
