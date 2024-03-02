@@ -107,7 +107,7 @@ def sme_approve_registrations(request):
                     new_patent = Patent.objects.create(
                         user_id=user.id,
                         number=x.number,
-                        title=x.title,
+                        title=x.title,t 
                         inventors=x.inventors,
                         filing_date=x.filing_date,
                         status=x.status

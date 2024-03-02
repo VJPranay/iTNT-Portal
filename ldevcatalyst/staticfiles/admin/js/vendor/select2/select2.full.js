@@ -4744,7 +4744,7 @@ S2.define('select2/i18n/en',[],function () {
       return message;
     },
     noResults: function () {
-      return 'Comming soon';
+      return 'coming soon';
     },
     searching: function () {
       return 'Searching…';
