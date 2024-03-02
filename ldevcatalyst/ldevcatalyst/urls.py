@@ -20,6 +20,10 @@ from django.conf.urls.static import static
 from datarepo.views import districts,institutions
 from common.views import not_found
 
+admin.site.site_header = 'iTNT Super Admin'  # This will appear on the top of the admin page
+admin.site.site_title = 'iTNT Super Admin'  # This is used for the title of the admin window (e.g., in the browser tab)
+admin.site.index_title = 'iTNT Super Admin' 
+
 
 urlpatterns = [
     path('admin/test34345/', admin.site.urls,name="django_admin"),
