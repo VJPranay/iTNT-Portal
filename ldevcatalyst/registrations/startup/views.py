@@ -10,6 +10,7 @@ from django.http import JsonResponse
 from profiles.models import User
 from django.db.utils import IntegrityError
 import smtplib
+from ldevcatalyst import settings
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from profiles.models import StartUp
@@ -100,10 +101,11 @@ def startup_approve_registration(request):
                         short_video = registration.short_video,
                     )
                     startup_profile.save()
-                    email_host = 'mail.tn.gov.in'
-                    email_port = 465
-                    email_username = 'aso.itnt'
-                    email_password = 'uheim}a3'
+                    email_host = settings.email_host
+                    email_port = settings.email_port
+                    email_username = settings.email_username
+                    email_password = settings.email_password
+                    email_from = settings.email_from
                     subject = 'You iTNT registration has been approved'
                     body = f'''
                             Username: {user.username}

@@ -10,6 +10,7 @@ from django.http import JsonResponse
 from profiles.models import User,VC
 from django.db.utils import IntegrityError
 import smtplib
+from ldevcatalyst import settings
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 import json
@@ -92,10 +93,11 @@ def vc_approve_registration(request):
                         linkedin_profile = registration.linkedin_profile,
                     )
                     vc_profile.save()
-                    email_host = 'mail.tn.gov.in'
-                    email_port = 465
-                    email_username = 'aso.itnt'
-                    email_password = 'uheim}a3'
+                    email_host = settings.email_host
+                    email_port = settings.email_port
+                    email_username = settings.email_username
+                    email_password = settings.email_password
+                    email_from = settings.email_from
                     subject = 'You iTNT registration has been approved'
                     body = f'''
                             Username: {user.username}

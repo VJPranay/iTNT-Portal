@@ -1,22 +1,33 @@
+from ldevcatalyst import settings
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
-email_host = 'mail.tn.gov.in'
-email_port = 465
-email_username = 'aso.itnt'
-email_password = 'uheim}a3'
-subject = 'You iTNT registration has been approved'
+email_host = settings.email_host
+email_port = settings.email_port
+email_username = settings.email_username
+email_from = settings.email_from
+email_password = settings.email_password
+email_from = settings.email_from
+email_to = ['pranaymadasi1@gmail.com','pranay@ldev.in']
+
+                # Email content
+subject = 'New Support Request'
 body = f'''
-                        Username: test
-                        Password: test
-                        Login URL: https://itnthub.tn.gov.in/innovation-portal/dashboard
+                        Name: name
+                        email: email
+                        mobile: mobile
+                        Account Role: account_role
+                        Support Category: support_category
+                        Short Description: short_description
                         '''
+                # Constructing email message
 message = MIMEMultipart()
-message['From'] = 'aso.itnt@tn.gov.in'
-message['To'] = 'pranaymadasi1@gmail.com'  
+message['From'] = email_from
 message['Subject'] = subject
 message.attach(MIMEText(body, 'plain'))
+
+                # Send email
 with smtplib.SMTP_SSL(email_host, email_port) as server:
     server.login(email_username, email_password)
-    print(server.sendmail('aso.itnt@tn.gov.in', ['pranaymadasi1@gmail.com'], message.as_string()))
+    server.sendmail(email_from, email_to, message.as_string())
