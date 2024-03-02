@@ -285,15 +285,14 @@ def sme_registration(request):
         schema=yaml.load(request_schema, Loader=yaml.SafeLoader)     
         if v.validate(post_data,schema):   
             try:
-                
-                new_publication_info = PublicationInfo.objects.create(
-                    title=title,
-                    paper_link=paper_link,
-                    journal=journal
-                )
-
-
-
+                new_publication_info = None
+                if title.replace(" ",'') != '' or journal.replace(" ",'') != '':
+                    new_publication_info = PublicationInfo.objects.create(
+                        title=title,
+                        paper_link=paper_link,
+                        journal=journal
+                    )
+                    new_publication_info.save()
                 # Create ResearcherRegistrations object
                 new_sme_registration = ResearcherRegistrations.objects.create(
                     name=name,
@@ -316,9 +315,9 @@ def sme_registration(request):
                         inventors=patent['inventors'],
                         filing_date=patent['filing_date'],
                         status=patent['status']
-                    )
-                    new_patent_info.save()
-                    new_sme_registration.patents.add(new_patent_info)
+                        )
+                        new_patent_info.save()
+                        new_sme_registration.patents.add(new_patent_info)
                     
                 try:
                     area_of_interest_id_int = int(area_of_interest_id)
