@@ -112,7 +112,7 @@ def industry_approve_registration(request):
                 message.attach(MIMEText(body, 'plain'))
                 with smtplib.SMTP_SSL(email_host, email_port) as server:
                     server.login(email_username, email_password)
-                    server.sendmail('aso.itnt@tn.gov.in', [registration.email], message.as_string())
+                    server.sendmail(email_from, [registration.email], message.as_string())
                 return JsonResponse({'success': True})
             except IndustryRegistrations.DoesNotExist:
                 print("error")

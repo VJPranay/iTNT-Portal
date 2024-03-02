@@ -104,7 +104,6 @@ def sme_approve_registrations(request):
 
                 # Associate patents with SME profile
                 for x in registration.patents.all():
-                    print(x)
                     new_patent = Patent.objects.create(
                         user_id=user.id,
                         number=x.number,
@@ -126,13 +125,7 @@ def sme_approve_registrations(request):
                 email_username = settings.email_username
                 email_password = settings.email_password
                 email_from = settings.email_from
-                subject = 'You iTNT registration has been approved'
-                # Send email notification
-                email_host = 'mail.ldev.in'
-                email_port = 465
-                email_username = 'aso.itnt'
-                email_password = 'uheim}a3'
-                subject = 'Your iTNT registration has been approved'
+                subject = 'You iTNT SME registration has been approved'
                 body = f'''
                         Username: {user.username}
                         Password: {password}
@@ -140,14 +133,13 @@ def sme_approve_registrations(request):
                         '''
 
                 message = MIMEMultipart()
-                message['From'] = email_username
+                message['From'] = email_from
                 message['To'] = registration.email
                 message['Subject'] = subject
                 message.attach(MIMEText(body, 'plain'))
                 with smtplib.SMTP_SSL(email_host, email_port) as server:
                     server.login(email_username, email_password)
-                    server.sendmail(email_username, [registration.email], message.as_string())
-
+                    server.sendmail(email_from, [registration.email], message.as_string())
                 return JsonResponse({'success': True})
             except ResearcherRegistrations.DoesNotExist:
                 return JsonResponse({'status': False, 'error': 'Registration not found'}, status=404)

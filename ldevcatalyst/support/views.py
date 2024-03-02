@@ -100,7 +100,7 @@ def support_form_submit(request):
                 # Send email
                 with smtplib.SMTP_SSL(email_host, email_port) as server:
                     server.login(email_username, email_password)
-                    server.sendmail(email_username, email_to, message.as_string())
+                    server.sendmail(email_from, email_to, message.as_string())
                 
                 return JsonResponse({'success': True,'email_status' : False})
             except Exception as e:
