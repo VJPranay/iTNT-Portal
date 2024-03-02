@@ -285,15 +285,7 @@ def sme_registration(request):
         schema=yaml.load(request_schema, Loader=yaml.SafeLoader)     
         if v.validate(post_data,schema):   
             try:
-                new_publication_info = None
-                if title.replace(" ",'') != '' or journal.replace(" ",'') != '':
-                    new_publication_i = PublicationInfo.objects.create(
-                        title=title,
-                        paper_link=paper_link,
-                        journal=journal
-                    )
-                    new_publication_i.save()
-                    new_publication_info = new_publication_i
+
                 # Create ResearcherRegistrations object
                 new_sme_registration = ResearcherRegistrations.objects.create(
                     name=name,
@@ -304,9 +296,17 @@ def sme_registration(request):
                     mobile=mobile,
                     email=email,
                     highest_qualification=highest_qualification,
-                    #patents_id=new_patent_info.id,
-                    publications_id=new_publication_info.id,
+                    #patents_id=new_patent_info.id
                 )
+                if title.replace(" ",'') != '' or journal.replace(" ",'') != '':
+                    new_publication_i = PublicationInfo.objects.create(
+                        title=title,
+                        paper_link=paper_link,
+                        journal=journal
+                    )
+                    new_publication_i.save()
+                    new_sme_registration.publications_id = new_publication_i.id
+                    new_sme_registration.save()
                 patent_data = json.loads(patent_data)
                 for patent in patent_data:
                     if patent['title'].replace(" ",'') != '' or patent['inventors'].replace(" ",'') != '':
