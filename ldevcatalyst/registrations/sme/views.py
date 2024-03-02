@@ -183,6 +183,14 @@ def sme_registration(request):
                         'registration_id': "Failed",
                         'error': "area of interest field cant be empty",
                     })
+        if highest_qualification.replace(" ",'').lower() =='ph.d':
+            if title.replace(" ",'') == '' or journal.replace(" ",'') == '':
+                return JsonResponse(
+                    {
+                        'success': False,
+                        'registration_id': "Failed",
+                        'error': "publication details cant be empty",
+                    })
         request_schema='''
         name:
             type: string
