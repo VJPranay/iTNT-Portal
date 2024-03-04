@@ -50,9 +50,16 @@
             <!--begin::gender-->
             <div class="d-flex flex-column gap-1">
                 <div class="fw-bold text-muted">Gender</div>
-                <div class="fw-bold fs-5">{{ sme.gender }}</div>
+                <div class="fw-bold fs-5">
+                    {% if sme.gender == 1 %}
+                        Male
+                    {% elif sme.gender == 2 %}
+                        Female
+                    {% endif %}
+                </div>
             </div>
-            <!--end::gender-->    
+            <!--end::gender-->
+   
             <!--begin::department-->
             <div class="d-flex flex-column gap-1">
                 <div class="fw-bold text-muted">Department</div>
