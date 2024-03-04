@@ -18,7 +18,7 @@ class DepartmentAdmin(admin.ModelAdmin):
 
 @admin.register(Institution)
 class InstitutionAdmin(admin.ModelAdmin):
-    list_display = ['name']
+    list_display = ['name','district','district__state']
     search_fields = ['name']
 
 @admin.register(District)
