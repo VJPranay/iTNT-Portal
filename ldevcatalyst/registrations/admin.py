@@ -15,7 +15,8 @@ class VCAdmin(admin.ModelAdmin):
 
 @admin.register(ResearcherRegistrations)
 class ResearcherAdmin(admin.ModelAdmin):
-    list_display = ('name', 'department', 'institution', 'email', 'mobile', 'district', 'state', 'highest_qualification')
+    list_display = ('name', 'department', 'email', 'mobile', 'district', 'state', 'highest_qualification')
+    raw_id_fields = ('institution',)
 
 @admin.register(StartUpRegistrations)
 class StartUpAdmin(admin.ModelAdmin):
