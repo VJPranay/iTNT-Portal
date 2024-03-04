@@ -64,7 +64,13 @@ class ResearcherRegistrations(models.Model):
     registration_id = models.CharField(max_length=100,unique=True)
     status = models.CharField(
         max_length=10,
-        choices=[('pending', 'pending'), ('approved', 'approved'), ('rejected', 'rejected')],
+        choices=[
+                 ('pending', 'pending'),
+                 ('duplicate', 'duplicate'),
+                 ('archive', 'archive'),
+                 ('approved', 'approved'),
+                 ('rejected', 'rejected')
+                 ],
         default='pending',
     )
     def save(self, *args, **kwargs):
