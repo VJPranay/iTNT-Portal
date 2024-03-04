@@ -19,10 +19,12 @@ class DepartmentAdmin(admin.ModelAdmin):
 @admin.register(Institution)
 class InstitutionAdmin(admin.ModelAdmin):
     list_display = ['name']
+    search_fields = ['name']
 
 @admin.register(District)
 class DistrictAdmin(admin.ModelAdmin):
     list_display = ['name']
+    search_fields = ['name']
 
 @admin.register(State)
 class StateAdmin(admin.ModelAdmin):
