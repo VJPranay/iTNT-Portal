@@ -217,6 +217,13 @@ var KTCreateAccount = function () {
                             }
                         }
                     },
+                    gender: {
+                        validators: {
+                            notEmpty: {
+                                message: 'Please select your Gender... '
+                            }
+                        }
+                    },
                     mobile: {
                         validators: {
                             notEmpty: {

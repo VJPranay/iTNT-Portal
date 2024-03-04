@@ -53,6 +53,7 @@ class ResearcherRegistrations(models.Model):
     district = models.ForeignKey(District, on_delete=models.SET_NULL,blank=True, null=True)
     state = models.ForeignKey(State, on_delete=models.SET_NULL,blank=True, null=True)
     email = models.EmailField(blank=True, null=True)
+    gender = models.IntegerField(choices=[(1,'Male'),(2,'Female')],blank=True, null=True)
     mobile = models.CharField(max_length=15,blank=True, null=True)
     picture = models.ImageField(upload_to='researcher_pictures/', blank=True, null=True)
     area_of_interest = models.ManyToManyField(AreaOfInterest,blank=True, null=True)

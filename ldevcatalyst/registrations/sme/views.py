@@ -91,6 +91,7 @@ def sme_approve_registrations(request):
                     district=registration.district,
                     state=registration.state,
                     email=registration.email,
+                    gender=registration.gender,
                     mobile=registration.mobile,
                     highest_qualification=registration.highest_qualification,
                     created=registration.created,
@@ -156,6 +157,7 @@ def sme_registration(request):
         district_id = request.POST.get('location_district')
         state_id = request.POST.get('location_state')
         email = request.POST.get('email')
+        gender = request.POST.get('gender')
         area_of_interest_id = request.POST.get('collaboration_sector')
         mobile = request.POST.get('mobile')
         highest_qualification = request.POST.get('highest_qualification')
@@ -193,6 +195,9 @@ def sme_registration(request):
                     })
         request_schema='''
         name:
+            type: string
+            required: true
+        gender:
             type: string
             required: true
 
@@ -295,6 +300,7 @@ def sme_registration(request):
                     state_id=state_id,
                     mobile=mobile,
                     email=email,
+                    gender=gender,
                     highest_qualification=highest_qualification,
                     #patents_id=new_patent_info.id
                 )
