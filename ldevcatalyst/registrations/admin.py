@@ -17,7 +17,6 @@ class VCAdmin(admin.ModelAdmin):
 class ResearcherAdmin(admin.ModelAdmin):
     list_display = ('name', 'department', 'email', 'mobile', 'district', 'state', 'status')
     raw_id_fields = ('institution',)
-    filter_horizontal = ('status',)
 
 @admin.register(StartUpRegistrations)
 class StartUpAdmin(admin.ModelAdmin):
