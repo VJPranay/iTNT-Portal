@@ -14,6 +14,7 @@ class PreferredInvestmentStageAdmin(admin.ModelAdmin):
 @admin.register(Department)
 class DepartmentAdmin(admin.ModelAdmin):
     list_display = ['name']
+    search_fields = ['name']
 
 @admin.register(Institution)
 class InstitutionAdmin(admin.ModelAdmin):
