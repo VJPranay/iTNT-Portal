@@ -49,7 +49,6 @@ var KTCreateAccount = function () {
 
 			if (validator) {
 				validator.validate().then(function (status) {
-					console.log(validator);
 					if (status == 'Valid') {
 
 						stepper.goNext();
@@ -96,10 +95,24 @@ var KTCreateAccount = function () {
 					// Prevent default button action
 					e.preventDefault();
 					var formData = new FormData(form);
+					formData.append('pitch_deck', document.getElementById("pitchDeckpdf").files[0]);
 					var actionUrl = form.getAttribute('action');
 
 					// Disable button to avoid multiple click 
 					formSubmitButton.disabled = true;
+					const founderInputs = document.querySelectorAll(".founder-name-input");
+					const founderNames = [];
+					founderInputs.forEach(function(input) {
+						if (input.value.trim() !== "") {
+							founderNames.push(input.value.trim());
+						}
+					});
+
+					// Join founder names with a comma separator
+					const founderNamesString = founderNames.join(",");
+
+					// Append the founder names string to your form data
+					formData.append('founder_names', founderNamesString);
 
 					// Show loading indication
 					formSubmitButton.setAttribute('data-kt-indicator', 'on');
@@ -209,17 +222,17 @@ var KTCreateAccount = function () {
 							}
 						}
 					},
-                    market_size: {
-						validators: {
-							notEmpty: {
-								message: 'Please enter market size'
-							}
-						}
-					},
+                    // market_size: {
+					// 	validators: {
+					// 		notEmpty: {
+					// 			message: 'Please enter market size'
+					// 		}
+					// 	}
+					// },
                     required_amount: {
 						validators: {
 							notEmpty: {
-								message: 'Please enter required amount'
+								message: 'Pleaae enter the funding request amount in lakhs, example : 150'
 							}
 						}
 					},
@@ -230,20 +243,13 @@ var KTCreateAccount = function () {
 							}
 						}
 					},
-					founding_experience: {
-						validators: {
-							notEmpty: {
-								message: 'Please select founding experience'
-							}
-						}
-					},
-					dpiit_number: {
-						validators: {
-							notEmpty: {
-								message: 'Please enter dpiit number'
-							}
-						}
-					},
+					// founding_experience: {
+					// 	validators: {
+					// 		notEmpty: {
+					// 			message: 'Please select founding experience'
+					// 		}
+					// 	}
+					// },
 					description: {
 						validators: {
 							notEmpty: {
@@ -336,24 +342,30 @@ var KTCreateAccount = function () {
 							}
 						}
 					},
-					video_link: {
-						validators: {
-							notEmpty: {
-								message: 'Video link is required'
-							}
-						}
-					},
-					short_video_link: {
-						validators: {
-							notEmpty: {
-								message: 'Short video link is required'
-							}
-						}
-					},
+					// video_link: {
+					// 	validators: {
+					// 		notEmpty: {
+					// 			message: 'Video link is required'
+					// 		}
+					// 	}
+					// },
+					// short_video_link: {
+					// 	validators: {
+					// 		notEmpty: {
+					// 			message: 'Short video link is required'
+					// 		}
+					// 	}
+					// },
 					pitch_deck: {
 						validators: {
 							notEmpty: {
-								message: 'Pitch deck is required'
+								message: 'Please select a PDF file'
+							},
+							file: {
+								extension: 'pdf',
+								type: 'application/pdf',
+								maxSize: 50 * 1024 * 1024, // 5 MB
+								message: 'The selected file is not a valid PDF or exceeds the size limit'
 							}
 						}
 					}

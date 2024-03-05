@@ -19,6 +19,8 @@ import yaml
 from cerberus import Validator
 from django.db import IntegrityError
 from django.utils.html import escape
+from django.core.validators import FileExtensionValidator
+from django.core.exceptions import ValidationError
 
 
 
@@ -94,10 +96,10 @@ def startup_approve_registration(request):
                         funding_stage = registration.funding_stage,
                         pitch_deck = registration.pitch_deck,
                         video_link = registration.video_link,
-                        market_size = registration.market_size,
+                        #market_size = registration.market_size,
                         required_amount = registration.required_amount,
                         founding_year = registration.founding_year,
-                        founding_experience = registration.founding_experience,
+                        #founding_experience = registration.founding_experience,
                         short_video = registration.short_video,
                     )
                     startup_profile.save()
@@ -144,16 +146,22 @@ def startup_registration(request):
         mobile = request.POST.get('poc_mobile')
         dpiit_number = request.POST.get('dpiit_number')
         description = request.POST.get('description')
-        pitch_deck = request.POST.get('pitch_deck')
+        #pitch_deck = request.POST.get('pitch_deck')
+        pitch_deck = request.FILES.get('pitch_deck')
         video_link = request.POST.get('video_link')
         website = request.POST.get('company_website')
-        market_size = request.POST.get('market_size')
+        #market_size = request.POST.get('market_size')
         required_amount = request.POST.get('required_amount')
         founding_year = request.POST.get('founding_year')
-        founding_experience = request.POST.get('founding_experience')
-        founding_experience = True if founding_experience == 'True' else False
-        short_video_link = request.POST.get('short_video_link')
+        #founding_experience = request.POST.get('founding_experience')
+        #founding_experience = True if founding_experience == 'True' else False
+        #short_video_link = request.POST.get('short_video_link')
         print(request.POST)
+        file_extension_validator = FileExtensionValidator(allowed_extensions=['pdf'])
+        try:
+            file_extension_validator(pitch_deck)
+        except ValidationError as e:
+            return JsonResponse({'success': False, 'error': str(e)}, status=400)
         request_schema = '''
         name:
             type: string
@@ -196,39 +204,27 @@ def startup_registration(request):
             regex: '^\d{10}$'
         dpiit_number:
             type: string
-            required: true
+            required: false
         description:
             type: string
             required: true
         pitch_deck:
             type: string
-            required: true
-            regex: '^[A-Za-z0-9\-_\.]+$'
+            required: false
         video_link:
             type: string 
-            required: true
-            regex: '^[A-Za-z0-9_-]{11}$'
+            required: false
         company_website:
             type: string
             required: true
             regex: '(https?:\/\/(?:www\.|(?!www))[^\s\.]+\.[^\s]{2,}|www\.[^\s]+\.[^\s]{2,})'
             minlength: 6
-        market_size:
-            type: string
-            required: true
         required_amount:
             type: string
             required: true
         founding_year:
             type: string
             required: true
-        founding_experience:
-            type: string
-            required: true
-        short_video_link:
-            type: string
-            required: true
-            regex: '^[A-Za-z0-9_-]{11}$'
         '''
         v = Validator()
         post_data = request.POST.dict()
@@ -237,11 +233,11 @@ def startup_registration(request):
             try:
                 new_startup_registration = StartUpRegistrations.objects.create(
                     name = name,
-                    market_size = market_size,
+                    #market_size = market_size,
                     required_amount = required_amount,
                     founding_year = founding_year,
-                    founding_experience = founding_experience,
-                    short_video = short_video_link,
+                    #founding_experience = founding_experience,
+                    #short_video = short_video_link,
                     co_founder_count = co_founder_count,
                     founder_names = founder_names,
                     district_id = district_id,
@@ -382,12 +378,6 @@ def fetch_startup_registration_details(request):
                                                                         <div class="fw-bold fs-5">"""+escape(startup.description)+"""</div>
                                                                     </div>
                                                                     <!--end::Company description-->
-                                                                    <!--begin::market_size-->
-                                                                    <div class="d-flex flex-column gap-1">
-                                                                        <div class="fw-bold text-muted">Market size</div>
-                                                                        <div class="fw-bold fs-5">"""+escape(startup.market_size)+"""</div>
-                                                                    </div>
-                                                                    <!--end::market_size-->
                                                                     <!--begin::funding_stage-->
                                                                     <div class="d-flex flex-column gap-1">
                                                                         <div class="fw-bold text-muted">Current funding stage</div>
@@ -422,12 +412,6 @@ def fetch_startup_registration_details(request):
                                                                     <div class="d-flex flex-column gap-1">
                                                                         <div class="fw-bold text-muted">Total team size</div>
                                                                         <div class="fw-bold fs-5">"""+escape(startup.team_size)+"""</div>
-                                                                    </div>
-                                                                    <!--end::area_of_interest-->
-                                                                    <!--begin::area_of_interest-->
-                                                                    <div class="d-flex flex-column gap-1">
-                                                                        <div class="fw-bold text-muted">Founding experince</div>
-                                                                        <div class="fw-bold fs-5">"""+escape( "yes" if startup.founding_experience else "no")+"""</div>
                                                                     </div>
                                                                     <!--end::area_of_interest-->
                                                                     <!--begin::area_of_interest-->

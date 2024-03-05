@@ -11,9 +11,9 @@
 		<meta property="og:locale" content="en_US" />
 		<meta property="og:type" content="article" />
 		<meta property="og:title" content="iTNT Innovation portal" />
-		<meta property="og:url" content="https://itnthub.tn.gov.in" />
+		<meta property="og:url" content="http://127.0.0.1:8000" />
 		<meta property="og:site_name" content="iTNT Hub - JIGSAW" />
-		<link rel="canonical" href="https://itnthub.tn.gov.in/dashboard" />
+		<link rel="canonical" href="http://127.0.0.1:8000/dashboard" />
 		<link rel="shortcut icon" href="assets/media/logos/favicon.ico" />
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700" />
 		<link href="{% static 'assets/plugins/global/plugins.bundle.css' %}" rel="stylesheet" type="text/css" />
@@ -108,9 +108,9 @@
 							<a href="#" class="stepper-title fs-2 px-5" style="color: #FFFFFF !important;" data-bs-toggle="modal" data-bs-target="#support_modal">Help & Support</a>
 
 							{% comment %} <div class="d-flex fw-normal">
-								<a href="https://itnthub.tn.gov.in/theme-engine" class="text-success px-5" target="_blank">Terms</a>
-								<a href="https://itnthub.tn.gov.in/theme-engine/devs" class="text-success px-5" target="_blank">Plans</a>
-								<a href="https://itnthub.tn.gov.in/theme-engine/market" class="text-success px-5" target="_blank">Contact Us</a>
+								<a href="http://127.0.0.1:8000/theme-engine" class="text-success px-5" target="_blank">Terms</a>
+								<a href="http://127.0.0.1:8000/theme-engine/devs" class="text-success px-5" target="_blank">Plans</a>
+								<a href="http://127.0.0.1:8000/theme-engine/market" class="text-success px-5" target="_blank">Contact Us</a>
 							</div> {% endcomment %}
 
 						</div>
@@ -166,20 +166,20 @@
 											<input name="team_size" class="form-control form-control-lg form-control-solid" placeholder="4" value="" />
 											<!--end::Input-->
 										</div>
-										<div class="fv-row mb-10">
+										{% comment %} <div class="fv-row mb-10">
 											<!--begin::Label-->
 											<label class="form-label required">Market size</label>
 											<!--end::Label-->
 											<!--begin::Input-->
 											<input name="market_size" class="form-control form-control-lg form-control-solid" style="min-height: calc(1.5em + 1.65rem + 60px) !important; white-space: pre;" placeholder="Behavioral Health Care Software and Services Market (2020): roughly ca. 2 bn (10-20% CAGR) – depending on the source" value="" />
 											<!--end::Input-->
-										</div>
+										</div> {% endcomment %}
 										<div class="fv-row mb-10">
 											<!--begin::Label-->
-											<label class="form-label required">Required Amount</label>
+											<label class="form-label required">Funding request amount ( In Lakhs )</label>
 											<!--end::Label-->
 											<!--begin::Input-->
-											<input name="required_amount" class="form-control form-control-lg form-control-solid" placeholder=">5M" value="" />
+											<input name="required_amount" class="form-control form-control-lg form-control-solid" placeholder="50" value="" type="number"/>
 											<!--end::Input-->
 										</div>
 										<div class="fv-row mb-10">
@@ -202,7 +202,7 @@
 											<!--end::Inputs-->
 										</div>
 										
-										<div class="fv-row mb-10">
+										{% comment %} <div class="fv-row mb-10">
 											<!--begin::Label-->
 											<label class="form-label required">Founding experience</label>
 											<!--end::Label-->
@@ -213,10 +213,10 @@
 												<option value="False">No</option>
 											</select>
 											<!--end::Input-->
-										</div>
+										</div> {% endcomment %}
 										<div class="fv-row mb-10">
 											<!--begin::Label-->
-											<label class="form-label required">Dpiit Number</label>
+											<label class="form-label">Dpiit Number</label>
 											<!--end::Label-->
 											<!--begin::Input-->
 											<input name="dpiit_number" class="form-control form-control-lg form-control-solid" placeholder="1OOO1111" value="" />
@@ -227,10 +227,10 @@
 											<label class="form-label required">Description</label>
 											<!--end::Label-->
 											<!--begin::Input-->
-											<input name="description" class="form-control form-control-lg form-control-solid" placeholder="Your startup idea description" value="" />
+											<input name="description" class="form-control form-control-lg form-control-solid" placeholder="Your startup idea description within 50-60 words" value="" />
 											<!--end::Input-->
 										</div>
-										<div class="fv-row mb-10" data-district-url="https://itnthub.tn.gov.in{% url 'districts' %}"  data-district-urlid="districtslink">
+										<div class="fv-row mb-10" data-district-url="http://127.0.0.1:8000{% url 'districts' %}"  data-district-urlid="districtslink">
 											<!--begin::Label-->
 											<label class="form-label required">State</label>
 											<!--end::Label-->
@@ -295,17 +295,28 @@
 											<!--end::Notice-->
 										</div>
 										<!--end::Heading-->
-										<!--begin::Input group-->
+										{% comment %} <!--begin::Input group-->
 										<div class="fv-row mb-10">
 											<!--begin::Label-->
 											<label class="form-label required">Co Founder Name</label>
 											<!--end::Label-->
 											<!--begin::Input-->
 											<input type="text" class="form-control form-control-lg form-control-solid" name="founder_names" placeholder="Co Founder Name" value="" />
-				
 											<!--end::Input-->
 										</div>
-										<!--end::Input group-->
+										<!--end::Input group--> {% endcomment %}
+										<div class="fv-row mb-10">
+											<!--begin::Label-->
+											<label class="form-label required">Founders Names</label>
+											<!--end::Label-->
+											<!--begin::Input-->
+											<div id="founderNamesContainer">
+												<input type="text" class="form-control form-control-lg form-control-solid founder-name-input" placeholder="Founder Name" value="" />
+											</div>
+											<button type="button" id="addFounderBtn" class="btn btn-primary mt-2">Add Co-Founder</button>
+
+											<!--end::Input-->
+										</div>
 										<!--begin::Input group-->
 										<div class="fv-row mb-10">
 											<!--begin::Label-->
@@ -341,14 +352,14 @@
 										<!--begin::Input group-->
 										<div class="fv-row mb-10">
 											<!--begin::Label-->
-											<label class="form-label required">Video link</label>
+											<label class="form-label">Video link</label>
 											<!--end::Label-->
 											<!--begin::Input-->
 											<input type="text" class="form-control form-control-lg form-control-solid" name="video_link" placeholder="Youtube video ID" value="" />
 											{% csrf_token %}
 											<!--end::Input-->
 										</div>
-										<div class="fv-row mb-10">
+										{% comment %} <div class="fv-row mb-10">
 											<!--begin::Label-->
 											<label class="form-label required">Short video link</label>
 											<!--end::Label-->
@@ -356,8 +367,8 @@
 											<input type="text" class="form-control form-control-lg form-control-solid" name="short_video_link" placeholder="Youtube video ID" value="" />
 											<!--end::Input-->
 										</div>
-										<!--end::Input group-->
-										<!--begin::Input group-->
+										<!--end::Input group--> {% endcomment %}
+										{% comment %} <!--begin::Input group-->
 										<div class="fv-row mb-10">
 											<!--begin::Label-->
 											<label class="form-label required">Pitch deck</label>
@@ -367,7 +378,20 @@
 											<!--end::Input-->
 										</div>
 					
-										<!--end::Input group-->
+										<!--end::Input group--> {% endcomment %}
+										<!--begin::Card-->
+										<div class="fv-row mb-10">
+											<label class="form-label">Please upload the Pitch deck in pdf file format</label>
+											<div class="card h-100 flex-center bg-light-primary border-primary border border-dashed p-8">
+												<!--begin::Image-->
+												<img src="{% static 'assets/media/svg/files/upload.svg' %}" class="mb-5" alt="" />
+												<!--end::Image-->
+												<!--begin::Link-->
+												<input type="file" name="pitch_deck"  id="pitchDeckpdf" class="text-hover-primary fs-5 fw-bold mb-2">
+												<!--end::Link-->
+											</div>
+											<!--end::Card-->
+										</div>
 									</div>
 									<!--end::Wrapper-->
 								</div>
@@ -452,6 +476,63 @@
 		<!--begin::Custom Javascript(used for this page only)-->
 		<script src="{% static 'assets/js/custom/utilities/modals/startup-registration.js' %}"></script>
 		<script>
+
+
+			document.addEventListener("DOMContentLoaded", function() {
+				const addFounderBtn = document.getElementById("addFounderBtn");
+				const founderNamesContainer = document.getElementById("founderNamesContainer");
+				const existingInput = document.querySelector(".founder-name-input");
+			
+				// Function to apply input validation
+				function applyInputValidation(input) {
+					input.addEventListener("input", function() {
+						this.value = this.value.replace(/[^a-zA-Z. ]/g, "");
+					});
+					// Apply margin styles
+					input.style.marginTop = "12px";
+					input.style.marginBottom = "12px";
+				}
+			
+				// Apply input validation to existing input field
+				applyInputValidation(existingInput);
+			
+				addFounderBtn.addEventListener("click", function() {
+					const founderInputGroup = document.createElement("div");
+					founderInputGroup.className = "founder-input-group";
+					founderInputGroup.style.display = "flex";
+					founderInputGroup.style.alignItems = "center";
+			
+					const input = document.createElement("input");
+					input.type = "text";
+					input.className = "form-control form-control-lg form-control-solid founder-name-input";
+					input.placeholder = "Co Founder Name";
+					// Apply margin styles
+					input.style.marginTop = "12px";
+					input.style.marginBottom = "12px";
+					// Apply input validation to newly added input field
+					applyInputValidation(input);
+			
+					const deleteBtn = document.createElement("button");
+					deleteBtn.type = "button";
+					deleteBtn.className = "btn btn-danger delete-founder-btn ml-2";
+					deleteBtn.textContent = "Delete";
+					// Apply margin styles
+					deleteBtn.style.marginTop = "12px";
+					deleteBtn.style.marginBottom = "12px";
+					deleteBtn.style.marginLeft = "auto"; // Aligns the button to the right
+			
+					deleteBtn.addEventListener("click", function() {
+						// Remove the entire input group when delete button is clicked
+						founderNamesContainer.removeChild(founderInputGroup);
+					});
+			
+					founderInputGroup.appendChild(input);
+					founderInputGroup.appendChild(deleteBtn);
+					founderNamesContainer.appendChild(founderInputGroup);
+				});
+			});
+			
+			
 			// Define fetchDistricts function
 			function fetchDistricts(stateId) {
 				var stateMainSelect = document.querySelector('div[data-district-urlid="districtslink"]');

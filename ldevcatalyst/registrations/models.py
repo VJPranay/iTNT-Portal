@@ -98,7 +98,7 @@ class StartUpRegistrations(models.Model):
     founding_year = models.PositiveIntegerField(blank=True, null=True)
     founding_experience = models.BooleanField(blank=True, null=True)
     funding_stage = models.ForeignKey(PreferredInvestmentStage, on_delete=models.SET_NULL,blank=True, null=True)
-    pitch_deck = models.CharField(max_length=100,blank=True, null=True)
+    pitch_deck = models.FileField(upload_to='pitch_decks/', blank=True, null=True)
     video_link = models.CharField(max_length=100,blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
@@ -106,7 +106,13 @@ class StartUpRegistrations(models.Model):
     short_video =  models.URLField(blank=True, null=True)
     status = models.CharField(
         max_length=10,
-        choices=[('pending', 'pending'), ('approved', 'approved'), ('rejected', 'rejected')],
+        choices=[
+                 ('pending', 'pending'),
+                 ('duplicate', 'duplicate'),
+                 ('archive', 'archive'),
+                 ('approved', 'approved'),
+                 ('rejected', 'rejected')
+                 ],
         default='pending',
     )
     def save(self, *args, **kwargs):
