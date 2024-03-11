@@ -1,30 +1,66 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Proposal</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body>
+
+
+{% extends 'dashboard/base.html' %}
+{% load static %}
+{% block breadcrums %}
+<!--begin::Breadcrumb-->
+																<ul class="breadcrumb breadcrumb-separatorless fw-semibold">
+																	<!--begin::Item-->
+																	<li class="breadcrumb-item text-white fw-bold lh-1">
+																		<a href="{% url 'dashboard_index' %}" class="text-white text-hover-primary">
+																			<i class="ki-outline ki-home text-gray-700 fs-6"></i>
+																		</a>
+																	</li>
+																	<!--end::Item-->
+																	<!--begin::Item-->
+																	<li class="breadcrumb-item">
+																		<i class="ki-outline ki-right fs-7 text-gray-700 mx-n1"></i>
+																	</li>
+																	<!--end::Item-->
+																	<!--begin::Item-->
+																	<li class="breadcrumb-item text-white fw-bold lh-1">Innovation challenges</li>
+																	<!--end::Item-->
+																	<!--begin::Item-->
+																	<li class="breadcrumb-item">
+																		<i class="ki-outline ki-right fs-7 text-gray-700 mx-n1"></i>
+																	</li>
+																	<!--end::Item-->
+																	<!--begin::Item-->
+																	<li class="breadcrumb-item text-white fw-bold lh-1">Submit proposal</li>
+																	<!--end::Item-->
+																</ul>
+																<!--end::Breadcrumb-->
+{% endblock  %}
+
+{% block pageheading %}
+Proposal submission 
+{% endblock  %}
+{% block pagedescription %}
+Innovation Challenge Proposal
+{% endblock  %}
+
+
+{% load crispy_forms_tags %}
+{% block page_content %}
+
+
+
     <div class="container">
-        <h1>Create Proposal</h1>
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
-            {{ proposal_form.as_p }}
+            {{ proposal_form | crispy  }}
             
             <h2>Files</h2>
             {{ files_formset.management_form }}
             <div id="files-formset">
                 {{ files_formset.non_form_errors }}
                 {% for form in files_formset %}
-                    {{ form.as_p }}
+                    {{ form | crispy }}
                 {% endfor %}
             </div>
             <button type="button" class="btn btn-primary" id="add-file">Add File</button>
             <div style="display: none" id="empty-file-form">
-                {{ files_formset.empty_form.as_p }}
+                {{ files_formset.empty_form | crispy }}
             </div>
 
             <h2>Experts Involved</h2>
@@ -32,12 +68,12 @@
             <div id="experts-formset">
                 {{ experts_formset.non_form_errors }}
                 {% for form in experts_formset %}
-                    {{ form.as_p }}
+                    {{ form | crispy }}
                 {% endfor %}
             </div>
             <button type="button" class="btn btn-primary" id="add-expert">Add Expert</button>
             <div style="display: none" id="empty-expert-form">
-                {{ experts_formset.empty_form.as_p }}
+                {{ experts_formset.empty_form | crispy}}
             </div>
             <!-- Solution Advantages -->
             <h2>Solution Advantages</h2>
@@ -45,12 +81,12 @@
             <div id="advantages-formset">
                 {{ advantages_formset.non_form_errors }}
                 {% for form in advantages_formset %}
-                    {{ form.as_p }}
+                    {{ form | crispy }}
                 {% endfor %}
             </div>
             <button type="button" class="btn btn-primary" id="add-advantage">Add Advantage</button>
             <div style="display: none" id="empty-advantage-form">
-                {{ advantages_formset.empty_form.as_p }}
+                {{ advantages_formset.empty_form  }}
             </div>
 
             <!-- Tangible Benefits -->
@@ -59,17 +95,22 @@
             <div id="benefits-formset">
                 {{ benefits_formset.non_form_errors }}
                 {% for form in benefits_formset %}
-                    {{ form.as_p }}
+                    {{ form | crispy }}
                 {% endfor %}
             </div>
             <button type="button" class="btn btn-primary" id="add-benefit">Add Benefit</button>
             <div style="display: none" id="empty-benefit-form">
-                {{ benefits_formset.empty_form.as_p }}
+                {{ benefits_formset.empty_form | crispy}}
             </div>
 
-            <button type="submit" class="btn btn-success">Submit</button>
+            <button type="submit" class="btn btn-success">Submit Proposal</button>
         </form>
     </div>
+
+
+    {% endblock %}
+
+    {% block custom_js %}
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
@@ -105,5 +146,4 @@
             });
         });
     </script>
-</body>
-</html>
+    {% endblock %}

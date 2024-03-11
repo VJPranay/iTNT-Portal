@@ -24,9 +24,10 @@ from .models import (
     InnovationChallengeEvaluationCriteria,
     InnovationChallengeDetails
 )
-from django.shortcuts import render, redirect
 from .forms import InnovationChallengeProposalForm, InnovationChallengeProposalFilesFormset, InnovationChallengeProposalExpertsInvolvedFormset, InnovationChallengeProposalSolutionAdvantagesFormset, InnovationChallengeProposalTangibleBenfitsFormset
-from .models import InnovationChallengeProposalFiles, InnovationChallengeProposalExpertsInvolved, InnovationChallengeProposalSolutionAdvantages, InnovationChallengeProposalTangibleBenfits
+from .models import InnovationChallengeProposal,InnovationChallengeProposalFiles, InnovationChallengeProposalExpertsInvolved, InnovationChallengeProposalSolutionAdvantages, InnovationChallengeProposalTangibleBenfits
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
 
 
 
@@ -84,6 +85,10 @@ def innovation_challenge_detail(request, challenge_id):
     # Fetch all records for InnovationChallengeEvaluationCriteria
     evaluation_criteria = InnovationChallengeEvaluationCriteria.objects.filter(challenge=challenge)
 
+    # proposals 
+    proposals = InnovationChallengeProposal.objects.filter(challenge=challenge)
+    proposals_count = proposals.count()
+
     return render(request, 'dashboard/ic/challenge_details.html', {
         'challenge': challenge,
         'challenge_details': challenge_details,
@@ -95,6 +100,7 @@ def innovation_challenge_detail(request, challenge_id):
         'objectives': objectives,
         'eligibility_criteria': eligibility_criteria,
         'evaluation_criteria': evaluation_criteria,
+        'proposals': proposals
     })
 
 
@@ -105,7 +111,7 @@ def create_challenge(request):
     if request.user.user_role in [2,3,4]:
         user_role = request.user.user_role
         if request.method == 'POST':
-            challenge_form = InnovationChallengeForm(request.POST, request.FILES,user_role=user_role,user_id=request.user.id)
+            challenge_form = InnovationChallengeForm(request.POST, request.FILES)
             details_form = InnovationChallengeDetailsForm(request.POST)
             if challenge_form.is_valid():
                 challenge = challenge_form.save(commit=False)
@@ -190,8 +196,10 @@ def create_challenge(request):
 
 
 
-
-def submit_proposal(request):
+@login_required
+def submit_proposal(request,challenge_id):
+    user_role = request.user.user_role
+    challenge = get_object_or_404(InnovationChallenge, pk=challenge_id)
     if request.method == 'POST':
         proposal_form = InnovationChallengeProposalForm(request.POST)
         files_formset = InnovationChallengeProposalFilesFormset(request.POST, request.FILES, prefix='files')
@@ -199,7 +207,10 @@ def submit_proposal(request):
         solution_advantages_formset = InnovationChallengeProposalSolutionAdvantagesFormset(request.POST, prefix='advantages')
         tangible_benefits_formset = InnovationChallengeProposalTangibleBenfitsFormset(request.POST, prefix='benefits')
         if proposal_form.is_valid() and files_formset.is_valid() and experts_formset.is_valid() and solution_advantages_formset.is_valid() and tangible_benefits_formset.is_valid():
-            proposal = proposal_form.save()
+            proposal = proposal_form.save(commit=False)
+            proposal.submitted_by = request.user
+            proposal.challenge = challenge
+            proposal.save()
             files_formset.instance = proposal
             files_formset.save()
             experts_formset.instance = proposal
@@ -208,9 +219,9 @@ def submit_proposal(request):
             solution_advantages_formset.save()
             tangible_benefits_formset.instance = proposal
             tangible_benefits_formset.save()
-            return redirect('proposal_detail', proposal_id=proposal.id)
+            return redirect('innovation_challenge_detail', challenge_id=challenge.id)
     else:
-        proposal_form = InnovationChallengeProposalForm()
+        proposal_form = InnovationChallengeProposalForm(initial={'challenge': challenge})
         files_formset = InnovationChallengeProposalFilesFormset(prefix='files')
         experts_formset = InnovationChallengeProposalExpertsInvolvedFormset(prefix='experts')
         solution_advantages_formset = InnovationChallengeProposalSolutionAdvantagesFormset(prefix='advantages')
@@ -221,4 +232,21 @@ def submit_proposal(request):
         'experts_formset': experts_formset,
         'advantages_formset': solution_advantages_formset,
         'benefits_formset': tangible_benefits_formset
+    })
+
+
+@login_required
+def proposal_detail(request, proposal_id):
+    proposal = get_object_or_404(InnovationChallengeProposal, pk=proposal_id)
+    tangible_benefits = proposal.innovationchallengeproposaltangiblebenfits_set.all()
+    solution_advantages = proposal.innovationchallengeproposalsolutionadvantages_set.all()
+    experts_involved = proposal.innovationchallengeproposalexpertsinvolved_set.all()
+    proposal_files = proposal.innovationchallengeproposalfiles_set.all()
+
+    return render(request, 'dashboard/ic/proposal_details.html', {
+        'proposal': proposal,
+        'tangible_benefits': tangible_benefits,
+        'solution_advantages': solution_advantages,
+        'experts_involved': experts_involved,
+        'proposal_files': proposal_files,
     })

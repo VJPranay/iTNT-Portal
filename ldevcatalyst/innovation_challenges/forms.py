@@ -103,7 +103,8 @@ class InnovationChallengeEvaluationCriteriaForm(forms.ModelForm):
 class InnovationChallengeProposalForm(forms.ModelForm):
     class Meta:
         model = InnovationChallengeProposal
-        fields = ['name', 'brief', 'value_proposition', 'solution_readiness', 'implementation_time', 'ip_status']
+        fields = ['name', 'brief', 'value_proposition', 'solution_readiness', 'implementation_time', 'ip_status','challenge']
+        widgets = {'challenge': forms.HiddenInput()}
 
 InnovationChallengeProposalFilesFormset = inlineformset_factory(
     InnovationChallengeProposal,

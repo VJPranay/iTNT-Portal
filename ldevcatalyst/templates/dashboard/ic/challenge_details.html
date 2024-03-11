@@ -72,6 +72,32 @@ Create a new innovation challenge
         </div>
     </div>
 
+    {% if request.user.user_role == 1 or request.user.user_role == 2 or request.user.user_role == 3 or request.user.user_role == 4 %}
+    <div class="card mb-5 mb-xl-10">
+        <div class="card-header border-0 cursor-pointer">
+            <div class="card-title m-0">
+                <h3 class="fw-bold m-0">Proposals</h3>
+            </div>
+        </div>
+
+        <div class="collapse show">
+            {% for x in proposals %}
+            <div class="card-body border-top p-9">
+                <div class="mb-3">
+                    <strong>Submitted by:</strong> {{ x.submitted_by }}
+                </div>
+                <div class="mb-3">
+                    <strong>Name:</strong> {{ x.name }}
+                </div>
+                <div class="mb-3">
+                    <a href="{% url 'proposal_detail' proposal_id=x.id %}"> <strong>View details</strong> </a>
+                </div>
+            </div>
+            {%endfor%}
+        </div>
+    </div>
+{% endif %}
+
     <!-- Card for InnovationChallengeDetails -->
     <div class="card mb-5 mb-xl-10">
         <div class="card-header border-0 cursor-pointer">
@@ -226,7 +252,9 @@ Create a new innovation challenge
     </div>
 </div>
 
-<a href ""> <button type="submit" class="btn btn-success mt-3">Submit Proposal</button> </a>
+{% if request.user.user_role == 5 or request.user.user_role == 6 %}
+    <a href="{% url 'submit_proposal' challenge_id=challenge.id %}" class="btn btn-success mt-3">Submit Proposal</a>
+{% endif %}
 
 
 

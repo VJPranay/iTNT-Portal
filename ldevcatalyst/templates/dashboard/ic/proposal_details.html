@@ -1,0 +1,162 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+
+{% block breadcrums %}
+<ul class="breadcrumb breadcrumb-separatorless fw-semibold">
+    <!--begin::Item-->
+    <li class="breadcrumb-item text-white fw-bold lh-1">
+        <a href="{% url 'dashboard_index' %}" class="text-white text-hover-primary">
+            <i class="ki-outline ki-home text-gray-700 fs-6"></i>
+        </a>
+    </li>
+    <!--end::Item-->
+    <!--begin::Item-->
+    <li class="breadcrumb-item">
+        <i class="ki-outline ki-right fs-7 text-gray-700 mx-n1"></i>
+    </li>
+    <!--end::Item-->
+    <!--begin::Item-->
+    <li class="breadcrumb-item text-white fw-bold lh-1">Innovation challenges</li>
+    <!--end::Item-->
+    <!--begin::Item-->
+    <li class="breadcrumb-item">
+        <i class="ki-outline ki-right fs-7 text-gray-700 mx-n1"></i>
+    </li>
+    <!--end::Item-->
+    <!--begin::Item-->
+    <li class="breadcrumb-item text-white fw-bold lh-1">Proposal details</li>
+    <!--end::Item-->
+</ul>
+{% endblock %}
+
+{% block pageheading %}
+Proposal Details
+{% endblock %}
+
+{% block pagedescription %}
+Details of the Proposal
+{% endblock %}
+
+{% block page_content %}
+<div class="container mt-5">
+    <!-- Card for Proposal -->
+    <div class="card mb-5 mb-xl-10">
+        <div class="card-header border-0 cursor-pointer">
+            <div class="card-title m-0">
+                <h3 class="fw-bold m-0">Proposal</h3>
+            </div>
+        </div>
+        <div class="collapse show">
+            <div class="card-body border-top p-9">
+                <div class="mb-3">
+                    <strong>Submitted By:</strong> {{ proposal.submitted_by.username }}
+                </div>
+                <div class="mb-3">
+                    <strong>Name:</strong> {{ proposal.name }}
+                </div>
+                <div class="mb-3">
+                    <strong>Brief:</strong> {{ proposal.brief }}
+                </div>
+                <!-- Add other fields as needed -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Card for Proposal Tangible Benefits -->
+    <div class="card mb-5 mb-xl-10">
+        <div class="card-header border-0 cursor-pointer">
+            <div class="card-title m-0">
+                <h3 class="fw-bold m-0">Tangible Benefits</h3>
+            </div>
+        </div>
+        <div class="collapse show">
+            <div class="card-body border-top p-9">
+                {% for tangible_benefit in tangible_benefits %}
+                <div class="mb-3">{{ tangible_benefit.description }}</div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Card for Proposal Solution Advantages -->
+    <div class="card mb-5 mb-xl-10">
+        <div class="card-header border-0 cursor-pointer">
+            <div class="card-title m-0">
+                <h3 class="fw-bold m-0">Solution Advantages</h3>
+            </div>
+        </div>
+        <div class="collapse show">
+            <div class="card-body border-top p-9">
+                {% for solution_advantage in solution_advantages %}
+                <div class="mb-3">{{ solution_advantage.description }}</div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Card for Proposal Experts Involved -->
+    <div class="card mb-5 mb-xl-10">
+        <div class="card-header border-0 cursor-pointer">
+            <div class="card-title m-0">
+                <h3 class="fw-bold m-0">Experts Involved</h3>
+            </div>
+        </div>
+        <div class="collapse show">
+            <div class="card-body border-top p-9">
+                {% for expert_involved in experts_involved %}
+                <div class="mb-3">
+                    <strong>Name:</strong> {{ expert_involved.name }}<br>
+                    <strong>Mobile:</strong> {{ expert_involved.mobile }}<br>
+                    <strong>Email:</strong> {{ expert_involved.email }}<br>
+                    <strong>Role:</strong> {{ expert_involved.role }}<br>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Card for Proposal Files -->
+    <div class="card mb-5 mb-xl-10">
+        <div class="card-header border-0 cursor-pointer">
+            <div class="card-title m-0">
+                <h3 class="fw-bold m-0">Files</h3>
+            </div>
+        </div>
+        <div class="collapse show">
+            <div class="card-body border-top p-9">
+                {% for proposal_file in proposal_files %}
+                <div class="mb-3">
+                    <strong>Name:</strong> {{ proposal_file.name }}<br>
+                    <strong>Document:</strong> <a href="{{ proposal_file.document.url }}">{{ proposal_file.document.name }}</a><br>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+<ul class="breadcrumb breadcrumb-separatorless fw-semibold">
+																	<!--begin::Item-->
+																	<li class="breadcrumb-item text-white fw-bold lh-1">
+																		<a href="{% url 'dashboard_index' %}" class="text-white text-hover-primary">
+																			<i class="ki-outline ki-home text-gray-700 fs-6"></i>
+																		</a>
+																	</li>
+																	<!--end::Item-->
+																	<!--begin::Item-->
+																	<li class="breadcrumb-item">
+																		<i class="ki-outline ki-right fs-7 text-gray-700 mx-n1"></i>
+																	</li>
+																	<!--end::Item-->
+																	<!--begin::Item-->
+																	<li class="breadcrumb-item text-white fw-bold lh-1">Innovation challenges</li>
+																	<!--end::Item-->
+																	<!--begin::Item-->
+																	<li class="breadcrumb-item">
+																		<i class="ki-outline ki-right fs-7 text-gray-700 mx-n1"></i>
+																	</li>
+																	<!--end::Item-->
+																	<!--begin::Item-->
+																	<li class="breadcrumb-item text-white fw-bold lh-1">Submit proposal</li>
+																	<!--end::Item-->
+																</ul>
