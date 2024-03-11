@@ -73,7 +73,7 @@ def fetch_vc_details(request):
         # Construct HTML for the startup details
         html = f"""
             	                                   <!--begin::Profile-->
-													<div class="d-flex gap-7 align-items-center" id="vcid" data-vc-id=""""+escape(vc.id)+"""">
+													<div class="d-flex gap-7 align-items-center" id="vcid" data-vc-id="""+escape(vc.id)+""">
 														<!--begin::Avatar-->
 														<div class="symbol symbol-circle symbol-100px">
 															<span class="symbol-label bg-light-success fs-1 fw-bolder">"""+escape(vc.firm_name[:1])+"""</span>
