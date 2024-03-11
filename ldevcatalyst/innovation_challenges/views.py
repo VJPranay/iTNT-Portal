@@ -24,6 +24,10 @@ from .models import (
     InnovationChallengeEvaluationCriteria,
     InnovationChallengeDetails
 )
+from django.shortcuts import render, redirect
+from .forms import InnovationChallengeProposalForm, InnovationChallengeProposalFilesFormset, InnovationChallengeProposalExpertsInvolvedFormset, InnovationChallengeProposalSolutionAdvantagesFormset, InnovationChallengeProposalTangibleBenfitsFormset
+from .models import InnovationChallengeProposalFiles, InnovationChallengeProposalExpertsInvolved, InnovationChallengeProposalSolutionAdvantages, InnovationChallengeProposalTangibleBenfits
+
 
 
 
@@ -183,3 +187,38 @@ def create_challenge(request):
         return render(request, 'dashboard/ic/create_challenge.html', {'challenge_form': challenge_form, 'details_form': details_form})
     else:
         return redirect('dashboard_index')
+
+
+
+
+def submit_proposal(request):
+    if request.method == 'POST':
+        proposal_form = InnovationChallengeProposalForm(request.POST)
+        files_formset = InnovationChallengeProposalFilesFormset(request.POST, request.FILES, prefix='files')
+        experts_formset = InnovationChallengeProposalExpertsInvolvedFormset(request.POST, prefix='experts')
+        solution_advantages_formset = InnovationChallengeProposalSolutionAdvantagesFormset(request.POST, prefix='advantages')
+        tangible_benefits_formset = InnovationChallengeProposalTangibleBenfitsFormset(request.POST, prefix='benefits')
+        if proposal_form.is_valid() and files_formset.is_valid() and experts_formset.is_valid() and solution_advantages_formset.is_valid() and tangible_benefits_formset.is_valid():
+            proposal = proposal_form.save()
+            files_formset.instance = proposal
+            files_formset.save()
+            experts_formset.instance = proposal
+            experts_formset.save()
+            solution_advantages_formset.instance = proposal
+            solution_advantages_formset.save()
+            tangible_benefits_formset.instance = proposal
+            tangible_benefits_formset.save()
+            return redirect('proposal_detail', proposal_id=proposal.id)
+    else:
+        proposal_form = InnovationChallengeProposalForm()
+        files_formset = InnovationChallengeProposalFilesFormset(prefix='files')
+        experts_formset = InnovationChallengeProposalExpertsInvolvedFormset(prefix='experts')
+        solution_advantages_formset = InnovationChallengeProposalSolutionAdvantagesFormset(prefix='advantages')
+        tangible_benefits_formset = InnovationChallengeProposalTangibleBenfitsFormset(prefix='benefits')
+    return render(request, 'dashboard/ic/submit_proposal.html', {
+        'proposal_form': proposal_form,
+        'files_formset': files_formset,
+        'experts_formset': experts_formset,
+        'advantages_formset': solution_advantages_formset,
+        'benefits_formset': tangible_benefits_formset
+    })

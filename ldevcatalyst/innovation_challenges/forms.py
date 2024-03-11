@@ -1,4 +1,7 @@
 from django import forms
+from .models import InnovationChallengeProposal, InnovationChallengeProposalTangibleBenfits, \
+    InnovationChallengeProposalSolutionAdvantages, InnovationChallengeProposalExpertsInvolved, \
+    InnovationChallengeProposalFiles
 from .models import (
     InnovationChallenge,
     InnovationChallengeDetails,
@@ -12,6 +15,9 @@ from .models import (
     InnovationChallengeEvaluationCriteria
     )
 from profiles.models import User, Industry
+from django import forms
+from django.forms import inlineformset_factory
+from .models import InnovationChallengeProposal, InnovationChallengeProposalFiles, InnovationChallengeProposalExpertsInvolved, InnovationChallengeProposalSolutionAdvantages, InnovationChallengeProposalTangibleBenfits
 
 
 class InnovationChallengeForm(forms.ModelForm):
@@ -93,3 +99,40 @@ class InnovationChallengeEvaluationCriteriaForm(forms.ModelForm):
         fields = ['description']
 
 
+
+class InnovationChallengeProposalForm(forms.ModelForm):
+    class Meta:
+        model = InnovationChallengeProposal
+        fields = ['name', 'brief', 'value_proposition', 'solution_readiness', 'implementation_time', 'ip_status']
+
+InnovationChallengeProposalFilesFormset = inlineformset_factory(
+    InnovationChallengeProposal,
+    InnovationChallengeProposalFiles,
+    fields=['name', 'document'],
+    extra=1,
+    can_delete=True
+)
+
+InnovationChallengeProposalExpertsInvolvedFormset = inlineformset_factory(
+    InnovationChallengeProposal,
+    InnovationChallengeProposalExpertsInvolved,
+    fields=['name', 'mobile', 'email', 'role'],
+    extra=1,
+    can_delete=True
+)
+
+InnovationChallengeProposalSolutionAdvantagesFormset = inlineformset_factory(
+    InnovationChallengeProposal,
+    InnovationChallengeProposalSolutionAdvantages,
+    fields=['description'],
+    extra=1,
+    can_delete=True
+)
+
+InnovationChallengeProposalTangibleBenfitsFormset = inlineformset_factory(
+    InnovationChallengeProposal,
+    InnovationChallengeProposalTangibleBenfits,
+    fields=['description'],
+    extra=1,
+    can_delete=True
+)

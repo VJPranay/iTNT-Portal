@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Proposal</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1>Create Proposal</h1>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ proposal_form.as_p }}
+            
+            <h2>Files</h2>
+            {{ files_formset.management_form }}
+            <div id="files-formset">
+                {{ files_formset.non_form_errors }}
+                {% for form in files_formset %}
+                    {{ form.as_p }}
+                {% endfor %}
+            </div>
+            <button type="button" class="btn btn-primary" id="add-file">Add File</button>
+            <div style="display: none" id="empty-file-form">
+                {{ files_formset.empty_form.as_p }}
+            </div>
+
+            <h2>Experts Involved</h2>
+            {{ experts_formset.management_form }}
+            <div id="experts-formset">
+                {{ experts_formset.non_form_errors }}
+                {% for form in experts_formset %}
+                    {{ form.as_p }}
+                {% endfor %}
+            </div>
+            <button type="button" class="btn btn-primary" id="add-expert">Add Expert</button>
+            <div style="display: none" id="empty-expert-form">
+                {{ experts_formset.empty_form.as_p }}
+            </div>
+            <!-- Solution Advantages -->
+            <h2>Solution Advantages</h2>
+            {{ advantages_formset.management_form }}
+            <div id="advantages-formset">
+                {{ advantages_formset.non_form_errors }}
+                {% for form in advantages_formset %}
+                    {{ form.as_p }}
+                {% endfor %}
+            </div>
+            <button type="button" class="btn btn-primary" id="add-advantage">Add Advantage</button>
+            <div style="display: none" id="empty-advantage-form">
+                {{ advantages_formset.empty_form.as_p }}
+            </div>
+
+            <!-- Tangible Benefits -->
+            <h2>Tangible Benefits</h2>
+            {{ benefits_formset.management_form }}
+            <div id="benefits-formset">
+                {{ benefits_formset.non_form_errors }}
+                {% for form in benefits_formset %}
+                    {{ form.as_p }}
+                {% endfor %}
+            </div>
+            <button type="button" class="btn btn-primary" id="add-benefit">Add Benefit</button>
+            <div style="display: none" id="empty-benefit-form">
+                {{ benefits_formset.empty_form.as_p }}
+            </div>
+
+            <button type="submit" class="btn btn-success">Submit</button>
+        </form>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.min.js"></script>
+
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            $("#add-file").click(function() {
+                var form_idx = $('#id_files-TOTAL_FORMS').val();
+                $('#files-formset').append($('#empty-file-form').html().replace(/__prefix__/g, form_idx));
+                $('#id_files-TOTAL_FORMS').val(parseInt(form_idx) + 1);
+            });
+
+            $("#add-expert").click(function() {
+                var form_idx = $('#id_experts-TOTAL_FORMS').val();
+                $('#experts-formset').append($('#empty-expert-form').html().replace(/__prefix__/g, form_idx));
+                $('#id_experts-TOTAL_FORMS').val(parseInt(form_idx) + 1);
+            });
+
+            $("#add-advantage").click(function() {
+                var form_idx = $('#id_advantages-TOTAL_FORMS').val();
+                $('#advantages-formset').append($('#empty-advantage-form').html().replace(/__prefix__/g, form_idx));
+                $('#id_advantages-TOTAL_FORMS').val(parseInt(form_idx) + 1);
+            });
+
+            $("#add-benefit").click(function() {
+                var form_idx = $('#id_benefits-TOTAL_FORMS').val();
+                $('#benefits-formset').append($('#empty-benefit-form').html().replace(/__prefix__/g, form_idx));
+                $('#id_benefits-TOTAL_FORMS').val(parseInt(form_idx) + 1);
+            });
+        });
+    </script>
+</body>
+</html>
