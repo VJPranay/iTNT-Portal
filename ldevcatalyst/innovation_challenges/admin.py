@@ -1,115 +1,97 @@
 from django.contrib import admin
-from .models import (
-    ChallengesCategory,
-    ChallengeSubCategory,
-    InnovationChallenge,
-    InnovationChallengeObjectives,
-    InnovationChallengeEligibilityCriteria,
-    InnovationChallengeEvaluationCriteria,
-    InnovationChallengeOutcomes,
-    InnovationChallengeDetails,
-    InnovationChallengeProposal,
-    InnovationChallengeProposalBenfits,
-    InnovationChallengeProposalMilestones,
-    InnovationChallengeProposalTeam,
-    InnovationChallengeProposalFiles,
-    InnovationChallengeProposalDetails,
-)
+from .models import (InnovationChallenge,
+                     InnovationChallengeDetails,
+                     InnovationTargetBeneficiaries,
+                     InnovationChallengeRequirements,
+                     InnovationChallengeOperationalCapabilities,
+                     InnovationChallengeTangibleOutcomes,
+                     InnovationChallengeOtherRequriments,
+                     InnovationChallengeObjectives,
+                     InnovationChallengeEligibilityCriteria,
+                     InnovationChallengeEvaluationCriteria
+                     )
+from .models import InnovationChallengeProposal, InnovationChallengeProposalFiles, InnovationChallengeProposalExpertsInvolved, InnovationChallengeProposalSolutionAdvantages, InnovationChallengeProposalTangibleBenfits
 
-class InnovationChallengeObjectivesInline(admin.TabularInline):
-    model = InnovationChallengeObjectives
 
-class InnovationChallengeEligibilityCriteriaInline(admin.TabularInline):
-    model = InnovationChallengeEligibilityCriteria
 
-class InnovationChallengeEvaluationCriteriaInline(admin.TabularInline):
-    model = InnovationChallengeEvaluationCriteria
-
-class InnovationChallengeOutcomesInline(admin.TabularInline):
-    model = InnovationChallengeOutcomes
-
-class InnovationChallengeDetailsInline(admin.TabularInline):
+class InnovationChallengeDetailsInline(admin.StackedInline):
     model = InnovationChallengeDetails
+    extra = 1
 
-class InnovationChallengeProposalBenefitsInline(admin.TabularInline):
-    model = InnovationChallengeProposalBenfits
 
-class InnovationChallengeProposalMilestonesInline(admin.TabularInline):
-    model = InnovationChallengeProposalMilestones
+class InnovationTargetBeneficiariesInline(admin.StackedInline):
+    model = InnovationTargetBeneficiaries
+    extra = 1
 
-class InnovationChallengeProposalTeamInline(admin.TabularInline):
-    model = InnovationChallengeProposalTeam
+class InnovationChallengeRequirementsInline(admin.StackedInline):
+    model = InnovationChallengeRequirements
+    extra = 1
+
+class InnovationChallengeOperationalCapabilitiesInline(admin.StackedInline):
+    model = InnovationChallengeOperationalCapabilities
+    extra = 1
+
+class InnovationChallengeTangibleOutcomesInline(admin.StackedInline):
+    model = InnovationChallengeTangibleOutcomes
+    extra = 1
+
+class InnovationChallengeOtherRequrimentsInline(admin.StackedInline):
+    model = InnovationChallengeOtherRequriments
+    extra = 1
+
+class InnovationChallengeObjectivesInline(admin.StackedInline):
+    model = InnovationChallengeObjectives
+    extra = 1
+
+class InnovationChallengeEligibilityCriteriaInline(admin.StackedInline):
+    model = InnovationChallengeEligibilityCriteria
+    extra = 1
+
+class InnovationChallengeEvaluationCriteriaInline(admin.StackedInline):
+    model = InnovationChallengeEvaluationCriteria
+    extra = 1
+
+
+
+
+
+@admin.register(InnovationChallenge)
+class InnovationChallengeAdmin(admin.ModelAdmin):
+    list_display = ('name', 'created', 'updated', 'created_by', 'updated_by')
+    search_fields = ('name', 'created_by__username', 'updated_by__username')
+    list_filter = ('created', 'updated')
+    readonly_fields = ('created', 'updated')
+    inlines = [
+        InnovationChallengeDetailsInline, 
+        InnovationTargetBeneficiariesInline,
+        InnovationChallengeRequirementsInline,
+        InnovationChallengeOperationalCapabilitiesInline,
+        InnovationChallengeTangibleOutcomesInline,
+        InnovationChallengeOtherRequrimentsInline,
+        InnovationChallengeObjectivesInline,
+        InnovationChallengeEligibilityCriteriaInline,
+        InnovationChallengeEvaluationCriteriaInline
+        ]
+
 
 class InnovationChallengeProposalFilesInline(admin.TabularInline):
     model = InnovationChallengeProposalFiles
 
-class InnovationChallengeProposalDetailsInline(admin.TabularInline):
-    model = InnovationChallengeProposalDetails
+class InnovationChallengeProposalExpertsInvolvedInline(admin.TabularInline):
+    model = InnovationChallengeProposalExpertsInvolved
 
-@admin.register(ChallengesCategory)
-class ChallengesCategoryAdmin(admin.ModelAdmin):
-    list_display = ('name',)
+class InnovationChallengeProposalSolutionAdvantagesInline(admin.TabularInline):
+    model = InnovationChallengeProposalSolutionAdvantages
 
-@admin.register(ChallengeSubCategory)
-class ChallengeSubCategoryAdmin(admin.ModelAdmin):
-    list_display = ('name', 'category',)
+class InnovationChallengeProposalTangibleBenfitsInline(admin.TabularInline):
+    model = InnovationChallengeProposalTangibleBenfits
 
-@admin.register(InnovationChallenge)
-class InnovationChallengeAdmin(admin.ModelAdmin):
-    inlines = [
-        InnovationChallengeObjectivesInline,
-        InnovationChallengeEligibilityCriteriaInline,
-        InnovationChallengeEvaluationCriteriaInline,
-        InnovationChallengeOutcomesInline,
-    ]
-    list_display = ('name', 'challenge_category', 'challenges_sub_category', 'created', 'updated', 'created_by', 'updated_by',)
-
-@admin.register(InnovationChallengeObjectives)
-class InnovationChallengeObjectivesAdmin(admin.ModelAdmin):
-    list_display = ('challenge', 'description',)
-
-@admin.register(InnovationChallengeEligibilityCriteria)
-class InnovationChallengeEligibilityCriteriaAdmin(admin.ModelAdmin):
-    list_display = ('challenge', 'description',)
-
-@admin.register(InnovationChallengeEvaluationCriteria)
-class InnovationChallengeEvaluationCriteriaAdmin(admin.ModelAdmin):
-    list_display = ('challenge', 'description',)
-
-@admin.register(InnovationChallengeOutcomes)
-class InnovationChallengeOutcomesAdmin(admin.ModelAdmin):
-    list_display = ('challenge', 'description',)
-
-@admin.register(InnovationChallengeDetails)
-class InnovationChallengeDetailsAdmin(admin.ModelAdmin):
-    list_display = ('challenge', 'description', 'funding_details',)
-
-@admin.register(InnovationChallengeProposal)
 class InnovationChallengeProposalAdmin(admin.ModelAdmin):
     inlines = [
-        InnovationChallengeProposalBenefitsInline,
-        InnovationChallengeProposalMilestonesInline,
-        InnovationChallengeProposalTeamInline,
         InnovationChallengeProposalFilesInline,
+        InnovationChallengeProposalExpertsInvolvedInline,
+        InnovationChallengeProposalSolutionAdvantagesInline,
+        InnovationChallengeProposalTangibleBenfitsInline,
     ]
-    list_display = ('challenge', 'submitted_by', 'name', 'market_domain', 'created', 'updated', 'created_by', 'updated_by', 'ip_status',)
 
-@admin.register(InnovationChallengeProposalBenfits)
-class InnovationChallengeProposalBenefitsAdmin(admin.ModelAdmin):
-    list_display = ('proposal', 'description',)
-
-@admin.register(InnovationChallengeProposalMilestones)
-class InnovationChallengeProposalMilestonesAdmin(admin.ModelAdmin):
-    list_display = ('proposal', 'description',)
-
-@admin.register(InnovationChallengeProposalTeam)
-class InnovationChallengeProposalTeamAdmin(admin.ModelAdmin):
-    list_display = ('proposal', 'name', 'mobile', 'email', 'role',)
-
-@admin.register(InnovationChallengeProposalFiles)
-class InnovationChallengeProposalFilesAdmin(admin.ModelAdmin):
-    list_display = ('proposal', 'name', 'notes', 'document',)
-
-@admin.register(InnovationChallengeProposalDetails)
-class InnovationChallengeProposalDetailsAdmin(admin.ModelAdmin):
-    list_display = ('proposal', 'breif', 'value_proposition', 'solution_readiness', 'timeline',)
+admin.site.register(InnovationChallengeProposal, InnovationChallengeProposalAdmin)

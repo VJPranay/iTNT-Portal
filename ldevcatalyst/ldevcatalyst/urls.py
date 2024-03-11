@@ -30,6 +30,7 @@ urlpatterns = [
     path('districts/', districts,name="districts"),
     path('institutions/', institutions,name="institutions"),
     path('dashboard/', include('dashboard.urls')),
+    path('innovation-challenge/', include('innovation_challenges.urls')),
     path('registrations/', include('registrations.urls')),
     path('profiles/', include('profiles.urls')),
     path('meetings/', include('meetings.urls')),

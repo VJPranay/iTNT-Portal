@@ -1,0 +1,184 @@
+
+{% extends 'dashboard/base.html' %}
+{% load static %}
+{% block breadcrums %}
+<!--begin::Breadcrumb-->
+																<ul class="breadcrumb breadcrumb-separatorless fw-semibold">
+																	<!--begin::Item-->
+																	<li class="breadcrumb-item text-white fw-bold lh-1">
+																		<a href="{% url 'dashboard_index' %}" class="text-white text-hover-primary">
+																			<i class="ki-outline ki-home text-gray-700 fs-6"></i>
+																		</a>
+																	</li>
+																	<!--end::Item-->
+																	<!--begin::Item-->
+																	<li class="breadcrumb-item">
+																		<i class="ki-outline ki-right fs-7 text-gray-700 mx-n1"></i>
+																	</li>
+																	<!--end::Item-->
+																	<!--begin::Item-->
+																	<li class="breadcrumb-item text-white fw-bold lh-1">Profiles</li>
+																	<!--end::Item-->
+																	<!--begin::Item-->
+																	<li class="breadcrumb-item">
+																		<i class="ki-outline ki-right fs-7 text-gray-700 mx-n1"></i>
+																	</li>
+																	<!--end::Item-->
+																	<!--begin::Item-->
+																	<li class="breadcrumb-item text-white fw-bold lh-1">VC's</li>
+																	<!--end::Item-->
+																</ul>
+																<!--end::Breadcrumb-->
+{% endblock  %}
+
+{% block pageheading %}
+Meeting requests
+{% endblock  %}
+{% block pagedescription %}
+VC's
+{% endblock  %}
+
+
+
+{% block page_content %}
+
+<div class="container mt-5">
+    <h2>Create Innovation Challenge</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ innovation_challenge_form.as_p }}
+        <hr>
+        {{ innovation_challenge_details_form.as_p }}
+        <hr>
+        <h3>Innovation Target Beneficiaries</h3>
+        <div id="beneficiaries-formset">
+            <div class="beneficiary-form">
+                {{ beneficiaries_formset.management_form }}
+                {% for form in beneficiaries_formset %}
+                <div class="form-row">
+                    {{ form.description.errors }}
+                    {{ form.description }}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <button type="button" class="btn btn-primary mt-3" id="add-beneficiary">Add Beneficiary</button>
+        <hr>
+
+        <h3>Innovation Challenge Requirements</h3>
+        <div id="requirements-formset">
+            <div class="requirements-form">
+                {{ requirements_formset.management_form }}
+                {% for form in requirements_formset %}
+                <div class="form-row">
+                    {{ form.description.errors }}
+                    {{ form.description }}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <button type="button" class="btn btn-primary mt-3" id="add-requirement">Add Requirement</button>
+        <hr>
+
+        <h3>Innovation Challenge Operational Capabilities</h3>
+        <div id="capabilities-formset">
+            <div class="capabilities-form">
+                {{ capabilities_formset.management_form }}
+                {% for form in capabilities_formset %}
+                <div class="form-row">
+                    {{ form.description.errors }}
+                    {{ form.description }}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <button type="button" class="btn btn-primary mt-3" id="add-capability">Add Capability</button>
+        <hr>
+
+        <h3>Innovation Challenge Tangible Outcomes</h3>
+        <div id="outcomes-formset">
+            <div class="outcomes-form">
+                {{ outcomes_formset.management_form }}
+                {% for form in outcomes_formset %}
+                <div class="form-row">
+                    {{ form.description.errors }}
+                    {{ form.description }}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <button type="button" class="btn btn-primary mt-3" id="add-outcome">Add Outcome</button>
+        <hr>
+        <h3>Innovation Challenge Other Requirements</h3>
+        <div id="other-requirements-formset">
+            <div class="other-requirements-form">
+                {{ other_requirements_formset.management_form }}
+                {% for form in other_requirements_formset %}
+                <div class="form-row">
+                    {{ form.description.errors }}
+                    {{ form.description }}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <button type="button" class="btn btn-primary mt-3" id="add-other-requirement">Add Other Requirement</button>
+        <hr>
+
+        <h3>Innovation Challenge Objectives</h3>
+        <div id="objectives-formset">
+            <div class="objectives-form">
+                {{ objectives_formset.management_form }}
+                {% for form in objectives_formset %}
+                <div class="form-row">
+                    {{ form.description.errors }}
+                    {{ form.description }}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <button type="button" class="btn btn-primary mt-3" id="add-objective">Add Objective</button>
+        <hr>
+
+        <h3>Innovation Challenge Eligibility Criteria</h3>
+        <div id="eligibility-criteria-formset">
+            <div class="eligibility-criteria-form">
+                {{ eligibility_criteria_formset.management_form }}
+                {% for form in eligibility_criteria_formset %}
+                <div class="form-row">
+                    {{ form.description.errors }}
+                    {{ form.description }}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <button type="button" class="btn btn-primary mt-3" id="add-eligibility-criteria">Add Eligibility Criteria</button>
+        <hr>
+
+        <h3>Innovation Challenge Evaluation Criteria</h3>
+        <div id="evaluation-criteria-formset">
+            <div class="evaluation-criteria-form">
+                {{ evaluation_criteria_formset.management_form }}
+                {% for form in evaluation_criteria_formset %}
+                <div class="form-row">
+                    {{ form.description.errors }}
+                    {{ form.description }}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <button type="button" class="btn btn-primary mt-3" id="add-evaluation-criteria">Add Evaluation Criteria</button>
+        <hr>
+
+        <button type="submit" class="btn btn-success mt-3">Submit</button>
+    </form>
+</div>
+
+
+{% endblock %}
+
+{% block custom_js %}
+<script src="{% static 'create_challenge.js' %}"></script>
+
+{% endblock %}
+
+

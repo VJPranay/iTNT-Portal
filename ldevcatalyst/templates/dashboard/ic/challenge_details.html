@@ -1,0 +1,244 @@
+
+
+{% extends 'dashboard/base.html' %}
+{% load static %}
+{% block breadcrums %}
+<!--begin::Breadcrumb-->
+																<ul class="breadcrumb breadcrumb-separatorless fw-semibold">
+																	<!--begin::Item-->
+																	<li class="breadcrumb-item text-white fw-bold lh-1">
+																		<a href="{% url 'dashboard_index' %}" class="text-white text-hover-primary">
+																			<i class="ki-outline ki-home text-gray-700 fs-6"></i>
+																		</a>
+																	</li>
+																	<!--end::Item-->
+																	<!--begin::Item-->
+																	<li class="breadcrumb-item">
+																		<i class="ki-outline ki-right fs-7 text-gray-700 mx-n1"></i>
+																	</li>
+																	<!--end::Item-->
+																	<!--begin::Item-->
+																	<li class="breadcrumb-item text-white fw-bold lh-1">Innovation challenges</li>
+																	<!--end::Item-->
+																	<!--begin::Item-->
+																	<li class="breadcrumb-item">
+																		<i class="ki-outline ki-right fs-7 text-gray-700 mx-n1"></i>
+																	</li>
+																	<!--end::Item-->
+																	<!--begin::Item-->
+																	<li class="breadcrumb-item text-white fw-bold lh-1">{{ challenge.name }}</li>
+																	<!--end::Item-->
+																</ul>
+																<!--end::Breadcrumb-->
+{% endblock  %}
+
+{% block pageheading %}
+Create a new innovation challenge
+{% endblock  %}
+{% block pagedescription %}
+{{ challenge.name }}
+{% endblock  %}
+
+
+{% load crispy_forms_tags %}
+{% block page_content %}
+
+
+      
+      
+<div class="container mt-5">
+    <!-- Card for InnovationChallenge -->
+    <div class="card mb-5 mb-xl-10">
+        <div class="card-header border-0 cursor-pointer">
+            <div class="card-title m-0">
+                <h3 class="fw-bold m-0">Challenge</h3>
+            </div>
+        </div>
+        <div class="collapse show">
+            <div class="card-body border-top p-9">
+                <div class="mb-3">
+                    <strong>Industry:</strong> {{ challenge.industry }}
+                </div>
+                <div class="mb-3">
+                    <strong>Name:</strong> {{ challenge.name }}
+                </div>
+                <div class="mb-3">
+                    <strong>Area of Interest:</strong> {{ challenge.area_of_interest }}
+                </div>
+                <div class="mb-3">
+                    <strong>Cover Image:</strong> {{ challenge.cover_image }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Card for InnovationChallengeDetails -->
+    <div class="card mb-5 mb-xl-10">
+        <div class="card-header border-0 cursor-pointer">
+            <div class="card-title m-0">
+                <h3 class="fw-bold m-0">Challenge Details</h3>
+            </div>
+        </div>
+        <div class="collapse show">
+            <div class="card-body border-top p-9">
+                <div class="mb-3">
+                    <strong>Description:</strong> {{ challenge_details.description }}
+                </div>
+                <div class="mb-3">
+                    <strong>Scenario:</strong> {{ challenge_details.scenario }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loop for InnovationTargetBeneficiaries -->
+    
+    <div class="card mb-5 mb-xl-10">
+        <div class="card-header border-0 cursor-pointer">
+            <div class="card-title m-0">
+                <h3 class="fw-bold m-0">Target Beneficiaries</h3>
+            </div>
+        </div>
+        <div class="collapse show">
+            <div class="card-body border-top p-9">
+                
+                    {% for target_beneficiary in target_beneficiaries %}
+                    <div class="mb-3">
+                    {{ target_beneficiary.description }}
+                     </div>
+                    {% endfor %}
+               
+            </div>
+        </div>
+    </div>
+   
+
+    <!-- Loop for InnovationChallengeRequirements -->
+   
+    <div class="card mb-5 mb-xl-10">
+        <div class="card-header border-0 cursor-pointer">
+            <div class="card-title m-0">
+                <h3 class="fw-bold m-0">Challenge Requirements</h3>
+            </div>
+        </div>
+        <div class="collapse show">
+            <div class="card-body border-top p-9">
+                    {% for requirement in requirements %}
+                    <div class="mb-3"> {{ requirement.description }} </div>
+                    {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Loop for InnovationChallengeOperationalCapabilities -->
+<div class="card mb-5 mb-xl-10">
+    <div class="card-header border-0 cursor-pointer">
+        <div class="card-title m-0">
+            <h3 class="fw-bold m-0">Operational Capabilities</h3>
+        </div>
+    </div>
+    <div class="collapse show">
+        <div class="card-body border-top p-9">
+            {% for capability in operational_capabilities %}
+            <div class="mb-3">{{ capability.description }}</div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<!-- Loop for InnovationChallengeTangibleOutcomes -->
+<div class="card mb-5 mb-xl-10">
+    <div class="card-header border-0 cursor-pointer">
+        <div class="card-title m-0">
+            <h3 class="fw-bold m-0">Tangible Outcomes</h3>
+        </div>
+    </div>
+    <div class="collapse show">
+        <div class="card-body border-top p-9">
+            {% for outcome in tangible_outcomes %}
+            <div class="mb-3">{{ outcome.description }}</div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<!-- Loop for InnovationChallengeOtherRequriments -->
+<div class="card mb-5 mb-xl-10">
+    <div class="card-header border-0 cursor-pointer">
+        <div class="card-title m-0">
+            <h3 class="fw-bold m-0">Other Requirements</h3>
+        </div>
+    </div>
+    <div class="collapse show">
+        <div class="card-body border-top p-9">
+            {% for other_requirement in other_requirements %}
+            <div class="mb-3">{{ other_requirement.description }}</div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<!-- Loop for InnovationChallengeObjectives -->
+<div class="card mb-5 mb-xl-10">
+    <div class="card-header border-0 cursor-pointer">
+        <div class="card-title m-0">
+            <h3 class="fw-bold m-0">Objectives</h3>
+        </div>
+    </div>
+    <div class="collapse show">
+        <div class="card-body border-top p-9">
+            {% for objective in objectives %}
+            <div class="mb-3">{{ objective.description }}</div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<!-- Loop for InnovationChallengeEligibilityCriteria -->
+<div class="card mb-5 mb-xl-10">
+    <div class="card-header border-0 cursor-pointer">
+        <div class="card-title m-0">
+            <h3 class="fw-bold m-0">Eligibility Criteria</h3>
+        </div>
+    </div>
+    <div class="collapse show">
+        <div class="card-body border-top p-9">
+            {% for criteria in eligibility_criteria %}
+            <div class="mb-3">{{ criteria.description }}</div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<!-- Loop for InnovationChallengeEvaluationCriteria -->
+<div class="card mb-5 mb-xl-10">
+    <div class="card-header border-0 cursor-pointer">
+        <div class="card-title m-0">
+            <h3 class="fw-bold m-0">Evaluation Criteria</h3>
+        </div>
+    </div>
+    <div class="collapse show">
+        <div class="card-body border-top p-9">
+            {% for criteria in evaluation_criteria %}
+            <div class="mb-3">{{ criteria.description }}</div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<a href ""> <button type="submit" class="btn btn-success mt-3">Submit Proposal</button> </a>
+
+
+
+
+
+    <!-- Repeat the above pattern for the remaining 5 models -->
+</div>
+
+
+    {% endblock %}
+
+    {% block custom_js %}
+
+    
+    {% endblock %}

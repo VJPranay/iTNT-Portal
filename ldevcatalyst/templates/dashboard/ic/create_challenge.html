@@ -1,0 +1,250 @@
+
+
+{% extends 'dashboard/base.html' %}
+{% load static %}
+{% block breadcrums %}
+<!--begin::Breadcrumb-->
+																<ul class="breadcrumb breadcrumb-separatorless fw-semibold">
+																	<!--begin::Item-->
+																	<li class="breadcrumb-item text-white fw-bold lh-1">
+																		<a href="{% url 'dashboard_index' %}" class="text-white text-hover-primary">
+																			<i class="ki-outline ki-home text-gray-700 fs-6"></i>
+																		</a>
+																	</li>
+																	<!--end::Item-->
+																	<!--begin::Item-->
+																	<li class="breadcrumb-item">
+																		<i class="ki-outline ki-right fs-7 text-gray-700 mx-n1"></i>
+																	</li>
+																	<!--end::Item-->
+																	<!--begin::Item-->
+																	<li class="breadcrumb-item text-white fw-bold lh-1">Innovation challenges</li>
+																	<!--end::Item-->
+																	<!--begin::Item-->
+																	<li class="breadcrumb-item">
+																		<i class="ki-outline ki-right fs-7 text-gray-700 mx-n1"></i>
+																	</li>
+																	<!--end::Item-->
+																	<!--begin::Item-->
+																	<li class="breadcrumb-item text-white fw-bold lh-1">New</li>
+																	<!--end::Item-->
+																</ul>
+																<!--end::Breadcrumb-->
+{% endblock  %}
+
+{% block pageheading %}
+Create a new innovation challenge
+{% endblock  %}
+{% block pagedescription %}
+Innovation challenge creation page
+{% endblock  %}
+
+
+{% load crispy_forms_tags %}
+{% block page_content %}
+
+
+
+    <div class="container mt-5">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ challenge_form|crispy }}
+            {{ details_form|crispy }}
+
+            <div class="card mb-5 mb-xl-10">
+                <div class="card-header border-0 cursor-pointer">
+                    <div class="card-title m-0">
+                        <h3 class="fw-bold m-0">Add beneficiaries</h3>
+                    </div>
+                </div>
+                <div class="collapse show">
+                    <div class="card-body border-top p-9">
+                        <div id="beneficiaries_forms" class="mt-3">
+                            <!-- Initial form fields -->
+                            <div class="beneficiaries-form mb-3">
+                                <input type="text" name="beneficiaries-0-description" class="form-control mb-2" placeholder="Beneficiary Description">
+                            </div>
+                        </div>
+                        <button type="button" class="add-form btn btn-primary mt-3">Add Beneficiary</button>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Innovation Challenge Requirements -->
+            <div class="card mb-5 mb-xl-10">
+                <div class="card-header border-0 cursor-pointer">
+                    <div class="card-title m-0">
+                        <h3 class="fw-bold m-0">Add Requirements</h3>
+                    </div>
+                </div>
+                <div class="collapse show">
+                    <div class="card-body border-top p-9">
+                        <div id="requirements_forms" class="mt-3">
+                            <!-- Initial form fields -->
+                            <div class="requirements-form mb-3">
+                                <input type="text" name="requirements-0-description" class="form-control mb-2" placeholder="Requirement Description">
+                                
+                            </div>
+                        </div>
+                        <button type="button" class="add-form btn btn-primary mt-3">Add Requirement</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mb-5 mb-xl-10">
+                <div class="card-header border-0 cursor-pointer">
+                    <div class="card-title m-0">
+                        <h3 class="fw-bold m-0">Add Capabilities</h3>
+                    </div>
+                </div>
+                <div class="collapse show">
+                    <div class="card-body border-top p-9">
+                        <div id="capabilities_forms" class="mt-3">
+                            <div class="capabilities-form mb-3">
+                                <input type="text" name="capabilities-0-description" class="form-control mb-2" placeholder="Capability Description">
+                            </div>
+                        </div>
+                        <button type="button" class="add-form btn btn-primary mt-3">Add Capability</button>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="card mb-5 mb-xl-10">
+                <div class="card-header border-0 cursor-pointer">
+                    <div class="card-title m-0">
+                        <h3 class="fw-bold m-0">Add Outcomes</h3>
+                    </div>
+                </div>
+                <div class="collapse show">
+                    <div class="card-body border-top p-9">
+                        <div id="outcomes_forms" class="mt-3">
+                            <!-- Initial form fields -->
+                            <div class="outcomes-form mb-3">
+                                <input type="text" name="outcomes-0-description" class="form-control mb-2" placeholder="Outcome Description">
+                            </div>
+                        </div>
+                        <button type="button" class="add-form btn btn-primary mt-3">Add Outcome</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mb-5 mb-xl-10">
+                <div class="card-header border-0 cursor-pointer">
+                    <div class="card-title m-0">
+                        <h3 class="fw-bold m-0">Add Other Requirements</h3>
+                    </div>
+                </div>
+                <div class="collapse show">
+                    <div class="card-body border-top p-9">
+                        <div id="other_requirements_forms" class="mt-3">
+                            <!-- Initial form fields -->
+                            <div class="other-requirements-form mb-3">
+                                <input type="text" name="otherrequirements-0-description" class="form-control mb-2" placeholder="Other Requirement Description">
+                                
+                            </div>
+                        </div>
+                        <button type="button" class="add-form btn btn-primary mt-3">Add Other Requirement</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card mb-5 mb-xl-10">
+                <div class="card-header border-0 cursor-pointer">
+                    <div class="card-title m-0">
+                        <h3 class="fw-bold m-0">Add Objectives</h3>
+                    </div>
+                </div>
+                <div class="collapse show">
+                    <div class="card-body border-top p-9">
+                            <div id="objectives_forms" class="mt-3">
+                                <div class="objectives-form mb-3">
+                                    <input type="text" name="objectives-0-description" class="form-control mb-2" placeholder="Objective Description">
+                                </div>
+                            </div>
+                            <button type="button" class="add-form btn btn-primary mt-3">Add Objective</button>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Innovation Challenge Eligibility Criteria -->
+            <div class="card mb-5 mb-xl-10">
+                <div class="card-header border-0 cursor-pointer">
+                    <div class="card-title m-0">
+                        <h3 class="fw-bold m-0">Add Eligibility Criteria</h3>
+                    </div>
+                </div>
+                <div class="collapse show">
+                    <div class="card-body border-top p-9">
+                        <div id="eligibility_criteria_forms" class="mt-3">
+                            <div class="eligibility-criteria-form mb-3">
+                                <input type="text" name="eligibilitycriteria-0-description" class="form-control mb-2" placeholder="Eligibility Criteria Description">
+                                
+                            </div>
+                        </div>
+                        <button type="button" class="add-form btn btn-primary mt-3">Add Eligibility Criteria</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mb-5 mb-xl-10">
+                <div class="card-header border-0 cursor-pointer">
+                    <div class="card-title m-0">
+                        <h3 class="fw-bold m-0">Add Evaluation Criteria</h3>
+                    </div>
+                </div>
+                <div class="collapse show">
+                    <div class="card-body border-top p-9">
+                        <div id="evaluation_criteria_forms" class="mt-3">
+                            <div class="evaluation-criteria-form mb-3">
+                                <input type="text" name="evaluationcriteria-0-description" class="form-control mb-2" placeholder="Evaluation Criteria Description">
+                            </div>
+                        </div>
+                        <button type="button" class="add-form btn btn-primary mt-3">Add Evaluation Criteria</button>
+                    </div>
+                </div>
+            </div>
+            
+            <button type="submit" class="btn btn-success mt-3">Add Innovation Challenge</button>
+        </form>
+    </div>
+      
+      
+        
+
+    {% endblock %}
+
+    {% block custom_js %}
+    <script>
+        $(document).ready(function() {
+            // Function to add form fields
+            function addForm(containerId, prefix) {
+                const formIndex = $(`#${containerId}`).children().length;
+                const newForm = $('<div>', {class: `${prefix}-form mb-3`});
+                newForm.append($('<input>', {type: 'text', name: `${prefix}-${formIndex}-description`, class: 'form-control mb-2', placeholder: 'Description'}));
+                newForm.append($('<button>', {type: 'button', class: 'remove-form btn btn-danger', text: 'Remove'}));
+                $(`#${containerId}`).append(newForm);
+            }
+    
+            // Function to remove form fields
+            $(document).on('click', '.remove-form', function() {
+                $(this).parent().remove();
+            });
+    
+            // Add event listeners for add buttons
+            $('.add-form').click(function() {
+                const containerId = $(this).prev().attr('id');
+                const prefixInput = $(this).prev().find('input[type=text]').first().attr('name');
+                if (typeof prefixInput !== 'undefined') {
+                    const prefix = prefixInput.split('-')[0];
+                    addForm(containerId, prefix);
+                } else {
+                    console.error('Prefix not found');
+                }
+            });
+        });
+    </script>
+    
+    {% endblock %}

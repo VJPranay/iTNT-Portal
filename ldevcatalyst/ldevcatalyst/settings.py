@@ -12,9 +12,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-68bn2*xnujz@*i2(xb61^kk3vhzo8sfyw3mrn7***srqkm49_*'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-DEV = False
+DEV = True
 
 ALLOWED_HOSTS = [
 'itntportal.ldev.in',
@@ -33,6 +33,7 @@ CSRF_TRUSTED_ORIGINS = [
 ]
 
 SESSION_COOKIE_SECURE = True
+
 CSRF_COOKIE_SECURE = True
 
 
@@ -56,7 +57,9 @@ INSTALLED_APPS = [
     'marketplace',
     'dashboard',
     'common',
-    'support'
+    'support',
+    'crispy_forms',
+    'crispy_bootstrap5',
 ]
 
 AUTH_USER_MODEL = 'profiles.User'
@@ -215,3 +218,5 @@ email_port = 465
 email_username = 'aso.itnt'
 email_from = 'aso.itnt@tn.gov.in'
 email_password = 'uheim}a3'
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = "bootstrap5"
