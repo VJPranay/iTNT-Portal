@@ -1,0 +1,165 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+
+{% block breadcrums %}
+<!--begin::Breadcrumb-->
+<ul class="breadcrumb breadcrumb-separatorless fw-semibold">
+    <!--begin::Item-->
+    <li class="breadcrumb-item text-white fw-bold lh-1">
+        <a href="{% url 'dashboard_index' %}" class="text-white text-hover-primary">
+            <i class="ki-outline ki-home text-gray-700 fs-6"></i>
+        </a>
+    </li>
+    <!--end::Item-->
+    <!--begin::Item-->
+    <li class="breadcrumb-item">
+        <i class="ki-outline ki-right fs-7 text-gray-700 mx-n1"></i>
+    </li>
+    <!--end::Item-->
+    <!--begin::Item-->
+    <li class="breadcrumb-item text-white fw-bold lh-1">Meetings</li>
+    <!--end::Item-->
+    <!--begin::Item-->
+    <li class="breadcrumb-item">
+        <i class="ki-outline ki-right fs-7 text-gray-700 mx-n1"></i>
+    </li>
+    <!--end::Item-->
+    <!--begin::Item-->
+    <li class="breadcrumb-item text-white fw-bold lh-1">details</li>
+    <!--end::Item-->
+</ul>
+<!--end::Breadcrumb-->
+{% endblock  %}
+
+{% block pageheading %}
+Meetings
+{% endblock  %}
+{% block pagedescription %}
+details
+{% endblock  %}
+
+
+
+{% block page_content %}
+<div class="d-flex flex-column flex-column-fluid">
+    <!--begin::Content-->
+    <div id="kt_app_content" class="app-content flex-column-fluid">
+        <!--begin::Contacts App- View Contact-->
+        <div class="row g-7 justify-content-center">
+            <!--begin::Contact groups-->
+            <div class="col-lg-6 col-xl-6">
+                <!--begin::Contact group wrapper-->
+                <div class="card card-flush">
+                    <!--begin::Card header-->
+                    <div class="card-header pt-7" id="kt_chat_contacts_header">
+                        <!--begin::Card title-->
+                        <div class="card-title">
+                            <h2>Meeting details</h2>
+                        </div>
+                        <!--end::Card title-->
+                    </div>
+                    <!--end::Card header-->
+                    <!--begin::Card body-->
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <div class="d-flex align-items-start">
+                                        <i class="bi bi-building fs-3 me-2"></i>
+                                        <div>
+                                            <strong class="fs-5">Startup:</strong><br>
+                                            <span class="fs-6">{{ meeting_request.start_up }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <div class="d-flex align-items-start">
+                                        <i class="bi bi-person fs-3 me-2"></i>
+                                        <div>
+                                            <strong class="fs-5">VC:</strong><br>
+                                            <span class="fs-6">{{ meeting_request.vc }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <div class="d-flex align-items-start">
+                                        <i class="bi bi-chat-dots fs-3 me-2"></i>
+                                        <div>
+                                            <strong class="fs-5">Message:</strong><br>
+                                            <span class="fs-6">{{ meeting_request.message }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <div class="d-flex align-items-start">
+                                        <i class="bi bi-flag-fill fs-3 me-2"></i>
+                                        <div>
+                                            <strong class="fs-5">Status:</strong><br>
+                                            <span class="fs-6">{{ meeting_request.status }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <div class="d-flex align-items-start">
+                                        <i class="bi bi-globe fs-3 me-2"></i>
+                                        <div>
+                                            <strong class="fs-5">Meeting Type:</strong><br>
+                                            <span class="fs-6">{{ meeting_request.meeting_type }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <div class="d-flex align-items-start">
+                                        <i class="bi bi-geo-alt fs-3 me-2"></i>
+                                        <div>
+                                            <strong class="fs-5">Meeting Location:</strong><br>
+                                            <span class="fs-6">{{ meeting_request.meeting_location }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <div class="d-flex align-items-start">
+                                        <i class="bi bi-clock fs-3 me-2"></i>
+                                        <div>
+                                            <strong class="fs-5">Meeting Date and Time:</strong><br>
+                                            <span class="fs-6">{{ meeting_request.meeting_date_time }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-3">
+                            <a href="{% url 'meeting_update' meeting_request.id %}" class="btn btn-primary">
+                                <i class="bi bi-pencil me-2"></i>Update meeting
+                            </a>
+                        </div>
+                        <div class="mt-3">
+                            <button onclick="goBack()" class="btn btn-secondary">
+                                <i class="bi bi-arrow-left me-2"></i>Go Back
+                            </button>
+                        </div>
+                    </div>
+                    
+                </div>
+                <!--end::Contact group wrapper-->
+            </div>
+            <!--end::Contact groups-->
+        </div>
+        <!--end::Contacts App- View Contact-->
+    </div>
+    <!--end::Content-->
+</div>
+<!--end::Content wrapper-->
+<!--begin::Footer-->
+{% endblock %}
+
+
+{% block custom_js %}
+<script>
+    function goBack() {
+        window.history.back();
+    }
+</script>
+
+
+{% endblock %}

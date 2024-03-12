@@ -1,16 +1,34 @@
 from django.db import models
-from profiles.models import VC,StartUp
+from profiles.models import VC, StartUp
+from django.db.models.signals import pre_save
+from django.dispatch import receiver
+from django.utils import timezone
 
-# Create your models here.
 class MeetingRequests(models.Model):
-    start_up = models.ForeignKey(StartUp, on_delete=models.SET_NULL,blank=True, null=True)
-    vc = models.ForeignKey(VC, on_delete=models.SET_NULL,blank=True, null=True)
+    start_up = models.ForeignKey(StartUp, on_delete=models.SET_NULL, blank=True, null=True)
+    vc = models.ForeignKey(VC, on_delete=models.SET_NULL, blank=True, null=True)
     message = models.TextField(blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
-    status = models.CharField(max_length=50,blank=True, null=True,choices=[
+    status = models.CharField(max_length=50, blank=True, null=True, choices=[
         ('pending', 'pending'),
         ('accepted', 'accepted'),
+        ('approved', 'approved'),
         ('rejected', 'rejected'),
     ])
-    
+    meeting_type = models.CharField(max_length=50, blank=True, null=True, choices=[
+        ('online', 'online'),
+        ('offline', 'offline'),
+    ])
+    meeting_location = models.TextField(blank=True, null=True)
+    meeting_date = models.DateField(blank=True, null=True)
+    meeting_time = models.TimeField(blank=True, null=True)
+    meeting_date_time = models.DateTimeField(blank=True, null=True)
+
+@receiver(pre_save, sender=MeetingRequests)
+def update_meeting_date_time(sender, instance, **kwargs):
+    # Check if both meeting_date and meeting_time have values
+    if instance.meeting_date and instance.meeting_time:
+        # Combine meeting_date and meeting_time to create meeting_date_time
+        combined_datetime = timezone.datetime.combine(instance.meeting_date, instance.meeting_time)
+        instance.meeting_date_time = combined_datetime

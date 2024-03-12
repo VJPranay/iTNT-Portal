@@ -7,7 +7,7 @@ import random
 from profiles.models import StartUp
 from .models import MeetingRequests
 from django.db.models import Count
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
@@ -16,6 +16,8 @@ import json
 from profiles.models import VC ,Student,Industry
 from .models import MeetingRequests
 from django.utils.html import escape
+from .forms import MeetingRequestUpdateForm
+from django.http import JsonResponse
 
 
 # Create your views here.
@@ -265,4 +267,85 @@ def vc_meeting_request(request):
     
     
 
+@login_required
+def meetings(request,meeting_status=None):
+    if meeting_status is not None:
+        meeting_requests = MeetingRequests.objects.filter(status=meeting_status)
+    else:
+        meeting_requests = MeetingRequests.objects.all()
+    meeting_requests_list = []
+    for x in meeting_requests:
+        temp = {
+            'meeting_id' : x.id,
+            'start_up':x.start_up.name,
+            'vc' : x.vc.firm_name,
+            'created' : x.created,
+            'updated':x.updated,
+        }
+        meeting_requests_list.append(temp)
+    return render(request, 'dashboard/meetings/list.html',context={'meeting_requests':meeting_requests_list})
 
+
+@login_required
+def meeting(request,meeting_id=None):
+    if meeting_id is not None:
+        meeting_request = MeetingRequests.objects.get(id=meeting_id)
+        return render(request, 'dashboard/meetings/meeting_details.html',context={'meeting_request':meeting_request})
+    else:
+        return HttpResponseRedirect(reverse('not_found'))
+
+
+
+
+@login_required
+def meeting_update(request, meeting_id):
+    try:
+        meeting_request = MeetingRequests.objects.get(pk=meeting_id)
+    except MeetingRequests.DoesNotExist:
+        return redirect('not_found')
+    if request.method == 'POST':
+        form = MeetingRequestUpdateForm(request.POST, instance=meeting_request)
+        if form.is_valid():
+            form.save()
+            return redirect('meeting', meeting_id=meeting_id)
+    else:
+        form = MeetingRequestUpdateForm(instance=meeting_request)
+    
+    return render(request, 'dashboard/meetings/meeting_update.html', {'form': form})
+
+@login_required
+def calendar_view(request):
+    status = request.GET.get('status')  # Get the status parameter from the request
+    if status:
+        if status == 'all':
+            meeting_requests = MeetingRequests.objects.all()
+        else:
+            meeting_requests = MeetingRequests.objects.filter(status=status)
+    else:
+        meeting_requests = MeetingRequests.objects.all()  # Fetch all meeting requests
+    return render(request, 'dashboard/meetings/meeting_calender.html', {'meeting_requests': meeting_requests})
+
+
+@login_required
+def calendar_data(request):
+    status = request.GET.get('status')
+    if status:
+        if status == 'all':
+            meeting_requests = MeetingRequests.objects.all()
+        else:
+            meeting_requests = MeetingRequests.objects.filter(status=status)
+    else:
+        meeting_requests = MeetingRequests.objects.all()
+
+    # Serialize meeting requests data
+    meeting_data = []
+    for meeting in meeting_requests:
+        meeting_data.append({
+            'meeting_id' : meeting.id,
+            'start_up': meeting.start_up.name,
+            'vc': meeting.vc.firm_name,
+            'meeting_date_time': meeting.meeting_date_time.isoformat(),
+            'status': meeting.status
+        })
+
+    return JsonResponse(meeting_data, safe=False)
