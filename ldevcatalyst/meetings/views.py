@@ -68,9 +68,12 @@ def fetch_startup_details(request):
             return JsonResponse({'error': 'Invalid startup ID'}, status=400)
         # Fetch startup details based on startup_id
         startup = StartUp.objects.get(id=startup_id)
+        # get meeting details
+        meeting_info = MeetingRequests.objects.get(vc__user_id=request.user.id,start_up_id=startup)
         # Construct HTML for the startup details
         html = f"""
            													<!--begin::Profile-->
+                                                      
 													<div class="d-flex gap-7 align-items-center" id="startup-id" data-startup-id="{startup.id}">
 														<!--begin::Avatar-->
 														<div class="symbol symbol-circle symbol-100px">
@@ -97,6 +100,10 @@ def fetch_startup_details(request):
 														</div>
 														<!--end::Contact details-->
 													</div>
+                                                    <div style="margin: 20px;display: flex;">
+                                                      <a href="{reverse('meeting_update', kwargs={'meeting_id': meeting_info.id})}" id="acceptMeetingRequest" class="btn btn-sm btn-success btn-active-light-success" style="margin: 10px;">Accept meeting request</a>
+													  <a href="#" id="acceptMeetingRequest" class="btn btn-sm btn-danger btn-active-light-danger" style="margin: 10px;">Deny</a>
+                                                    </div>
 													<!--end::Profile-->
 													<!--begin:::Tabs-->
 													<ul class="nav nav-custom nav-tabs nav-line-tabs nav-line-tabs-2x fs-6 fw-semibold mt-6 mb-8 gap-2">
@@ -269,28 +276,45 @@ def vc_meeting_request(request):
 
 @login_required
 def meetings(request,meeting_status=None):
-    if meeting_status is not None:
-        meeting_requests = MeetingRequests.objects.filter(status=meeting_status)
-    else:
-        meeting_requests = MeetingRequests.objects.all()
-    meeting_requests_list = []
-    for x in meeting_requests:
-        temp = {
-            'meeting_id' : x.id,
-            'start_up':x.start_up.name,
-            'vc' : x.vc.firm_name,
-            'created' : x.created,
-            'updated':x.updated,
+    if request.user.user_role in [1,2,3,6,8]: 
+        query = {
+        
         }
-        meeting_requests_list.append(temp)
-    return render(request, 'dashboard/meetings/list.html',context={'meeting_requests':meeting_requests_list})
+        if meeting_status:
+            query['status'] = meeting_status
+        if request.user.user_role == 6:
+            query['start_up__user__id'] = request.user.id
+        if request.user.user_role == 8:
+            query['vc__user__id'] = request.user.id
+        meeting_requests = MeetingRequests.objects.filter(**query)
+        meeting_requests_list = []
+        for x in meeting_requests:
+            temp = {
+                'meeting_id' : x.id,
+                'start_up':x.start_up.name,
+                'vc' : x.vc.firm_name,
+                'created' : x.created,
+                'updated':x.updated,
+            }
+            meeting_requests_list.append(temp)
+        return render(request, 'dashboard/meetings/list.html',context={'meeting_requests':meeting_requests_list})
+    else:
+        return HttpResponseRedirect(reverse('not_found'))
 
 
 @login_required
 def meeting(request,meeting_id=None):
-    if meeting_id is not None:
-        meeting_request = MeetingRequests.objects.get(id=meeting_id)
-        return render(request, 'dashboard/meetings/meeting_details.html',context={'meeting_request':meeting_request})
+    if request.user.user_role in [1,2,3,6,8] or meeting_id is not None: 
+        try:
+            if request.user.user_role == 6:
+                meeting_request = MeetingRequests.objects.get(id=meeting_id,start_up__user__id=request.user.id)
+            elif request.user.user_role == 8:
+                meeting_request = MeetingRequests.objects.get(id=meeting_id,vc__user__id=request.user.id)
+            else:
+                meeting_request = MeetingRequests.objects.get(id=meeting_id)
+            return render(request, 'dashboard/meetings/meeting_details.html',context={'meeting_request':meeting_request})
+        except MeetingRequests.DoesNotExist:
+            return redirect('not_found')
     else:
         return HttpResponseRedirect(reverse('not_found'))
 
@@ -299,19 +323,28 @@ def meeting(request,meeting_id=None):
 
 @login_required
 def meeting_update(request, meeting_id):
-    try:
-        meeting_request = MeetingRequests.objects.get(pk=meeting_id)
-    except MeetingRequests.DoesNotExist:
-        return redirect('not_found')
-    if request.method == 'POST':
-        form = MeetingRequestUpdateForm(request.POST, instance=meeting_request)
-        if form.is_valid():
-            form.save()
-            return redirect('meeting', meeting_id=meeting_id)
+    if request.user.user_role in [1,2,3,6,8] or meeting_id is not None: 
+        if request.method == 'GET':
+            try:
+                if request.user.user_role == 6:
+                    meeting_request = MeetingRequests.objects.get(pk=meeting_id,start_up__user__id=request.user.id)
+                elif request.user.user_role == 8:
+                    meeting_request = MeetingRequests.objects.get(pk=meeting_id,vc__user__id=request.user.id)
+                else:
+                    meeting_request = MeetingRequests.objects.get(pk=meeting_id)
+                return render(request, 'dashboard/meetings/meeting_details.html',context={'meeting_request':meeting_request})
+            except MeetingRequests.DoesNotExist:
+                return redirect('not_found')
+        if request.method == 'POST':
+            form = MeetingRequestUpdateForm(request.POST, instance=meeting_request)
+            if form.is_valid():
+                form.save()
+                return redirect('meeting', meeting_id=meeting_id)
+        else:
+            form = MeetingRequestUpdateForm(instance=meeting_request)
+        return render(request, 'dashboard/meetings/meeting_update.html', {'form': form})
     else:
-        form = MeetingRequestUpdateForm(instance=meeting_request)
-    
-    return render(request, 'dashboard/meetings/meeting_update.html', {'form': form})
+        return HttpResponseRedirect(reverse('not_found'))
 
 @login_required
 def calendar_view(request):

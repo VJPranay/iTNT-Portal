@@ -12,6 +12,8 @@ class MeetingRequests(models.Model):
     updated = models.DateTimeField(auto_now=True)
     status = models.CharField(max_length=50, blank=True, null=True, choices=[
         ('pending', 'pending'),
+        ('vc_accepted', 'vc_accepted'),
+        ('reschedule','reschedule'),
         ('accepted', 'accepted'),
         ('approved', 'approved'),
         ('rejected', 'rejected'),

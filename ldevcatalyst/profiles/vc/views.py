@@ -15,6 +15,7 @@ from django.utils.decorators import method_decorator
 import json
 from ..models import VC
 from django.utils.html import escape
+from meetings.models import MeetingRequests
 # Create your views here.
 
 
@@ -68,8 +69,10 @@ def fetch_vc_details(request):
         if not vc_id:
             return JsonResponse({'error': 'Invalid vc ID'}, status=400)
         # Fetch startup details based on startup_id
-        print(vc_id)
         vc = VC.objects.get(id=vc_id)
+        meeting_request_sent = MeetingRequests.objects.filter(
+            vc_id=vc_id,
+            start_up__user__id=request.user.id).exists()
         # Construct HTML for the startup details
         html = f"""
             	                                   <!--begin::Profile-->
@@ -122,10 +125,6 @@ def fetch_vc_details(request):
 																	<div class="fw-bold fs-5">"""+escape(vc.partner_name)+"""</div>
 																</div>
                                                                 <div class="d-flex flex-column gap-1">
-																	<div class="fw-bold text-muted">Email</div>
-																	<div class="fw-bold fs-5">"""+escape(vc.email)+"""</div>
-																</div>
-                                                                <div class="d-flex flex-column gap-1">
 																	<div class="fw-bold text-muted">Funding Stage</div>
 																	<div class="fw-bold fs-5">"""+escape(vc.funding_stage.name)+"""</div>
 																</div>
@@ -174,7 +173,8 @@ def fetch_vc_details(request):
 													</div>
 								"""
         # Send the HTML response to the JavaScript function
-        return JsonResponse({'html': html})
+        print(meeting_request_sent)
+        return JsonResponse({'html': html,'meeting_request_sent': meeting_request_sent})
     else:
         # Handle invalid request
         return JsonResponse({'error': 'Invalid request'}, status=400)

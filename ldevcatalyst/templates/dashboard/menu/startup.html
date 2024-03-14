@@ -26,8 +26,58 @@
         <!--end:Menu sub-->
     </div>
     <!--end:Menu item-->
+        <!--begin:Menu item-->
+        <div data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-placement="bottom-start" class="menu-item menu-lg-down-accordion menu-sub-lg-down-indention me-0 me-lg-2">
+            <!--begin:Menu link-->
+            <span class="menu-link">
+                <span class="menu-title">Meeting Requests</span>
+                <span class="menu-arrow d-lg-none"></span>
+            </span>
+            <!--end:Menu link-->
+            <!--begin:Menu sub-->
+            <div class="menu-sub menu-sub-lg-down-accordion menu-sub-lg-dropdown px-lg-2 py-lg-4 w-lg-200px">
+                <!--begin:Menu item-->
+                <div class="menu-item">
+                    <!--begin:Menu link-->
+                    <a class="menu-link" href="{% url 'vc_list' %}" title="VC Details here" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss="click" data-bs-placement="right">
+                        <span class="menu-icon">
+                            <i class="ki-outline ki-switch fs-2"></i>
+                        </span>
+                        <span class="menu-title"> View VC Profiles</span>
+                    </a> 
+                    <!--end:Menu link-->
+                    <!--begin:Menu link-->
+                    <a class="menu-link" href="{% url 'meetings' meeting_status="pending" %}" title="View your meeting requests here" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss="click" data-bs-placement="right">
+                        <span class="menu-icon">
+                            <i class="ki-outline ki-switch fs-2"></i>
+                        </span>
+                        <span class="menu-title">Sent meeting requests</span>
+                    </a>
+                    <!--end:Menu link-->
+                    <!--begin:Menu link-->
+                    <a class="menu-link" href="{% url 'meetings' meeting_status="accepted" %}" title="Your confirmed meeting requests" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss="click" data-bs-placement="right">
+                        <span class="menu-icon">
+                            <i class="ki-outline ki-switch fs-2"></i>
+                        </span>
+                        <span class="menu-title">Confirmed meetings</span>
+                    </a>
+                    <!--end:Menu link-->
+                     <!--begin:Menu link-->
+                     <a class="menu-link" href="{% url 'calendar_view' %}" title="Calender view of meetings" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss="click" data-bs-placement="right">
+                        <span class="menu-icon">
+                            <i class="ki-outline ki-switch fs-2"></i>
+                        </span>
+                        <span class="menu-title">Meetings schedule</span>
+                    </a>
+                    <!--end:Menu link-->
+                </div>
+                <!--end:Menu item-->
+            </div>
+            <!--end:Menu sub-->
+        </div>
+        <!--end:Menu item-->
          <!--begin:Menu item-->
-         <div data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-placement="bottom-start" class="menu-item menu-lg-down-accordion menu-sub-lg-down-indention me-0 me-lg-2">
+    <div data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-placement="bottom-start" class="menu-item menu-lg-down-accordion menu-sub-lg-down-indention me-0 me-lg-2">
             <!--begin:Menu link-->
             <span class="menu-link">
                 <span class="menu-title">Innovation challanges</span>
@@ -50,6 +100,33 @@
                 <!--end:Menu item-->
             </div>
             <!--end:Menu sub-->
-        </div> 
+    </div> 
         <!--end:Menu item--> 
+
+    <!--begin:Menu item-->
+    <div data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-placement="bottom-start" class="menu-item menu-lg-down-accordion menu-sub-lg-down-indention me-0 me-lg-2">
+        <!--begin:Menu link-->
+        <span class="menu-link">
+            <span class="menu-title">Help and support</span>
+            <span class="menu-arrow d-lg-none"></span>
+        </span>
+        <!--end:Menu link-->
+        <!--begin:Menu sub-->
+        <div class="menu-sub menu-sub-lg-down-accordion menu-sub-lg-dropdown px-lg-2 py-lg-4 w-lg-200px">
+            <!--begin:Menu item-->
+            <div class="menu-item">
+                <!--begin:Menu link-->
+                <a class="menu-link" href="#" title="New support request" data-bs-toggle="modal" data-bs-target="#support_modal">
+                    <span class="menu-icon">
+                        <i class="ki-outline ki-rocket fs-2"></i>
+                    </span>
+                    <span class="menu-title">New support request</span>
+                </a>
+                <!--end:Menu link-->
+            </div>
+            <!--end:Menu item-->
+        </div>
+        <!--end:Menu sub-->
+    </div> 
+    <!--end:Menu item--> 
 </div>

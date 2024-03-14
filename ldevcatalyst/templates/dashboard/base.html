@@ -199,11 +199,33 @@ Developed by https://LDev.in
 									<!--begin::Page title-->
 									<div class="page-title me-5">
 										<!--begin::Title-->
-										<h1 class="page-heading d-flex text-white fw-bold fs-2 flex-column justify-content-center my-0">{% block pageheading %}  Page heading {%endblock%}
-										<!--begin::Description-->
-										<span class="page-desc text-gray-600 fw-semibold fs-6 pt-3">{% block pagedescription %} Page description  {%endblock%}</span>
-										<!--end::Description--></h1>
-										<!--end::Title-->
+										<h1 class="page-heading d-flex text-white fw-bold fs-2 flex-column justify-content-center my-0">
+											{% block pageheading %}
+											{% if user.user_role == 1 %}
+												Welcome Superadmin!
+											{% elif user.user_role == 2 %}
+												Welcome Admin!
+											{% elif user.user_role == 3 %}
+												Welcome Staff!
+											{% elif user.user_role == 4 %}
+												Welcome Industry!
+											{% elif user.user_role == 5 %}
+												Welcome Researcher!
+											{% elif user.user_role == 6 %}
+												Welcome Startup!
+											{% elif user.user_role == 7 %}
+												Welcome Student!
+											{% elif user.user_role == 8 %}
+												Welcome Venture Capitalist!
+											{% endif %}
+										{% endblock %}
+										<span class="page-desc text-gray-600 fw-semibold fs-6 pt-3">
+											{% block pagedescription %} 
+											Dashboard  
+											{% endblock %}
+										</span>
+										</h1>
+										
 									</div>
 									<!--end::Page title-->
 									{% comment %} <!--begin::Stats-->
@@ -228,8 +250,6 @@ Developed by https://LDev.in
 		<!--begin::Content wrapper-->
 {% block page_content %}
     
-
-
 
         
 {% endblock  %}
@@ -290,6 +310,7 @@ Developed by https://LDev.in
 
         
 {% endblock  %}
+{% include "support/support.html" %}
 <!--end::Javascript-->
 </body>
 <!--end::Body-->
