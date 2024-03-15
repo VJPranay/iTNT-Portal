@@ -123,7 +123,7 @@ Update
 
         $('#div_id_status').closest('.mb-3').hide();
 
-        if (user.user_role == 6 || user.user_role == 8) {
+        {% comment %} if (user.user_role == 6 || user.user_role == 8) {
             $('#id_meeting_type').change(function () {
                 var meetingType = $(this).val();
                 if (meetingType === 'offline') {
@@ -132,7 +132,7 @@ Update
                     $('#div_id_meeting_location').closest('.mb-3').hide();
                 }
             }).change();
-        }
+        } {% endcomment %}
 
         // Hide or show fields based on meeting type and initial status
         $('#id_status').change(function () {
