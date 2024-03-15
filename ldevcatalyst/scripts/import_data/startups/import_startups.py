@@ -37,7 +37,7 @@ def add_institution_from_csv(csv_file_path):
                 print(district_name)
                 continue
                 # district_info = District.objects.create(name=district_name)
-                # district_info.save()  
+                # district_info.save() # small changes  
             area_of_interest_info = None
             try:
                 area_of_interest_info = AreaOfInterest.objects.get(name=area_of_interest)
