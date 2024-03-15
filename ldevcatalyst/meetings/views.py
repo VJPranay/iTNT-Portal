@@ -16,7 +16,7 @@ import json
 from profiles.models import VC ,Student,Industry
 from .models import MeetingRequests
 from django.utils.html import escape
-from .forms import MeetingRequestUpdateForm
+from .forms import MeetingRequestUpdateForm,VCMeetingRequestAcceptForm
 from django.http import JsonResponse
 
 
@@ -24,11 +24,9 @@ from django.http import JsonResponse
 @login_required
 def vc_meeting_requests(request):
     if request.user.user_role ==  8:
-        # load profiles from frist category loaded
-        # load profile details from the first profile
         vc_profile_id = VC.objects.get(user_id=request.user.id).id
         template_data = {
-            'interest_areas_data' : MeetingRequests.objects.filter(vc_id=vc_profile_id,status='pending').values('start_up__area_of_interest__id', 'start_up__area_of_interest__name').annotate(requests_count=Count('id')),
+            'interest_areas_data' : MeetingRequests.objects.filter(vc_id=vc_profile_id,status='start_up_request').values('start_up__area_of_interest__id', 'start_up__area_of_interest__name').annotate(requests_count=Count('id')),
             'start_up_profiles' : []
         }
         print(template_data)
@@ -38,25 +36,28 @@ def vc_meeting_requests(request):
 
 @login_required
 def fetch_startup_profiles(request):
-    if request.method == 'POST':
-        data = json.loads(request.body.decode('utf-8'))
-        area_of_interest_id = data.get('area_of_interest_id')
-        if not area_of_interest_id:
-            return JsonResponse([], safe=False)
-        vc_profile_id = VC.objects.get(user_id=request.user.id).id
-        vc_meetings_reqests_startup_ids = MeetingRequests.objects.filter(vc_id=vc_profile_id, status='pending', start_up__area_of_interest=area_of_interest_id).values_list('start_up', flat=True)
-        startup_profiles = StartUp.objects.filter(id__in=vc_meetings_reqests_startup_ids)
-        # Prepare data to be sent as JSON response
-        profiles_data = []
-        for profile in startup_profiles:
-            profiles_data.append({
-                'startup_id': profile.id,
-                'startup_name': profile.name,
-                'funding_stage': profile.funding_stage.name,
-            })
-        return JsonResponse(profiles_data, safe=False)
+    if request.user.user_role ==  8:
+        if request.method == 'POST':
+            data = json.loads(request.body.decode('utf-8'))
+            area_of_interest_id = data.get('area_of_interest_id')
+            if not area_of_interest_id:
+                return JsonResponse([], safe=False)
+            vc_profile_id = VC.objects.get(user_id=request.user.id).id
+            vc_meetings_reqests_startup_ids = MeetingRequests.objects.filter(vc_id=vc_profile_id, status='start_up_request', start_up__area_of_interest=area_of_interest_id).values_list('start_up', flat=True)
+            startup_profiles = StartUp.objects.filter(id__in=vc_meetings_reqests_startup_ids)
+            # Prepare data to be sent as JSON response
+            profiles_data = []
+            for profile in startup_profiles:
+                profiles_data.append({
+                    'startup_id': profile.id,
+                    'startup_name': profile.name,
+                    'funding_stage': profile.funding_stage.name,
+                })
+            return JsonResponse(profiles_data, safe=False)
+        else:
+            return JsonResponse({'error': 'Invalid request'}, status=400)
     else:
-        return JsonResponse({'error': 'Invalid request'}, status=400)
+        return HttpResponseRedirect(reverse('not_found'))
     
     
 @login_required
@@ -101,7 +102,7 @@ def fetch_startup_details(request):
 														<!--end::Contact details-->
 													</div>
                                                     <div style="margin: 20px;display: flex;">
-                                                      <a href="{reverse('meeting_update', kwargs={'meeting_id': meeting_info.id})}" id="acceptMeetingRequest" class="btn btn-sm btn-success btn-active-light-success" style="margin: 10px;">Accept meeting request</a>
+                                                      <a href="{reverse('vc_meeting_accept', kwargs={'meeting_id': meeting_info.id})}" id="acceptMeetingRequest" class="btn btn-sm btn-success btn-active-light-success" style="margin: 10px;">Accept meeting request</a>
 													  <a href="#" id="acceptMeetingRequest" class="btn btn-sm btn-danger btn-active-light-danger" style="margin: 10px;">Deny</a>
                                                     </div>
 													<!--end::Profile-->
@@ -317,6 +318,33 @@ def meeting(request,meeting_id=None):
             return redirect('not_found')
     else:
         return HttpResponseRedirect(reverse('not_found'))
+    
+
+# start up send requests to VC
+# vc accept request with meeting type , date , time 
+# start up confirms meeting
+# admin adds link ( optional )
+# admin confirms reschedule
+    
+
+@login_required
+def vc_meeting_accept(request, meeting_id):
+    try:
+        meeting_request = MeetingRequests.objects.get(pk=meeting_id, vc__user_id=request.user.id, status='start_up_request')
+    except MeetingRequests.DoesNotExist:
+        return redirect('not_found')
+
+    if request.method == 'POST':
+        form = VCMeetingRequestAcceptForm(request.POST, instance=meeting_request)
+        if form.is_valid():
+            form.save()
+            meeting_info = MeetingRequests.objects.get(id=meeting_id)
+            meeting_info.status = 'vc_accepted'
+            meeting_info.save()
+            return redirect('meeting', meeting_id=meeting_id)
+    else:
+        form = VCMeetingRequestAcceptForm(instance=meeting_request)
+    return render(request, 'dashboard/meetings/vc/meeting_accept.html', {'form': form, 'meeting_request': meeting_request})
 
 
 
@@ -332,14 +360,23 @@ def meeting_update(request, meeting_id):
                     meeting_request = MeetingRequests.objects.get(pk=meeting_id,vc__user__id=request.user.id)
                 else:
                     meeting_request = MeetingRequests.objects.get(pk=meeting_id)
-                return render(request, 'dashboard/meetings/meeting_details.html',context={'meeting_request':meeting_request})
+                form = MeetingRequestUpdateForm(instance=meeting_request)
+                return render(request, 'dashboard/meetings/meeting_update.html', {'form': form,'meeting_request':meeting_request})
             except MeetingRequests.DoesNotExist:
                 return redirect('not_found')
         if request.method == 'POST':
-            form = MeetingRequestUpdateForm(request.POST, instance=meeting_request)
-            if form.is_valid():
-                form.save()
-                return redirect('meeting', meeting_id=meeting_id)
+
+            if request.user.user_role == 6:
+                meeting_request = MeetingRequests.objects.get(pk=meeting_id,start_up__user__id=request.user.id)
+            elif request.user.user_role == 8:
+                meeting_request = MeetingRequests.objects.get(pk=meeting_id,vc__user__id=request.user.id)          
+                form = MeetingRequestUpdateForm(request.POST, instance=meeting_request)
+                if form.is_valid():
+                    form.status == 'vc_accepted'
+                    form.save()
+                    return redirect('meeting', meeting_id=meeting_id)
+            else:
+                meeting_request = MeetingRequests.objects.get(pk=meeting_id)
         else:
             form = MeetingRequestUpdateForm(instance=meeting_request)
         return render(request, 'dashboard/meetings/meeting_update.html', {'form': form})
@@ -373,12 +410,26 @@ def calendar_data(request):
     # Serialize meeting requests data
     meeting_data = []
     for meeting in meeting_requests:
-        meeting_data.append({
-            'meeting_id' : meeting.id,
-            'start_up': meeting.start_up.name,
-            'vc': meeting.vc.firm_name,
-            'meeting_date_time': meeting.meeting_date_time.isoformat(),
-            'status': meeting.status
-        })
+        if meeting.meeting_date_time is not None:
+            meeting_data.append({
+                'meeting_id' : meeting.id,
+                'start_up': meeting.start_up.name,
+                'vc': meeting.vc.firm_name,
+                'meeting_date_time': meeting.meeting_date_time.isoformat(),
+                'status': meeting.status
+            })
 
     return JsonResponse(meeting_data, safe=False)
+
+
+@login_required
+def startup_confirm_meeting(request):
+    if request.method == 'POST':
+        meeting_id = request.POST.get('meeting_id')
+        meeting = MeetingRequests.objects.get(pk=meeting_id)
+        meeting.status = 'scheduled' if meeting.meeting_type == 'offline' else 'online_meeting_link_awaiting'
+        meeting.save()
+        return JsonResponse({'message': 'Meeting confirmed successfully'}, status=200)
+    else:
+        return JsonResponse({'error': 'Invalid request'}, status=400)
+

@@ -47,7 +47,7 @@
                     </a> 
                     <!--end:Menu link-->
                     <!--begin:Menu link-->
-                    <a class="menu-link" href="{% url 'meetings' meeting_status="pending" %}" title="View your meeting requests here" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss="click" data-bs-placement="right">
+                    <a class="menu-link" href="{% url 'meetings' meeting_status="start_up_request" %}" title="View your sent meeting requests here" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss="click" data-bs-placement="right">
                         <span class="menu-icon">
                             <i class="ki-outline ki-switch fs-2"></i>
                         </span>
@@ -55,19 +55,27 @@
                     </a>
                     <!--end:Menu link-->
                     <!--begin:Menu link-->
-                    <a class="menu-link" href="{% url 'meetings' meeting_status="accepted" %}" title="Your confirmed meeting requests" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss="click" data-bs-placement="right">
+                    <a class="menu-link" href="{% url 'meetings' meeting_status="vc_accepted" %}" title="Your confirmed meeting requests" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss="click" data-bs-placement="right">
                         <span class="menu-icon">
                             <i class="ki-outline ki-switch fs-2"></i>
                         </span>
-                        <span class="menu-title">Confirmed meetings</span>
+                        <span class="menu-title">Pre confirmation meetings</span>
                     </a>
                     <!--end:Menu link-->
+                                         <!--begin:Menu link-->
+                    <a class="menu-link" href="{% url 'meetings' meeting_status="scheduled"%}" title="confirmed meetings" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss="click" data-bs-placement="right">
+                                            <span class="menu-icon">
+                                                <i class="ki-outline ki-switch fs-2"></i>
+                                            </span>
+                                            <span class="menu-title">scheduled meetings</span>
+                    </a>
+                                        <!--end:Menu link-->
                      <!--begin:Menu link-->
                      <a class="menu-link" href="{% url 'calendar_view' %}" title="Calender view of meetings" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss="click" data-bs-placement="right">
                         <span class="menu-icon">
                             <i class="ki-outline ki-switch fs-2"></i>
                         </span>
-                        <span class="menu-title">Meetings schedule</span>
+                        <span class="menu-title">Meetings calender</span>
                     </a>
                     <!--end:Menu link-->
                 </div>

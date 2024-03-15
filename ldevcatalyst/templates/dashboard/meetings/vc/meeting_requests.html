@@ -83,7 +83,7 @@ VC's
 										<!--begin::Search-->
 										<div class="col-lg-6 col-xl-3" id="startup">
 											<!--begin::Contacts-->
-											<div class="card card-flush" id="kt_contacts_list">
+											<div class="card card-flush" id="kt_contacts_list" style="display:None;">
 												
 												<div class="card-body pt-5" id="kt_contacts_list_body">
 													
@@ -100,7 +100,7 @@ VC's
 										<!--begin::Content-->
 										<div class="col-xl-6">
 											<!--begin::Contacts-->
-											<div class="card card-flush h-lg-100" id="kt_contacts_main">
+											<div class="card card-flush h-lg-100" id="kt_contacts_main" style="display:None;">
 												<!--begin::Card header-->
 												<div class="card-header pt-7" id="kt_chat_contacts_header">
 													<!--begin::Card title-->
@@ -193,9 +193,12 @@ VC's
 
     function renderStartupProfiles(profiles) {
         var section = document.getElementById('startup-profiles-section');
+		var profiles_list_section = document.getElementById('kt_contacts_list');
         section.innerHTML = ''; 
 
         if (Array.isArray(profiles)) {
+			profiles_list_section.style.display ='block';
+
             profiles.forEach(function(profile) {
                 var profileHTML = `
                     <div class="d-flex flex-stack py-4" id="${profile.startup_id}" data-start_up-id="${profile.startup_id}">
@@ -220,6 +223,7 @@ VC's
 	function fetchStartupDetails(startupId) {
 		// Get CSRF token
 		const csrftoken = getCookie('csrftoken');
+
 	
 		// Fetch startup details using AJAX POST request
 		fetch('{% url 'fetch_startup_details' %}', {
@@ -241,6 +245,8 @@ VC's
 		.then(data => {
 			// Check if HTML data is present
 			if (data.html) {
+				var profiles_details_section = document.getElementById('kt_contacts_main');
+				profiles_details_section.style.display ='block';
 				// Render the startup details HTML
 				renderStartupDetails(data.html);
 			} else {

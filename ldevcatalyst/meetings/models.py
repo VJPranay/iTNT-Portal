@@ -11,11 +11,11 @@ class MeetingRequests(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     status = models.CharField(max_length=50, blank=True, null=True, choices=[
-        ('pending', 'pending'),
-        ('vc_accepted', 'vc_accepted'),
-        ('reschedule','reschedule'),
-        ('accepted', 'accepted'),
-        ('approved', 'approved'),
+        ('start_up_request', 'start_up_request'),
+        ('vc_accepted','vc_accepted'),
+        ('scheduled', 'scheduled'),
+        ('online_meeting_link_awaiting', 'online_meeting_link_awaiting'),
+        ('start_up_reschedule','start_up_reschedule'),
         ('rejected', 'rejected'),
     ])
     meeting_type = models.CharField(max_length=50, blank=True, null=True, choices=[
