@@ -28,14 +28,16 @@ def add_institution_from_csv(csv_file_path):
             except State.DoesNotExist:
                 # state_info = State.objects.create(name=state_name)
                 # state_info.save()
-                pass
+                print(state_info)
+                continue
             district_info = None
             try:
                 district_info = District.objects.get(name=district_name)
             except District.DoesNotExist:
+                print(district_name)
+                continue
                 # district_info = District.objects.create(name=district_name)
-                # district_info.save()
-                pass
+                # district_info.save()  
             area_of_interest_info = None
             try:
                 area_of_interest_info = AreaOfInterest.objects.get(name=area_of_interest)
@@ -48,7 +50,9 @@ def add_institution_from_csv(csv_file_path):
             except PreferredInvestmentStage.DoesNotExist:
                 # funding_stage_info = PreferredInvestmentStage.objects.create(name=funding_stage)
                 # funding_stage_info.save()
-                pass
+                print(funding_stage)
+                continue
+                
             startup_registration = StartUpRegistrations.objects.create(
                 name = startup_name,
                 co_founder_count = co_founder_count,
