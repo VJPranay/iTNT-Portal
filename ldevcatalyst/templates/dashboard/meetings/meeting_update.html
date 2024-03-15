@@ -73,10 +73,10 @@ Update
                     <!--begin::Card body-->
                     <div class="card-body">
                         <div class="mt-3">
-                            <form id="meetingForm" method="post" class="needs-validation" novalidate>
+                            <form action="{% url 'meeting_update' meeting_id=meeting_request.id %}" method="post" class="needs-validation" novalidate>
                                 {% csrf_token %}
-                                {% crispy form %}
-                                <button type="submit" class="btn btn-primary">Update meeting request</button>
+                                {{ form|crispy }}
+                                <button type="submit" class="btn btn-primary">Accept Meeting Request</button>
                             </form>
                         </div>
                         <div class="mt-3">
@@ -119,37 +119,6 @@ Update
             showMeridian: false,
             minuteStep: 1
         });
-
-
-        $('#div_id_status').closest('.mb-3').hide();
-
-        {% comment %} if (user.user_role == 6 || user.user_role == 8) {
-            $('#id_meeting_type').change(function () {
-                var meetingType = $(this).val();
-                if (meetingType === 'offline') {
-                    $('#div_id_meeting_location').closest('.mb-3').show();
-                } else {
-                    $('#div_id_meeting_location').closest('.mb-3').hide();
-                }
-            }).change();
-        } {% endcomment %}
-
-        // Hide or show fields based on meeting type and initial status
-        $('#id_status').change(function () {
-            var initialStatus = $(this).val();
-            var meetingType = $('#id_meeting_type').val();
-
-            if (initialStatus === 'start_up_request') {
-                // Enable fields for update
-                $('#id_meeting_type, #id_meeting_date, #id_meeting_time').prop('disabled', true);
-                
-            } else {
-                // Disable all fields except for meeting type and hide meeting location
-                $('#id_meeting_type, #id_meeting_date, #id_meeting_time').prop('disabled', false);
-                $('#div_id_meeting_location').closest('.mb-3').hide();
-            }
-        }).change(); // Trigger initial change event
-    
     });            
 </script>
 {% endblock %}
