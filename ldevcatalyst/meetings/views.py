@@ -243,13 +243,13 @@ def vc_meeting_request(request):
                 vc_info = VC.objects.get(id=vc_id)
                 startup_id = StartUp.objects.get(user_id=request.user.id).id
                 try:
-                    check_meeting = MeetingRequests.objects.get(start_up_id=startup_id, vc_id=vc_info.id, status='pending')
+                    check_meeting = MeetingRequests.objects.get(start_up_id=startup_id, vc_id=vc_info.id, status='start_up_request')
                     return JsonResponse({'success': 'false'})
                 except MeetingRequests.DoesNotExist:
                     new_meeting_request = MeetingRequests.objects.create(
                         start_up_id=startup_id,
                         vc_id=vc_info.id,
-                        status='pending'
+                        status='start_up_request'
                     )
                     new_meeting_request.save()
                     return JsonResponse({'success': 'true'})
@@ -264,7 +264,7 @@ def vc_meeting_request(request):
         else:
             try:
                 vc_id = VC.objects.get(user_id=request.user.id).id
-                check_meeting = MeetingRequests.objects.get(start_up_id=startup_id,vc_id=vc_id, status='pending')
+                check_meeting = MeetingRequests.objects.get(start_up_id=startup_id,vc_id=vc_id, status='start_up_request')
                 check_meeting.status = 'accepted' if meeting_status else 'rejected'
                 check_meeting.save()
                 return JsonResponse({'success': 'true'})
