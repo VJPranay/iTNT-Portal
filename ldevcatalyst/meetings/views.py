@@ -378,7 +378,6 @@ def meeting_update(request, meeting_id):
                 meeting_request = MeetingRequests.objects.get(pk=meeting_id)
                 form = MeetingRequestUpdateForm(request.POST, instance=meeting_request)
                 if form.is_valid():
-                    form.status == 'vc_accepted'
                     form.save()
                     if meeting_request.status == 'online_meeting_link_awaiting' or meeting_request.status == 'start_up_reschedule':
                         meeting_request.status = 'scheduled'
