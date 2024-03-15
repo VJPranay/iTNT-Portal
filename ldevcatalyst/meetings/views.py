@@ -365,7 +365,6 @@ def meeting_update(request, meeting_id):
             except MeetingRequests.DoesNotExist:
                 return redirect('not_found')
         if request.method == 'POST':
-
             if request.user.user_role == 6:
                 meeting_request = MeetingRequests.objects.get(pk=meeting_id,start_up__user__id=request.user.id)
             elif request.user.user_role == 8:
@@ -374,6 +373,16 @@ def meeting_update(request, meeting_id):
                 if form.is_valid():
                     form.status == 'vc_accepted'
                     form.save()
+                    return redirect('meeting', meeting_id=meeting_id)
+            elif request.user.user_role in [1,2,3]:
+                meeting_request = MeetingRequests.objects.get(pk=meeting_id)
+                form = MeetingRequestUpdateForm(request.POST, instance=meeting_request)
+                if form.is_valid():
+                    form.status == 'vc_accepted'
+                    form.save()
+                    if meeting_request.status == 'online_meeting_link_awaiting' or meeting_request.status == 'start_up_reschedule':
+                        meeting_request.status = 'scheduled'
+                        meeting_request.save()
                     return redirect('meeting', meeting_id=meeting_id)
             else:
                 meeting_request = MeetingRequests.objects.get(pk=meeting_id)
