@@ -79,6 +79,9 @@ class ResearcherRegistrations(models.Model):
             # Generate a unique registration ID
             self.registration_id = 'RCRG-' + str(uuid.uuid4())[:4].upper()  # Using part of UUID to ensure uniqueness
         super().save(*args, **kwargs)
+
+
+
     
 class StartUpRegistrations(models.Model):
     name = models.CharField(max_length=100,blank=True, null=True)
@@ -120,6 +123,14 @@ class StartUpRegistrations(models.Model):
             # Generate a unique registration ID
             self.registration_id = 'SURG-' + str(uuid.uuid4())[:4].upper()  # Using part of UUID to ensure uniqueness
         super().save(*args, **kwargs)
+
+
+class StartUpRegistrationsCoFounders(models.Model):
+    startup = models.ForeignKey(StartUpRegistrations, on_delete=models.SET_NULL,blank=True,null=True)
+    name = models.CharField(max_length=100,blank=True, null=True)
+    email = models.EmailField(blank=True, null=True)
+    mobile = models.CharField(max_length=15,blank=True, null=True)
+    gender = models.CharField(max_length=100,choices=[('male','Male'),('female','Female')],blank=True, null=True) 
     
     
 class StudentRegistrations(models.Model):

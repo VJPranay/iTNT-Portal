@@ -52,7 +52,7 @@
 										</div>
 			
 										<div class="stepper-label">
-											<h3 class="stepper-title fs-2">StartUp information</h3>
+											<h3 class="stepper-title fs-2">Startup information</h3>
 											<div class="stepper-desc fw-normal">Fill in your startup information</div>
 										</div>
 		
@@ -73,8 +73,8 @@
 										</div>
 				
 										<div class="stepper-label">
-											<h3 class="stepper-title fs-2">PoC Information</h3>
-											<div class="stepper-desc fw-normal">Point of contact details</div>
+											<h3 class="stepper-title fs-2">Additional Information</h3>
+											<div class="stepper-desc fw-normal">please fill in your additional details</div>
 										</div>
 					
 									</div>
@@ -133,7 +133,7 @@
 										<!--begin::Heading-->
 										<div class="pb-10 pb-lg-12">
 											<!--begin::Title-->
-											<h2 class="fw-bold text-gray-900">StartUp Details</h2>
+											<h2 class="fw-bold text-gray-900">Startup Details</h2>
 											<!--end::Title-->
 											<!--begin::Notice-->
 											<div class="text-muted fw-semibold fs-6">Know more about registration process on this
@@ -144,7 +144,7 @@
 										<!--begin::Input group-->
 										<div class="fv-row mb-10">
 											<!--begin::Label-->
-											<label class="form-label required">StartUp Company Name</label>
+											<label class="form-label required">Startup Company Name</label>
 											<!--end::Label-->
 											<!--begin::Input-->
 											<input name="name" class="form-control form-control-lg form-control-solid" placeholder="Your company name" value="" />
@@ -294,50 +294,14 @@
 											<div class="text-muted fw-semibold fs-6">Point of contact details</div>
 											<!--end::Notice-->
 										</div>
-										<!--end::Heading-->
-										{% comment %} <!--begin::Input group-->
-										<div class="fv-row mb-10">
-											<!--begin::Label-->
-											<label class="form-label required">Co Founder Name</label>
-											<!--end::Label-->
-											<!--begin::Input-->
-											<input type="text" class="form-control form-control-lg form-control-solid" name="founder_names" placeholder="Co Founder Name" value="" />
-											<!--end::Input-->
-										</div>
-										<!--end::Input group--> {% endcomment %}
-										<div class="fv-row mb-10">
-											<!--begin::Label-->
-											<label class="form-label required">Founders Names</label>
-											<!--end::Label-->
-											<!--begin::Input-->
-											<div id="founderNamesContainer">
-												<input type="text" class="form-control form-control-lg form-control-solid founder-name-input" placeholder="Founder Name" value="" />
-											</div>
+										
+										<div id="founderNamesContainer">
+											
 											<button type="button" id="addFounderBtn" class="btn btn-primary mt-2">Add Co-Founder</button>
-
-											<!--end::Input-->
 										</div>
-										<!--begin::Input group-->
-										<div class="fv-row mb-10">
-											<!--begin::Label-->
-											<label class="form-label required">Email</label>
-											<!--end::Label-->
-											<!--begin::Input-->
-											<input type="email" class="form-control form-control-lg form-control-solid" name="poc_email" placeholder="email@domain.com" value="" />
-											<!--end::Input-->
-										</div>
-										<!--end::Input group-->
-										<!--begin::Input group-->
-										<div class="fv-row mb-10">
-											<!--begin::Label-->
-											<label class="form-label required">Mobile</label>
-											<!--end::Label-->
-											<!--begin::Input-->
-											<input type="tel" pattern="[0-9]{10}" class="form-control form-control-lg form-control-solid" name="poc_mobile" placeholder="9876543210" value="" />
-											<!--end::Input-->
-										</div>
-										<!--end::Input group-->
-										<!--begin::Input group-->
+										
+										
+										
 										<div class="fv-row mb-10">
 											<!--begin::Label-->
 											<label class="form-label required">Website</label>
@@ -352,7 +316,7 @@
 										<!--begin::Input group-->
 										<div class="fv-row mb-10">
 											<!--begin::Label-->
-											<label class="form-label">Video link</label>
+											<label class="form-label required">Video link</label>
 											<!--end::Label-->
 											<!--begin::Input-->
 											<input type="text" class="form-control form-control-lg form-control-solid" name="video_link" placeholder="Youtube video ID" value="" />
@@ -381,7 +345,7 @@
 										<!--end::Input group--> {% endcomment %}
 										<!--begin::Card-->
 										<div class="fv-row mb-10">
-											<label class="form-label">Please upload the Pitch deck in pdf file format</label>
+											<label class="form-label required">Please upload the Pitch deck in pdf file format</label>
 											<div class="card h-100 flex-center bg-light-primary border-primary border border-dashed p-8">
 												<!--begin::Image-->
 												<img src="{% static 'assets/media/svg/files/upload.svg' %}" class="mb-5" alt="" />
@@ -476,64 +440,37 @@
 		<!--begin::Custom Javascript(used for this page only)-->
 		<script src="{% static 'assets/js/custom/utilities/modals/startup-registration.js' %}"></script>
 		<script>
-
-
 			document.addEventListener("DOMContentLoaded", function() {
 				const addFounderBtn = document.getElementById("addFounderBtn");
 				const founderNamesContainer = document.getElementById("founderNamesContainer");
-				const existingInput = document.querySelector(".founder-name-input");
-			
-				// Function to apply input validation
-				function applyInputValidation(input) {
-					input.addEventListener("input", function() {
-						this.value = this.value.replace(/[^a-zA-Z. ]/g, "");
-					});
-					// Apply margin styles
-					input.style.marginTop = "12px";
-					input.style.marginBottom = "12px";
-				}
-			
-				// Apply input validation to existing input field
-				applyInputValidation(existingInput);
 			
 				addFounderBtn.addEventListener("click", function() {
 					const founderInputGroup = document.createElement("div");
-					founderInputGroup.className = "founder-input-group";
-					founderInputGroup.style.display = "flex";
-					founderInputGroup.style.alignItems = "center";
+					founderInputGroup.className = "fv-row mb-10 founder-input-group";
+					founderInputGroup.innerHTML = `
+						<label class="form-label required">Founder Name</label>
+						<input type="text" class="form-control form-control-lg form-control-solid founder-name-input" data-id="founder_name" placeholder="Founder Name" value="" />
+						<label class="form-label required">Email</label>
+						<input type="email" class="form-control form-control-lg form-control-solid founder-email-input" data-id="email" placeholder="email@domain.com" value="" />
+						<label class="form-label required">Mobile</label>
+						<input type="tel" pattern="[0-9]{10}" class="form-control form-control-lg form-control-solid founder-mobile-input" data-id="mobile" placeholder="9876543210" value="" />
+						<label class="form-label required">Gender</label>
+						<select data-id="gender" class="form-select form-select-lg form-select-solid founder-gender-input" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="true">
+							<option>Select gender</option>
+							<option value="male">Male</option>
+							<option value="female">Female</option>
+						</select>
+						<button type="button" class="btn btn-danger delete-founder-btn ml-2" style="margin-top: 12px; margin-bottom: 12px;">Delete</button>
+					`;
 			
-					const input = document.createElement("input");
-					input.type = "text";
-					input.className = "form-control form-control-lg form-control-solid founder-name-input";
-					input.placeholder = "Co Founder Name";
-					// Apply margin styles
-					input.style.marginTop = "12px";
-					input.style.marginBottom = "12px";
-					// Apply input validation to newly added input field
-					applyInputValidation(input);
-			
-					const deleteBtn = document.createElement("button");
-					deleteBtn.type = "button";
-					deleteBtn.className = "btn btn-danger delete-founder-btn ml-2";
-					deleteBtn.textContent = "Delete";
-					// Apply margin styles
-					deleteBtn.style.marginTop = "12px";
-					deleteBtn.style.marginBottom = "12px";
-					deleteBtn.style.marginLeft = "auto"; // Aligns the button to the right
-			
+					const deleteBtn = founderInputGroup.querySelector(".delete-founder-btn");
 					deleteBtn.addEventListener("click", function() {
-						// Remove the entire input group when delete button is clicked
 						founderNamesContainer.removeChild(founderInputGroup);
 					});
 			
-					founderInputGroup.appendChild(input);
-					founderInputGroup.appendChild(deleteBtn);
-					founderNamesContainer.appendChild(founderInputGroup);
+					founderNamesContainer.insertBefore(founderInputGroup, addFounderBtn);
 				});
 			});
-			
-			
-			// Define fetchDistricts function
 			function fetchDistricts(stateId) {
 				var stateMainSelect = document.querySelector('div[data-district-urlid="districtslink"]');
 				var districtUrl = stateMainSelect.getAttribute('data-district-url');

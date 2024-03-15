@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import PatentInfo, PublicationInfo, VCRegistrations, ResearcherRegistrations, StartUpRegistrations, StudentRegistrations, IndustryRegistrations
+from .models import PatentInfo, PublicationInfo, VCRegistrations, ResearcherRegistrations, StudentRegistrations, IndustryRegistrations, StartUpRegistrations, StartUpRegistrationsCoFounders
 
 @admin.register(PatentInfo)
 class PatentAdmin(admin.ModelAdmin):
@@ -19,14 +19,17 @@ class ResearcherAdmin(admin.ModelAdmin):
     raw_id_fields = ('institution',)
     list_filter = ('status','institution')
 
+class StartUpRegistrationsCoFoundersInline(admin.TabularInline):
+    model = StartUpRegistrationsCoFounders
+    extra = 1  # Number of extra forms to display
+
 @admin.register(StartUpRegistrations)
-class StartUpAdmin(admin.ModelAdmin):
-    list_display = ('name', 'co_founder_count', 'founder_names', 'state', 'district', 'team_size', 'email', 'mobile', 'website', 'dpiit_number', 'area_of_interest', 'funding_stage')
+class StartUpRegistrationsAdmin(admin.ModelAdmin):
+    inlines = [StartUpRegistrationsCoFoundersInline]
 
 @admin.register(StudentRegistrations)
 class StudentAdmin(admin.ModelAdmin):
     list_display = ('name', 'institution', 'department', 'year_of_graduation', 'district', 'state')
-
 
 @admin.register(IndustryRegistrations)
 class IndustryAdmin(admin.ModelAdmin):

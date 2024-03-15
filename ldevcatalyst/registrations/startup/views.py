@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import JsonResponse
-from ..models import StartUpRegistrations
+from ..models import StartUpRegistrations,StartUpRegistrationsCoFounders
 from datarepo.models import AreaOfInterest,State,PreferredInvestmentStage,District
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
@@ -142,8 +142,8 @@ def startup_registration(request):
         area_of_interest_id = request.POST.get('collaboration_sector')
         funding_stage_id = request.POST.get('funding_stage_id')
         team_size = request.POST.get('team_size')
-        email = request.POST.get('poc_email')
-        mobile = request.POST.get('poc_mobile')
+        #email = request.POST.get('poc_email')
+        #mobile = request.POST.get('poc_mobile')
         dpiit_number = request.POST.get('dpiit_number')
         description = request.POST.get('description')
         #pitch_deck = request.POST.get('pitch_deck')
@@ -157,6 +157,8 @@ def startup_registration(request):
         #founding_experience = True if founding_experience == 'True' else False
         #short_video_link = request.POST.get('short_video_link')
         print(request.POST)
+        founder_names = json.loads(founder_names)
+
         file_extension_validator = FileExtensionValidator(allowed_extensions=['pdf'])
         try:
             file_extension_validator(pitch_deck)
@@ -193,15 +195,6 @@ def startup_registration(request):
         team_size:
             type: string
             required: true
-        poc_email:
-            type: string
-            required: true
-            regex: '^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'
-            minlength: 6
-        poc_mobile:
-            type: string
-            required: true
-            regex: '^\d{10}$'
         dpiit_number:
             type: string
             required: false
@@ -239,12 +232,12 @@ def startup_registration(request):
                     #founding_experience = founding_experience,
                     #short_video = short_video_link,
                     co_founder_count = co_founder_count,
-                    founder_names = founder_names,
+                    #founder_names = founder_names,
                     district_id = district_id,
                     state_id = state_id,
                     team_size = team_size,
-                    email = email,
-                    mobile = mobile,
+                    #email = email,
+                    #mobile = mobile,
                     dpiit_number = dpiit_number,
                     area_of_interest_id = area_of_interest_id,
                     description = description,
@@ -254,6 +247,19 @@ def startup_registration(request):
                     website = website,
                 )
                 new_startup_registration.save()
+                for founder in founder_names:
+                    name = founder.get('name')
+                    email = founder.get('email')
+                    mobile = founder.get('mobile')
+                    gender = founder.get('gender')
+                    new_founder = StartUpRegistrationsCoFounders.objects.create(
+                        startup_id = new_startup_registration.id,
+                        name = name,
+                        email = email,
+                        mobile = mobile,
+                        gender = gender
+                    )
+                    new_founder.save()
                 return JsonResponse(
                     {
                         'success': True,
