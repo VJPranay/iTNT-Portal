@@ -161,6 +161,28 @@ Developed by https://LDev.in
 					<!--end::Header container-->
 				</div>
 				<!--end::Header-->
+				{% if messages %}
+				<div class="app-container container-xxl align-items-stretch justify-content-between" style="padding-top: 10px;">
+					{% for message in messages %}
+			
+						{% if message.tags == 'success' %}
+						<div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+							<strong>Success:</strong> {{ message }}
+						{% elif message.tags == 'error' %}
+						<div class="alert alert-danger alert-dismissible fade show" role="alert">
+							<strong>Success:</strong> {{ message }}
+						{% elif message.tags == 'info' %}
+						<div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+							<strong>Success:</strong> {{ message }}
+						{% else %}
+						<div class="alert alert-info alert-dismissible fade show" role="alert">
+							<strong>Success:</strong> {{ message }}
+						{% endif %}
+						<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+						</div>
+					{% endfor %}
+				</div>
+				{% endif %}
 				<!--begin::Wrapper-->
 				<div class="app-wrapper flex-column flex-row-fluid" id="kt_app_wrapper">
 					<!--begin::Toolbar-->

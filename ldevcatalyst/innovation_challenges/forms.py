@@ -20,6 +20,9 @@ from django.forms import inlineformset_factory
 from .models import InnovationChallengeProposal, InnovationChallengeProposalFiles, InnovationChallengeProposalExpertsInvolved, InnovationChallengeProposalSolutionAdvantages, InnovationChallengeProposalTangibleBenfits
 
 
+
+
+
 class InnovationChallengeForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):

@@ -57,9 +57,18 @@ Details of the Proposal
                 <div class="mb-3">
                     <strong>Brief:</strong> {{ proposal.brief }}
                 </div>
-                <!-- Add other fields as needed -->
-            </div>
-        </div>
+           
+        
+        {% if request.user.user_role == 2 or request.user.user_role == 3 %}
+            {% if proposal.status != 'approved' %}
+                <form action="{% url 'approve_proposal' proposal.id %}" method="post" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-primary">Approve Proposal</button>
+                </form>
+        {% endif %}
+    {% endif %}
+</div>
+</div>
     </div>
 
     <!-- Card for Proposal Tangible Benefits -->
@@ -95,6 +104,7 @@ Details of the Proposal
     </div>
 
     <!-- Card for Proposal Experts Involved -->
+    {% if request.user.user_role == 1 or request.user.user_role == 2 or request.user.user_role == 3 %}
     <div class="card mb-5 mb-xl-10">
         <div class="card-header border-0 cursor-pointer">
             <div class="card-title m-0">
@@ -104,16 +114,18 @@ Details of the Proposal
         <div class="collapse show">
             <div class="card-body border-top p-9">
                 {% for expert_involved in experts_involved %}
-                <div class="mb-3">
-                    <strong>Name:</strong> {{ expert_involved.name }}<br>
-                    <strong>Mobile:</strong> {{ expert_involved.mobile }}<br>
-                    <strong>Email:</strong> {{ expert_involved.email }}<br>
-                    <strong>Role:</strong> {{ expert_involved.role }}<br>
-                </div>
+                    <div class="mb-3">
+                        <strong>Name:</strong> {{ expert_involved.name }}<br>
+                        <strong>Mobile:</strong> {{ expert_involved.mobile }}<br>
+                        <strong>Email:</strong> {{ expert_involved.email }}<br>
+                        <strong>Role:</strong> {{ expert_involved.role }}<br>
+                    </div>
                 {% endfor %}
             </div>
         </div>
     </div>
+{% endif %}
+
 
     <!-- Card for Proposal Files -->
     <div class="card mb-5 mb-xl-10">

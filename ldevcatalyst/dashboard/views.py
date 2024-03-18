@@ -9,7 +9,7 @@ from django.urls import reverse
 from django.http import HttpResponseNotAllowed
 from registrations.models import StartUpRegistrations
 from django.db.models import Count
-
+from django.contrib import messages
 
 def custom_login(request,):
     if request.user.is_authenticated:
@@ -46,6 +46,14 @@ def logout(request):
 
 @login_required
 def dashboard_index(request):
+    # messages.success(request, 'This is a success message.')
+
+    # messages.error(request, 'This is an error message.')
+
+    # messages.info(request, 'This is an info message.')
+
+    # messages.warning(request, 'This is a warning message.')
+
     startup_count_by_interest = StartUpRegistrations.objects.values('area_of_interest__name').annotate(startup_count=Count('id')).order_by('-startup_count')
     by_area_of_interest = []
     for item in startup_count_by_interest:

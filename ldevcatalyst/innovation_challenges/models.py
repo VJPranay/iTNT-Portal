@@ -13,7 +13,9 @@ class InnovationChallenge(models.Model):
     updated_by = models.ForeignKey(User, on_delete=models.SET_NULL,blank=True,null=True,related_name='challenge_updated_by')
     cover_image = models.ImageField(upload_to='challenge_pictures/', blank=True, null=True)
     status = models.CharField(max_length=100,default='active',choices=[
-        ('active', 'archived'),
+        ('active', 'active'),
+        ('archived', 'archived'),
+        ('submitted', 'submitted'),
     ])
 class InnovationChallengeDetails(models.Model):
     challenge = models.ForeignKey(InnovationChallenge, on_delete=models.SET_NULL,blank=True,null=True)
@@ -72,6 +74,11 @@ class InnovationChallengeProposal(models.Model):
     updated = models.DateTimeField(auto_now=True)
     created_by = models.ForeignKey(User, on_delete=models.SET_NULL,blank=True,null=True,related_name='proposal_created_by')
     updated_by = models.ForeignKey(User, on_delete=models.SET_NULL,blank=True,null=True,related_name='proposal_updated_by')
+    status = models.CharField(max_length=100,default='submitted',choices=[
+        ('approved', 'approved'),
+        ('archived', 'archived'),
+        ('submitted', 'submitted'),
+    ])
 
 class InnovationChallengeProposalTangibleBenfits(models.Model):
     proposal = models.ForeignKey(InnovationChallengeProposal, on_delete=models.SET_NULL,blank=True,null=True)

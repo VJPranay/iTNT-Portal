@@ -70,33 +70,72 @@ Create a new innovation challenge
                 </div>
             </div>
         </div>
-    </div>
-
-    {% if request.user.user_role == 1 or request.user.user_role == 2 or request.user.user_role == 3 or request.user.user_role == 4 %}
-    <div class="card mb-5 mb-xl-10">
-        <div class="card-header border-0 cursor-pointer">
-            <div class="card-title m-0">
-                <h3 class="fw-bold m-0">Proposals</h3>
-            </div>
+        {% if request.user.user_role == 2 or request.user.user_role == 3 %}
+            {% if challenge.status == 'submitted' %}
+                <div class="card-footer">
+                    <form action="{% url 'approve_challenge' challenge.id %}" method="post" style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-primary">Approve</button>
+                    </form>
+                </div>
+            {% endif %}
+        {% endif %}
         </div>
+    
 
-        <div class="collapse show">
-            {% for x in proposals %}
-            <div class="card-body border-top p-9">
-                <div class="mb-3">
-                    <strong>Submitted by:</strong> {{ x.submitted_by }}
-                </div>
-                <div class="mb-3">
-                    <strong>Name:</strong> {{ x.name }}
-                </div>
-                <div class="mb-3">
-                    <a href="{% url 'proposal_detail' proposal_id=x.id %}"> <strong>View details</strong> </a>
+        {% if request.user.user_role == 1 or request.user.user_role == 2 or request.user.user_role == 3 %}
+        <div class="card mb-5 mb-xl-10">
+            <div class="card-header border-0 cursor-pointer">
+                <div class="card-title m-0">
+                    <h3 class="fw-bold m-0">Proposals</h3>
                 </div>
             </div>
-            {%endfor%}
+    
+            <div class="collapse show">
+                {% for proposal in proposals %}
+                    <div class="card-body border-top p-9{% if proposal.status == 'submitted' %} bg-warning{% endif %}">
+                        <div class="mb-3">
+                            <strong>Submitted by:</strong> {{ proposal.submitted_by }}
+                        </div>
+                        <div class="mb-3">
+                            <strong>Name:</strong> {{ proposal.name }}
+                        </div>
+                        <div class="mb-3">
+                            <a href="{% url 'proposal_detail' proposal_id=proposal.id %}"> <strong>View details</strong> </a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
         </div>
-    </div>
-{% endif %}
+    {% elif request.user.user_role == 4 %}
+        <div class="card mb-5 mb-xl-10">
+            <div class="card-header border-0 cursor-pointer">
+                <div class="card-title m-0">
+                    <h3 class="fw-bold m-0">Approved Proposals</h3>
+                </div>
+            </div>
+    
+            <div class="collapse show">
+                {% for proposal in proposals %}
+                    {% if proposal.status == 'approved' %}
+                        <div class="card-body border-top p-9">
+                            <div class="mb-3">
+                                <strong>Submitted by:</strong> {{ proposal.submitted_by }}
+                            </div>
+                            <div class="mb-3">
+                                <strong>Name:</strong> {{ proposal.name }}
+                            </div>
+                            <div class="mb-3">
+                                <a href="{% url 'proposal_detail' proposal_id=proposal.id %}"> <strong>View details</strong> </a>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+    
+    
 
     <!-- Card for InnovationChallengeDetails -->
     <div class="card mb-5 mb-xl-10">

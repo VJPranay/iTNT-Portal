@@ -26,56 +26,68 @@
     </div>
     <!--end:Menu item-->
 
-     <!--begin:Menu item-->
-     <div data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-placement="bottom-start" class="menu-item menu-lg-down-accordion menu-sub-lg-down-indention me-0 me-lg-2">
-        <!--begin:Menu link-->
-        <span class="menu-link">
-            <span class="menu-title">Innovation challanges</span>
-            <span class="menu-arrow d-lg-none"></span>
-        </span>
-        <!--end:Menu link-->
-        <!--begin:Menu sub-->
-        <div class="menu-sub menu-sub-lg-down-accordion menu-sub-lg-dropdown px-lg-2 py-lg-4 w-lg-200px">
-            <!--begin:Menu item-->
-            <div class="menu-item">
-                <!--begin:Menu link-->
-                <a class="menu-link" href="{% url 'ic_create_challenge' %}" title="Create New Innovation Challenge" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss="click" data-bs-placement="right">
-                    <span class="menu-icon">
-                        <i class="ki-outline ki-rocket fs-2"></i>
-                    </span>
-                    <span class="menu-title">New Challenge</span>
-                </a>
-                <!--end:Menu link-->
-            </div>
-            <!--end:Menu item-->
-            <!--begin:Menu item-->
-            <div class="menu-item">
-                <!--begin:Menu link-->
-                <a class="menu-link" href="{% url 'innovation_challenges' challenge_status='active' %}" title="Active challanges" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss="click" data-bs-placement="right">
-                    <span class="menu-icon">
-                        <i class="ki-outline ki-rocket fs-2"></i>
-                    </span>
-                    <span class="menu-title">Active</span>
-                </a>
-                <!--end:Menu link-->
-            </div>
-            <!--end:Menu item-->
-            <!--begin:Menu item-->
-            <div class="menu-item">
-                <!--begin:Menu link-->
-                <a class="menu-link" href="{% url 'innovation_challenges' challenge_status='archived' %}" title="All profiles and profile" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss="click" data-bs-placement="right">
-                    <span class="menu-icon">
-                        <i class="ki-outline ki-abstract-26 fs-2"></i>
-                    </span>
-                    <span class="menu-title">Archived</span>
-                </a>
-                <!--end:Menu link-->
-            </div>
-            <!--end:Menu item-->
-        </div>
-        <!--end:Menu sub-->
-    </div> 
-    <!--end:Menu item-->
+									<!--begin:Menu item-->
+									<div data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-placement="bottom-start" class="menu-item menu-lg-down-accordion menu-sub-lg-down-indention me-0 me-lg-2">
+										<!--begin:Menu link-->
+										<span class="menu-link">
+											<span class="menu-title">Innovation challanges</span>
+											<span class="menu-arrow d-lg-none"></span>
+										</span>
+										<!--end:Menu link-->
+										<!--begin:Menu sub-->
+										<div class="menu-sub menu-sub-lg-down-accordion menu-sub-lg-dropdown px-lg-2 py-lg-4 w-lg-200px">
+											<!--begin:Menu item-->
+											<div class="menu-item">
+												<!--begin:Menu link-->
+												<a class="menu-link" href="{% url 'ic_create_challenge' %}" title="Create New Innovation Challenge" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss="click" data-bs-placement="right">
+													<span class="menu-icon">
+														<i class="ki-outline ki-rocket fs-2"></i>
+													</span>
+													<span class="menu-title">New Challenge</span>
+												</a>
+												<!--end:Menu link-->
+											</div>
+											<!--end:Menu item-->
+											<!--begin:Menu item-->
+											<div class="menu-item">
+												<!--begin:Menu link-->
+												<a class="menu-link" href="{% url 'innovation_challenges' challenge_status='active' %}" title="Active challanges" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss="click" data-bs-placement="right">
+													<span class="menu-icon">
+														<i class="ki-outline ki-rocket fs-2"></i>
+													</span>
+													<span class="menu-title">Live</span>
+												</a>
+												<!--end:Menu link-->
+											</div>
+											<!--end:Menu item-->
+											<!--begin:Menu item-->
+											<div class="menu-item">
+												<!--begin:Menu link-->
+												<a class="menu-link" href="{% url 'innovation_challenges' challenge_status='submitted' %}" title="Submited challanges" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss="click" data-bs-placement="right">
+													<span class="menu-icon">
+														<i class="ki-outline ki-rocket fs-2"></i>
+													</span>
+													<span class="menu-title">Pending for approval</span>
+												</a>
+												<!--end:Menu link-->
+											</div>
+											<!--end:Menu item-->
+											<!--begin:Menu item-->
+											<div class="menu-item">
+												<!--begin:Menu link-->
+												<a class="menu-link" href="{% url 'innovation_challenges' challenge_status='archived' %}" title="Archived challenges" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss="click" data-bs-placement="right">
+													<span class="menu-icon">
+														<i class="ki-outline ki-abstract-26 fs-2"></i>
+													</span>
+													<span class="menu-title">Archived</span>
+												</a>
+												<!--end:Menu link-->
+											</div>
+											<!--end:Menu item-->
+										</div>
+										<!--end:Menu sub-->
+									</div> 
+									<!--end:Menu item-->
 
 
 </div>

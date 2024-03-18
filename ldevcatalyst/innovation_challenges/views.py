@@ -28,6 +28,7 @@ from .forms import InnovationChallengeProposalForm, InnovationChallengeProposalF
 from .models import InnovationChallengeProposal,InnovationChallengeProposalFiles, InnovationChallengeProposalExpertsInvolved, InnovationChallengeProposalSolutionAdvantages, InnovationChallengeProposalTangibleBenfits
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 
 
@@ -103,6 +104,48 @@ def innovation_challenge_detail(request, challenge_id):
         'proposals': proposals
     })
 
+@login_required
+def approve_challenge(request, challenge_id):
+    if request.user.user_role not in [2, 3]:
+        return render(request, 'dashboard/dashboard.html')
+    
+    try:
+        challenge = InnovationChallenge.objects.get(id=challenge_id)
+    except InnovationChallenge.DoesNotExist:
+        messages.error(request, 'Challenge not found.')
+        return redirect('dashboard')  
+    
+    if challenge.status == 'approved':
+        messages.warning(request, 'This challenge is already approved.')
+        return redirect('dashboard')  
+    
+    challenge.status = 'active'
+    challenge.save()
+    
+    messages.success(request, 'Challenge published successfully.')
+    
+    return redirect('innovation_challenge_detail', challenge_id=challenge.id)
+
+
+@login_required
+def approve_proposal(request, proposal_id):
+    if request.user.user_role not in [2, 3]:
+        return render(request, 'dashboard/dashboard.html')
+    
+    proposal = get_object_or_404(InnovationChallengeProposal, id=proposal_id)
+    
+    if proposal.status == 'approved':
+        messages.warning(request, 'This proposal is already approved.')
+        return redirect('proposal_detail', proposal_id=proposal.id)
+    
+    proposal.status = 'approved'
+    proposal.save()
+    
+    messages.success(request, 'Proposal approved successfully.')
+    
+    return redirect('proposal_detail', proposal_id=proposal.id)
+
+
 
 
 
@@ -115,10 +158,10 @@ def create_challenge(request):
             details_form = InnovationChallengeDetailsForm(request.POST)
             if challenge_form.is_valid():
                 challenge = challenge_form.save(commit=False)
+                challenge.status = 'submitted'
                 challenge.created_by = request.user
                 challenge.save()
 
-                            # Process InnovationChallengeDetails form
                 detail = details_form.save(commit=False)
                 detail.challenge = challenge
                 detail.save()
