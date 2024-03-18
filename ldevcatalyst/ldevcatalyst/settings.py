@@ -12,9 +12,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-68bn2*xnujz@*i2(xb61^kk3vhzo8sfyw3mrn7***srqkm49_*'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-DEV = True
+DEV = False
 
 ALLOWED_HOSTS = [
 'itntportal.ldev.in',
@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     'dashboard',
     'common',
     'support',
+    'reports',
     'crispy_forms',
     'crispy_bootstrap5',
 ]

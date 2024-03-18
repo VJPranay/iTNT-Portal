@@ -36,6 +36,7 @@ urlpatterns = [
     path('meetings/', include('meetings.urls')),
     path('common/', include('common.urls')),
     path('support/', include('support.urls')),
+    path('reports/', include('reports.urls')),
     path('', not_found),
 ]
 
