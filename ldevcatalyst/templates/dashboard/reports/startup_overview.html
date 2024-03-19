@@ -29,7 +29,7 @@
 							<tbody>
 								{% for item in area_of_interest_data %}
 								<tr>
-									<td>{{ item.area_of_interest__name }}</td>
+                                    <td> <a href="{% url 'startup_registrations_cat' area_of_interest=item.area_of_interest__name %}">{{ item.area_of_interest__name }}</a></td>
 									<td>{{ item.startup_count }}</td>
 								</tr>
 								{% endfor %}

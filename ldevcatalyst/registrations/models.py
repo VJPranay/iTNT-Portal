@@ -3,6 +3,7 @@ from datarepo.models import AreaOfInterest,PreferredInvestmentStage,Department,I
 import uuid
 
 
+
 class PatentInfo(models.Model):
     number = models.CharField(max_length=50,blank=True, null=True)
     title = models.CharField(max_length=255,blank=True, null=True)

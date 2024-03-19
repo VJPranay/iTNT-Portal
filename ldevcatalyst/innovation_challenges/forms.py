@@ -18,6 +18,7 @@ from profiles.models import User, Industry
 from django import forms
 from django.forms import inlineformset_factory
 from .models import InnovationChallengeProposal, InnovationChallengeProposalFiles, InnovationChallengeProposalExpertsInvolved, InnovationChallengeProposalSolutionAdvantages, InnovationChallengeProposalTangibleBenfits
+from datarepo.models import AreaOfInterest
 
 
 
@@ -29,6 +30,7 @@ class InnovationChallengeForm(forms.ModelForm):
         user_role = kwargs.pop('user_role', None)
         user_id = kwargs.pop('user_id', None)  # Get user role from kwargs
         super(InnovationChallengeForm, self).__init__(*args, **kwargs)
+        self.fields['area_of_interest'].queryset = AreaOfInterest.get_approved_categories()
         if user_role == 4:  # Industry user
             industry_queryset = Industry.objects.filter(user_id=user_id)
             initial_industry = industry_queryset.first()
@@ -49,6 +51,8 @@ class InnovationChallengeForm(forms.ModelForm):
     class Meta:
         model = InnovationChallenge
         fields = ['industry', 'name', 'area_of_interest', 'cover_image','created_by']
+
+    
 
 class InnovationChallengeDetailsForm(forms.ModelForm):
     class Meta:

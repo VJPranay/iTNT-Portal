@@ -26,12 +26,16 @@ from django.core.exceptions import ValidationError
 
 # access to only admin
 @login_required
-def startup_registrations(request,registration_status=None):
+def startup_registrations(request,registration_status=None,area_of_interest=None):
     if request.user.user_role == 2:
         if registration_status is not None:
             startup_registrations = StartUpRegistrations.objects.filter(status=registration_status)
+            if area_of_interest is not None:
+                startup_registrations = startup_registrations.filter(area_of_interest__name=area_of_interest)
         else:
             startup_registrations = StartUpRegistrations.objects.all()
+            if area_of_interest is not None:
+                startup_registrations = startup_registrations.filter(area_of_interest__name=area_of_interest)
         startup_registrations_list = []
         for x in startup_registrations:
             temp = {

@@ -7,6 +7,10 @@ class AreaOfInterest(models.Model):
 
     def __str__(self):
         return self.name
+    
+    @staticmethod
+    def get_approved_categories():
+        return AreaOfInterest.objects.filter(is_approved=True)
 
 class PreferredInvestmentStage(models.Model):
     name = models.CharField(max_length=20)

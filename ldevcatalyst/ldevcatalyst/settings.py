@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     'reports',
     'crispy_forms',
     'crispy_bootstrap5',
+    'import_export',
 ]
 
 AUTH_USER_MODEL = 'profiles.User'

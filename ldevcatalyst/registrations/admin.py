@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import PatentInfo, PublicationInfo, VCRegistrations, ResearcherRegistrations, StudentRegistrations, IndustryRegistrations, StartUpRegistrations, StartUpRegistrationsCoFounders
-
+from import_export.admin import ImportExportMixin
 @admin.register(PatentInfo)
 class PatentAdmin(admin.ModelAdmin):
     list_display = ('title', 'number', 'inventors', 'filing_date', 'status')
@@ -14,7 +14,7 @@ class VCAdmin(admin.ModelAdmin):
     list_display = ('partner_name', 'firm_name', 'email', 'mobile', 'district', 'state', 'area_of_interest', 'funding_stage', 'company_website', 'linkedin_profile')
 
 @admin.register(ResearcherRegistrations)
-class ResearcherAdmin(admin.ModelAdmin):
+class ResearcherAdmin(ImportExportMixin,admin.ModelAdmin):
     list_display = ('name', 'department', 'email', 'mobile', 'district', 'institution', 'status')
     raw_id_fields = ('institution',)
     list_filter = ('status','institution')

@@ -6,7 +6,7 @@ from datarepo.models import AreaOfInterest
 class InnovationChallenge(models.Model):
     industry = models.ForeignKey('profiles.Industry', on_delete=models.SET_NULL,blank=True,null=True)
     name = models.CharField(max_length=100,blank=True,null=True)
-    area_of_interest = models.ManyToManyField(AreaOfInterest,blank=True,null=True)
+    area_of_interest = models.ForeignKey(AreaOfInterest,blank=True,null=True,on_delete=models.SET_NULL,)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     created_by = models.ForeignKey(User, on_delete=models.SET_NULL,blank=True,null=True,related_name='challenge_created_by')
