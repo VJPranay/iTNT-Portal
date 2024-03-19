@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import JsonResponse
 from ..models import StartUpRegistrations,StartUpRegistrationsCoFounders
-from datarepo.models import AreaOfInterest,State,PreferredInvestmentStage,District
+from datarepo.models import AreaOfInterest,State,PreferredInvestmentStage,District,RevenueStage,ProductDevelopmentStage
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 import random
@@ -71,7 +71,6 @@ def startup_approve_registration(request):
 
                     # Generate random 6-digit number
                     password = ''.join(random.choices(string.digits, k=6))
-                    print(password)
 
                     # Create user with the generated username and random password
                     try:
@@ -145,6 +144,8 @@ def startup_registration(request):
         state_id = request.POST.get('location_state')
         area_of_interest_id = request.POST.get('collaboration_sector')
         funding_stage_id = request.POST.get('funding_stage_id')
+        reveune_stage_id = request.POST.get('reveune_stage_id')
+        product_development_stage_id = request.POST.get('product_development_stage_id')
         team_size = request.POST.get('team_size')
         #email = request.POST.get('poc_email')
         #mobile = request.POST.get('poc_mobile')
@@ -152,20 +153,26 @@ def startup_registration(request):
         description = request.POST.get('description')
         #pitch_deck = request.POST.get('pitch_deck')
         pitch_deck = request.FILES.get('pitch_deck')
+        company_logo = request.FILES.get('company_logo')
         video_link = request.POST.get('video_link')
         website = request.POST.get('company_website')
         #market_size = request.POST.get('market_size')
         required_amount = request.POST.get('required_amount')
         founding_year = request.POST.get('founding_year')
+        company_linkedin = request.POST.get('company_linkedin')
         #founding_experience = request.POST.get('founding_experience')
         #founding_experience = True if founding_experience == 'True' else False
         #short_video_link = request.POST.get('short_video_link')
-        print(request.POST)
         founder_names = json.loads(founder_names)
 
         file_extension_validator = FileExtensionValidator(allowed_extensions=['pdf'])
         try:
             file_extension_validator(pitch_deck)
+        except ValidationError as e:
+            return JsonResponse({'success': False, 'error': str(e)}, status=400)
+        company_logo_extension_validator = FileExtensionValidator(allowed_extensions=['jpg','png','jpeg'])
+        try:
+            company_logo_extension_validator(company_logo)
         except ValidationError as e:
             return JsonResponse({'success': False, 'error': str(e)}, status=400)
         request_schema = '''
@@ -204,7 +211,19 @@ def startup_registration(request):
         description:
             type: string
             required: true
+        revenue_stage_id:
+            type: string
+            required: false
+        product_development_stage_id:
+            type: string
+            required: true
         pitch_deck:
+            type: string
+            required: false
+        company_link:
+            type: string
+            required: false
+        company_linkedin:
             type: string
             required: false
         video_link:
@@ -244,8 +263,12 @@ def startup_registration(request):
                     description = description,
                     funding_stage_id = funding_stage_id,
                     pitch_deck = pitch_deck,
+                    company_logo = company_logo,
                     video_link = video_link,
                     website = website,
+                    reveune_stage_id = reveune_stage_id,
+                    product_development_stage_id = product_development_stage_id,
+                    company_linkedin = company_linkedin,
                 )
                 new_startup_registration.save()
                 for founder in founder_names:
@@ -253,12 +276,14 @@ def startup_registration(request):
                     email = founder.get('email')
                     mobile = founder.get('mobile')
                     gender = founder.get('gender')
+                    linkedin = founder.get('linkedIn')
                     new_founder = StartUpRegistrationsCoFounders.objects.create(
                         startup_id = new_startup_registration.id,
                         name = name,
                         email = email,
                         mobile = mobile,
-                        gender = gender
+                        gender = gender,
+                        linkedin = linkedin,
                     )
                     new_founder.save()
                 return JsonResponse(
@@ -289,9 +314,21 @@ def startup_registration(request):
          
         'preferred_investment_stages' : [
             {
-                'preferred_investment_stage_id' : x.id,
-                'preferred_investment_stage_value' : x.name,
-            } for x in PreferredInvestmentStage.objects.all()
+                'id' : x.id,
+                'value' : x.name,
+            } for x in PreferredInvestmentStage.objects.all().order_by('serial')
+        ],
+        'revenue_stages' : [
+            {
+                'id' : x.id,
+                'value' : x.name,
+            } for x in RevenueStage.objects.all().order_by('serial')
+        ],
+        'product_development_stages' : [
+            {
+                'id' : x.id,
+                'value' : x.name,
+            } for x in ProductDevelopmentStage.objects.all().order_by('serial')
         ],
         'states' : [
             {
@@ -303,7 +340,7 @@ def startup_registration(request):
             {
                 'district_id' : x.id,
                 'district_value' : x.name,
-            } for x in District.objects.all()
+            } for x in District.objects.all().order_by('name')
         ],
         'area_of_interests' : [
             {
@@ -323,9 +360,7 @@ def fetch_startup_registration_details(request):
             if not startup_id:
                 return JsonResponse({'error': 'Invalid startup ID'}, status=400)
             # Fetch startup details based on startup_id
-            print(startup_id)
             startup = StartUpRegistrations.objects.get(id=startup_id)
-            print(request.build_absolute_uri(startup.pitch_deck.url))
             # Construct HTML for the startup details
             html = f"""
                                                                 <!--begin::Profile-->
@@ -431,8 +466,8 @@ def fetch_startup_registration_details(request):
                                                                     </div>
                                                                     <!--end::district-->
                                                                     <div class="d-flex flex-column gap-1">
-                                                                        <div class="fw-bold text-muted">Short video</div>
-                                                                        <iframe width="560" height="315" src="https://www.youtube.com/embed/"""+escape(startup.video_link)+"""" frameborder="0" allowfullscreen></iframe>
+                                                                        <div class="fw-bold text-muted">Video</div>
+                                                                        <a href="{}" target="_blank" rel="noopener noreferrer">Click here to view the video deck PDF</a>
                                                                     </div>
                     
                                                                 </div>
@@ -441,7 +476,7 @@ def fetch_startup_registration_details(request):
                                                             <!--end:::Tab pane-->
                                                         </div>
                                                         <!--end::Tab content-->
-            """.format(request.build_absolute_uri(startup.pitch_deck.url))
+            """.format(request.build_absolute_uri(startup.pitch_deck.url),escape(startup.video_link))
             # Send the HTML response to the JavaScript function
             
             return JsonResponse({'html': html})
