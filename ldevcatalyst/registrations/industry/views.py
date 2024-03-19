@@ -234,7 +234,7 @@ def industry_registration(request):
             {
                 'state_id' : x.id,
                 'state_value' : x.name,
-            } for x in State.objects.all()
+            } for x in State.objects.all().order_by('name')
         ],
         'area_of_interests' : [
             {
