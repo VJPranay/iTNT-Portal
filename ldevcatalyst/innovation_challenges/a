@@ -1,0 +1,104 @@
+from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+from datarepo.models import AreaOfInterest
+from profiles.models import VC
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+from datarepo.models import AreaOfInterest
+from profiles.models import StartUp
+from django.db.models import Count
+from django.shortcuts import render
+from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
+import json
+from django.utils.html import escape
+from django.shortcuts import render, redirect
+from .forms import InnovationChallengeForm, InnovationChallengeDetailsForm, \
+    InnovationTargetBeneficiariesFormSet, InnovationChallengeRequirementsFormSet, \
+    InnovationChallengeOperationalCapabilitiesFormSet, InnovationChallengeTangibleOutcomesFormSet, \
+    InnovationChallengeOtherRequrimentsFormSet, InnovationChallengeObjectivesFormSet, \
+    InnovationChallengeEligibilityCriteriaFormSet, InnovationChallengeEvaluationCriteriaFormSet
+from django.contrib.auth.decorators import login_required
+from profiles.models import Industry
+
+@login_required
+def create_challenge(request):
+    if request.user.user_role in [2,3,4]:
+        user_role = request.user.user_role
+        if request.method == 'POST':
+            innovation_challenge_form = InnovationChallengeForm(request.POST, request.FILES,user_role=user_role,user_id=request.user.id)
+            innovation_challenge_details_form = InnovationChallengeDetailsForm(request.POST)
+            beneficiaries_formset = InnovationTargetBeneficiariesFormSet(request.POST, prefix='beneficiaries')
+            requirements_formset = InnovationChallengeRequirementsFormSet(request.POST, prefix='requirements')
+            capabilities_formset = InnovationChallengeOperationalCapabilitiesFormSet(request.POST, prefix='capabilities')
+            outcomes_formset = InnovationChallengeTangibleOutcomesFormSet(request.POST, prefix='outcomes')
+            other_requirements_formset = InnovationChallengeOtherRequrimentsFormSet(request.POST, prefix='other_requirements')
+            objectives_formset = InnovationChallengeObjectivesFormSet(request.POST, prefix='objectives')
+            eligibility_criteria_formset = InnovationChallengeEligibilityCriteriaFormSet(request.POST, prefix='eligibility_criteria')
+            evaluation_criteria_formset = InnovationChallengeEvaluationCriteriaFormSet(request.POST, prefix='evaluation_criteria')
+            
+            if (innovation_challenge_form.is_valid() and innovation_challenge_details_form.is_valid() and
+                    beneficiaries_formset.is_valid() and requirements_formset.is_valid() and capabilities_formset.is_valid() and
+                    outcomes_formset.is_valid() and other_requirements_formset.is_valid() and objectives_formset.is_valid() and
+                    eligibility_criteria_formset.is_valid() and evaluation_criteria_formset.is_valid()):
+                # Save innovation challenge
+                innovation_challenge = innovation_challenge_form.save()
+                innovation_challenge_details = innovation_challenge_details_form.save(commit=False)
+                innovation_challenge_details.challenge = innovation_challenge
+                innovation_challenge_details.save()
+
+                # Save formsets
+                beneficiaries_formset.instance = innovation_challenge
+                beneficiaries_formset.save()
+
+                requirements_formset.instance = innovation_challenge
+                requirements_formset.save()
+
+                capabilities_formset.instance = innovation_challenge
+                capabilities_formset.save()
+
+                outcomes_formset.instance = innovation_challenge
+                outcomes_formset.save()
+
+                other_requirements_formset.instance = innovation_challenge
+                other_requirements_formset.save()
+
+                objectives_formset.instance = innovation_challenge
+                objectives_formset.save()
+
+                eligibility_criteria_formset.instance = innovation_challenge
+                eligibility_criteria_formset.save()
+
+                evaluation_criteria_formset.instance = innovation_challenge
+                evaluation_criteria_formset.save()
+
+                return redirect('not_found')  # Redirect to success page after successful form submission
+        else:
+            innovation_challenge_form = innovation_challenge_form = InnovationChallengeForm(user_role=user_role,user_id=request.user.id)
+            innovation_challenge_details_form = InnovationChallengeDetailsForm()
+            beneficiaries_formset = InnovationTargetBeneficiariesFormSet(prefix='beneficiaries')
+            requirements_formset = InnovationChallengeRequirementsFormSet(prefix='requirements')
+            capabilities_formset = InnovationChallengeOperationalCapabilitiesFormSet(prefix='capabilities')
+            outcomes_formset = InnovationChallengeTangibleOutcomesFormSet(prefix='outcomes')
+            other_requirements_formset = InnovationChallengeOtherRequrimentsFormSet(prefix='other_requirements')
+            objectives_formset = InnovationChallengeObjectivesFormSet(prefix='objectives')
+            eligibility_criteria_formset = InnovationChallengeEligibilityCriteriaFormSet(prefix='eligibility_criteria')
+            evaluation_criteria_formset = InnovationChallengeEvaluationCriteriaFormSet(prefix='evaluation_criteria')
+
+        return render(request, 'create_challenge.html', {
+            'innovation_challenge_form': innovation_challenge_form,
+            'innovation_challenge_details_form': innovation_challenge_details_form,
+            'beneficiaries_formset': beneficiaries_formset,
+            'requirements_formset': requirements_formset,
+            'capabilities_formset': capabilities_formset,
+            'outcomes_formset': outcomes_formset,
+            'other_requirements_formset': other_requirements_formset,
+            'objectives_formset': objectives_formset,
+            'eligibility_criteria_formset': eligibility_criteria_formset,
+            'evaluation_criteria_formset': evaluation_criteria_formset,
+        })
+    else:
+        return redirect('not_found')
+
