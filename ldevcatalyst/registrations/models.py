@@ -1,5 +1,5 @@
 from django.db import models
-from datarepo.models import AreaOfInterest,PreferredInvestmentStage,Department,Institution,District,State,IndustryCategory
+from datarepo.models import AreaOfInterest,PreferredInvestmentStage,Department,Institution,District,State,IndustryCategory,RevenueStage,ProductDevelopmentStage
 import uuid
 
 
@@ -93,7 +93,7 @@ class StartUpRegistrations(models.Model):
     team_size = models.PositiveIntegerField(blank=True, null=True)
     email = models.EmailField(blank=True, null=True)
     mobile = models.CharField(max_length=15,blank=True, null=True)
-    website = models.URLField(blank=True, null=True)
+    website = models.CharField(max_length=255,blank=True, null=True)
     dpiit_number = models.CharField(max_length=255,blank=True, null=True)
     area_of_interest = models.ForeignKey(AreaOfInterest, on_delete=models.SET_NULL,blank=True, null=True)
     description = models.TextField(blank=True, null=True)
@@ -101,13 +101,17 @@ class StartUpRegistrations(models.Model):
     required_amount = models.CharField(max_length=255,blank=True, null=True)
     founding_year = models.PositiveIntegerField(blank=True, null=True)
     founding_experience = models.BooleanField(blank=True, null=True)
+    reveune_stage = models.ForeignKey(RevenueStage, on_delete=models.SET_NULL,blank=True, null=True)
+    product_development_stage = models.ForeignKey(ProductDevelopmentStage, on_delete=models.SET_NULL,blank=True, null=True)
     funding_stage = models.ForeignKey(PreferredInvestmentStage, on_delete=models.SET_NULL,blank=True, null=True)
     pitch_deck = models.FileField(upload_to='pitch_decks/', blank=True, null=True)
-    video_link = models.CharField(max_length=100,blank=True, null=True)
+    company_logo = models.FileField(upload_to='company_logo/', blank=True, null=True)
+    company_linkedin = models.CharField(max_length=255,blank=True, null=True)
+    video_link = models.CharField(max_length=255,blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     registration_id = models.CharField(max_length=100,unique=True)
-    short_video =  models.URLField(blank=True, null=True)
+    short_video =  models.CharField(max_length=255,blank=True, null=True)
     status = models.CharField(
         max_length=10,
         choices=[
@@ -129,6 +133,7 @@ class StartUpRegistrations(models.Model):
 class StartUpRegistrationsCoFounders(models.Model):
     startup = models.ForeignKey(StartUpRegistrations, on_delete=models.SET_NULL,blank=True,null=True)
     name = models.CharField(max_length=100,blank=True, null=True)
+    linkedin = models.CharField(max_length=255,blank=True, null=True)
     email = models.EmailField(blank=True, null=True)
     mobile = models.CharField(max_length=15,blank=True, null=True)
     gender = models.CharField(max_length=100,choices=[('male','Male'),('female','Female')],blank=True, null=True) 

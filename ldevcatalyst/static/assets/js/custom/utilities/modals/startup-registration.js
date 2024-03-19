@@ -208,7 +208,8 @@ var KTCreateAccount = function () {
 							name: inputGroup.querySelector(".founder-name-input").value,
 							email: inputGroup.querySelector(".founder-email-input").value,
 							mobile: inputGroup.querySelector(".founder-mobile-input").value,
-							gender: inputGroup.querySelector(".founder-gender-input").value
+							gender: inputGroup.querySelector(".founder-gender-input").value,
+							linkedIn: inputGroup.querySelector(".founder-linkedin-input").value
 						};
 						foundersArray.push(founder);
 					});
@@ -431,9 +432,6 @@ var KTCreateAccount = function () {
 						validators: {
 							notEmpty: {
 								message: 'Company website is required'
-							},
-							uri: {
-								message: 'Invalid website URL'
 							}
 						}
 					},

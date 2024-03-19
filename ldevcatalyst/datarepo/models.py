@@ -14,6 +14,22 @@ class AreaOfInterest(models.Model):
 
 class PreferredInvestmentStage(models.Model):
     name = models.CharField(max_length=20)
+    serial = models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.name
+    
+
+class RevenueStage(models.Model):
+    name = models.CharField(max_length=20)
+    serial = models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.name
+    
+class ProductDevelopmentStage(models.Model):
+    name = models.CharField(max_length=20)
+    serial = models.IntegerField(default=0)
 
     def __str__(self):
         return self.name
