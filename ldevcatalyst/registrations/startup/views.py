@@ -172,7 +172,6 @@ def startup_registration(request):
         name:
             type: string
             required: true
-            minlength: 5
         csrfmiddlewaretoken:
             type: string
             required: true
@@ -214,8 +213,6 @@ def startup_registration(request):
         company_website:
             type: string
             required: true
-            regex: '(https?:\/\/(?:www\.|(?!www))[^\s\.]+\.[^\s]{2,}|www\.[^\s]+\.[^\s]{2,})'
-            minlength: 6
         required_amount:
             type: string
             required: true
@@ -328,6 +325,7 @@ def fetch_startup_registration_details(request):
             # Fetch startup details based on startup_id
             print(startup_id)
             startup = StartUpRegistrations.objects.get(id=startup_id)
+            print(request.build_absolute_uri(startup.pitch_deck.url))
             # Construct HTML for the startup details
             html = f"""
                                                                 <!--begin::Profile-->
@@ -377,11 +375,7 @@ def fetch_startup_registration_details(request):
                                                                     <!--begin::Company description-->
                                                                     <div class="d-flex flex-column gap-1">
                                                                         <div class="fw-bold text-muted">Pitch Deck</div>
-                                                                        <iframe width="560" height="315" src="https://docs.google.com/presentation/d/"""+escape(startup.pitch_deck)+"""/embed?start=false&loop=false" frameborder="0" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
-                                                                    </div>
-                                                                    <div class="d-flex flex-column gap-1">
-                                                                        <div class="fw-bold text-muted">Short video</div>
-                                                                        <iframe width="560" height="315" src="https://www.youtube.com/embed/"""+escape(startup.short_video)+"""" frameborder="0" allowfullscreen></iframe>
+<a href="{}" target="_blank" rel="noopener noreferrer">Click here to view the pitch deck PDF</a>
                                                                     </div>
                                                                     <div class="d-flex flex-column gap-1">
                                                                         <div class="fw-bold text-muted">Description</div>
@@ -437,8 +431,8 @@ def fetch_startup_registration_details(request):
                                                                     </div>
                                                                     <!--end::district-->
                                                                     <div class="d-flex flex-column gap-1">
-                                                                        <div class="fw-bold text-muted">Full Video</div>
-                                                                        <iframe width="560" height="315" src="https://www.youtube.com/embed/"""+escape(startup.video_link)+""" frameborder="0" allowfullscreen></iframe>
+                                                                        <div class="fw-bold text-muted">Short video</div>
+                                                                        <iframe width="560" height="315" src="https://www.youtube.com/embed/"""+escape(startup.video_link)+"""" frameborder="0" allowfullscreen></iframe>
                                                                     </div>
                     
                                                                 </div>
@@ -447,8 +441,9 @@ def fetch_startup_registration_details(request):
                                                             <!--end:::Tab pane-->
                                                         </div>
                                                         <!--end::Tab content-->
-            """
+            """.format(request.build_absolute_uri(startup.pitch_deck.url))
             # Send the HTML response to the JavaScript function
+            
             return JsonResponse({'html': html})
         else:
             # Handle invalid request
