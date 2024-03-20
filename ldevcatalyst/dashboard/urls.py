@@ -14,6 +14,7 @@ urlpatterns = [
     path('registrations/industry/<str:registration_status>/', industry_registrations, name='industry_registrations'),
     path('registrations/startup/<str:registration_status>/', startup_registrations, name='startup_registrations'),
     path('registrations/startup/<str:area_of_interest>', startup_registrations, name='startup_registrations_cat'),
+    path('registrations/sme/<str:area_of_interest>', sme_registrations, name='researcher_registrations_cat'),
     path('registrations/vc/<str:registration_status>/', vc_registrations, name='vc_registrations'),
     path('registrations/industry/approve_registration', industry_approve_registration, name='industry_approve_registration'),
     path('registrations/startup/approve_registration', startup_approve_registration, name='startup_approve_registration'),

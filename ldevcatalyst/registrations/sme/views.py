@@ -24,11 +24,15 @@ from django.db import transaction
 from django.template.loader import render_to_string
 
 @login_required
-def sme_registrations(request,registration_status=None):
+def sme_registrations(request,registration_status=None,area_of_interest=None):
     if registration_status is not None:
         sme_registrations = ResearcherRegistrations.objects.filter(status=registration_status)
+        if area_of_interest is not None:
+                sme_registrations = sme_registrations.filter(area_of_interest__name=area_of_interest)
     else:
         sme_registrations = ResearcherRegistrations.objects.all()
+        if area_of_interest is not None:
+            sme_registrations = sme_registrations.filter(area_of_interest__name=area_of_interest)
     sme_registrations_list = []
     for x in sme_registrations:
         temp = {

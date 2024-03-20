@@ -1,0 +1,432 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+
+{% block page_content %}
+
+<div class="d-flex flex-column flex-column-fluid">
+    <!--begin::Content-->
+    <div id="kt_app_content" class="app-content flex-column-fluid">
+        <!--begin::Row-->
+		<div class="card" style="padding:20px;">
+			<div class="card-body">
+				<h1 class="card-title">Researcher Report</h1>
+				<h6 class="card-subtitle mb-2 text-muted"> Total Researchers count : {{counts.researcher_count}}</h6>
+			</div>
+			<div class="row g-5 g-xl-10 mb-xl-10">
+				<!-- Area of Interest Table -->
+				<div class="col-lg-4">
+					<div class="table-responsive">
+						<table class="table table-bordered table-hover">
+							<thead class="table-light">
+								<tr>
+									<th style="width: 8%" class="text-center">Area of Interest</th>
+									<th style="width: 8%" class="text-center">Researcher Count</th>
+								</tr>
+							</thead>
+							<tbody>
+								{% for item in area_of_interest_data %}
+								<tr>
+                                    <td> <a href="{% url 'researcher_registrations_cat' area_of_interest=item.area_of_interest__name %}">{{ item.area_of_interest__name }}</a></td>
+									<td>{{ item.researcher_count }}</td>
+								</tr>
+								{% endfor %}
+							</tbody>
+						</table>
+					</div>
+				</div>
+
+				<!-- District Count Table -->
+				<div class="col-lg-4">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover">
+                            <thead class="table-light">
+                                <tr>
+                                    <th style="width: 8%" class="text-center">District</th>
+                                    <th style="width: 8%" class="text-center">Researcher Count</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in district_data %}
+                                <tr>
+                                    <td>{{ item.district__name }}</td>
+                                    <td>{{ item.researcher_count }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+				<!-- Institution Table -->
+				<div class="col-lg-4">
+					<div class="table-responsive">
+						<table class="table table-bordered table-hover">
+							<thead class="table-light">
+								<tr>
+									<th style="width: 8%" class="text-center">Institution</th>
+									<th style="width: 8%" class="text-center">Researcher Count</th>
+								</tr>
+							</thead>
+							<tbody>
+								{% for item in institution_data %}
+								<tr>
+									<td>{{ item.institution__name }}</td>
+									<td>{{ item.researcher_count }}</td>
+								</tr>
+								{% endfor %}
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</br>
+		<!--begin::graphs-->
+		<div class="card text-center">
+            <div class="card-body">
+                <h1 class="card-title">Area of Interest</h1>
+            </div>
+            <div class="row g-5 g-xl-10 mb-xl-10 justify-content-center">
+                <div class="col-lg-4 d-flex justify-content-center">
+                    <canvas id="pieChart" width="400" height="400"></canvas>
+                </div>
+                <div class="col-lg-4 d-flex justify-content-center">
+                    <canvas id="barChart" width="400" height="400"></canvas>
+                </div>
+            </div>
+            <!-- Table for Area of Interest -->
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover">
+                    <thead class="table-light">
+                        <tr>
+                            <th style="width: 50%" class="text-center">Area of Interest</th>
+                            <th style="width: 50%" class="text-center">Researcher Count</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in area_of_interest_data %}
+                        <tr>
+                            <td>{{ item.area_of_interest__name }}</td>
+                            <td>{{ item.researcher_count }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+	</br>
+		<!--begin::institutiongraphs-->
+		<div class="card text-center">
+            <div class="card-body">
+                <h1 class="card-title">Institutions</h1>
+            </div>
+            <div class="row g-5 g-xl-10 mb-xl-10 justify-content-center">
+                <div class="col-lg-4 d-flex justify-content-center">
+                    <canvas id="institutionPieChart" width="400" height="400"></canvas>
+                </div>
+                <div class="col-lg-4 d-flex justify-content-center">
+                    <canvas id="institutionBarChart" width="400" height="400"></canvas>
+                </div>
+            </div>
+            <!-- Table for Institutions -->
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover">
+                    <thead class="table-light">
+                        <tr>
+                            <th style="width: 50%" class="text-center">Institution</th>
+                            <th style="width: 50%" class="text-center">Researcher Count</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in institution_data %}
+                        <tr>
+                            <td>{{ item.institution__name }}</td>
+                            <td>{{ item.researcher_count }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+
+        <!-- District Charts -->
+        <div class="card text-center">
+            <div class="card-body">
+                <h1 class="card-title">Districts</h1>
+            </div>
+            <div class="row g-5 g-xl-10 mb-xl-10 justify-content-center">
+                <div class="col-lg-4 d-flex justify-content-center">
+                    <canvas id="districtPieChart" width="400" height="400"></canvas>
+                </div>
+                <div class="col-lg-4 d-flex justify-content-center">
+                    <canvas id="districtBarChart" width="400" height="400"></canvas>
+                </div>
+            </div>
+            <!-- Table for Districts -->
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover">
+                    <thead class="table-light">
+                        <tr>
+                            <th style="width: 50%" class="text-center">District</th>
+                            <th style="width: 50%" class="text-center">Researcher Count</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in district_data %}
+                        <tr>
+                            <td>{{ item.district__name }}</td>
+                            <td>{{ item.researcher_count }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+		
+	</br>
+        <!--end::Row-->
+    </div>
+    <!--end::Content-->
+</div>
+{% endblock %}
+
+{% block custom_js %}
+<<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Get data for the pie chart
+        var areaLabelsPie = [];
+        var areaCountsPie = [];
+        {% for item in area_of_interest_data %}
+            areaLabelsPie.push("{{ item.area_of_interest__name }}");
+            areaCountsPie.push("{{ item.researcher_count }}");
+        {% endfor %}
+        
+        // Create the pie chart
+        var pieChart = new Chart(document.getElementById('pieChart'), {
+            type: 'pie',
+            data: {
+                labels: areaLabelsPie,
+                datasets: [{
+                    label: 'Area of Interest',
+                    data: areaCountsPie,
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.8)',
+                        'rgba(54, 162, 235, 0.8)',
+                        'rgba(255, 206, 86, 0.8)',
+                        'rgba(75, 192, 192, 0.8)',
+                        'rgba(153, 102, 255, 0.8)',
+                        'rgba(255, 159, 64, 0.8)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true
+            }
+        });
+
+        // Get data for the bar chart
+        var areaLabelsBar = [];
+        var areaCountsBar = [];
+        {% for item in area_of_interest_data %}
+            areaLabelsBar.push("{{ item.area_of_interest__name }}");
+            areaCountsBar.push("{{ item.researcher_count }}");
+        {% endfor %}
+        
+        // Create the bar chart
+        var barChart = new Chart(document.getElementById('barChart'), {
+            type: 'bar',
+            data: {
+                labels: areaLabelsBar,
+                datasets: [{
+                    label: 'Area of Interest',
+                    data: areaCountsBar,
+                    backgroundColor: 'rgba(54, 162, 235, 0.8)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    });
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Get data for the bar chart
+        var areaLabels = [];
+        var areaCounts = [];
+        {% for item in area_of_interest_data %}
+            areaLabels.push("{{ item.area_of_interest__name }}");
+           
+            areaCounts.push("{{ item.startup_count }}");
+            {% endfor %}
+        
+            // Create the bar chart
+            var barChart = new Chart(document.getElementById('barChart'), {
+                type: 'bar',
+                data: {
+                    labels: areaLabels,
+                    datasets: [{
+                        label: 'Area of Interest',
+                        data: areaCounts,
+                        backgroundColor: 'rgba(54, 162, 235, 0.8)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Get data for the institution pie chart
+            var institutionLabels = [];
+            var institutionCounts = [];
+            {% for item in institution_data %}
+                institutionLabels.push("{{ item.institution__name }}");
+                institutionCounts.push("{{ item.researcher_count }}");
+            {% endfor %}
+        
+            // Create the institution pie chart
+            var institutionPieChart = new Chart(document.getElementById('institutionPieChart'), {
+                type: 'pie',
+                data: {
+                    labels: institutionLabels,
+                    datasets: [{
+                        label: 'Institutions',
+                        data: institutionCounts,
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.8)',
+                            'rgba(54, 162, 235, 0.8)',
+                            'rgba(255, 206, 86, 0.8)',
+                            'rgba(75, 192, 192, 0.8)',
+                            'rgba(153, 102, 255, 0.8)',
+                            'rgba(255, 159, 64, 0.8)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true
+                }
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Get data for the institution bar chart
+            var institutionLabels = [];
+            var institutionCounts = [];
+            {% for item in institution_data %}
+                institutionLabels.push("{{ item.institution__name }}");
+                institutionCounts.push("{{ item.researcher_count }}");
+            {% endfor %}
+        
+            // Create the institution bar chart
+            var institutionBarChart = new Chart(document.getElementById('institutionBarChart'), {
+                type: 'bar',
+                data: {
+                    labels: institutionLabels,
+                    datasets: [{
+                        label: 'Institutions',
+                        data: institutionCounts,
+                        backgroundColor: 'rgba(54, 162, 235, 0.8)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Get data for the district pie chart
+            var districtLabels = [];
+            var districtCounts = [];
+            {% for item in district_data %}
+                districtLabels.push("{{ item.district__name }}");
+                districtCounts.push("{{ item.researcher_count }}");
+            {% endfor %}
+        
+            // Create the district pie chart
+            var districtPieChart = new Chart(document.getElementById('districtPieChart'), {
+                type: 'pie',
+                data: {
+                    labels: districtLabels,
+                    datasets: [{
+                        label: 'Districts',
+                        data: districtCounts,
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.8)',
+                            'rgba(54, 162, 235, 0.8)',
+                            'rgba(255, 206, 86, 0.8)',
+                            'rgba(75, 192, 192, 0.8)',
+                            'rgba(153, 102, 255, 0.8)',
+                            'rgba(255, 159, 64, 0.8)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true
+                }
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Get data for the district bar chart
+            var districtLabels = [];
+            var districtCounts = [];
+            {% for item in district_data %}
+                districtLabels.push("{{ item.district__name }}");
+                districtCounts.push("{{ item.researcher_count }}");
+            {% endfor %}
+        
+            // Create the district bar chart
+            var districtBarChart = new Chart(document.getElementById('districtBarChart'), {
+                type: 'bar',
+                data: {
+                    labels: districtLabels,
+                    datasets: [{
+                        label: 'Districts',
+                        data: districtCounts,
+                        backgroundColor: 'rgba(54, 162, 235, 0.8)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+    {% endblock %}
+    
