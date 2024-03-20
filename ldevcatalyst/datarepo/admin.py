@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import AreaOfInterest, PreferredInvestmentStage, Department, Institution, District, State, IndustryCategory,RevenueStage,ProductDevelopmentStage,PrimaryBusinessModel
+from .models import AreaOfInterest, PreferredInvestmentStage, Department, Institution, District, State, IndustryCategory,RevenueStage,ProductDevelopmentStage,PrimaryBusinessModel,FundRaised
 
 # Register your models here.
 
@@ -48,4 +48,8 @@ class ProductDevelopmentStageAdmin(admin.ModelAdmin):
 
 @admin.register(PrimaryBusinessModel)
 class PrimaryBusinessModelAdmin(admin.ModelAdmin):
+    list_display = ['name']
+
+@admin.register(FundRaised)
+class FundRaisedAdmin(admin.ModelAdmin):
     list_display = ['name']

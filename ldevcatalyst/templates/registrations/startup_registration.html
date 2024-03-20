@@ -278,6 +278,19 @@
 
 										<div class="fv-row mb-10">
 											<!--begin::Label-->
+											<label class="form-label required">Funds raised by the startup</label>
+											<!--end::Label-->
+											<!--begin::Input-->
+											<select name="fund_raised_id" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="false">
+												{% for fundraised in fundraised_values %}
+												<option value="{{fundraised.id}}">{{fundraised.value}}</option>
+												{%endfor%}
+											</select>
+											<!--end::Input-->
+										</div>
+
+										<div class="fv-row mb-10">
+											<!--begin::Label-->
 											<label class="form-label required">Primary Business model</label>
 											<!--end::Label-->
 											<!--begin::Input-->
