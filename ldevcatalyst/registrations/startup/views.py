@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import JsonResponse
 from ..models import StartUpRegistrations,StartUpRegistrationsCoFounders
-from datarepo.models import AreaOfInterest,State,PreferredInvestmentStage,District,RevenueStage,ProductDevelopmentStage
+from datarepo.models import AreaOfInterest,State,PreferredInvestmentStage,District,RevenueStage,ProductDevelopmentStage,PrimaryBusinessModel
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 import random
@@ -146,6 +146,9 @@ def startup_registration(request):
         funding_stage_id = request.POST.get('funding_stage_id')
         reveune_stage_id = request.POST.get('reveune_stage_id')
         product_development_stage_id = request.POST.get('product_development_stage_id')
+        primary_business_model_id = request.POST.get('primary_business_model_id')
+        incubator = request.POST.get('incubator')
+        customer_size = request.POST.get('customer_size')
         team_size = request.POST.get('team_size')
         #email = request.POST.get('poc_email')
         #mobile = request.POST.get('poc_mobile')
@@ -179,6 +182,15 @@ def startup_registration(request):
         name:
             type: string
             required: true
+        primary_business_model_id:
+            type: string
+            required: false
+        incubator:
+            type: string
+            required: false
+        customer_size:
+            type: string
+            required: false
         csrfmiddlewaretoken:
             type: string
             required: true
@@ -256,6 +268,9 @@ def startup_registration(request):
                     district_id = district_id,
                     state_id = state_id,
                     team_size = team_size,
+                    primary_business_model_id = primary_business_model_id,
+                    incubator = incubator,
+                    customer_size = customer_size,
                     #email = email,
                     #mobile = mobile,
                     dpiit_number = dpiit_number,
@@ -318,6 +333,12 @@ def startup_registration(request):
                 'value' : x.name,
             } for x in PreferredInvestmentStage.objects.all().order_by('serial')
         ],
+        'primary_business_models' : [
+            {
+                'id' : x.id,
+                'value' : x.name,
+            } for x in PrimaryBusinessModel.objects.all().order_by('serial')
+        ],
         'revenue_stages' : [
             {
                 'id' : x.id,
@@ -328,6 +349,7 @@ def startup_registration(request):
             {
                 'id' : x.id,
                 'value' : x.name,
+                'description' : x.description
             } for x in ProductDevelopmentStage.objects.all().order_by('serial')
         ],
         'states' : [
