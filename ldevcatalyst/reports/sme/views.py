@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 
 @login_required
 def researcher_overview(request):
-    researcher_count_by_interest = ResearcherRegistrations.objects.values('area_of_interest__name').annotate(researcher_count=Count('id')).order_by('-researcher_count')
+    researcher_count_by_interest = ResearcherRegistrations.objects.filter(area_of_interest__isnull=False).values('area_of_interest__name').annotate(researcher_count=Count('id')).filter(researcher_count__gt=0).order_by('-researcher_count')
     by_area_of_interest = []
     for item in researcher_count_by_interest:
         by_area_of_interest.append({ 
@@ -13,7 +13,7 @@ def researcher_overview(request):
             'researcher_count': item['researcher_count'], 
         })
 
-    researcher_count_by_district = ResearcherRegistrations.objects.values('district__name').annotate(researcher_count=Count('id')).order_by('-researcher_count')
+    researcher_count_by_district = ResearcherRegistrations.objects.filter(district__isnull=False).values('district__name').annotate(researcher_count=Count('id')).filter(researcher_count__gt=0).order_by('-researcher_count')
     by_district = []
     for item in researcher_count_by_district:
         by_district.append({
@@ -21,7 +21,7 @@ def researcher_overview(request):
             'researcher_count': item['researcher_count'],
         })
 
-    researcher_count_by_institution = Institution.objects.values('name').annotate(researcher_count=Count('researcherregistrations')).order_by('-researcher_count')
+    researcher_count_by_institution = Institution.objects.filter(researcherregistrations__isnull=False).values('name').annotate(researcher_count=Count('researcherregistrations')).filter(researcher_count__gt=0).order_by('-researcher_count')
     by_institution = []
     for item in researcher_count_by_institution:
         by_institution.append({
