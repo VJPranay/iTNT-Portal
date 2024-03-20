@@ -1,5 +1,5 @@
 from django.db import models
-from datarepo.models import AreaOfInterest,PreferredInvestmentStage,Department,Institution,District,State,IndustryCategory,RevenueStage,ProductDevelopmentStage
+from datarepo.models import AreaOfInterest,PreferredInvestmentStage,Department,Institution,District,State,IndustryCategory,RevenueStage,ProductDevelopmentStage,PrimaryBusinessModel
 import uuid
 
 
@@ -102,6 +102,9 @@ class StartUpRegistrations(models.Model):
     founding_year = models.PositiveIntegerField(blank=True, null=True)
     founding_experience = models.BooleanField(blank=True, null=True)
     reveune_stage = models.ForeignKey(RevenueStage, on_delete=models.SET_NULL,blank=True, null=True)
+    primary_business_model = models.ForeignKey(PrimaryBusinessModel, on_delete=models.SET_NULL,blank=True, null=True)
+    incubator = models.CharField(max_length=255,blank=True, null=True)
+    customer_size = models.CharField(max_length=255,blank=True, null=True)
     product_development_stage = models.ForeignKey(ProductDevelopmentStage, on_delete=models.SET_NULL,blank=True, null=True)
     funding_stage = models.ForeignKey(PreferredInvestmentStage, on_delete=models.SET_NULL,blank=True, null=True)
     pitch_deck = models.FileField(upload_to='pitch_decks/', blank=True, null=True)

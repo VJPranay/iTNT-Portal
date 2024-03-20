@@ -11,9 +11,9 @@
 		<meta property="og:locale" content="en_US" />
 		<meta property="og:type" content="article" />
 		<meta property="og:title" content="iTNT Innovation portal" />
-		<meta property="og:url" content="https://itnthub.tn.gov.in" />
+		<meta property="og:url" content="http://127.0.0.1:8000" />
 		<meta property="og:site_name" content="iTNT Hub - JIGSAW" />
-		<link rel="canonical" href="https://itnthub.tn.gov.in/dashboard" />
+		<link rel="canonical" href="http://127.0.0.1:8000/dashboard" />
 		<link rel="shortcut icon" href="assets/media/logos/favicon.ico" />
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700" />
 		<link href="{% static 'assets/plugins/global/plugins.bundle.css' %}" rel="stylesheet" type="text/css" />
@@ -106,9 +106,9 @@
 							<a href="#" class="stepper-title fs-2 px-5" style="color: #FFFFFF !important;" data-bs-toggle="modal" data-bs-target="#support_modal">Help & Support</a>
 
 							{% comment %} <div class="d-flex fw-normal">
-								<a href="https://itnthub.tn.gov.in/theme-engine" class="text-success px-5" target="_blank">Terms</a>
-								<a href="https://itnthub.tn.gov.in/theme-engine/devs" class="text-success px-5" target="_blank">Plans</a>
-								<a href="https://itnthub.tn.gov.in/theme-engine/market" class="text-success px-5" target="_blank">Contact Us</a>
+								<a href="http://127.0.0.1:8000/theme-engine" class="text-success px-5" target="_blank">Terms</a>
+								<a href="http://127.0.0.1:8000/theme-engine/devs" class="text-success px-5" target="_blank">Plans</a>
+								<a href="http://127.0.0.1:8000/theme-engine/market" class="text-success px-5" target="_blank">Contact Us</a>
 							</div> {% endcomment %}
 
 						</div>
@@ -228,7 +228,7 @@
 											<textarea name="description" class="form-control form-control-lg form-control-solid" rows="3"></textarea>
 											<!--end::Input-->
 										</div>
-										<div class="fv-row mb-10" data-district-url="https://itnthub.tn.gov.in{% url 'districts' %}"  data-district-urlid="districtslink">
+										<div class="fv-row mb-10" data-district-url="http://127.0.0.1:8000{% url 'districts' %}"  data-district-urlid="districtslink">
 											<!--begin::Label-->
 											<label class="form-label required">State</label>
 											<!--end::Label-->
@@ -275,6 +275,43 @@
 											</select>
 											<!--end::Input-->
 										</div>
+
+										<div class="fv-row mb-10">
+											<!--begin::Label-->
+											<label class="form-label required">Primary Business model</label>
+											<!--end::Label-->
+											<!--begin::Input-->
+											<select name="primary_business_model_id" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="false" onchange="displayDescription()">
+												{% for primary_business_model in primary_business_models %}
+												<option value="{{primary_business_model.id}}">{{primary_business_model.value}}</option>
+												{%endfor%}
+											</select>
+											<!--end::Input-->
+										</div>
+										<div class="fv-row mb-10">
+											<!--begin::Label-->
+											<label class="form-label required">Incubator</label>
+											<!--end::Label-->
+											<!--begin::Input-->
+											<input name="incubator" class="form-control form-control-lg form-control-solid" placeholder="Incubator name" />
+											<!--end::Input-->
+										</div>
+										<button type="button" id="addIncubatorBtn" class="btn btn-primary mt-2">Add another incubator</button>
+
+										<div class="fv-row mb-10">
+											<!--begin::Label-->
+											<label class="form-label required">Customer size</label>
+											<!--end::Label-->
+											<!--begin::Input-->
+											<select name="customer_size" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="false">
+												<option value="0-5">0-5</option>
+												<option value="5-10">5-10</option>
+												<option value="10-15">10-15</option>
+												<option value="15-20">15-20</option>
+												<option value="20-25">20-25</option>
+											</select>
+											<!--end::Input-->
+										</div>
 										<div class="fv-row mb-10">
 											<label class="form-label required">Revenue Stage</label>
 											<select name="revenue_stage_id" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="false">
@@ -284,13 +321,21 @@
 											</select>
 										</div>
 										<div class="fv-row mb-10">
-											<label class="form-label required">Product Development Stage</label>
-											<select name="product_development_stage_id" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="false">
+											<label class="form-label required">Product Development Stage (Please read the description before you proceed)</label>
+											<select name="product_development_stage_id" id="product_development_stage_id" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="false" onchange="displayDescription()">
 												{% for product_development_stage in product_development_stages %}
-												<option value="{{product_development_stage.id}}">{{product_development_stage.value}}</option>
-												{%endfor%}
+												<option value="{{product_development_stage.id}}" data-description="{{product_development_stage.description}}">{{product_development_stage.value}}</option>
+												{% endfor %}
 											</select>
 										</div>
+										
+										<div class="fv-row mb-10">
+											<div class="info" id="description_info">
+												<p></p>
+											</div>
+										</div>
+
+										
 									</div>
 									<!--end::Wrapper-->
 								</div>
@@ -310,12 +355,25 @@
 										</div>
 										
 										<div id="founderNamesContainer">
+											<div class="fv-row mb-10 founder-input-group">
 											
+												<label class="form-label required">Co-Founder Name</label>
+												<input type="text" class="form-control form-control-lg form-control-solid founder-name-input" data-id="founder_name" placeholder="Founder Name" value="" />
+												<label class="form-label required">Email</label>
+												<input type="email" class="form-control form-control-lg form-control-solid founder-email-input" data-id="email" placeholder="email@domain.com" value="" />
+												<label class="form-label">LinkedIn Profile Link</label>
+												<input type="email" class="form-control form-control-lg form-control-solid founder-linkedin-input" data-id="linkedin" placeholder="https://www.linkedin.com/in/profile-link-123" value="" />
+												<label class="form-label required">Mobile</label>
+												<input type="tel" pattern="[0-9]{10}" class="form-control form-control-lg form-control-solid founder-mobile-input" data-id="mobile" placeholder="9876543210" value="" />
+												<label class="form-label required">Gender</label>
+													<select data-id="gender" class="form-select form-select-lg form-select-solid founder-gender-input" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="true">
+														<option>Select gender</option>
+														<option value="male">Male</option>
+														<option value="female">Female</option>
+													</select>
+											</div>
 											<button type="button" id="addFounderBtn" class="btn btn-primary mt-2">Add Co-Founder</button>
 										</div>
-										
-										
-										
 										<div class="fv-row mb-10">
 											<!--begin::Label-->
 											<label class="form-label required">Website</label>
@@ -507,6 +565,15 @@
 					founderNamesContainer.insertBefore(founderInputGroup, addFounderBtn);
 				});
 			});
+			function displayDescription() {
+				var selectElement = document.getElementById("product_development_stage_id");
+				var selectedOption = selectElement.options[selectElement.selectedIndex];
+				var description = selectedOption.getAttribute("data-description");
+		
+				// Display the description in the info div
+				var descriptionInfo = document.getElementById("description_info");
+				descriptionInfo.innerHTML = '<p>' + description + '</p>';
+			}
 			function fetchDistricts(stateId) {
 				var stateMainSelect = document.querySelector('div[data-district-urlid="districtslink"]');
 				var districtUrl = stateMainSelect.getAttribute('data-district-url');
@@ -525,6 +592,7 @@
 					})
 					.catch(error => console.error('Error fetching districts:', error));
 			}
+			
 		
 			// Event listener for state dropdown
 			document.addEventListener('DOMContentLoaded', function() {

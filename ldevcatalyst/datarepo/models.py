@@ -30,6 +30,15 @@ class RevenueStage(models.Model):
 class ProductDevelopmentStage(models.Model):
     name = models.CharField(max_length=255)
     serial = models.IntegerField(default=0)
+    description = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.name
+    
+
+class PrimaryBusinessModel(models.Model):
+    name = models.CharField(max_length=255)
+    serial = models.IntegerField(default=0)
 
     def __str__(self):
         return self.name
@@ -47,8 +56,6 @@ class State(models.Model):
     def __str__(self):
         return self.name
 
-
-
 class District(models.Model):
     state = models.ForeignKey(State, on_delete=models.SET_NULL,blank=True,null=True)
     name = models.CharField(max_length=255)
@@ -61,8 +68,6 @@ class IndustryCategory(models.Model):
 
     def __str__(self):
         return self.name
-
-
 
 class Institution(models.Model):
     district = models.ForeignKey(District, on_delete=models.SET_NULL,blank=True,null=True)
