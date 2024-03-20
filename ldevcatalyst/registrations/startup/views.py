@@ -151,22 +151,15 @@ def startup_registration(request):
         incubator = request.POST.get('incubator')
         customer_size = request.POST.get('customer_size')
         team_size = request.POST.get('team_size')
-        #email = request.POST.get('poc_email')
-        #mobile = request.POST.get('poc_mobile')
         dpiit_number = request.POST.get('dpiit_number')
         description = request.POST.get('description')
-        #pitch_deck = request.POST.get('pitch_deck')
         pitch_deck = request.FILES.get('pitch_deck')
         company_logo = request.FILES.get('company_logo')
         video_link = request.POST.get('video_link')
         website = request.POST.get('company_website')
-        #market_size = request.POST.get('market_size')
         required_amount = request.POST.get('required_amount')
         founding_year = request.POST.get('founding_year')
         company_linkedin = request.POST.get('company_linkedin')
-        #founding_experience = request.POST.get('founding_experience')
-        #founding_experience = True if founding_experience == 'True' else False
-        #short_video_link = request.POST.get('short_video_link')
         founder_names = json.loads(founder_names)
 
         file_extension_validator = FileExtensionValidator(allowed_extensions=['pdf'])
@@ -227,7 +220,7 @@ def startup_registration(request):
         description:
             type: string
             required: true
-        revenue_stage_id:
+        reveune_stage_id:
             type: string
             required: false
         product_development_stage_id:

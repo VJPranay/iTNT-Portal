@@ -4,6 +4,8 @@ from .student.views import student_registration,fetch_student_registration_detai
 from .vc.views import vc_registration,vc_registration_details
 from .startup.views import startup_registration,fetch_startup_registration_details
 from .sme.views import sme_registration,fetch_sme_registration_details
+
+
 urlpatterns = [
     path('industry/', industry_registration, name='industry_registration'),
     path('vc/', vc_registration, name='vc_registration'),
