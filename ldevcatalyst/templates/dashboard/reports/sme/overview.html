@@ -94,25 +94,7 @@
                     <canvas id="barChart" width="400" height="400"></canvas>
                 </div>
             </div>
-            <!-- Table for Area of Interest -->
-            <div class="table-responsive">
-                <table class="table table-bordered table-hover">
-                    <thead class="table-light">
-                        <tr>
-                            <th style="width: 50%" class="text-center">Area of Interest</th>
-                            <th style="width: 50%" class="text-center">Researcher Count</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for item in area_of_interest_data %}
-                        <tr>
-                            <td>{{ item.area_of_interest__name }}</td>
-                            <td>{{ item.researcher_count }}</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
+           
         </div>
         
 	</br>
@@ -129,25 +111,7 @@
                     <canvas id="institutionBarChart" width="400" height="400"></canvas>
                 </div>
             </div>
-            <!-- Table for Institutions -->
-            <div class="table-responsive">
-                <table class="table table-bordered table-hover">
-                    <thead class="table-light">
-                        <tr>
-                            <th style="width: 50%" class="text-center">Institution</th>
-                            <th style="width: 50%" class="text-center">Researcher Count</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for item in institution_data %}
-                        <tr>
-                            <td>{{ item.institution__name }}</td>
-                            <td>{{ item.researcher_count }}</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
+         
         </div>
         
 
@@ -164,25 +128,7 @@
                     <canvas id="districtBarChart" width="400" height="400"></canvas>
                 </div>
             </div>
-            <!-- Table for Districts -->
-            <div class="table-responsive">
-                <table class="table table-bordered table-hover">
-                    <thead class="table-light">
-                        <tr>
-                            <th style="width: 50%" class="text-center">District</th>
-                            <th style="width: 50%" class="text-center">Researcher Count</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for item in district_data %}
-                        <tr>
-                            <td>{{ item.district__name }}</td>
-                            <td>{{ item.researcher_count }}</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
+           
         </div>
 		
 	</br>
@@ -193,7 +139,7 @@
 {% endblock %}
 
 {% block custom_js %}
-<<script>
+<script>
     document.addEventListener('DOMContentLoaded', function () {
         // Get data for the pie chart
         var areaLabelsPie = [];
