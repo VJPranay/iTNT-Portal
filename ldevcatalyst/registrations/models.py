@@ -109,6 +109,7 @@ class StartUpRegistrations(models.Model):
     product_development_stage = models.ForeignKey(ProductDevelopmentStage, on_delete=models.SET_NULL,blank=True, null=True)
     funding_stage = models.ForeignKey(PreferredInvestmentStage, on_delete=models.SET_NULL,blank=True, null=True)
     pitch_deck = models.FileField(upload_to='pitch_decks/', blank=True, null=True)
+    product_development_stage_document = models.FileField(upload_to='product_development_stage_document/', blank=True, null=True)
     company_logo = models.FileField(upload_to='company_logo/', blank=True, null=True)
     company_linkedin = models.CharField(max_length=255,blank=True, null=True)
     video_link = models.CharField(max_length=255,blank=True, null=True)

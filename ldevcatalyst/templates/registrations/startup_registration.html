@@ -333,7 +333,7 @@
 											</select>
 										</div>
 										<div class="fv-row mb-10">
-											<label class="form-label required">Product Development Stage (Please read the description before you proceed)</label>
+											<label class="form-label required">Product Development Stage (Please read the description and upload the document before you proceed)</label>
 											<select name="product_development_stage_id" id="product_development_stage_id" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="false" onchange="displayDescription()">
 												{% for product_development_stage in product_development_stages %}
 												<option value="{{product_development_stage.id}}" data-description="{{product_development_stage.description}}">{{product_development_stage.value}}</option>
@@ -345,6 +345,18 @@
 											<div class="info" id="description_info">
 												<p></p>
 											</div>
+										</div>
+										<div class="fv-row mb-10">
+											<label class="form-label required">Please product development stage document</label>
+											<div class="card h-100 flex-center bg-light-primary border-primary border border-dashed p-8">
+												<!--begin::Image-->
+												<img src="{% static 'assets/media/svg/files/upload.svg' %}" class="mb-5" alt="" />
+												<!--end::Image-->
+												<!--begin::Link-->
+												<input type="file" name="product_development_stage_document"  id="productDevelopmentStageDocumentFile" class="text-hover-primary fs-5 fw-bold mb-2">
+												<!--end::Link-->
+											</div>
+											<!--end::Card-->
 										</div>
 
 										
@@ -433,6 +445,7 @@
 											<input type="text" class="form-control form-control-lg form-control-solid" name="pitch_deck" placeholder="pitch deck" value="" />
 											<!--end::Input-->
 										</div>
+										
 					
 										<!--end::Input group--> {% endcomment %}
 										<!--begin::Card-->
@@ -448,6 +461,7 @@
 											</div>
 											<!--end::Card-->
 										</div>
+										
 										<div class="fv-row mb-10">
 											<label class="form-label required">Please upload the company logo in png format</label>
 											<div class="card h-100 flex-center bg-light-primary border-primary border border-dashed p-8">

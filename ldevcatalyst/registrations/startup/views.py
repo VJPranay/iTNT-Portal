@@ -155,6 +155,7 @@ def startup_registration(request):
         description = request.POST.get('description')
         pitch_deck = request.FILES.get('pitch_deck')
         company_logo = request.FILES.get('company_logo')
+        product_development_stage_document = request.FILES.get('product_development_stage_document')
         video_link = request.POST.get('video_link')
         website = request.POST.get('company_website')
         required_amount = request.POST.get('required_amount')
@@ -229,6 +230,9 @@ def startup_registration(request):
         pitch_deck:
             type: string
             required: false
+        product_development_stage_document:
+            type: string
+            required: false
         company_link:
             type: string
             required: false
@@ -282,6 +286,7 @@ def startup_registration(request):
                     product_development_stage_id = product_development_stage_id,
                     company_linkedin = company_linkedin,
                     fund_raised_id=fund_raised_id,
+                    product_development_stage_document = product_development_stage_document
                 )
                 new_startup_registration.save()
                 for founder in founder_names:
