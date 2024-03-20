@@ -42,6 +42,16 @@ class PrimaryBusinessModel(models.Model):
 
     def __str__(self):
         return self.name
+    
+
+
+
+class FundRaised(models.Model):
+    name = models.CharField(max_length=255)
+    serial = models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.name
 
 class Department(models.Model):
     name = models.CharField(max_length=255)

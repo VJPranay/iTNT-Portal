@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import JsonResponse
 from ..models import StartUpRegistrations,StartUpRegistrationsCoFounders
-from datarepo.models import AreaOfInterest,State,PreferredInvestmentStage,District,RevenueStage,ProductDevelopmentStage,PrimaryBusinessModel
+from datarepo.models import AreaOfInterest,State,PreferredInvestmentStage,District,RevenueStage,ProductDevelopmentStage,PrimaryBusinessModel,FundRaised
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 import random
@@ -145,6 +145,7 @@ def startup_registration(request):
         area_of_interest_id = request.POST.get('collaboration_sector')
         funding_stage_id = request.POST.get('funding_stage_id')
         reveune_stage_id = request.POST.get('reveune_stage_id')
+        fund_raised_id = request.POST.get('fund_raised_id')
         product_development_stage_id = request.POST.get('product_development_stage_id')
         primary_business_model_id = request.POST.get('primary_business_model_id')
         incubator = request.POST.get('incubator')
@@ -183,6 +184,9 @@ def startup_registration(request):
             type: string
             required: true
         primary_business_model_id:
+            type: string
+            required: false
+        fund_raised_id:
             type: string
             required: false
         incubator:
@@ -284,6 +288,7 @@ def startup_registration(request):
                     reveune_stage_id = reveune_stage_id,
                     product_development_stage_id = product_development_stage_id,
                     company_linkedin = company_linkedin,
+                    fund_raised_id=fund_raised_id,
                 )
                 new_startup_registration.save()
                 for founder in founder_names:
@@ -332,6 +337,12 @@ def startup_registration(request):
                 'id' : x.id,
                 'value' : x.name,
             } for x in PreferredInvestmentStage.objects.all().order_by('serial')
+        ],
+        'fundraised_values' : [
+            {
+                'id' : x.id,
+                'value' : x.name,
+            } for x in FundRaised.objects.all().order_by('serial')
         ],
         'primary_business_models' : [
             {
