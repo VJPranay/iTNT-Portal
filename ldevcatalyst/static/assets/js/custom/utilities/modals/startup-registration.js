@@ -116,8 +116,17 @@ var KTCreateAccount = function () {
 						};
 						foundersArray.push(founder);
 					});
-					console.log(foundersArray);
 					formData.append("founder_names", JSON.stringify(foundersArray));
+					var incubatorFields = document.querySelectorAll("[name='incubator']");
+					var incubatorValues = Array.from(incubatorFields).map(field => field.value).join(",");
+					
+					// Set the concatenated incubator value in the FormData object
+					formData.set("incubator", incubatorValues);
+
+					// Display the form data for testing (remove this line in production)
+					for (var pair of formData.entries()) {
+						console.log(pair[0] + ": " + pair[1]);
+					}
 					$.ajax({
 						url: actionUrl,
 						type: 'POST',
