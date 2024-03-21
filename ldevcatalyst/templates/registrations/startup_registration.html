@@ -333,7 +333,7 @@
 											</select>
 										</div>
 										<div class="fv-row mb-10">
-											<label class="form-label required">Startup Development Stage (Please read the description and upload the document before you proceed)</label>
+											<label class="form-label required">Startup Development Stage (Please read the description and upload the document)</label>
 											<select name="product_development_stage_id" id="product_development_stage_id" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="false" onchange="displayDescription()">
 												{% for product_development_stage in product_development_stages %}
 												<option value="{{product_development_stage.id}}" data-description="{{product_development_stage.description}}">{{product_development_stage.value}}</option>
@@ -591,6 +591,23 @@
 					founderNamesContainer.insertBefore(founderInputGroup, addFounderBtn);
 				});
 			});
+			document.getElementById("addIncubatorBtn").onclick = function() {
+				var newIncubatorField = document.createElement("div");
+				newIncubatorField.className = "fv-row mb-10";
+				newIncubatorField.innerHTML = `
+					<label class="form-label required">Incubator</label>
+					<input name="incubator" class="form-control form-control-lg form-control-solid" placeholder="Incubator name" />
+					<button type="button" class="btn btn-danger mt-2 removeIncubatorBtn">Remove</button>
+				`;
+			
+				// Append new incubator field to the form
+				document.getElementById("addIncubatorBtn").insertAdjacentElement("beforebegin", newIncubatorField);
+			
+				// Add event listener to remove button
+				newIncubatorField.querySelector(".removeIncubatorBtn").onclick = function() {
+					newIncubatorField.remove();
+				};
+			};
 			function displayDescription() {
 				var selectElement = document.getElementById("product_development_stage_id");
 				var selectedOption = selectElement.options[selectElement.selectedIndex];
