@@ -10,9 +10,9 @@
 		<meta property="og:locale" content="en_US" />
 		<meta property="og:type" content="article" />
 		<meta property="og:title" content="iTNT Innovation portal" />
-		<meta property="og:url" content="https://itnthub.tn.gov.in" />
+		<meta property="og:url" content="http://127.0.0.1:8000" />
 		<meta property="og:site_name" content="iTNT Hub - JIGSAW" />
-		<link rel="canonical" href="https://itnthub.tn.gov.in/dashboard" />
+		<link rel="canonical" href="http://127.0.0.1:8000/dashboard" />
 		<link rel="shortcut icon" href="assets/media/logos/favicon.ico" />
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700" />
 		<link href="{% static 'assets/plugins/global/plugins.bundle.css' %}" rel="stylesheet" type="text/css" />
@@ -105,9 +105,9 @@
 							<a href="#" class="stepper-title fs-2 px-5" style="color: #FFFFFF !important;" data-bs-toggle="modal" data-bs-target="#support_modal">Help & Support</a>
 
 							{% comment %} <div class="d-flex fw-normal">
-								<a href="https://itnthub.tn.gov.in/theme-engine" class="text-success px-5" target="_blank">Terms</a>
-								<a href="https://itnthub.tn.gov.in/theme-engine/devs" class="text-success px-5" target="_blank">Plans</a>
-								<a href="https://itnthub.tn.gov.in/theme-engine/market" class="text-success px-5" target="_blank">Contact Us</a>
+								<a href="http://127.0.0.1:8000/theme-engine" class="text-success px-5" target="_blank">Terms</a>
+								<a href="http://127.0.0.1:8000/theme-engine/devs" class="text-success px-5" target="_blank">Plans</a>
+								<a href="http://127.0.0.1:8000/theme-engine/market" class="text-success px-5" target="_blank">Contact Us</a>
 							</div> {% endcomment %}
 
 						</div>
@@ -227,7 +227,7 @@
 											<textarea name="description" class="form-control form-control-lg form-control-solid" rows="3"></textarea>
 											<!--end::Input-->
 										</div>
-										<div class="fv-row mb-10" data-district-url="https://itnthub.tn.gov.in{% url 'districts' %}"  data-district-urlid="districtslink">
+										<div class="fv-row mb-10" data-district-url="http://127.0.0.1:8000{% url 'districts' %}"  data-district-urlid="districtslink">
 											<!--begin::Label-->
 											<label class="form-label required">State</label>
 											<!--end::Label-->
@@ -280,11 +280,12 @@
 											<label class="form-label required">Funds raised by the startup</label>
 											<!--end::Label-->
 											<!--begin::Input-->
-											<select name="fund_raised_id" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="false">
+											<select name="fund_raised_id" id="fund_raised_id" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="false" onchange="handleFundRasiedSelectionChange()">
 												{% for fundraised in fundraised_values %}
-												<option value="{{fundraised.id}}">{{fundraised.value}}</option>
+												<option value="{{fundraised.id}}" data-value="{{fundraised.value}}">{{fundraised.value}}</option>
 												{%endfor%}
 											</select>
+											<input id="fund_raised_input" type="number" name="fund_raised_input" class="form-control form-control-lg form-control-solid" placeholder="Please enter the value in USD , 10000" style="display: none; margin-top: 10px !important;" required />
 											<!--end::Input-->
 										</div>
 
@@ -347,7 +348,7 @@
 											</div>
 										</div>
 										<div class="fv-row mb-10">
-											<label class="form-label required">Please provide support document for the startup development stage</label>
+											<label class="form-label required">Please provide support (pdf) document for the startup development stage</label>
 											<div class="card h-100 flex-center bg-light-primary border-primary border border-dashed p-8">
 												<!--begin::Image-->
 												<img src="{% static 'assets/media/svg/files/upload.svg' %}" class="mb-5" alt="" />
@@ -608,6 +609,23 @@
 					newIncubatorField.remove();
 				};
 			};
+			function handleFundRasiedSelectionChange() {
+				var selectElement = document.getElementById("fund_raised_id");
+				var inputElement = document.getElementById("fund_raised_input");
+				var selectedOption = selectElement.options[selectElement.selectedIndex];
+				var optionDataValue = selectedOption.getAttribute("data-value");
+				console.log(optionDataValue);
+				if (optionDataValue === "Others (Please specify)") {
+					
+					inputElement.style.display = "block";
+					inputElement.setAttribute("aria-hidden", "false"); // Ensure input is accessible when visible
+					inputElement.setAttribute("aria-label", "Other Fund Raised Amount"); // Update aria-label for accessibility
+					inputElement.focus(); // Set focus to the input for better user experience
+				} else {
+					inputElement.style.display = "none";
+        			inputElement.setAttribute("aria-hidden", "true"); // Hide input from accessibility when not visible
+				}
+			}
 			function displayDescription() {
 				var selectElement = document.getElementById("product_development_stage_id");
 				var selectedOption = selectElement.options[selectElement.selectedIndex];
@@ -616,6 +634,21 @@
 				// Display the description in the info div
 				var descriptionInfo = document.getElementById("description_info");
 				descriptionInfo.innerHTML = '<p>' + description + '</p>';
+			}
+			function handleFileInputChange(inputId, maxFileSizeInMB) {
+				var fileInput = document.getElementById(inputId);
+				var maxFileSize = maxFileSizeInMB * 1024 * 1024; // Convert MB to bytes
+			
+				fileInput.addEventListener("change", function() {
+					if (fileInput.files.length > 0) {
+						var fileSize = fileInput.files[0].size;
+			
+						if (fileSize > maxFileSize) {
+							alert("The selected file exceeds the maximum allowed size of " + maxFileSizeInMB + " MB.");
+							fileInput.value = ""; // Clear the file input
+						}
+					}
+				});
 			}
 			function fetchDistricts(stateId) {
 				var stateMainSelect = document.querySelector('div[data-district-urlid="districtslink"]');
@@ -648,6 +681,8 @@
 					}
 				});
 			});
+			handleFileInputChange("productDevelopmentStageDocumentFile", 25); 
+			handleFileInputChange("pitchDeckPdfFile", 25); 
 		</script>
 		<!--end::Custom Javascript-->
 		<!--end::Javascript-->

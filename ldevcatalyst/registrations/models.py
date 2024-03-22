@@ -104,6 +104,7 @@ class StartUpRegistrations(models.Model):
     reveune_stage = models.ForeignKey(RevenueStage, on_delete=models.SET_NULL,blank=True, null=True)
     primary_business_model = models.ForeignKey(PrimaryBusinessModel, on_delete=models.SET_NULL,blank=True, null=True)
     fund_raised = models.ForeignKey(FundRaised, on_delete=models.SET_NULL,blank=True, null=True)
+    fund_raised_value = models.CharField(max_length=255,blank=True, null=True)
     incubator = models.CharField(max_length=255,blank=True, null=True)
     customer_size = models.CharField(max_length=255,blank=True, null=True)
     product_development_stage = models.ForeignKey(ProductDevelopmentStage, on_delete=models.SET_NULL,blank=True, null=True)
