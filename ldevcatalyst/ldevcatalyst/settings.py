@@ -220,3 +220,4 @@ email_from = 'aso.itnt@tn.gov.in'
 email_password = 'uheim}a3'
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
+DATA_UPLOAD_MAX_MEMORY_SIZE = 100 * 1024 * 1024

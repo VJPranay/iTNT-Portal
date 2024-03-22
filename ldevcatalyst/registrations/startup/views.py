@@ -146,6 +146,7 @@ def startup_registration(request):
         funding_stage_id = request.POST.get('funding_stage_id')
         reveune_stage_id = request.POST.get('reveune_stage_id')
         fund_raised_id = request.POST.get('fund_raised_id')
+        fund_raised_input = request.POST.get('fund_raised_input')
         product_development_stage_id = request.POST.get('product_development_stage_id')
         primary_business_model_id = request.POST.get('primary_business_model_id')
         incubator = request.POST.get('incubator')
@@ -162,7 +163,10 @@ def startup_registration(request):
         founding_year = request.POST.get('founding_year')
         company_linkedin = request.POST.get('company_linkedin')
         founder_names = json.loads(founder_names)
-
+        if pitch_deck and pitch_deck.size > 25 * 1024 * 1024:  # 25 MB limit
+            return JsonResponse({'success': False, 'error': 'Pitch deck PDF file size exceeds the limit of 25 MB.'}, status=400)
+        if product_development_stage_document and product_development_stage_document.size > 25 * 1024 * 1024:  # 25 MB limit
+            return JsonResponse({'success': False, 'error': 'Product development stage document PDF file size exceeds the limit of 25 MB.'}, status=400)
         file_extension_validator = FileExtensionValidator(allowed_extensions=['pdf'])
         try:
             file_extension_validator(pitch_deck)
@@ -181,6 +185,9 @@ def startup_registration(request):
             type: string
             required: false
         fund_raised_id:
+            type: string
+            required: false
+        fund_raised_input:
             type: string
             required: false
         incubator:
@@ -285,7 +292,6 @@ def startup_registration(request):
                     reveune_stage_id = reveune_stage_id,
                     product_development_stage_id = product_development_stage_id,
                     company_linkedin = company_linkedin,
-                    fund_raised_id=fund_raised_id,
                     product_development_stage_document = product_development_stage_document
                 )
                 new_startup_registration.save()
@@ -304,6 +310,12 @@ def startup_registration(request):
                         linkedin = linkedin,
                     )
                     new_founder.save()
+                if fund_raised_input is not None:
+                    new_startup_registration.fund_raised_value = fund_raised_input
+                    new_startup_registration.save()
+                else:
+                    new_startup_registration.fund_raised_id = fund_raised_id
+                    new_startup_registration.save()
                 return JsonResponse(
                     {
                         'success': True,
