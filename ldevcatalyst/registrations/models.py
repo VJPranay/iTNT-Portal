@@ -1,6 +1,7 @@
 from django.db import models
 from datarepo.models import AreaOfInterest,PreferredInvestmentStage,Department,Institution,District,State,IndustryCategory,RevenueStage,ProductDevelopmentStage,PrimaryBusinessModel,FundRaised
 import uuid
+from django.core.exceptions import ValidationError
 
 def validate_file_size(value):
     """
@@ -51,6 +52,15 @@ class VCRegistrations(models.Model):
         choices=[('pending', 'pending'), ('approved', 'approved'), ('rejected', 'rejected')],
         default='pending',
     )
+    data_source = models.CharField(
+        max_length=255,
+        choices=[
+                 ('csv', 'csv'),
+                 ('registration', 'registration'),
+                 ('demo', 'demo'),
+                 ],
+        default='registration',
+    )
     def save(self, *args, **kwargs):
         if not self.registration_id:
             # Generate a unique registration ID
@@ -84,6 +94,15 @@ class ResearcherRegistrations(models.Model):
                  ('rejected', 'rejected')
                  ],
         default='pending',
+    )
+    data_source = models.CharField(
+        max_length=255,
+        choices=[
+                 ('csv', 'csv'),
+                 ('registration', 'registration'),
+                 ('demo', 'demo'),
+                 ],
+        default='registration',
     )
     def save(self, *args, **kwargs):
         if not self.registration_id:
