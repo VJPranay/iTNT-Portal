@@ -132,15 +132,14 @@ def vc_registration(request):
         mobile = request.POST.get('poc_mobile')
         district_id = request.POST.get('location_district')
         state_id = request.POST.get('location_state')
-        area_of_interest_id = request.POST.getlist('collaboration_sector')
-        funding_stage_id = request.POST.getlist('funding_stage_id')
+        area_of_interest_ids = request.POST.getlist('collaboration_sector')
+        funding_stage_ids = request.POST.getlist('funding_stage_id')
         deal_size_range_min = request.POST.get('deal_size_range_min')
         deal_size_range_max = request.POST.get('deal_size_range_max')
         deal_size_range_usd = request.POST.get('deal_size_range_usd')
         portfolio_size = request.POST.get('portfolio_size')
         company_website = request.POST.get('company_website')
         linkedin_profile = request.POST.get('linkedin_profile')
-        currency_select = request.POST.get('currency_select')  # Get the currency selection
         request_schema = '''
         partner_name:
             type: string
@@ -217,12 +216,21 @@ def vc_registration(request):
                         mobile = mobile,
                         district_id = district_id,
                         state_id = state_id,
-                        funding_stage_id = funding_stage_id,
-                        area_of_interest_id = area_of_interest_id,
                         company_website = company_website,
                         linkedin_profile = linkedin_profile,
                     )
                     new_vc_registration.save()
+                    for area_id in area_of_interest_ids:
+                        area_of_interest = AreaOfInterest.objects.get(pk=area_id)
+                        new_vc_registration.area_of_interest.add(area_of_interest)
+
+                    for stage_id in funding_stage_ids:
+                        funding_stage = PreferredInvestmentStage.objects.get(pk=stage_id)
+                        new_vc_registration.funding_stage.add(funding_stage)
+
+                    new_vc_registration.save()
+
+
                     # Optionally, you can return a success response
                     return JsonResponse(
                         {
