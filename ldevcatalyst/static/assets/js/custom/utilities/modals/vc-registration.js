@@ -142,24 +142,34 @@ var KTCreateAccount = function () {
 											confirmButton: "btn btn-light"
 										}
 									}).then(function () {
-										stepperObj.goPrevious();
-										stepperObj.goPrevious();
-										KTUtil.scrollTop();
+										formSubmitButton.removeAttribute('data-kt-indicator');
+									formSubmitButton.disabled = false;
+									stepperObj.goPrevious();
+									stepperObj.goPrevious();
+									KTUtil.scrollTop();
 										});			
 								}
 							},
 							error: function (xhr, status, error) {
-								// Handle error response
-								// Show error message
+								var errorMessage = "An error occurred while submitting the form. Please try again later.";
+								if (xhr.responseJSON && xhr.responseJSON.error) {
+									errorMessage = "Please fix the following error: " + xhr.responseJSON.error;
+								}
 								Swal.fire({
-									text: "An error occurred while submitting the form. Please try again later.",
+									text: errorMessage,
 									icon: "error",
 									buttonsStyling: false,
 									confirmButtonText: "Ok, got it!",
 									customClass: {
 										confirmButton: "btn btn-light"
 									}
-								});
+								}).then(function () {
+									formSubmitButton.removeAttribute('data-kt-indicator');
+									formSubmitButton.disabled = false;
+									stepperObj.goPrevious();
+									stepperObj.goPrevious();
+									KTUtil.scrollTop();
+								});    
 							}
 						});
 

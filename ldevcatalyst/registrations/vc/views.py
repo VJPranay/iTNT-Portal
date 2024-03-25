@@ -136,6 +136,7 @@ def vc_registration(request):
         funding_stage_id = request.POST.getlist('funding_stage_id')
         deal_size_range_min = request.POST.get('deal_size_range_min')
         deal_size_range_max = request.POST.get('deal_size_range_max')
+        deal_size_range_usd = request.POST.get('deal_size_range_usd')
         portfolio_size = request.POST.get('portfolio_size')
         company_website = request.POST.get('company_website')
         linkedin_profile = request.POST.get('linkedin_profile')
@@ -179,26 +180,24 @@ def vc_registration(request):
             required: true
         deal_size_range_min:
             type: string
-            required: true
+            required: false
         deal_size_range_max:
             type: string
-            required: true
+            required: false
+        deal_size_range_usd:
+            type: string
+            required: false
         portfolio_size:
             type: string
             required: true
         company_website:
             type: string
             required: true
-            regex: '(https?:\/\/(?:www\.|(?!www))[^\s\.]+\.[^\s]{2,}|www\.[^\s]+\.[^\s]{2,})'
             minlength: 6
         linkedin_profile:
             type: string
             required: true
-            regex: '(https?:\/\/(?:www\.|(?!www))[^\s\.]+\.[^\s]{2,}|www\.[^\s]+\.[^\s]{2,})'
             minlength: 6
-        currency_select:
-            type: string
-            required: true
 
         '''
         v = Validator()
@@ -206,23 +205,13 @@ def vc_registration(request):
         schema = yaml.load(request_schema, Loader=yaml.SafeLoader)
         if v.validate(post_data, schema):
                 try:
-                    if currency_select == 'usd':
-                        deal_size_range_min_in_usd = float(deal_size_range_min)
-                        deal_size_range_max_in_usd = float(deal_size_range_max)
-                        # Convert USD to crores (assuming conversion rate of 1 USD = 0.0071 crores)
-                        deal_size_range_min_in_crores = deal_size_range_min_in_usd * 0.0071
-                        deal_size_range_max_in_crores = deal_size_range_max_in_usd * 0.0071
-                    else:
-                        # Currency is crore, no conversion needed
-                        deal_size_range_min_in_crores = float(deal_size_range_min)
-                        deal_size_range_max_in_crores = float(deal_size_range_max)
                     new_vc_registration = VCRegistrations.objects.create(
                         partner_name = partner_name,
                         firm_name = firm_name,
                         designation = designation,
-                        deal_size_range_min=deal_size_range_min_in_crores,
-                        deal_size_range_max=deal_size_range_max_in_crores,
-                        deal_size_range=deal_size_range_min_in_crores,  # Assigning to deal_size_range
+                        deal_size_range_min=deal_size_range_min,
+                        deal_size_range_max=deal_size_range_max,
+                        deal_size_range_usd=deal_size_range_usd,  
                         portfolio_size = portfolio_size,
                         email = email,
                         mobile = mobile,
