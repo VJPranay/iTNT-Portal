@@ -12,17 +12,17 @@ def validate_file_size(value):
         raise ValidationError('File size cannot exceed 20MB.')
 
 class PatentInfo(models.Model):
-    number = models.CharField(max_length=50,blank=True, null=True)
+    number = models.CharField(max_length=255,blank=True, null=True)
     title = models.CharField(max_length=255,blank=True, null=True)
     inventors = models.CharField(max_length=255,blank=True, null=True)
     filing_date = models.DateField(blank=True, null=True)
-    status = models.CharField(max_length=50,blank=True, null=True)
+    status = models.CharField(max_length=255,blank=True, null=True)
 
 
 class PublicationInfo(models.Model):
     title = models.CharField(max_length=255,blank=True, null=True)
     paper_link = models.URLField(blank=True, null=True)
-    journal = models.CharField(max_length=100,blank=True, null=True)
+    journal = models.CharField(max_length=255,blank=True, null=True)
 
 
 
