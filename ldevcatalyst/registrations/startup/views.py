@@ -251,7 +251,7 @@ def startup_registration(request):
             required: false
         company_website:
             type: string
-            required: true
+            required: false
         required_amount:
             type: string
             required: true
