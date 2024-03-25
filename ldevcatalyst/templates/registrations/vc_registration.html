@@ -239,14 +239,13 @@
 											<label class="form-label required">Area of interest for collaboration</label>
 											<!--end::Label-->
 											<!--begin::Input-->
-											<select name="collaboration_sector[]" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="true">
+											<select name="collaboration_sector" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="true" multiple>
 												{% for area_of_interest in area_of_interests %}
 												<option value="{{area_of_interest.area_of_interest_id}}">{{area_of_interest.area_of_interest_value}}</option>
 												{%endfor%}
 											</select>
 											<!--end::Input-->
 											<!-- Button to add another area of interest -->
-											<button type="button" id="addAreaOfInterestBtn" class="btn btn-primary mt-2">Add another Area of Interest</button>
 										</div>
 										
 										<div class="fv-row mb-10" id="dynamicInvestmentStageContainer">
@@ -254,14 +253,13 @@
 											<label class="form-label required">Preferred Investment Stage</label>
 											<!--end::Label-->
 											<!--begin::Input-->
-											<select name="funding_stage_id[]" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="true">
+											<select name="funding_stage_id" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="true" multiple>
 												{% for preferred_investment_stage in preferred_investment_stages %}
 												<option value="{{preferred_investment_stage.preferred_investment_stage_id}}">{{preferred_investment_stage.preferred_investment_stage_value}}</option>
 												{%endfor%}
 											</select>
 											<!--end::Input-->
 											<!-- Button to add another investment stage -->
-											<button type="button" id="addInvestmentStageBtn" class="btn btn-primary mt-2">Add another Investment Stage</button>
 										</div>
 										
 										
@@ -458,50 +456,7 @@
 						districtSelect.innerHTML = '<option value=""></option>';
 					}
 				});
-			});document.getElementById("addAreaOfInterestBtn").addEventListener("click", function() {
-				var newAreaOfInterestField = document.createElement("div");
-				newAreaOfInterestField.className = "fv-row mb-10";
-				newAreaOfInterestField.innerHTML = `
-					<label class="form-label required">Area of interest for collaboration</label>
-					<select name="collaboration_sector[]" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="true">
-						{% for area_of_interest in area_of_interests %}
-						<option value="{{area_of_interest.area_of_interest_id}}">{{area_of_interest.area_of_interest_value}}</option>
-						{%endfor%}
-					</select>
-					<button type="button" class="btn btn-danger mt-2 removeAreaOfInterestBtn">Remove</button>
-				`;
-			
-				// Append new area of interest field to the container
-				document.getElementById("dynamicAreaOfInterestContainer").appendChild(newAreaOfInterestField);
-			
-				// Add event listener to remove button
-				newAreaOfInterestField.querySelector(".removeAreaOfInterestBtn").addEventListener("click", function() {
-					newAreaOfInterestField.remove();
-				});
 			});
-			
-			document.getElementById("addInvestmentStageBtn").addEventListener("click", function() {
-				var newInvestmentStageField = document.createElement("div");
-				newInvestmentStageField.className = "fv-row mb-10";
-				newInvestmentStageField.innerHTML = `
-					<label class="form-label required">Preferred Investment Stage</label>
-					<select name="funding_stage_id[]" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="true">
-						{% for preferred_investment_stage in preferred_investment_stages %}
-						<option value="{{preferred_investment_stage.preferred_investment_stage_id}}">{{preferred_investment_stage.preferred_investment_stage_value}}</option>
-						{%endfor%}
-					</select>
-					<button type="button" class="btn btn-danger mt-2 removeInvestmentStageBtn">Remove</button>
-				`;
-			
-				// Append new investment stage field to the container
-				document.getElementById("dynamicInvestmentStageContainer").appendChild(newInvestmentStageField);
-			
-				// Add event listener to remove button
-				newInvestmentStageField.querySelector(".removeInvestmentStageBtn").addEventListener("click", function() {
-					newInvestmentStageField.remove();
-				});
-			});
-			
 		</script>
 	</body>
 </html>
