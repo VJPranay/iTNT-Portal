@@ -6,8 +6,10 @@ from registrations.models import ResearcherRegistrations, PatentInfo, Publicatio
 from datarepo.models import Department, Institution, District, State, AreaOfInterest
 import uuid
 from django.db.utils import DataError
+
 @transaction.atomic
 def import_researcher_data(csv_file_path):
+    count = 0
     with open(csv_file_path, 'r') as file:
         reader = csv.reader(file)
         next(reader)  # Skip the header row
@@ -42,6 +44,9 @@ def import_researcher_data(csv_file_path):
                 
                 try:
                     with transaction.atomic():
+                        areas_of_interest = row[9]
+                        if areas_of_interest == 'AI / ML':
+                            count = count + 1
                         researcher = ResearcherRegistrations.objects.create(
                             name=row[0],
                             gender=1 if row[1] == 'Male' else 2 if row[1] == 'Female' else None,
@@ -59,23 +64,26 @@ def import_researcher_data(csv_file_path):
                         
                         # Add area of interest
                         
-                        areas_of_interest = row[9]
-                        
+
+
                         try:
                                 a = AreaOfInterest.objects.get(name=areas_of_interest.strip())
                                 researcher.area_of_interest.add(a)
+                                researcher.save()
                                 print("worked",areas_of_interest)
                         except AreaOfInterest.DoesNotExist:
                                 a = AreaOfInterest.objects.create(name=areas_of_interest.strip(),is_approved=True)
                                 researcher.area_of_interest.add(a)
+                                researcher.save()
                                 print("new",areas_of_interest)
                         except AreaOfInterest.MultipleObjectsReturned:
                                 a = AreaOfInterest.objects.filter(name=areas_of_interest.strip()).first()
                                 a.delete()
                                 b = AreaOfInterest.objects.get(name=areas_of_interest.strip())
                                 researcher.area_of_interest.add(b)
+                                researcher.save()
                                 print("mul",areas_of_interest)
-                        researcher.save()
+                        
                         # Add patents
                         patents_data = zip(
                             row[15::4],
@@ -108,10 +116,12 @@ def import_researcher_data(csv_file_path):
             except DataError:
                 continue
 
+    print('a',count)
+
     return 'Data imported successfully'
 
 # Usage example
-csv_file_path = '/opt/portal/iTNT-Portal/ldevcatalyst/scripts/import_data/sme/3000sme.csv'
-#csv_file_path = '/Users/vj/itnt/iTNT-Portal/ldevcatalyst/scripts/import_data/sme/a.csv'
+#csv_file_path = '/opt/portal/iTNT-Portal/ldevcatalyst/scripts/import_data/sme/3000sme.csv'
+csv_file_path = '/Users/vj/itnt/iTNT-Portal/ldevcatalyst/scripts/import_data/sme/a.csv'
 result_message = import_researcher_data(csv_file_path)
 print(result_message)

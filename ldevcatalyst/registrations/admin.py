@@ -25,7 +25,7 @@ class ResearcherAdmin(ImportExportMixin,admin.ModelAdmin):
     resource_class = ResearcherResource
     list_display = ('name', 'department', 'email', 'mobile', 'district', 'institution', 'status')
     raw_id_fields = ('institution',)
-    list_filter = ('status','institution')
+    list_filter = ('status','institution','area_of_interest')
 
 class StartUpRegistrationsCoFoundersInline(admin.TabularInline):
     model = StartUpRegistrationsCoFounders
@@ -34,6 +34,7 @@ class StartUpRegistrationsCoFoundersInline(admin.TabularInline):
 @admin.register(StartUpRegistrations)
 class StartUpRegistrationsAdmin(admin.ModelAdmin):
     inlines = [StartUpRegistrationsCoFoundersInline]
+    
 
 @admin.register(StudentRegistrations)
 class StudentAdmin(admin.ModelAdmin):
