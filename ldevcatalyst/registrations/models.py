@@ -26,8 +26,8 @@ class PublicationInfo(models.Model):
 
 
 class VCRegistrations(models.Model):
-    partner_name = models.CharField(max_length=100,blank=True, null=True)
-    firm_name = models.CharField(max_length=100,blank=True, null=True)
+    partner_name = models.CharField(max_length=255,blank=True, null=True)
+    firm_name = models.CharField(max_length=255,blank=True, null=True)
     designation = models.CharField(max_length=100,blank=True, null=True)
     email = models.EmailField(blank=True, null=True)
     mobile = models.CharField(max_length=15,blank=True, null=True)
@@ -94,7 +94,7 @@ class ResearcherRegistrations(models.Model):
 
     
 class StartUpRegistrations(models.Model):
-    name = models.CharField(max_length=100,blank=True, null=True)
+    name = models.CharField(max_length=255,blank=True, null=True)
     co_founder_count = models.PositiveIntegerField(blank=True, null=True)
     founder_names = models.CharField(max_length=255,blank=True, null=True)
     state = models.ForeignKey(State, on_delete=models.SET_NULL, blank=True, null=True)
