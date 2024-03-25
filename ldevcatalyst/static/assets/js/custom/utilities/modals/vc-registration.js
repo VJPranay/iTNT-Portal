@@ -87,22 +87,6 @@ var KTCreateAccount = function () {
 	}
 
 
-	function gatherIds() {
-		var areaOfInterestIds = [];
-		var fundingStageIds = [];
-	
-		// Gather selected area of interest IDs
-		document.querySelectorAll('select[name="collaboration_sector[]"] option:checked').forEach(function(option) {
-			areaOfInterestIds.push(option.value);
-		});
-	
-		// Gather selected funding stage IDs
-		document.querySelectorAll('select[name="funding_stage_id[]"] option:checked').forEach(function(option) {
-			fundingStageIds.push(option.value);
-		});
-	
-		return { areaOfInterestIds: areaOfInterestIds, fundingStageIds: fundingStageIds };
-	}
 	
 
 	var handleForm = function() {
@@ -121,9 +105,6 @@ var KTCreateAccount = function () {
 
 					// Disable button to avoid multiple click 
 					formSubmitButton.disabled = true;
-					var ids = gatherIds();
-					formData.append('collaboration_sector_ids', JSON.stringify(ids.areaOfInterestIds));
-    				formData.append('funding_stage_ids', JSON.stringify(ids.fundingStageIds));
 
 
 					// Show loading indication
