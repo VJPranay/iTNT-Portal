@@ -93,9 +93,11 @@
         animateCount(vcCount, 0, {{vc_count}}, 1500); // Replace {{ vc_count }} with actual VC count
         animateCount(meetingCount, 0, {{meeting_count}}, 1500); // Replace {{ meeting_count }} with actual Meeting count
     </script>
+    {% elif user.user_role == 6 %}
+    {% include 'dashboard/startup_dashboard.html' %}
+    {% elif user.user_role == 8 %}
+    {% include 'dashboard/vc.html' %}
     {% endif %}
-    
-
 </div>
 
 

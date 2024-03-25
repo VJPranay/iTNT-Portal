@@ -11,7 +11,8 @@ class User(AbstractUser):
         (5, 'researcher'),
         (6, 'startup'),
         (7, 'student'),
-        (8, 'vc')]
+        (8, 'vc')
+        ]
         ,default=8)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
