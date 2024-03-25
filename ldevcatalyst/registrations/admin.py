@@ -18,7 +18,7 @@ class PublicationAdmin(admin.ModelAdmin):
 
 @admin.register(VCRegistrations)
 class VCAdmin(admin.ModelAdmin):
-    list_display = ('partner_name', 'firm_name', 'email', 'mobile', 'district', 'state', 'area_of_interest', 'funding_stage', 'company_website', 'linkedin_profile')
+    list_display = ('partner_name', 'firm_name', 'email', 'mobile', 'district', 'state',  'company_website', 'linkedin_profile')
 
 @admin.register(ResearcherRegistrations)
 class ResearcherAdmin(ImportExportMixin,admin.ModelAdmin):
