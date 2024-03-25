@@ -12,17 +12,17 @@ def validate_file_size(value):
         raise ValidationError('File size cannot exceed 20MB.')
 
 class PatentInfo(models.Model):
-    number = models.CharField(max_length=50,blank=True, null=True)
+    number = models.CharField(max_length=255,blank=True, null=True)
     title = models.CharField(max_length=255,blank=True, null=True)
     inventors = models.CharField(max_length=255,blank=True, null=True)
     filing_date = models.DateField(blank=True, null=True)
-    status = models.CharField(max_length=50,blank=True, null=True)
+    status = models.CharField(max_length=255,blank=True, null=True)
 
 
 class PublicationInfo(models.Model):
     title = models.CharField(max_length=255,blank=True, null=True)
     paper_link = models.URLField(blank=True, null=True)
-    journal = models.CharField(max_length=100,blank=True, null=True)
+    journal = models.CharField(max_length=255,blank=True, null=True)
 
 
 
@@ -68,7 +68,7 @@ class VCRegistrations(models.Model):
         super().save(*args, **kwargs)
 
 class ResearcherRegistrations(models.Model):
-    name = models.CharField(max_length=100,blank=True, null=True)
+    name = models.CharField(max_length=255,blank=True, null=True)
     department = models.ForeignKey(Department, on_delete=models.SET_NULL,blank=True, null=True)
     institution = models.ForeignKey(Institution, on_delete=models.SET_NULL,blank=True, null=True)
     district = models.ForeignKey(District, on_delete=models.SET_NULL,blank=True, null=True)
@@ -78,12 +78,12 @@ class ResearcherRegistrations(models.Model):
     mobile = models.CharField(max_length=255,blank=True, null=True)
     picture = models.ImageField(upload_to='researcher_pictures/', blank=True, null=True)
     area_of_interest = models.ManyToManyField(AreaOfInterest,blank=True, null=True)
-    highest_qualification = models.CharField(max_length=100, blank=True, null=True)
+    highest_qualification = models.CharField(max_length=255, blank=True, null=True)
     patents = models.ManyToManyField(PatentInfo, blank=True, null=True)
     publications = models.ForeignKey(PublicationInfo, on_delete=models.SET_NULL, blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
-    registration_id = models.CharField(max_length=100,unique=True)
+    registration_id = models.CharField(max_length=255,unique=True)
     status = models.CharField(
         max_length=10,
         choices=[
