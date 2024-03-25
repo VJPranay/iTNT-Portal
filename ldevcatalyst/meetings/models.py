@@ -26,6 +26,7 @@ class MeetingRequests(models.Model):
     meeting_date = models.DateField(blank=True, null=True)
     meeting_time = models.TimeField(blank=True, null=True)
     meeting_date_time = models.DateTimeField(blank=True, null=True)
+    next_level = models.CharField(max_length=255, blank=True, null=True)
 
 @receiver(pre_save, sender=MeetingRequests)
 def update_meeting_date_time(sender, instance, **kwargs):

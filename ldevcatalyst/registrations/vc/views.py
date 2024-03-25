@@ -80,6 +80,7 @@ def vc_approve_registration(request):
                         user_id = user.id,
                         partner_name = registration.partner_name,
                         firm_name = registration.firm_name,
+                        designation = registration.designation,
                         email = registration.email,
                         mobile = registration.mobile,
                         deal_size_range_min = registration.deal_size_range_min,
@@ -126,17 +127,19 @@ def vc_registration(request):
     if request.method == 'POST':
         partner_name = request.POST.get('partner_name')
         firm_name = request.POST.get('firm_name')
+        designation= request.POST.get('designation')
         email = request.POST.get('poc_email')
         mobile = request.POST.get('poc_mobile')
         district_id = request.POST.get('location_district')
         state_id = request.POST.get('location_state')
-        area_of_interest_id = request.POST.get('collaboration_sector')
-        funding_stage_id = request.POST.get('funding_stage_id')
+        area_of_interest_id = request.POST.getlist('collaboration_sector')
+        funding_stage_id = request.POST.getlist('funding_stage_id')
         deal_size_range_min = request.POST.get('deal_size_range_min')
         deal_size_range_max = request.POST.get('deal_size_range_max')
         portfolio_size = request.POST.get('portfolio_size')
         company_website = request.POST.get('company_website')
         linkedin_profile = request.POST.get('linkedin_profile')
+        currency_select = request.POST.get('currency_select')  # Get the currency selection
         request_schema = '''
         partner_name:
             type: string
@@ -150,6 +153,9 @@ def vc_registration(request):
             type: string
             required: true
             minlength: 6
+        designation:
+            type: string
+            required: true
         poc_email:
             type: string
             required: true
@@ -190,6 +196,9 @@ def vc_registration(request):
             required: true
             regex: '(https?:\/\/(?:www\.|(?!www))[^\s\.]+\.[^\s]{2,}|www\.[^\s]+\.[^\s]{2,})'
             minlength: 6
+        currency_select:
+            type: string
+            required: true
 
         '''
         v = Validator()
@@ -197,11 +206,23 @@ def vc_registration(request):
         schema = yaml.load(request_schema, Loader=yaml.SafeLoader)
         if v.validate(post_data, schema):
                 try:
+                    if currency_select == 'usd':
+                        deal_size_range_min_in_usd = float(deal_size_range_min)
+                        deal_size_range_max_in_usd = float(deal_size_range_max)
+                        # Convert USD to crores (assuming conversion rate of 1 USD = 0.0071 crores)
+                        deal_size_range_min_in_crores = deal_size_range_min_in_usd * 0.0071
+                        deal_size_range_max_in_crores = deal_size_range_max_in_usd * 0.0071
+                    else:
+                        # Currency is crore, no conversion needed
+                        deal_size_range_min_in_crores = float(deal_size_range_min)
+                        deal_size_range_max_in_crores = float(deal_size_range_max)
                     new_vc_registration = VCRegistrations.objects.create(
                         partner_name = partner_name,
                         firm_name = firm_name,
-                        deal_size_range_min = deal_size_range_min,
-                        deal_size_range_max = deal_size_range_max,
+                        designation = designation,
+                        deal_size_range_min=deal_size_range_min_in_crores,
+                        deal_size_range_max=deal_size_range_max_in_crores,
+                        deal_size_range=deal_size_range_min_in_crores,  # Assigning to deal_size_range
                         portfolio_size = portfolio_size,
                         email = email,
                         mobile = mobile,
@@ -320,6 +341,10 @@ def vc_registration_details(request):
                                                                         <div class="fw-bold fs-5">"""+escape(vc.partner_name)+"""</div>
                                                                     </div>
                                                                     <!--end::Company description-->
+                                                                    <div class="d-flex flex-column gap-1">
+                                                                        <div class="fw-bold text-muted">designation</div>
+                                                                        <div class="fw-bold fs-5">"""+escape(vc.designation)+"""</div>
+                                                                    </div>
                                                                     <!--begin::market_size-->
                                                                     <div class="d-flex flex-column gap-1">
                                                                         <div class="fw-bold text-muted">Market size</div>

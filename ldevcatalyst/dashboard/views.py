@@ -10,6 +10,8 @@ from django.http import HttpResponseNotAllowed
 from registrations.models import StartUpRegistrations
 from django.db.models import Count
 from django.contrib import messages
+from registrations.models import ResearcherRegistrations,StartUpRegistrations,VCRegistrations
+from meetings.models import MeetingRequests
 
 def custom_login(request,):
     if request.user.is_authenticated:
@@ -53,5 +55,15 @@ def dashboard_index(request):
     # messages.info(request, 'This is an info message.')
 
     # messages.warning(request, 'This is a warning message.')
-    return render(request,'dashboard/dashboard.html',context={})
+    sme_count = ResearcherRegistrations.objects.all().count()
+    startup_count = StartUpRegistrations.objects.all().count()
+    vc_count = VCRegistrations.objects.all().count()
+    meeting_count = MeetingRequests.objects.all().count()
+    data = {
+        'sme_count': sme_count,
+        'startup_count': startup_count,
+        'vc_count': vc_count,
+        'meeting_count': meeting_count
+    }
+    return render(request,'dashboard/dashboard.html',context=data)
 

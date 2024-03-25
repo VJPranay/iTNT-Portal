@@ -143,14 +143,6 @@
 										<!--begin::Input group-->
 										<div class="fv-row mb-10">
 											<!--begin::Label-->
-											<label class="form-label required">Partner Name</label>
-											<!--end::Label-->
-											<!--begin::Input-->
-											<input name="partner_name" class="form-control form-control-lg form-control-solid" placeholder="Your name" value="" />
-											<!--end::Input-->
-										</div>
-										<div class="fv-row mb-10">
-											<!--begin::Label-->
 											<label class="form-label required">Firm Name</label>
 											<!--end::Label-->
 											<!--begin::Input-->
@@ -159,48 +151,55 @@
 										</div>
 										<div class="fv-row mb-10">
 											<!--begin::Label-->
-											<label class="form-label required">Deal Size Range</label>
+											<label class="form-label required">Partner Name</label>
 											<!--end::Label-->
-											<!--begin::Inputs-->
-											<div class="row">
-												<!-- Minimum Value Dropdown -->
-												<div class="col">
-													<select id="deal_size_range_min" name="deal_size_range_min" class="form-select form-select-lg form-select-solid" onchange="checkMinMax()">
-														<option value="1">1 Cr</option>
-														<option value="10">10 Cr</option>
-														<option value="20">20 Cr</option>
-														<option value="20">30 Cr</option>
-														<option value="30">40 Cr</option>
-														<option value="40">50 Cr</option>
-														<option value="50">60 Cr</option>
-														<option value="60">70 Cr</option>
-														<option value="70">80 Cr</option>
-														<option value="80">80 Cr</option>
-														<option value="90">90 Cr</option>
-														<option value="100">110 Cr</option>
-
-													</select>
-												</div>
-												<!-- Maximum Value Input -->
-												<div class="col">
-													<select id="deal_size_range_max" name="deal_size_range_max" class="form-select form-select-lg form-select-solid" onchange="checkMinMax()">
-														<option value="1">1 Cr</option>
-														<option value="10">10 Cr</option>
-														<option value="20">20 Cr</option>
-														<option value="20">30 Cr</option>
-														<option value="30">40 Cr</option>
-														<option value="40">50 Cr</option>
-														<option value="50">60 Cr</option>
-														<option value="60">70 Cr</option>
-														<option value="70">80 Cr</option>
-														<option value="80">80 Cr</option>
-														<option value="90">90 Cr</option>
-														<option value="100">110 Cr</option>
-													</select>
-												</div>
-											</div>
-											<!--end::Inputs-->
+											<!--begin::Input-->
+											<input name="partner_name" class="form-control form-control-lg form-control-solid" placeholder="Your name" value="" />
+											<!--end::Input-->
 										</div>
+										<div class="fv-row mb-10">
+											<!--begin::Label-->
+											<label class="form-label required">Designation</label>
+											<!--end::Label-->
+											<!--begin::Input-->
+											<input name="designation" class="form-control form-control-lg form-control-solid" placeholder="Your designation" value="" />
+											<!--end::Input-->
+										</div>
+
+										<div class="fv-row mb-10">
+											<!--begin::Label-->
+											<label class="form-label required">Deal Size Range (USD)</label>
+											<!--end::Label-->
+											<!--begin::Input-->
+											<div class="input-group">
+												<input id="deal_size_range_input_usd" name="deal_size_range_usd" class="form-control form-control-lg form-control-solid" placeholder="Enter amount in USD" value="" type="number" oninput="updateDealSizeRange('usd', this.value)" />
+											</div>
+											<!--end::Input-->
+											<!-- Display equivalent amount in crores -->
+											<div id="equivalent_amount_usd" class="mt-2 text-muted"></div>
+										</div>
+										
+										<script>
+											function updateDealSizeRange(currency, amount) {
+												var equivalentAmountInCrores = 0;
+												
+												if (currency === 'usd') {
+													// Convert USD to crores (assuming 1 USD = 0.0071 crores)
+													equivalentAmountInCrores = amount * 0.0071;
+												} else if (currency === 'crore') {
+													// If the user selects crores, keep the same amount
+													equivalentAmountInCrores = amount;
+												}
+												
+												// Update the displayed value beside the input field
+												var equivalentAmountDisplay = equivalentAmountInCrores.toLocaleString('en-IN') + ' Crores';
+												var equivalentAmountElement = document.getElementById('equivalent_amount_usd');
+												equivalentAmountElement.innerText = equivalentAmountDisplay;
+											}
+										</script>
+										
+										
+										
 										
 										<div class="fv-row mb-10">
 											<!--begin::Label-->
@@ -215,7 +214,7 @@
 											<label class="form-label required">State</label>
 											<!--end::Label-->
 											<!--begin::Input-->
-											<select name="location_state" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="true" onchange="fetchDistricts(this.value)">
+											<select name="location_state" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="false" onchange="fetchDistricts(this.value)">
 												<option>Select state</option>
 												{% for state in states %}
 												<option value="{{state.state_id}}">{{state.state_value}}</option>
@@ -228,12 +227,14 @@
 											<label class="form-label required">District</label>
 											<!--end::Label-->
 											<!--begin::Input-->
-											<select id="districtshere" name="location_district" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="true">
+											<select id="districtshere" name="location_district" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="false">
 												<option value=""></option>
 											</select>
 											<!--end::Input-->
 										</div>
-										<div class="fv-row mb-10">
+
+
+										<div class="fv-row mb-10" id="dynamicAreaOfInterestContainer">
 											<!--begin::Label-->
 											<label class="form-label required">Area of interest for collaboration</label>
 											<!--end::Label-->
@@ -244,8 +245,38 @@
 												{%endfor%}
 											</select>
 											<!--end::Input-->
+											<!-- Button to add another area of interest -->
+											<button type="button" id="addAreaOfInterestBtn" class="btn btn-primary mt-2">Add another Area of Interest</button>
 										</div>
-										<div class="fv-row mb-10">
+										
+										<script>
+											document.getElementById("addAreaOfInterestBtn").addEventListener("click", function() {
+												var newAreaOfInterestField = document.createElement("div");
+												newAreaOfInterestField.className = "fv-row mb-10";
+												newAreaOfInterestField.innerHTML = `
+													<label class="form-label required">Area of interest for collaboration</label>
+													<select name="collaboration_sector" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="true">
+														{% for area_of_interest in area_of_interests %}
+														<option value="{{area_of_interest.area_of_interest_id}}">{{area_of_interest.area_of_interest_value}}</option>
+														{%endfor%}
+													</select>
+													<button type="button" class="btn btn-danger mt-2 removeAreaOfInterestBtn">Remove</button>
+												`;
+										
+												// Append new area of interest field to the container
+												document.getElementById("dynamicAreaOfInterestContainer").appendChild(newAreaOfInterestField);
+										
+												// Add event listener to remove button
+												newAreaOfInterestField.querySelector(".removeAreaOfInterestBtn").addEventListener("click", function() {
+													newAreaOfInterestField.remove();
+												});
+											});
+										</script>
+										
+										
+
+										
+										<div class="fv-row mb-10" id="dynamicInvestmentStageContainer">
 											<!--begin::Label-->
 											<label class="form-label required">Preferred Investment Stage</label>
 											<!--end::Label-->
@@ -256,7 +287,46 @@
 												{%endfor%}
 											</select>
 											<!--end::Input-->
+											<!-- Button to add another investment stage -->
+											<button type="button" id="addInvestmentStageBtn" class="btn btn-primary mt-2">Add another Investment Stage</button>
 										</div>
+										
+										<script>
+											document.getElementById("addInvestmentStageBtn").addEventListener("click", function() {
+												var newInvestmentStageField = document.createElement("div");
+												newInvestmentStageField.className = "fv-row mb-10";
+												newInvestmentStageField.innerHTML = `
+													<label class="form-label required">Preferred Investment Stage</label>
+													<select name="funding_stage_id" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="true">
+														{% for preferred_investment_stage in preferred_investment_stages %}
+														<option value="{{preferred_investment_stage.preferred_investment_stage_id}}">{{preferred_investment_stage.preferred_investment_stage_value}}</option>
+														{%endfor%}
+													</select>
+													<button type="button" class="btn btn-danger mt-2 removeInvestmentStageBtn">Remove</button>
+												`;
+										
+												// Append new investment stage field to the container
+												document.getElementById("dynamicInvestmentStageContainer").appendChild(newInvestmentStageField);
+										
+												// Add event listener to remove button
+												newInvestmentStageField.querySelector(".removeInvestmentStageBtn").addEventListener("click", function() {
+													newInvestmentStageField.remove();
+												});
+											});
+										</script>
+										<div class="fv-row mb-10">
+											<label class="form-label required">Select Portfolio Document (PDF only, max 20MB)</label>
+											<div class="card h-100 flex-center bg-light-primary border-primary border border-dashed p-8">
+												<!--begin::Image-->
+												<img src="/innovation-portal/static/assets/media/svg/files/upload.svg" class="mb-5" alt="" />
+												<!--end::Image-->
+												<!--begin::Link-->
+												<input type="file" name="portfolio_document" id="portfolioDocumentFile" class="text-hover-primary fs-5 fw-bold mb-2" accept=".pdf" onchange="validateFile(this)">
+												<!--end::Link-->
+											</div>
+											<!--end::Card-->
+										</div>
+										
 										
 									</div>
 									<!--end::Wrapper-->
@@ -302,7 +372,7 @@
 											<label class="form-label required">Website</label>
 											<!--end::Label-->
 											<!--begin::Input-->
-											<input type="text" class="form-control form-control-lg form-control-solid" name="company_website" placeholder="Company website" value="https://" />
+											<input type="text" class="form-control form-control-lg form-control-solid" name="company_website" placeholder="Company website" value=" " />
 											{% csrf_token %}
 											<!--end::Input-->
 										</div>
@@ -313,7 +383,7 @@
 											<label class="form-label required">LinkedIn</label>
 											<!--end::Label-->
 											<!--begin::Input-->
-											<input type="text" class="form-control form-control-lg form-control-solid" name="linkedin_profile" placeholder="LinkedIn" value="https://" />
+											<input type="text" class="form-control form-control-lg form-control-solid" name="linkedin_profile" placeholder="LinkedIn" value=" " />
 											{% csrf_token %}
 											<!--end::Input-->
 										</div>

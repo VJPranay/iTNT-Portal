@@ -1,0 +1,147 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+
+{% block page_content %}
+<div class="d-flex flex-column flex-column-fluid">
+    <!--begin::Content-->
+    <div id="kt_app_content" class="app-content flex-column-fluid">
+        <!--begin::Row-->
+        <div class="card" style="padding:20px;">
+            <div class="container">
+                <div class="row g-5 g-xl-10 mb-xl-10">
+                    <div class="col-lg-12">
+                        <!-- Table for Meeting Counts by VC -->
+                        <h2 class="mt-4 mb-3 text-center fw-bold">Meeting Counts by VC</h2>
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover text-center">
+                                <thead>
+                                    <tr>
+                                        <strong><th scope="col">VC Firm Name</th></strong>
+                                        <th scope="col">Total Meetings</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for item in meeting_counts_vc %}
+                                    <tr>
+                                        <td>{{ item.vc__firm_name }}</td>
+                                        <td>{{ item.total_meetings }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="row g-5 g-xl-10 mb-xl-10">
+                    <div class="col-lg-6">
+                        <!-- Bar Chart for Meeting Counts by VC -->
+                        <h2 class="mt-4 mb-3 text-center fw-bold">Distribution by VC</h2>
+                        <canvas id="barChart" width="400" height="200"></canvas>
+                    </div>
+                    <div class="col-lg-6">
+                        <!-- Pie Chart for Meeting Counts by VC -->
+                        <h2 class="mt-4 mb-3 text-center fw-bold">VC</h2>
+                        <canvas id="pieChart" width="400" height="200"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card mt-5" style="padding:20px;">
+            <div class="card-body">
+                <h1 class="card-title text-center fw-bold">Startup Qualified for Next Round</h1>
+            </div>
+            <div class="container">
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover text-center">
+                        <thead>
+                            <tr>
+                                <th scope="col">S.No</th>
+                                <th scope="col">Startup Name</th>
+                                <th scope="col">VC Name</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in startups_next_level %}
+                            <tr>
+                                <td>{{ item.index }}</td>
+                                <td>{{ item.start_up.name }}</td>
+                                <td>{{ item.vc.firm_name }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block custom_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var barChartCanvas = document.getElementById('barChart').getContext('2d');
+        var pieChartCanvas = document.getElementById('pieChart').getContext('2d');
+
+        var vcFirmNames = [];
+        var totalMeetings = [];
+
+        {% for item in meeting_counts_vc %}
+        vcFirmNames.push("{{ item.vc__firm_name }}");
+        totalMeetings.push({{ item.total_meetings }});
+        {% endfor %}
+
+        var barChart = new Chart(barChartCanvas, {
+            type: 'bar',
+            data: {
+                labels: vcFirmNames,
+                datasets: [{
+                    label: 'Total Meetings by VC',
+                    data: totalMeetings,
+                    backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        var pieChart = new Chart(pieChartCanvas, {
+            type: 'pie',
+            data: {
+                labels: vcFirmNames,
+                datasets: [{
+                    label: 'Total Meetings by VC',
+                    data: totalMeetings,
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.6)',
+                        'rgba(54, 162, 235, 0.6)',
+                        'rgba(255, 206, 86, 0.6)',
+                        'rgba(75, 192, 192, 0.6)',
+                        'rgba(153, 102, 255, 0.6)',
+                        'rgba(255, 159, 64, 0.6)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            }
+        });
+    });
+</script>
+{% endblock %}

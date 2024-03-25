@@ -2,7 +2,13 @@ from django.db import models
 from datarepo.models import AreaOfInterest,PreferredInvestmentStage,Department,Institution,District,State,IndustryCategory,RevenueStage,ProductDevelopmentStage,PrimaryBusinessModel,FundRaised
 import uuid
 
-
+def validate_file_size(value):
+    """
+    Validate that the file size is less than or equal to 20MB (20 * 1024 * 1024 bytes).
+    """
+    max_size = 20 * 1024 * 1024  # 20MB in bytes
+    if value.size > max_size:
+        raise ValidationError('File size cannot exceed 20MB.')
 
 class PatentInfo(models.Model):
     number = models.CharField(max_length=50,blank=True, null=True)
@@ -22,10 +28,12 @@ class PublicationInfo(models.Model):
 class VCRegistrations(models.Model):
     partner_name = models.CharField(max_length=100,blank=True, null=True)
     firm_name = models.CharField(max_length=100,blank=True, null=True)
+    designation = models.CharField(max_length=100,blank=True, null=True)
     email = models.EmailField(blank=True, null=True)
     mobile = models.CharField(max_length=15,blank=True, null=True)
     deal_size_range_min = models.PositiveIntegerField(blank=True, null=True)
     deal_size_range_max = models.PositiveIntegerField(blank=True, null=True)
+    deal_size_range=models.PositiveBigIntegerField(blank=True, null=True)
     portfolio_size = models.PositiveIntegerField(blank=True, null=True)
     district = models.ForeignKey(District, on_delete=models.SET_NULL,blank=True, null=True)
     state = models.ForeignKey(State, on_delete=models.SET_NULL,blank=True, null=True)
@@ -35,6 +43,7 @@ class VCRegistrations(models.Model):
     linkedin_profile = models.URLField(blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+    company_portfolio_document = models.FileField(upload_to='portfolio_documents/', validators=[validate_file_size], blank=True, null=True)
     registration_id = models.CharField(max_length=100,unique=True)
     status = models.CharField(
         max_length=10,
