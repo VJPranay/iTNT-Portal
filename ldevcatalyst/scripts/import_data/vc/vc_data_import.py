@@ -42,7 +42,7 @@ def import_vc_data(csv_file_path):
                 company_website=row[11],
                 linkedin_profile=row[12],
                 registration_id=reg_id,
-                status=row[14],
+                status=row[14], 
                 data_source='csv'
             )
 
