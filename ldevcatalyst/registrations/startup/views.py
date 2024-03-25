@@ -489,7 +489,7 @@ def fetch_startup_registration_details(request):
                             <!--begin::Proof of Document-->
                             <div class="d-flex flex-column gap-1">
                                 <div class="fw-bold text-muted">Proof of Document</div>
-                                <a href="{startup.product_development_stage_document.url}" target="_blank" rel="noopener noreferrer">Click here to view</a>
+                                <a href="{startup.product_development_stage_document.ur if startup.product_development_stage_document else ''}" target="_blank" rel="noopener noreferrer">Click here to view</a>
                             </div>
                             <!--end::Proof of Document-->
                             <!--begin::Video Link-->
@@ -501,7 +501,7 @@ def fetch_startup_registration_details(request):
                             <!--begin::Pitch Deck-->
                             <div class="d-flex flex-column gap-1">
                                 <div class="fw-bold text-muted">Pitch Deck</div>
-                                <a href="{startup.pitch_deck.url}" target="_blank" rel="noopener noreferrer">Click here to view</a>
+                                <a href="{startup.pitch_deck.url if startup.pitch_deck else ''}" target="_blank" rel="noopener noreferrer">Click here to view</a>
                             </div>
                             <!--end::Pitch Deck-->
                         </div>
