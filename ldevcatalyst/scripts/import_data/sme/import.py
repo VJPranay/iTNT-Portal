@@ -65,7 +65,7 @@ def import_researcher_data(csv_file_path):
                                 a = AreaOfInterest.objects.get(name=area_name.strip())
                                 researcher.area_of_interest.add(a)
                             except AreaOfInterest.DoesNotExist:
-                                a = AreaOfInterest.objects.create(name=area_name.strip())
+                                a = AreaOfInterest.objects.create(name=area_name.strip(),is_approved=True)
                                 researcher.area_of_interest.add(a)
                             except AreaOfInterest.MultipleObjectsReturned:
                                 a = AreaOfInterest.objects.filter(name=area_name.strip()).first()
