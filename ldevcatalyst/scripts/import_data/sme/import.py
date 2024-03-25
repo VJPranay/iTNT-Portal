@@ -61,10 +61,18 @@ def import_researcher_data(csv_file_path):
                         
                         areas_of_interest = row[9].split(',')
                         for area_name in areas_of_interest:
-                            print(area_name)
-                            area_obj, created = AreaOfInterest.objects.get_or_create(name=area_name.strip())
-                            researcher.area_of_interest.add(area_obj)
-
+                            try:
+                                a = AreaOfInterest.objects.get(name=area_name.strip())
+                                researcher.area_of_interest.add(a)
+                            except AreaOfInterest.DoesNotExist:
+                                a = AreaOfInterest.objects.create(name=area_name.strip())
+                                researcher.area_of_interest.add(a)
+                            except AreaOfInterest.MultipleObjectsReturned:
+                                a = AreaOfInterest.objects.filter(name=area_name.strip()).first()
+                                a.delete()
+                                b = AreaOfInterest.objects.get(name=area_name.strip())
+                                researcher.area_of_interest.add(b)
+                            researcher.save()
                         # Add patents
                         patents_data = zip(
                             row[15::4],
@@ -100,7 +108,7 @@ def import_researcher_data(csv_file_path):
     return 'Data imported successfully'
 
 # Usage example
-#csv_file_path = '/opt/portal/iTNT-Portal/ldevcatalyst/scripts/import_data/sme/3000sme.csv'
-csv_file_path = '/Users/vj/itnt/iTNT-Portal/ldevcatalyst/scripts/import_data/sme/3000sme.csv'
+csv_file_path = '/opt/portal/iTNT-Portal/ldevcatalyst/scripts/import_data/sme/3000sme.csv'
+#csv_file_path = '/Users/vj/itnt/iTNT-Portal/ldevcatalyst/scripts/import_data/sme/3000sme.csv'
 result_message = import_researcher_data(csv_file_path)
 print(result_message)
