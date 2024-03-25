@@ -420,7 +420,7 @@ def fetch_startup_registration_details(request):
                         <!--begin::Email-->
                         <div class="d-flex align-items-center gap-2">
                             <i class="ki-outline ki-sms fs-2"></i>
-                            <a href="#" class="text-muted text-hover-primary">{escape(startup.area_of_interest.name if startup.area_of_interest else '')}</a>
+                            <a href="#" class="text-muted text-hover-primary">{escape(startup.required_amount)}</a>
                         </div>
                         <!--end::Email-->
                         <!--begin::Phone-->
@@ -452,22 +452,19 @@ def fetch_startup_registration_details(request):
                         <div class="d-flex flex-column gap-5 mt-7">
                             <!--begin::Company description-->
                             <div class="d-flex flex-column gap-1">
+                                <div class="fw-bold text-muted">Funding request amount</div>
+                                <div class="fw-bold fs-5">{escape(startup.required_amount)}</div>
+                            </div>
+                            <div class="d-flex flex-column gap-1">
                                 <div class="fw-bold text-muted">Description</div>
                                 <div class="fw-bold fs-5">{escape(startup.description)}</div>
                             </div>
                             <!--end::Company description-->
                             <!--begin::Required Amount-->
                             <div class="d-flex flex-column gap-1">
-                                <div class="fw-bold text-muted">Required Amount</div>
-                                <div class="fw-bold fs-5">{escape(startup.required_amount)}</div>
-                            </div>
-                            <!--end::Required Amount-->
-                            <!--begin::Area of Interest-->
-                            <div class="d-flex flex-column gap-1">
                                 <div class="fw-bold text-muted">Area of Interest</div>
                                 <div class="fw-bold fs-5">{escape(startup.area_of_interest.name if startup.area_of_interest else '')}</div>
                             </div>
-                            <!--end::Area of Interest-->
                             <!--begin::Preferred Investment Stage-->
                             <div class="d-flex flex-column gap-1">
                                 <div class="fw-bold text-muted">Preferred Investment Stage</div>
@@ -489,7 +486,7 @@ def fetch_startup_registration_details(request):
                             <!--begin::Proof of Document-->
                             <div class="d-flex flex-column gap-1">
                                 <div class="fw-bold text-muted">Proof of Document</div>
-                                <a href="{startup.product_development_stage_document.ur if startup.product_development_stage_document else ''}" target="_blank" rel="noopener noreferrer">Click here to view</a>
+                                <a href="{startup.product_development_stage_document.url if startup.product_development_stage_document else ''}" target="_blank" rel="noopener noreferrer">Click here to view</a>
                             </div>
                             <!--end::Proof of Document-->
                             <!--begin::Video Link-->
@@ -501,7 +498,7 @@ def fetch_startup_registration_details(request):
                             <!--begin::Pitch Deck-->
                             <div class="d-flex flex-column gap-1">
                                 <div class="fw-bold text-muted">Pitch Deck</div>
-                                <a href="{startup.pitch_deck.url if startup.pitch_deck else ''}" target="_blank" rel="noopener noreferrer">Click here to view</a>
+                                <a href="{startup.pitch_deck}" target="_blank" rel="noopener noreferrer">Click here to view</a>
                             </div>
                             <!--end::Pitch Deck-->
                         </div>
