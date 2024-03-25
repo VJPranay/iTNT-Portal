@@ -139,7 +139,7 @@ class StartUpRegistrations(models.Model):
                  ],
         default='pending',
     )
-    is_old = models.BooleanField(default=True)
+    is_old = models.BooleanField(default=False)
     def save(self, *args, **kwargs):
         if not self.registration_id:
             # Generate a unique registration ID
