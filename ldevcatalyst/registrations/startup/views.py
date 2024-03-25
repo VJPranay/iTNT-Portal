@@ -410,7 +410,7 @@ def fetch_startup_registration_details(request):
                 <!--begin::Profile-->
                 <div class="d-flex gap-7 align-items-center">
                     <!--begin::Logo-->
-                    <img src="{startup.company_logo.url if startup.company_logo else ''}" alt="{escape(startup.name)}" class="symbol symbol-circle symbol-100px">
+                    <img src="{startup.company_logo.url if startup.company_logo else ''}" alt="{escape(startup.name)}" style="width: 150px;height: auto;" >
                     <!--end::Logo-->
                     <!--begin::Contact details-->
                     <div class="d-flex flex-column gap-2">
