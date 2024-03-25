@@ -59,20 +59,23 @@ def import_researcher_data(csv_file_path):
                         
                         # Add area of interest
                         
-                        areas_of_interest = row[9].split(',')
-                        for area_name in areas_of_interest:
-                            try:
-                                a = AreaOfInterest.objects.get(name=area_name.strip())
+                        areas_of_interest = row[9]
+                        
+                        try:
+                                a = AreaOfInterest.objects.get(name=areas_of_interest.strip())
                                 researcher.area_of_interest.add(a)
-                            except AreaOfInterest.DoesNotExist:
-                                a = AreaOfInterest.objects.create(name=area_name.strip(),is_approved=True)
+                                print("worked",areas_of_interest)
+                        except AreaOfInterest.DoesNotExist:
+                                a = AreaOfInterest.objects.create(name=areas_of_interest.strip(),is_approved=True)
                                 researcher.area_of_interest.add(a)
-                            except AreaOfInterest.MultipleObjectsReturned:
-                                a = AreaOfInterest.objects.filter(name=area_name.strip()).first()
+                                print("new",areas_of_interest)
+                        except AreaOfInterest.MultipleObjectsReturned:
+                                a = AreaOfInterest.objects.filter(name=areas_of_interest.strip()).first()
                                 a.delete()
-                                b = AreaOfInterest.objects.get(name=area_name.strip())
+                                b = AreaOfInterest.objects.get(name=areas_of_interest.strip())
                                 researcher.area_of_interest.add(b)
-                            researcher.save()
+                                print("mul",areas_of_interest)
+                        researcher.save()
                         # Add patents
                         patents_data = zip(
                             row[15::4],
