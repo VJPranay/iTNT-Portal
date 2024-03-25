@@ -51,25 +51,26 @@ def import_researcher_data(csv_file_path):
                             state=state_info,
                             email=row[6],
                             mobile=row[7],
-                            highest_qualification=row[9],
-                            status=row[11],
+                            highest_qualification=row[10],
                             data_source='csv',
                             registration_id=reg_id
                         )
                         researcher.save()
                         
                         # Add area of interest
-                        areas_of_interest = row[8].split(',')
+                        
+                        areas_of_interest = row[9].split(',')
                         for area_name in areas_of_interest:
+                            print(area_name)
                             area_obj, created = AreaOfInterest.objects.get_or_create(name=area_name.strip())
                             researcher.area_of_interest.add(area_obj)
 
                         # Add patents
                         patents_data = zip(
-                            row[12::4],
-                            row[13::4],
-                            row[14::4],
-                            row[15::4]
+                            row[15::4],
+                            row[16::4],
+                            row[17::4],
+                            row[18::4]
                         )
                         for title, inventors, filing_date, status in patents_data:
                             patent = PatentInfo.objects.create(
@@ -82,9 +83,9 @@ def import_researcher_data(csv_file_path):
 
                         # Add publication
                         publication = PublicationInfo.objects.create(
-                            title=row[16],
-                            paper_link=row[17],
-                            journal=row[18],
+                            title=row[11],
+                            paper_link=row[12],
+                            journal=row[13],
                         )
                         researcher.publications = publication
 
@@ -99,6 +100,7 @@ def import_researcher_data(csv_file_path):
     return 'Data imported successfully'
 
 # Usage example
-csv_file_path = '/opt/portal/iTNT-Portal/ldevcatalyst/scripts/import_data/sme/3000sme.csv'
+#csv_file_path = '/opt/portal/iTNT-Portal/ldevcatalyst/scripts/import_data/sme/3000sme.csv'
+csv_file_path = '/Users/vj/itnt/iTNT-Portal/ldevcatalyst/scripts/import_data/sme/3000sme.csv'
 result_message = import_researcher_data(csv_file_path)
 print(result_message)
