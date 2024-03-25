@@ -259,19 +259,19 @@ def vc_registration(request):
             {
                 'preferred_investment_stage_id' : x.id,
                 'preferred_investment_stage_value' : x.name,
-            } for x in PreferredInvestmentStage.objects.all()
+            } for x in PreferredInvestmentStage.objects.all().order_by('name')
         ],
         'states' : [
             {
                 'state_id' : x.id,
                 'state_value' : x.name,
-            } for x in State.objects.all()
+            } for x in State.objects.all().order_by('name')
         ],
         'area_of_interests' : [
             {
                 'area_of_interest_id' : x.id,
                 'area_of_interest_value' : x.name,
-            } for x in AreaOfInterest.objects.filter(is_approved=True)    
+            } for x in AreaOfInterest.objects.filter(is_approved=True).order_by('name')    
         ]})
         
         

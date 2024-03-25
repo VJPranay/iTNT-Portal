@@ -237,19 +237,19 @@ def student_registration(request):
             {
                 'state_id' : x.id,
                 'state_value' : x.name,
-            } for x in State.objects.all()
+            } for x in State.objects.all().order_by('name')
         ],
         'area_of_interests' : [
             {
                 'area_of_interest_id' : x.id,
                 'area_of_interest_value' : x.name,
-            } for x in AreaOfInterest.objects.filter(is_approved=True)  
+            } for x in AreaOfInterest.objects.filter(is_approved=True)
         ],
         'departments' : [
             {
                 'department_id' : x.id,
                 'department_value' : x.name,
-            } for x in Department.objects.all()
+            } for x in Department.objects.all().order_by('name')
         ],
         'institutions' : [
             {
