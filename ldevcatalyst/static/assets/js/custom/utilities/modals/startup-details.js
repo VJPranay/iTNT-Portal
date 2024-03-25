@@ -7,6 +7,7 @@ var KTModalNewAddress = function () {
     var modal;
     var modalEl;
 
+    
     // Function to make a POST request
     var fetchStartupDetails = function(startupId) {
         // Prepare data for the POST request

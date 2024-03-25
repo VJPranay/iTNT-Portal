@@ -34,6 +34,7 @@ class VCRegistrations(models.Model):
     deal_size_range_min = models.PositiveIntegerField(blank=True, null=True)
     deal_size_range_max = models.PositiveIntegerField(blank=True, null=True)
     deal_size_range=models.PositiveBigIntegerField(blank=True, null=True)
+    deal_size_range_usd = models.PositiveBigIntegerField(blank=True, null=True)
     portfolio_size = models.PositiveIntegerField(blank=True, null=True)
     district = models.ForeignKey(District, on_delete=models.SET_NULL,blank=True, null=True)
     state = models.ForeignKey(State, on_delete=models.SET_NULL,blank=True, null=True)
