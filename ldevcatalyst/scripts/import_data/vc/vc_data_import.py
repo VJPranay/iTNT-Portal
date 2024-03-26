@@ -4,6 +4,7 @@ from datarepo.models import District, State, AreaOfInterest, PreferredInvestment
 from registrations.models import VCRegistrations  # Assuming VCRegistrations is in a 'vc' app
 import uuid
 
+
 @transaction.atomic
 def import_vc_data(csv_file_path):
     with open(csv_file_path, 'r') as file:
@@ -11,8 +12,8 @@ def import_vc_data(csv_file_path):
         next(reader)  # Skip the header row
         for row in reader:
             # Create or get District and State objects
-            district, _ = District.objects.get_or_create(name=row[9])
-            state, _ = State.objects.get_or_create(name=row[10], defaults={'district': district})
+            district, _ = District.objects.get_or_create(name=row[7])
+            state, _ = State.objects.get_or_create(name=row[8], defaults={'district': district})
 
             # Create or get Area of Interest objects
             areas_of_interest_names = row[9].split(',')
@@ -42,7 +43,6 @@ def import_vc_data(csv_file_path):
                 company_website=row[11],
                 linkedin_profile=row[12],
                 registration_id=reg_id,
-                status=row[14], 
                 data_source='csv'
             )
 
