@@ -1,0 +1,220 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="HtmlUnknownTag" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="myValues">
+        <value>
+          <list size="7">
+            <item index="0" class="java.lang.String" itemvalue="nobr" />
+            <item index="1" class="java.lang.String" itemvalue="noembed" />
+            <item index="2" class="java.lang.String" itemvalue="comment" />
+            <item index="3" class="java.lang.String" itemvalue="noscript" />
+            <item index="4" class="java.lang.String" itemvalue="embed" />
+            <item index="5" class="java.lang.String" itemvalue="script" />
+            <item index="6" class="java.lang.String" itemvalue="a" />
+          </list>
+        </value>
+      </option>
+      <option name="myCustomValuesEnabled" value="true" />
+    </inspection_tool>
+    <inspection_tool class="PyPackageRequirementsInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredPackages">
+        <value>
+          <list size="2">
+            <item index="0" class="java.lang.String" itemvalue="PyJWT" />
+            <item index="1" class="java.lang.String" itemvalue="djangorestframework-simplejwt" />
+          </list>
+        </value>
+      </option>
+    </inspection_tool>
+    <inspection_tool class="PyPep8Inspection" enabled="true" level="WEAK WARNING" enabled_by_default="true">
+      <option name="ignoredErrors">
+        <list>
+          <option value="E501" />
+          <option value="E402" />
+        </list>
+      </option>
+    </inspection_tool>
+    <inspection_tool class="PyPep8NamingInspection" enabled="true" level="WEAK WARNING" enabled_by_default="true">
+      <option name="ignoredErrors">
+        <list>
+          <option value="N812" />
+          <option value="N813" />
+          <option value="N802" />
+          <option value="N806" />
+        </list>
+      </option>
+    </inspection_tool>
+    <inspection_tool class="PyUnresolvedReferencesInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredIdentifiers">
+        <list>
+          <option value="isuzu_parts.datarepo.models.Parts.objects" />
+          <option value="isuzu_parts.datarepo.models.Parts.DoesNotExist" />
+          <option value="isuzu_parts.isuzu_parts.vehicles.models.Vehicle.objects" />
+          <option value="isuzu_parts.isuzu_parts.offers.models.Offer.objects" />
+          <option value="isuzu_parts.isuzu_parts.offers.models.Offer.DoesNotExist" />
+          <option value="isuzu_parts.isuzu_parts.users.models.Address.DoesNotExist" />
+          <option value="isuzu_parts.isuzu_parts.inventory.models.users" />
+          <option value="isuzu_parts.isuzu_parts.inventory.models.PickupLocation.objects" />
+          <option value="isuzu_parts.isuzu_parts.inventory.models.PickupLocation.DoesNotExist" />
+          <option value="isuzu_parts.isuzu_parts.support.models.ProductEnquiry.objects" />
+          <option value="isuzu_parts.isuzu_parts.orders.models.Order.objects" />
+          <option value="isuzu_parts.isuzu_parts.users.models.MpesaPhoneNumber.DoesNotExist" />
+          <option value="isuzu_parts.isuzu_parts.users.models.Help.DoesNotExist" />
+          <option value="isuzu_parts.isuzu_parts.orders.models.Order.DoesNotExist" />
+          <option value="snapdash_backend.orders.models.Orders.DoesNotExist" />
+          <option value="snapdash_backend.orders.models.Orders.objects" />
+          <option value="uber.datarepo.models.Driver.objects" />
+          <option value="uber.datarepo.models.Driver.DoesNotExist" />
+          <option value="uber.datarepo.views.HotelSerializer" />
+          <option value="snapdash_backend.orders.models.Driver.objects" />
+          <option value="django.contrib.auth.get_user_model.objects" />
+          <option value="snapdash_backend.orders.models.Order.objects" />
+          <option value="snapdash_backend.orders.models.Order.DoesNotExist" />
+          <option value="push_notifications.models.GCMDevice.DoesNotExist" />
+          <option value="django.contrib.auth.get_user_model.DoesNotExist" />
+          <option value="snapdash_backend.accounts.models.DeliveryAgent.DoesNotExist" />
+          <option value="snapdash_backend.accounts.models.DeliveryAgent.objects" />
+          <option value="isuzu_parts.isuzu_parts.inventory.models.Part.objects" />
+          <option value="isuzu_parts.isuzu_parts.inventory.models.PartImage.objects" />
+          <option value="snapdash_backend.orders.models.OrderImages.objects" />
+          <option value="snapdash_backend.orders.models.Earnings.objects" />
+          <option value="snapdash_backend.orders.models.Earnings.DoesNotExist" />
+          <option value="readycook_backend.accounts.models.UserRoles.objects" />
+          <option value="readycook_backend.accounts.models.UserRoles.DoesNotExist" />
+          <option value="readycook_backend.accounts.models.UserPermissions.objects" />
+          <option value="demo.datarepo.models.User.DoesNotExist" />
+          <option value="demo.datarepo.models.User.objects" />
+          <option value="demo.datarepo.models.Category.objects" />
+          <option value="demo.datarepo.models.Product.objects" />
+          <option value="demo.datarepo.models.Author.objects" />
+          <option value="demo.datarepo.models.Book.objects" />
+          <option value="demo.datarepo.models.UserPermissions.objects" />
+          <option value="basics.datarepo.models.User.objects" />
+          <option value="nutricraft_backend.ingredients.models.Subcategory.objects" />
+          <option value="nutricraft_backend.ingredients.models.Category.objects" />
+          <option value="nutricraft_backend.ingredients.models.Ingredients.objects" />
+          <option value="nutricraft_backend.ingredients.models.Nutrition.objects" />
+          <option value="nutricraft_backend.ingredients.models.IngredientNutrition.objects" />
+          <option value="nutricraft_backend.ingredients.models.IngredientNutrition.DoesNotExist" />
+          <option value="nutricraft_backend.ingredients.models.Ingredients.DoesNotExist" />
+          <option value="nutricraft_backend.ingredients.models.Ingredients.DoesNotExists" />
+          <option value="nutricraft_backend.recipes.models.Cuisine.objects" />
+          <option value="nutricraft_backend.recipes.models.Recipe.objects" />
+          <option value="nutricraft_backend.recipes.models.RecipeIngredients.objects" />
+          <option value="nutricraft_backend.ingredients.models.NIN.objects" />
+          <option value="nutricraft_backend.ingredients.models.Category.DoesNotExist" />
+          <option value="nutricraft_backend.ingredients.models.Test.objects" />
+          <option value="str.__pos__" />
+          <option value="nutricraft_backend.recipes.models.Recipe.DoesNotExist" />
+          <option value="nutricraft_backend.ingredients.models.Ingredients.id" />
+          <option value="nutricraft_backend.meal_plan.models.MealPlan.objects" />
+          <option value="nutricraft_backend.meal_plan.models.MealPlanRecipe.objects" />
+          <option value="nutricraft_backend.meal_plan.models.MealPlan.DoesNotExist" />
+          <option value="nutricraft_backend.meal_plan.models.MealPlanTitle.objects" />
+          <option value="nutricraft_backend.meal_plan.models.AssignMealPlan.objects" />
+          <option value="nutricraft_backend.meal_plan.models.AssignMealPlan.DoesNotExist" />
+          <option value="nutricraft_backend.recipes.models.Cuisine.DoesNotExist" />
+          <option value="internship_frontend.datarepo.models.Product.objects" />
+          <option value="nutricraft_backend.clients.models.Clients.objects" />
+          <option value="nutricraft_backend.clients.models.Clients.DoesNotExist" />
+          <option value="nutricraft_backend.clients.models.Client.objects" />
+          <option value="nutricraft_backend.clients.models.ClientRecipes.objects" />
+          <option value="nutricraft_backend.ingredients.models.IngredientNewRequest.objects" />
+          <option value="nutricraft_backend.ingredients.models.RequestIngredient.objects" />
+          <option value="nutricraft_backend.ingredients.models.RequestIngredient.DoesNotExist" />
+          <option value="ingage_backend.ingage.courses.models.Course.objects" />
+          <option value="ingage_backend.ingage.courses.models.Course.obects" />
+          <option value="ingage_backend.ingage.courses.models.Course.DoesNotExist" />
+          <option value="ingage_backend.ingage.courses.models.CourseModule.objects" />
+          <option value="ingage_backend.ingage.courses.models.CourseModule.DoesNotExist" />
+          <option value="ingage_backend.ingage.courses.models.CourseVideo.objects" />
+          <option value="nutricraft_backend.clients.models.Client.DoesNotExist" />
+          <option value="list.split" />
+          <option value="TASKv2_backend.nm_portal.student.models.Student.objects" />
+          <option value="TASKv2_backend.nm_portal.student.models.Student.DoesNotExist" />
+          <option value="internship_frontend.final_test.models.Category.objects" />
+          <option value="internship_frontend.final_test.models.BrandProduct.objects" />
+          <option value="internship_frontend.final_test.models.Brand.objects" />
+          <option value="internship_frontend.final_test.models.CategoryProduct.objects" />
+          <option value="TASKv2_backend.nm_portal.student.models.GenerateUsername.objects" />
+          <option value="TASKv2_backend.nm_portal.student.models.GenerateUsername.DoesNotExist" />
+          <option value="TASKv2_backend.nm_portal.payments.models.Payment.objects" />
+          <option value="nutricraft_backend.meal_plan.models.MealPlanTitle.DoesNotExist" />
+          <option value="nutricraft_backend.clients.models.ClientAccessType.objects" />
+          <option value="nutricraft_backend.clients.models.ClientAssignMeal.objects" />
+          <option value="nutricraft_backend.meal_plan.models.TMPN.objects" />
+          <option value="internship_frontend.datarepo.models.Product.DoesNotExist" />
+          <option value="TASKv2_backend.nm_portal.college.models.College.objects" />
+          <option value="TASKv2_backend.nm_portal.college.models.College.DoesNotExist" />
+          <option value="TASKv2_backend.nm_portal.student.models.UpdateStudentDetails.DoesNotExist" />
+          <option value="TASKv2_backend.nm_portal.student.models.UpdateStudentDetails.objects" />
+          <option value="TASKv2_backend.nm_portal.special_courses.models.SpecialCourse.objects" />
+          <option value="TASKv2_backend.nm_portal.special_courses.models.SpecialCourse.DoesNotExist" />
+          <option value="TASKv2_backend.nm_portal.workshops.models.AnnouncedWorkshop.objects" />
+          <option value="TASKv2_backend.nm_portal.workshops.models.AnnouncedWorkshop.DoesNotExist" />
+          <option value="nutricraft_backend.ingredients.models.TestingIngredient.objects" />
+          <option value="TASKv2_backend.nm_portal.announcements.models.Announcements.objects" />
+          <option value="TASKv2_backend.nm_portal.pages.models.Pages.objects" />
+          <option value="TASKv2_backend.nm_portal.homepage.models.OurPartners.objects" />
+          <option value="TASKv2_backend.nm_portal.homepage.models.News.objects" />
+          <option value="TASKv2_backend.nm_portal.homepage.models.Gallery.objects" />
+          <option value="TASKv2_backend.nm_portal.homepage.models.Images.objects" />
+          <option value="TASKv2_backend.nm_portal.homepage.models.TaskChannel.objects" />
+          <option value="learning_django.datarepo.models.Product.objects" />
+          <option value="learning_django.nutrition.models.Ingredients.objects" />
+          <option value="TASKv2_backend.nm_portal.homepage.models.Career.objects" />
+          <option value="nutricraft_backend.ingredients.models.NutritionElementUnits.objects" />
+          <option value="testing_header.datarepo.models.Newsfeed.objects" />
+          <option value="django_redis_cache.datarepo.views.URL" />
+          <option value="django_redis_cache.datarepo.views.the" />
+          <option value="demo.datarepo.models.CustomUser.DoesNotExist" />
+          <option value="ninja_jwt.tokens.Token.__setitem__" />
+          <option value="farmrobo_backend.accounts.models.CustomUser.DoesNotExist" />
+          <option value="farmrobo_backend.accounts.models.Agent.DoesNotExist" />
+          <option value="farmrobo_backend.accounts.models.Agent.objects" />
+          <option value="farmrobo_backend.datarepo.models.Crop.objects" />
+          <option value="farmrobo_backend.datarepo.models.Crop.DoesNotExist" />
+          <option value="farmrobo_backend.datarepo.models.LandProfile.DoesNotExist" />
+          <option value="farmrobo_backend.datarepo.models.LandProfile.objects" />
+          <option value="ninja.params.Form.first_name" />
+          <option value="ninja.params.Form.last_name" />
+          <option value="farmrobo_backend.datarepo.models.Service.objects" />
+          <option value="farmrobo_backend.datarepo.models.ServiceType.objects" />
+          <option value="farmrobo_backend.datarepo.models.Service.DoesNotExist" />
+          <option value="farmrobo_backend.orders.models.Order.objects" />
+          <option value="farmrobo_backend.orders.models.FrequentlyOrderedService.DoesNotExist" />
+          <option value="farmrobo_backend.orders.models.FrequentlyOrderedService.objects" />
+          <option value="farmrobo_backend.orders.models.Order.DoesNotExist" />
+          <option value="ro_backend.orders.models.PaymentDetails.objects" />
+          <option value="TASKv2_backend.nm_portal.workshops.models.Trainer.objects" />
+          <option value="TASKv2_backend.nm_portal.placements.models.PlacementTest.DoesNotExist" />
+          <option value="TASKv2_backend.nm_portal.placements.models.PlacementTest.objects" />
+          <option value="restaurant_backend.datarepo.models.Category.objects" />
+          <option value="restaurant_backend.datarepo.models.FoodItem.objects" />
+          <option value="restaurant_backend.orders.models.Order.objects" />
+          <option value="restaurant_backend.orders.models.Table.objects" />
+          <option value="restaurant_backend.orders.models.Table.DoesNotExist" />
+          <option value="restaurant_backend.orders.models.Order.DoesNotExist" />
+          <option value="restaurant_backend.orders.models.FrequentlyOrdered.objects" />
+          <option value="restaurant_backend.orders.models.FrequentlyOrdered.DoesNotExist" />
+          <option value="farmrobo_backend.orders.models.OrderHistory.objects" />
+          <option value="restaurant_backend.orders.models.OrderHistory.objects" />
+          <option value="restaurant_backend.orders.models.Feedback.objects" />
+          <option value="restaurant_backend.datarepo.models.FoodItem.DoesNotExist" />
+          <option value="farmrobo_backend.datarepo.models.AreaServices.objects" />
+          <option value="farmrobo_backend.datarepo.models.Works.objects" />
+          <option value="django.db.models.fields.IntegerField.__sub__" />
+          <option value="farmrobo_backend.datarepo.models.Works.DoesNotExist" />
+          <option value="farmrobo_backend.orders.models.Orders.objects" />
+          <option value="farmrobo_backend.accounts.models.Pilot.objects" />
+          <option value="farmrobo_backend.accounts.models.Pilot.DoesNotExist" />
+          <option value="farmrobo_backend.orders.models.Orders.DoesNotExist" />
+          <option value="farmrobo_backend.orders.models.Testimonials.objects" />
+          <option value="farmrobo_backend.orders.models.Testimonials.DoesNotExist" />
+          <option value="farmrobo_backend.orders.models.OrderHistory.DoesNotExist" />
+        </list>
+      </option>
+    </inspection_tool>
+  </profile>
+</component>
