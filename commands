@@ -10,3 +10,5 @@ source venv/bin/activate
 4. first time
 
 pip install -r req.txt
+
+5.
