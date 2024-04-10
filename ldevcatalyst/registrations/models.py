@@ -144,7 +144,7 @@ class StartUpRegistrations(models.Model):
     pitch_deck = models.FileField(upload_to='pitch_decks/', blank=True, null=True)
     product_development_stage_document = models.FileField(upload_to='product_development_stage_document/', blank=True, null=True)
     company_logo = models.FileField(upload_to='company_logo/', blank=True, null=True)
-    company_linkedin = models.CharField(max_length=255,blank=True, null=True)
+    company_linkedin = models.CharField(max_length=500,blank=True, null=True)
     video_link = models.CharField(max_length=255,blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
@@ -167,10 +167,17 @@ class StartUpRegistrations(models.Model):
             # Generate a unique registration ID
             self.registration_id = 'SURG-' + str(uuid.uuid4())[:4].upper()  # Using part of UUID to ensure uniqueness
         super().save(*args, **kwargs)
-
+    data_source = models.CharField(
+        max_length=255,
+        choices=[
+                 ('csv', 'csv'),
+                 ('registration', 'registration'),
+                 ('demo', 'demo'),
+                 ],
+        default='registration',
+    )
     class Meta:
         verbose_name_plural ="StartUpRegistrations"
-        
         
         
 class StartUpRegistrationsCoFounders(models.Model):
@@ -181,6 +188,15 @@ class StartUpRegistrationsCoFounders(models.Model):
     mobile = models.CharField(max_length=255,blank=True, null=True)
     gender = models.CharField(max_length=100,choices=[('male','Male'),('female','Female')],blank=True, null=True) 
     
+    data_source = models.CharField(
+        max_length=255,
+        choices=[
+                 ('csv', 'csv'),
+                 ('registration', 'registration'),
+                 ('demo', 'demo'),
+                 ],
+        default='registration',
+    )
     class Meta:
         verbose_name_plural ="StartUpRegistrationsCoFounders"
 class StudentRegistrations(models.Model):
@@ -206,7 +222,16 @@ class StudentRegistrations(models.Model):
             # Generate a unique registration ID
             self.registration_id = 'SDRG-' + str(uuid.uuid4())[:4].upper()  # Using part of UUID to ensure uniqueness
         super().save(*args, **kwargs)
-
+    
+    data_source = models.CharField(
+        max_length=255,
+        choices=[
+                 ('csv', 'csv'),
+                 ('registration', 'registration'),
+                 ('demo', 'demo'),
+                 ],
+        default='registration',
+    )
     class Meta:
         verbose_name_plural ="StudentRegistrations"
 class IndustryRegistrations(models.Model):
@@ -231,6 +256,16 @@ class IndustryRegistrations(models.Model):
             # Generate a unique registration ID
             self.registration_id = 'INRG-' + str(uuid.uuid4())[:4].upper()  # Using part of UUID to ensure uniqueness
         super().save(*args, **kwargs)
-        
+    
+    data_source = models.CharField(
+        max_length=255,
+        choices=[
+                 ('csv', 'csv'),
+                 ('registration', 'registration'),
+                 ('demo', 'demo'),
+                 ],
+        default='registration',
+    )
+    
     class Meta :
         verbose_name_plural ="IndustryRegistrations"

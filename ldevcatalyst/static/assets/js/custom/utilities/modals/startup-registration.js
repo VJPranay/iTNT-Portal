@@ -50,7 +50,7 @@ var KTCreateAccount = function () {
 			if (validator) {
 				validator.validate().then(function (status) {
 					console.log(validator);
-					if (status == 'Valid') {
+					if (status == 'Valid'){
 
 						stepper.goNext();
 						KTUtil.scrollTop();
@@ -351,20 +351,7 @@ var KTCreateAccount = function () {
 					// 		}
 					// 	}
 					// },
-					company_website: {
-						validators: {
-							notEmpty: {
-								message: 'Company website '
-							}
-						}
-					},
-					video_link: {
-						validators: {
-							notEmpty: {
-								message: 'Video link  '
-							}
-						}
-					},
+					
 					short_video_link: {
 						validators: {
 							notEmpty: {

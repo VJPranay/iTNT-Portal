@@ -27,7 +27,9 @@ class MeetingRequests(models.Model):
     meeting_time = models.TimeField(blank=True, null=True)
     meeting_date_time = models.DateTimeField(blank=True, null=True)
     next_level = models.CharField(max_length=255, blank=True, null=True)
-
+    
+    class Meta:
+        verbose_name_plural ="MeetingRequests"
 @receiver(pre_save, sender=MeetingRequests)
 def update_meeting_date_time(sender, instance, **kwargs):
     # Check if both meeting_date and meeting_time have values
