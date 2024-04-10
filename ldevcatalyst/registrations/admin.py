@@ -34,6 +34,42 @@ class StartUpRegistrationsCoFoundersInline(admin.TabularInline):
 @admin.register(StartUpRegistrations)
 class StartUpRegistrationsAdmin(admin.ModelAdmin):
     inlines = [StartUpRegistrationsCoFoundersInline]
+    list_display = [
+        'name',
+        'co_founder_count',
+        'founder_names',
+        'state',
+        'district',
+        'team_size',
+        'email',
+        'mobile',
+        'website',
+        'dpiit_number',
+        'area_of_interest',
+        'description',
+        'market_size',
+        'required_amount',
+        'founding_year',
+        'founding_experience',
+        'reveune_stage',
+        'primary_business_model',
+        'fund_raised',
+        'fund_raised_value',
+        'incubator',
+        'customer_size',
+        'product_development_stage',
+        'funding_stage',
+        'status',
+        'created',
+        'updated',
+        'registration_id',
+        'short_video',
+        'company_linkedin',
+        'video_link',
+        'pitch_deck',
+        'product_development_stage_document',
+        'company_logo',
+    ]
     
 
 @admin.register(StudentRegistrations)

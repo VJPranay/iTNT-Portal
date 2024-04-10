@@ -66,7 +66,9 @@ class VCRegistrations(models.Model):
             # Generate a unique registration ID
             self.registration_id = 'VCRG-' + str(uuid.uuid4())[:4].upper()  # Using part of UUID to ensure uniqueness
         super().save(*args, **kwargs)
-
+    
+    class Meta:
+        verbose_name_plural ="VCRegistrations"
 class ResearcherRegistrations(models.Model):
     name = models.CharField(max_length=255,blank=True, null=True)
     department = models.ForeignKey(Department, on_delete=models.SET_NULL,blank=True, null=True)
@@ -110,7 +112,8 @@ class ResearcherRegistrations(models.Model):
             self.registration_id = 'RCRG-' + str(uuid.uuid4())[:4].upper()  # Using part of UUID to ensure uniqueness
         super().save(*args, **kwargs)
 
-
+    class Meta:
+        verbose_name_plural ="ResearcherRegistrations"
 
     
 class StartUpRegistrations(models.Model):
@@ -165,7 +168,11 @@ class StartUpRegistrations(models.Model):
             self.registration_id = 'SURG-' + str(uuid.uuid4())[:4].upper()  # Using part of UUID to ensure uniqueness
         super().save(*args, **kwargs)
 
-
+    class Meta:
+        verbose_name_plural ="StartUpRegistrations"
+        
+        
+        
 class StartUpRegistrationsCoFounders(models.Model):
     startup = models.ForeignKey(StartUpRegistrations, on_delete=models.SET_NULL,blank=True,null=True)
     name = models.CharField(max_length=100,blank=True, null=True)
@@ -174,7 +181,8 @@ class StartUpRegistrationsCoFounders(models.Model):
     mobile = models.CharField(max_length=255,blank=True, null=True)
     gender = models.CharField(max_length=100,choices=[('male','Male'),('female','Female')],blank=True, null=True) 
     
-    
+    class Meta:
+        verbose_name_plural ="StartUpRegistrationsCoFounders"
 class StudentRegistrations(models.Model):
     name = models.CharField(max_length=100,blank=True, null=True)
     institution = models.ForeignKey(Institution, on_delete=models.SET_NULL, null=True, blank=True)
@@ -199,7 +207,8 @@ class StudentRegistrations(models.Model):
             self.registration_id = 'SDRG-' + str(uuid.uuid4())[:4].upper()  # Using part of UUID to ensure uniqueness
         super().save(*args, **kwargs)
 
-
+    class Meta:
+        verbose_name_plural ="StudentRegistrations"
 class IndustryRegistrations(models.Model):
     name = models.CharField(max_length=100,blank=True, null=True)
     industry = models.ForeignKey(IndustryCategory, on_delete=models.SET_NULL,blank=True,null=True)
@@ -222,3 +231,6 @@ class IndustryRegistrations(models.Model):
             # Generate a unique registration ID
             self.registration_id = 'INRG-' + str(uuid.uuid4())[:4].upper()  # Using part of UUID to ensure uniqueness
         super().save(*args, **kwargs)
+        
+    class Meta :
+        verbose_name_plural ="IndustryRegistrations"

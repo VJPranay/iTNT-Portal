@@ -354,14 +354,14 @@ var KTCreateAccount = function () {
 					company_website: {
 						validators: {
 							notEmpty: {
-								message: 'Company website is required'
+								message: 'Company website '
 							}
 						}
 					},
 					video_link: {
 						validators: {
 							notEmpty: {
-								message: 'Video link is required'
+								message: 'Video link  '
 							}
 						}
 					},
