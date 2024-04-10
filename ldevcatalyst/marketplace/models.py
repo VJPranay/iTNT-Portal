@@ -19,12 +19,14 @@ class Products(models.Model):
         ('published', 'published'), 
         ('expired', 'expired'), ] )
     
-                            
+    class Meta:
+        verbose_name_plural ="Products"                        
     
 class ProductBenfits(models.Model):
     product = models.ForeignKey(Products, on_delete=models.SET_NULL,blank=True, null=True)
     description = models.TextField(blank=True, null=True)
-    
+    class Meta:
+        verbose_name_plural ="ProductBenfits"
 class Services(models.Model):
     start_up = models.ForeignKey(StartUp, on_delete=models.SET_NULL,blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True)
@@ -40,8 +42,12 @@ class Services(models.Model):
         ('granted', 'granted'), 
         ('published', 'published'), 
         ('expired', 'expired'), ] )
-    
+    class Meta:
+        verbose_name_plural ="Services"
     
 class TangibleBenfits(models.Model):
     product = models.ForeignKey(Services, on_delete=models.SET_NULL,blank=True, null=True)
     description = models.TextField(blank=True, null=True)
+    
+    class Meta:
+        verbose_name_plural ="TangibleBenfits"

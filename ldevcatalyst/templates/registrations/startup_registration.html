@@ -227,7 +227,7 @@
 											<textarea name="description" class="form-control form-control-lg form-control-solid" rows="3"></textarea>
 											<!--end::Input-->
 										</div>
-										<div class="fv-row mb-10" data-district-url="https://itnthub.tn.gov.in{% url 'districts' %}"  data-district-urlid="districtslink">
+										<div class="fv-row mb-10" data-district-url="http://{{ request.get_host }}{% url 'districts' %}"   data-district-urlid="districtslink">
 											<!--begin::Label-->
 											<label class="form-label required">State</label>
 											<!--end::Label-->
@@ -322,6 +322,7 @@
 												<option value="10-15">10-15</option>
 												<option value="15-20">15-20</option>
 												<option value="20-25">20-25</option>
+												<option value=">25">>25</option>
 											</select>
 											<!--end::Input-->
 										</div>
@@ -401,7 +402,7 @@
 										</div>
 										<div class="fv-row mb-10">
 											<!--begin::Label-->
-											<label class="form-label">Website</label>
+											<label class="form-label ">Website</label>
 											<!--end::Label-->
 											<!--begin::Input-->
 											<input type="text" class="form-control form-control-lg form-control-solid" name="company_website" placeholder="Company website" value="" />
@@ -421,7 +422,7 @@
 										<!--begin::Input group-->
 										<div class="fv-row mb-10">
 											<!--begin::Label-->
-											<label class="form-label">Video link</label>
+											<label class="form-label" >Video link</label>
 											<!--end::Label-->
 											<!--begin::Input-->
 											<input type="text" class="form-control form-control-lg form-control-solid" name="video_link" placeholder="Please enter your video link" value="" />
