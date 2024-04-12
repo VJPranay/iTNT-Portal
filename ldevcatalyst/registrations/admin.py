@@ -16,7 +16,12 @@ class PublicationAdmin(admin.ModelAdmin):
 class VCRegistrationsResource(resources.ModelResource):
     class Meta:
         model = VCRegistrations
-        fields = ('partner_name', 'firm_name', 'email', 'mobile', 'district__name', 'state__name', 'company_website', 'linkedin_profile')
+        fields = ('partner_name', 'firm_name', 'designation', 'email', 'mobile', 
+                    'deal_size_range_min', 'deal_size_range_max', 'deal_size_range', 
+                    'deal_size_range_usd', 'portfolio_size', 'district__name', 'state__name', 
+                    'company_website', 'linkedin_profile', 'created', 'updated', 
+                    'registration_id', 'status')
+
 
 @admin.register(VCRegistrations)
 class VCAdmin(ImportExportMixin,admin.ModelAdmin):
@@ -28,7 +33,10 @@ class VCAdmin(ImportExportMixin,admin.ModelAdmin):
 class ResearcherResource(resources.ModelResource):
     class Meta:
         model = ResearcherRegistrations
-        fields = ('name', 'department__name', 'email', 'mobile', 'district__name', 'institution__name', 'status')
+        fields =  ('name', 'department__name', 'institution__name', 'district__name', 'state__name', 
+                    'email', 'gender', 'mobile', 'area_of_interest__name', 
+                    'highest_qualification', 'publications', 'created', 
+                    'updated', 'registration_id', 'status', )
 
 @admin.register(ResearcherRegistrations)
 class ResearcherAdmin(ImportExportMixin,admin.ModelAdmin):
@@ -50,14 +58,14 @@ class StartUpRegistrationsResource(resources.ModelResource):
         fields = ( 'name',
         'co_founder_count',
         'founder_names',
-        'state',
-        'district',
+        'state__name',
+        'district__name',
         'team_size',
         'email',
         'mobile',
         'website',
         'dpiit_number',
-        'area_of_interest',
+        'area_of_interest__name',
         'description',
         'market_size',
         'required_amount',
@@ -84,6 +92,7 @@ class StartUpRegistrationsResource(resources.ModelResource):
 
 @admin.register(StartUpRegistrations)
 class StartUpRegistrationsAdmin(ImportExportMixin,admin.ModelAdmin):
+    resource_class = StartUpRegistrationsResource
     inlines = [StartUpRegistrationsCoFoundersInline]
     list_display = [
         'name',
@@ -127,9 +136,12 @@ class StartUpRegistrationsAdmin(ImportExportMixin,admin.ModelAdmin):
 class StudentRegistrationsResource(resources.ModelResource):
     class Meta:
         model = StudentRegistrations
-        fields = ('name', 'institution', 'department', 'year_of_graduation', 'district', 'state', 'status')
+        fields =  ('name', 'institution__name', 'area_of_interest__name', 'department__name', 
+                    'year_of_graduation', 'email', 'district__name', 'state__name', 
+                    'project_idea', 'created', 'updated', 'registration_id', 'status')
 @admin.register(StudentRegistrations)
 class StudentAdmin(ImportExportMixin,admin.ModelAdmin):
+    resource_class = StudentRegistrationsResource
     list_display = ('name', 'institution', 'department', 'year_of_graduation', 'district', 'state')
 
 
@@ -139,7 +151,10 @@ class StudentAdmin(ImportExportMixin,admin.ModelAdmin):
 class IndustryRegistrationsResource(resources.ModelResource):
     class Meta:
         model = IndustryRegistrations
-        fields = ('name', 'industry', 'state', 'district', 'point_of_contact_name', 'email', 'mobile', 'status')
+        fields = ('name', 'industry__name', 'state__name', 'district__name', 'point_of_contact_name', 
+                    'email', 'mobile', 'area_of_interest__name', 'created', 'updated', 
+                    'registration_id', 'status')
 @admin.register(IndustryRegistrations)
-class IndustryAdmin(admin.ModelAdmin):
+class IndustryAdmin(ImportExportMixin,admin.ModelAdmin):
+    resource_class = IndustryRegistrationsResource
     list_display = ('name', 'industry', 'state', 'district', 'point_of_contact_name', 'email', 'mobile')
