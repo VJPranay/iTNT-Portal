@@ -18,7 +18,7 @@ class VCRegistrationsResource(resources.ModelResource):
         model = VCRegistrations
         fields = ('partner_name', 'firm_name', 'designation', 'email', 'mobile', 
                     'deal_size_range_min', 'deal_size_range_max', 'deal_size_range', 
-                    'deal_size_range_usd', 'portfolio_size', 'district', 'state', 
+                    'deal_size_range_usd', 'portfolio_size', 'district__name', 'state__name', 
                     'company_website', 'linkedin_profile', 'created', 'updated', 
                     'registration_id', 'status')
 
@@ -33,8 +33,8 @@ class VCAdmin(ImportExportMixin,admin.ModelAdmin):
 class ResearcherResource(resources.ModelResource):
     class Meta:
         model = ResearcherRegistrations
-        fields =  ('name', 'department', 'institution__name', 'district__name', 'state__name', 
-                    'email', 'gender', 'mobile', 'area_of_interest', 
+        fields =  ('name', 'department__name', 'institution__name', 'district__name', 'state__name', 
+                    'email', 'gender', 'mobile', 'area_of_interest__name', 
                     'highest_qualification', 'publications', 'created', 
                     'updated', 'registration_id', 'status', )
 
@@ -58,14 +58,14 @@ class StartUpRegistrationsResource(resources.ModelResource):
         fields = ( 'name',
         'co_founder_count',
         'founder_names',
-        'state',
-        'district',
+        'state__name',
+        'district__name',
         'team_size',
         'email',
         'mobile',
         'website',
         'dpiit_number',
-        'area_of_interest',
+        'area_of_interest__name',
         'description',
         'market_size',
         'required_amount',
@@ -136,8 +136,8 @@ class StartUpRegistrationsAdmin(ImportExportMixin,admin.ModelAdmin):
 class StudentRegistrationsResource(resources.ModelResource):
     class Meta:
         model = StudentRegistrations
-        fields =  ('name', 'institution', 'area_of_interest', 'department', 
-                    'year_of_graduation', 'email', 'district', 'state', 
+        fields =  ('name', 'institution__name', 'area_of_interest__name', 'department__name', 
+                    'year_of_graduation', 'email', 'district__name', 'state__name', 
                     'project_idea', 'created', 'updated', 'registration_id', 'status')
 @admin.register(StudentRegistrations)
 class StudentAdmin(ImportExportMixin,admin.ModelAdmin):
@@ -151,8 +151,8 @@ class StudentAdmin(ImportExportMixin,admin.ModelAdmin):
 class IndustryRegistrationsResource(resources.ModelResource):
     class Meta:
         model = IndustryRegistrations
-        fields = ('name', 'industry', 'state', 'district', 'point_of_contact_name', 
-                    'email', 'mobile', 'area_of_interest', 'created', 'updated', 
+        fields = ('name', 'industry__name', 'state__name', 'district__name', 'point_of_contact_name', 
+                    'email', 'mobile', 'area_of_interest__name', 'created', 'updated', 
                     'registration_id', 'status')
 @admin.register(IndustryRegistrations)
 class IndustryAdmin(ImportExportMixin,admin.ModelAdmin):
