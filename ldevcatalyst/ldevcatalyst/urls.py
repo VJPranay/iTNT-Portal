@@ -26,7 +26,7 @@ admin.site.index_title = 'iTNT Super Admin'
 
 
 urlpatterns = [
-    path('admin/', admin.site.urls,name="django_admin"),
+    path('admin/test34345/', admin.site.urls,name="django_admin"),
     path('districts/', districts,name="districts"),
     path('institutions/', institutions,name="institutions"),
     path('dashboard/', include('dashboard.urls')),

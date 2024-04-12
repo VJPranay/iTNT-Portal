@@ -20,6 +20,7 @@ class VCRegistrationsResource(resources.ModelResource):
 
 @admin.register(VCRegistrations)
 class VCAdmin(ImportExportMixin,admin.ModelAdmin):
+    resource_class = VCRegistrationsResource
     list_display = ('partner_name', 'firm_name', 'email', 'mobile', 'district', 'state',  'company_website', 'linkedin_profile')
 
 #researcher admin
