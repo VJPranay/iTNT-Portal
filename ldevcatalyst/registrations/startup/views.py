@@ -41,9 +41,9 @@ def startup_registrations(request,registration_status=None,area_of_interest=None
             temp = {
                 'startup_id' : x.id,
                 'name' : x.name,
-                'area_of_interest' : x.area_of_interest.name,
-                'district' : x.district.name,
-                'funding_stage' : x.funding_stage.name,
+                'area_of_interest' : x.area_of_interest,
+                'district' : x.district,
+                'funding_stage' : x.funding_stage,
                 'mobile' : x.mobile,
                 'created' : x.created,
             }
