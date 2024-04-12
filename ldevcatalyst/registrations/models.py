@@ -162,11 +162,6 @@ class StartUpRegistrations(models.Model):
         default='pending',
     )
     is_old = models.BooleanField(default=False)
-    def save(self, *args, **kwargs):
-        if not self.registration_id:
-            # Generate a unique registration ID
-            self.registration_id = 'SURG-' + str(uuid.uuid4())[:4].upper()  # Using part of UUID to ensure uniqueness
-        super().save(*args, **kwargs)
     data_source = models.CharField(
         max_length=255,
         choices=[
@@ -176,6 +171,12 @@ class StartUpRegistrations(models.Model):
                  ],
         default='registration',
     )
+    def save(self, *args, **kwargs):
+        if not self.registration_id:
+            # Generate a unique registration ID
+            self.registration_id = 'SURG-' + str(uuid.uuid4())[:4].upper()  # Using part of UUID to ensure uniqueness
+        super().save(*args, **kwargs)
+    
     class Meta:
         verbose_name_plural ="StartUpRegistrations"
         
@@ -217,12 +218,6 @@ class StudentRegistrations(models.Model):
         choices=[('pending', 'pending'), ('approved', 'approved'), ('rejected', 'rejected')],
         default='pending',
     )
-    def save(self, *args, **kwargs):
-        if not self.registration_id:
-            # Generate a unique registration ID
-            self.registration_id = 'SDRG-' + str(uuid.uuid4())[:4].upper()  # Using part of UUID to ensure uniqueness
-        super().save(*args, **kwargs)
-    
     data_source = models.CharField(
         max_length=255,
         choices=[
@@ -232,6 +227,13 @@ class StudentRegistrations(models.Model):
                  ],
         default='registration',
     )
+    def save(self, *args, **kwargs):
+        if not self.registration_id:
+            # Generate a unique registration ID
+            self.registration_id = 'SDRG-' + str(uuid.uuid4())[:4].upper()  # Using part of UUID to ensure uniqueness
+        super().save(*args, **kwargs)
+    
+    
     class Meta:
         verbose_name_plural ="StudentRegistrations"
 class IndustryRegistrations(models.Model):
@@ -251,12 +253,6 @@ class IndustryRegistrations(models.Model):
         choices=[('pending', 'pending'), ('approved', 'approved'), ('rejected', 'rejected')],
         default='pending',
     )
-    def save(self, *args, **kwargs):
-        if not self.registration_id:
-            # Generate a unique registration ID
-            self.registration_id = 'INRG-' + str(uuid.uuid4())[:4].upper()  # Using part of UUID to ensure uniqueness
-        super().save(*args, **kwargs)
-    
     data_source = models.CharField(
         max_length=255,
         choices=[
@@ -266,6 +262,13 @@ class IndustryRegistrations(models.Model):
                  ],
         default='registration',
     )
+    def save(self, *args, **kwargs):
+        if not self.registration_id:
+            # Generate a unique registration ID
+            self.registration_id = 'INRG-' + str(uuid.uuid4())[:4].upper()  # Using part of UUID to ensure uniqueness
+        super().save(*args, **kwargs)
+    
+    
     
     class Meta :
         verbose_name_plural ="IndustryRegistrations"
