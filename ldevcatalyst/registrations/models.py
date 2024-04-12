@@ -162,15 +162,15 @@ class StartUpRegistrations(models.Model):
         default='pending',
     )
     is_old = models.BooleanField(default=False)
-    # data_source = models.CharField(
-    #     max_length=255,
-    #     choices=[
-    #              ('csv', 'csv'),
-    #              ('registration', 'registration'),
-    #              ('demo', 'demo'),
-    #              ],
-    #     default='registration',
-    # )
+    data_source = models.CharField(
+        max_length=255,
+        choices=[
+                 ('csv', 'csv'),
+                 ('registration', 'registration'),
+                 ('demo', 'demo'),
+                 ],
+        default='registration',
+    )
     def save(self, *args, **kwargs):
         if not self.registration_id:
             # Generate a unique registration ID
@@ -188,6 +188,8 @@ class StartUpRegistrationsCoFounders(models.Model):
     email = models.EmailField(blank=True, null=True)
     mobile = models.CharField(max_length=255,blank=True, null=True)
     gender = models.CharField(max_length=100,choices=[('male','Male'),('female','Female')],blank=True, null=True) 
+    
+    
     class Meta:
         verbose_name_plural ="StartUpRegistrationsCoFounders"
 class StudentRegistrations(models.Model):
@@ -208,15 +210,15 @@ class StudentRegistrations(models.Model):
         choices=[('pending', 'pending'), ('approved', 'approved'), ('rejected', 'rejected')],
         default='pending',
     )
-    # data_source = models.CharField(
-    #     max_length=255,
-    #     choices=[
-    #              ('csv', 'csv'),
-    #              ('registration', 'registration'),
-    #              ('demo', 'demo'),
-    #              ],
-    #     default='registration',
-    # )
+    data_source = models.CharField(
+        max_length=255,
+        choices=[
+                 ('csv', 'csv'),
+                 ('registration', 'registration'),
+                 ('demo', 'demo'),
+                 ],
+        default='registration',
+    )
     def save(self, *args, **kwargs):
         if not self.registration_id:
             # Generate a unique registration ID
@@ -243,15 +245,15 @@ class IndustryRegistrations(models.Model):
         choices=[('pending', 'pending'), ('approved', 'approved'), ('rejected', 'rejected')],
         default='pending',
     )
-    # data_source = models.CharField(
-    #     max_length=255,
-    #     choices=[
-    #              ('csv', 'csv'),
-    #              ('registration', 'registration'),
-    #              ('demo', 'demo'),
-    #              ],
-    #     default='registration',
-    # )
+    data_source = models.CharField(
+        max_length=255,
+        choices=[
+                 ('csv', 'csv'),
+                 ('registration', 'registration'),
+                 ('demo', 'demo'),
+                 ],
+        default='registration',
+    )
     def save(self, *args, **kwargs):
         if not self.registration_id:
             # Generate a unique registration ID
