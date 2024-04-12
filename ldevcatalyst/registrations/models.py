@@ -245,7 +245,7 @@ class IndustryRegistrations(models.Model):
         choices=[('pending', 'pending'), ('approved', 'approved'), ('rejected', 'rejected')],
         default='pending',
     )
-    data_source_one = models.CharField(
+    data_source = models.CharField(
         max_length=255,
         choices=[
                  ('csv', 'csv'),
