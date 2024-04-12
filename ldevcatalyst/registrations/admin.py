@@ -1,7 +1,9 @@
 from django.contrib import admin
 from .models import PatentInfo, PublicationInfo, VCRegistrations, ResearcherRegistrations, StudentRegistrations, IndustryRegistrations, StartUpRegistrations, StartUpRegistrationsCoFounders
 from import_export.admin import ImportExportMixin
-from import_export import resources
+from import_export import resources, fields
+from import_export.widgets import ManyToManyWidget
+
 
 
 @admin.register(PatentInfo)
@@ -146,13 +148,17 @@ class StudentAdmin(ImportExportMixin,admin.ModelAdmin):
 
 
 
-
 #industy admin
 class IndustryRegistrationsResource(resources.ModelResource):
+    area_of_interest = fields.Field(
+        attribute='area_of_interest',
+        widget=ManyToManyWidget(IndustryRegistrations, field='name', separator=',')
+    )
+
     class Meta:
         model = IndustryRegistrations
         fields = ('name', 'industry__name', 'state__name', 'district__name', 'point_of_contact_name', 
-                    'email', 'mobile', 'area_of_interest__name', 'created', 'updated', 
+                    'email', 'mobile', 'area_of_interest', 'created', 'updated', 
                     'registration_id', 'status')
 @admin.register(IndustryRegistrations)
 class IndustryAdmin(ImportExportMixin,admin.ModelAdmin):
