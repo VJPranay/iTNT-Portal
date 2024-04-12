@@ -84,6 +84,7 @@ class StartUpRegistrationsResource(resources.ModelResource):
 
 @admin.register(StartUpRegistrations)
 class StartUpRegistrationsAdmin(ImportExportMixin,admin.ModelAdmin):
+    resource_class = StartUpRegistrationsResource
     inlines = [StartUpRegistrationsCoFoundersInline]
     list_display = [
         'name',
@@ -130,6 +131,7 @@ class StudentRegistrationsResource(resources.ModelResource):
         fields = ('name', 'institution', 'department', 'year_of_graduation', 'district', 'state', 'status')
 @admin.register(StudentRegistrations)
 class StudentAdmin(ImportExportMixin,admin.ModelAdmin):
+    resource_class = StudentRegistrationsResource
     list_display = ('name', 'institution', 'department', 'year_of_graduation', 'district', 'state')
 
 
@@ -141,5 +143,6 @@ class IndustryRegistrationsResource(resources.ModelResource):
         model = IndustryRegistrations
         fields = ('name', 'industry', 'state', 'district', 'point_of_contact_name', 'email', 'mobile', 'status')
 @admin.register(IndustryRegistrations)
-class IndustryAdmin(admin.ModelAdmin):
+class IndustryAdmin(ImportExportMixin,admin.ModelAdmin):
+    resource_class = IndustryRegistrationsResource
     list_display = ('name', 'industry', 'state', 'district', 'point_of_contact_name', 'email', 'mobile')
