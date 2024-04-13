@@ -6,6 +6,7 @@ from import_export.widgets import ManyToManyWidget
 
 
 
+
 @admin.register(PatentInfo)
 class PatentAdmin(admin.ModelAdmin):
     list_display = ('title', 'number', 'inventors', 'filing_date', 'status')
@@ -16,12 +17,16 @@ class PublicationAdmin(admin.ModelAdmin):
 
 #vc admin
 class VCRegistrationsResource(resources.ModelResource):
+    area_of_interest = fields.Field(
+        attribute='area_of_interest',
+        widget=ManyToManyWidget(VCRegistrations, field='name', separator='|')
+    )
     class Meta:
         model = VCRegistrations
         fields = ('partner_name', 'firm_name', 'designation', 'email', 'mobile', 
                     'deal_size_range_min', 'deal_size_range_max', 'deal_size_range', 
                     'deal_size_range_usd', 'portfolio_size', 'district__name', 'state__name', 
-                    'company_website', 'linkedin_profile', 'created', 'updated', 
+                    'company_website', 'linkedin_profile', 'created', 'updated', 'area_of_interest'
                     'registration_id', 'status')
 
 
@@ -33,10 +38,15 @@ class VCAdmin(ImportExportMixin,admin.ModelAdmin):
 #researcher admin
 
 class ResearcherResource(resources.ModelResource):
+    area_of_interest = fields.Field(
+        attribute='area_of_interest',
+        widget=ManyToManyWidget(ResearcherRegistrations, field='name', separator='|')
+    )
+
     class Meta:
         model = ResearcherRegistrations
         fields =  ('name', 'department__name', 'institution__name', 'district__name', 'state__name', 
-                    'email', 'gender', 'mobile', 'area_of_interest__name', 
+                    'email', 'gender', 'mobile', 'area_of_interest', 
                     'highest_qualification', 'publications', 'created', 
                     'updated', 'registration_id', 'status', )
 
@@ -136,9 +146,14 @@ class StartUpRegistrationsAdmin(ImportExportMixin,admin.ModelAdmin):
 
 #student admin
 class StudentRegistrationsResource(resources.ModelResource):
+    area_of_interest = fields.Field(
+        attribute='area_of_interest',
+        widget=ManyToManyWidget(StudentRegistrations, field='name', separator='|')
+    )
+
     class Meta:
         model = StudentRegistrations
-        fields =  ('name', 'institution__name', 'area_of_interest__name', 'department__name', 
+        fields =  ('name', 'institution__name', 'area_of_interest', 'department__name', 
                     'year_of_graduation', 'email', 'district__name', 'state__name', 
                     'project_idea', 'created', 'updated', 'registration_id', 'status')
 @admin.register(StudentRegistrations)
@@ -152,7 +167,7 @@ class StudentAdmin(ImportExportMixin,admin.ModelAdmin):
 class IndustryRegistrationsResource(resources.ModelResource):
     area_of_interest = fields.Field(
         attribute='area_of_interest',
-        widget=ManyToManyWidget(IndustryRegistrations, field='name', separator=',')
+        widget=ManyToManyWidget(IndustryRegistrations, field='name', separator='|')
     )
 
     class Meta:
