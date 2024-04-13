@@ -9,11 +9,11 @@ from import_export.widgets import ManyToManyWidget
 
 @admin.register(PatentInfo)
 class PatentAdmin(admin.ModelAdmin):
-    list_display = ('title', 'number', 'inventors', 'filing_date', 'status')
+    list_display = ('id', 'title', 'number', 'inventors', 'filing_date', 'status')
 
 @admin.register(PublicationInfo)
 class PublicationAdmin(admin.ModelAdmin):
-    list_display = ('title', 'paper_link', 'journal')
+    list_display = ('id','title', 'paper_link', 'journal')
 
 #vc admin
 class VCRegistrationsResource(resources.ModelResource):
