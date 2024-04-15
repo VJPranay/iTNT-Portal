@@ -18,6 +18,9 @@ class PatentInfo(models.Model):
     filing_date = models.DateField(blank=True, null=True)
     status = models.CharField(max_length=255,blank=True, null=True)
 
+    def __str__(self):
+        return str(self.title)
+
 
 class PublicationInfo(models.Model):
     title = models.CharField(max_length=255,blank=True, null=True)
