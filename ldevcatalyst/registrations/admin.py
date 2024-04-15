@@ -22,21 +22,25 @@ class VCRegistrationsResource(resources.ModelResource):
         column_name='area_of_interest',
         widget=ManyToManyWidget(VCRegistrations, field='name', separator=' | ')
     )
+    funding_stage = fields.Field(
+        attribute='funding_stage',
+        column_name='funding_stage',
+        widget=ManyToManyWidget(VCRegistrations, field='name', separator=' | ')
+    )
     class Meta:
         model = VCRegistrations
         fields = ('id','partner_name', 'firm_name', 'designation', 'email', 'mobile', 
                     'deal_size_range_min', 'deal_size_range_max', 'deal_size_range', 
                     'deal_size_range_usd', 'portfolio_size', 'district__name', 'state__name', 
-                    'company_website', 'linkedin_profile', 'created', 'updated', 'area_of_interest',
+                    'company_website', 'linkedin_profile', 'created', 'updated', 'area_of_interest', 'funding_stage',
                     'registration_id', 'status')
         export_order = ('id','partner_name', 'firm_name', 'designation', 'email', 'mobile', 
                     'deal_size_range_min', 'deal_size_range_max', 'deal_size_range', 
                     'deal_size_range_usd', 'portfolio_size', 'district__name', 'state__name', 
-                    'company_website', 'linkedin_profile', 'created', 'updated', 'area_of_interest',
+                    'company_website', 'linkedin_profile', 'created', 'updated', 'area_of_interest', 'funding_stage',
                     'registration_id', 'status')
         
         
-
 
 @admin.register(VCRegistrations)
 class VCAdmin(ImportExportMixin,admin.ModelAdmin):
@@ -51,16 +55,22 @@ class ResearcherResource(resources.ModelResource):
         column_name='area_of_interest',
         widget=ManyToManyWidget(ResearcherRegistrations, field='name', separator=' | ')
     )
+    patents = fields.Field(
+        attribute='patents',
+        column_name='patents',
+        widget=ManyToManyWidget(ResearcherRegistrations, field='title', separator=' | ')
+    )
+
 
     class Meta:
         model = ResearcherRegistrations
         fields =  ('id','name', 'department__name', 'institution__name', 'district__name', 'state__name', 
                     'email', 'gender', 'mobile', 'area_of_interest', 
-                    'highest_qualification', 'publications', 'created', 
+                    'highest_qualification', 'patents','publications', 'created', 
                     'updated', 'registration_id', 'status', )
         export_order = ('id','name', 'department__name', 'institution__name', 'district__name', 'state__name', 
                     'email', 'gender', 'mobile', 'area_of_interest', 
-                    'highest_qualification', 'publications', 'created', 
+                    'highest_qualification', 'patents','publications', 'created', 
                     'updated', 'registration_id', 'status', )
 
 
