@@ -95,7 +95,7 @@ def fetch_startup_details(request):
 															<!--begin::Phone-->
 															<div class="d-flex align-items-center gap-2">
 																<i class="ki-outline ki-phone fs-2"></i>
-																<a href="#" class="text-muted text-hover-primary">{startup.funding_stage.name if startup.funding_stage else None}</a>
+																<a href="#" class="text-muted text-hover-primary">{startup.funding_stage.name}</a>
 															</div>
 															<!--end::Phone-->
 														</div>
@@ -163,7 +163,7 @@ def fetch_startup_details(request):
 																<!--begin::funding_stage-->
 																<div class="d-flex flex-column gap-1">
 																	<div class="fw-bold text-muted">Current funding stage</div>
-																	<div class="fw-bold fs-5">{startup.funding_stage.name if startup.funding_stage else None}</div>
+																	<div class="fw-bold fs-5">{startup.funding_stage.name}</div>
 																</div>
 																<!--end::funding_stage-->
                 											    <!--begin::area_of_interest-->
@@ -205,7 +205,7 @@ def fetch_startup_details(request):
                                                                 <!--begin::area_of_interest-->
 																<div class="d-flex flex-column gap-1">
 																	<div class="fw-bold text-muted">State</div>
-																	<div class="fw-bold fs-5">{startup.state.name if startup.state else None}</div>
+																	<div class="fw-bold fs-5">{startup.state.name}</div>
 																</div>
 																<!--end::area_of_interest-->
                                                                 <!--begin::district-->
