@@ -172,7 +172,7 @@ class StartUpRegistrations(models.Model):
                  ('registration', 'registration'),
                  ('demo', 'demo'),
                  ],
-        default='registration',
+        default='registration', null=True, blank=True
     )
     def save(self, *args, **kwargs):
         if not self.registration_id:
