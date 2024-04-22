@@ -80,14 +80,8 @@ def fetch_startup_details(request):
             meeting_info = MeetingRequests.objects.get(vc__user_id=request.user.id,start_up_id=startup)
             print(meeting_info)
         except MeetingRequests.DoesNotExist:
-            print('<== invalid request here ===>')
-            html = f"""
-                    <div class="alert alert-danger" role="alert">
-                            { 'Invalid startup/vc ID' }
-                        </div>
-                    """
-            # return JsonResponse({'error': 'Invalid startup/vc ID'}, status=400)
-            return JsonResponse({'html': html})
+            print('invalid request here ')
+            return JsonResponse({'error': 'Invalid startup/vc ID'}, status=400)
 
         # Construct HTML for the startup details
         html = f"""
@@ -143,7 +137,8 @@ def fetch_startup_details(request):
 																<!--begin::Company description-->
                                                                 <div class="d-flex flex-column gap-1">
                                                                     <div class="fw-bold text-muted">Pitch Deck</div>
-                                                                    <iframe width="560" height="315" src="https://docs.google.com/presentation/d/{startup.pitch_deck}/embed?start=false&loop=false" frameborder="0" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+                                                                    <iframe src="https://docs.google.com/viewer?url=https://docs.google.com/presentation/d/{startup.pitch_deck}/export/pdf" width="100%" height="400px"></iframe>
+                                                                   <!-- <iframe width="560" height="315" src="https://docs.google.com/presentation/d/{startup.pitch_deck}/embed?start=false&loop=false" frameborder="0" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe> -->
                                                                 </div>
                                                                  <div class="d-flex flex-column gap-1">
                                                                     <div class="fw-bold text-muted">Short video</div>
