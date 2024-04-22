@@ -296,26 +296,38 @@ def startup_registration(request):
                 )
                 new_startup_registration.save()
                 for founder in founder_names:
-                    name = founder.get('name')
-                    email = founder.get('email')
-                    mobile = founder.get('mobile')
-                    gender = founder.get('gender')
-                    linkedin = founder.get('linkedIn')
-                    new_founder = StartUpRegistrationsCoFounders.objects.create(
-                        startup_id = new_startup_registration.id,
-                        name = name,
-                        email = email,
-                        mobile = mobile,
-                        gender = gender,
-                        linkedin = linkedin,
-                    )
-                    new_founder.save()
-                if fund_raised_input is not None:
-                    new_startup_registration.fund_raised_value = fund_raised_input
-                    new_startup_registration.save()
-                else:
+                    try:
+                        name = founder.get('name')
+                        email = founder.get('email')
+                        mobile = founder.get('mobile')
+                        gender = founder.get('gender')
+                        linkedin = founder.get('linkedIn')
+                        new_founder = StartUpRegistrationsCoFounders.objects.create(
+                            startup_id = new_startup_registration.id,
+                            name = name,
+                            email = email,
+                            mobile = mobile,
+                            gender = gender,
+                            linkedin = linkedin,
+                        )
+                        new_founder.save()
+                    except Exception as e:
+                        print('cofounder issue--> ',str(e))
+                        return JsonResponse({'success': False,'registration_id': "Failed",'error': str(e),})
+                # if fund_raised_input is not None:
+                #     new_startup_registration.fund_raised_value = fund_raised_input
+                #     new_startup_registration.save()
+                # else:
+                #     new_startup_registration.fund_raised_id = fund_raised_id
+                #     new_startup_registration.save()
+                if fund_raised_id is not None:
                     new_startup_registration.fund_raised_id = fund_raised_id
                     new_startup_registration.save()
+                else:
+                    print('fund raised id none')
+                    if fund_raised_input is not None:
+                        new_startup_registration.fund_raised_value = fund_raised_input
+                        new_startup_registration.save()
                 return JsonResponse(
                     {
                         'success': True,
@@ -339,7 +351,7 @@ def startup_registration(request):
     elif request.method == 'GET':
         return render(request,'registrations/startup_registration.html',context={ 
                                                                                  'startup_years' : [
-                                                                                     x for x in range(2009,2024)
+                                                                                     x for x in range(2009,2025)
                                                                                  ],
          
         'preferred_investment_stages' : [
