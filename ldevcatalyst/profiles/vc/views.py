@@ -54,7 +54,7 @@ def fetch_vc_profiles(request):
             vc_profiles.append({
                 'vc_id': profile.id,
                 'firm_name': profile.firm_name,
-                'funding_stage': profile.funding_stage.name,
+                'funding_stage': profile.funding_stage.name if profile.funding_stage else None,
             })
         return JsonResponse(vc_profiles, safe=False)
     else:
@@ -96,7 +96,7 @@ def fetch_vc_details(request):
 															<!--begin::Phone-->
 															<div class="d-flex align-items-center gap-2">
 																<i class="ki-outline ki-phone fs-2"></i>
-																<a href="#" class="text-muted text-hover-primary">"""+escape(vc.funding_stage.name)+"""</a>
+																<a href="#" class="text-muted text-hover-primary">"""+escape(vc.funding_stage.name if vc.funding_stage else None)+"""</a>
 															</div>
 															<!--end::Phone-->
 														</div>
@@ -126,7 +126,7 @@ def fetch_vc_details(request):
 																</div>
                                                                 <div class="d-flex flex-column gap-1">
 																	<div class="fw-bold text-muted">Funding Stage</div>
-																	<div class="fw-bold fs-5">"""+escape(vc.funding_stage.name)+"""</div>
+																	<div class="fw-bold fs-5">"""+escape(vc.funding_stage.name if vc.funding_stage else None)+"""</div>
 																</div>
                                                                 
 																<!--end::Company description-->

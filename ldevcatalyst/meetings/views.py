@@ -68,9 +68,27 @@ def fetch_startup_details(request):
         if not startup_id:
             return JsonResponse({'error': 'Invalid startup ID'}, status=400)
         # Fetch startup details based on startup_id
-        startup = StartUp.objects.get(id=startup_id)
+        try:
+            startup = StartUp.objects.get(id=startup_id)
+            print('startup --> ',startup.id)
+            print('vc --> ', request.user.id)
+        except StartUp.DoesNotExist:
+            return JsonResponse({'error': 'Invalid startup ID'}, status=400)
+
         # get meeting details
-        meeting_info = MeetingRequests.objects.get(vc__user_id=request.user.id,start_up_id=startup)
+        try:
+            meeting_info = MeetingRequests.objects.get(vc__user_id=request.user.id,start_up_id=startup)
+            print(meeting_info)
+        except MeetingRequests.DoesNotExist:
+            print('<== invalid request here ===>')
+            html = f"""
+                    <div class="alert alert-danger" role="alert">
+                            { 'Invalid startup/vc ID' }
+                        </div>
+                    """
+            # return JsonResponse({'error': 'Invalid startup/vc ID'}, status=400)
+            return JsonResponse({'html': html})
+
         # Construct HTML for the startup details
         html = f"""
            													<!--begin::Profile-->
@@ -95,7 +113,7 @@ def fetch_startup_details(request):
 															<!--begin::Phone-->
 															<div class="d-flex align-items-center gap-2">
 																<i class="ki-outline ki-phone fs-2"></i>
-																<a href="#" class="text-muted text-hover-primary">{startup.funding_stage.name}</a>
+																<a href="#" class="text-muted text-hover-primary">{startup.funding_stage.name if startup.funding_stage else None}</a>
 															</div>
 															<!--end::Phone-->
 														</div>
@@ -163,7 +181,7 @@ def fetch_startup_details(request):
 																<!--begin::funding_stage-->
 																<div class="d-flex flex-column gap-1">
 																	<div class="fw-bold text-muted">Current funding stage</div>
-																	<div class="fw-bold fs-5">{startup.funding_stage.name}</div>
+																	<div class="fw-bold fs-5">{startup.funding_stage.name if startup.funding_stage else None}</div>
 																</div>
 																<!--end::funding_stage-->
                 											    <!--begin::area_of_interest-->
@@ -205,13 +223,13 @@ def fetch_startup_details(request):
                                                                 <!--begin::area_of_interest-->
 																<div class="d-flex flex-column gap-1">
 																	<div class="fw-bold text-muted">State</div>
-																	<div class="fw-bold fs-5">{startup.state.name}</div>
+																	<div class="fw-bold fs-5">{startup.state.name if startup.state else None}</div>
 																</div>
 																<!--end::area_of_interest-->
                                                                 <!--begin::district-->
 																<div class="d-flex flex-column gap-1">
 																	<div class="fw-bold text-muted">City</div>
-																	<div class="fw-bold fs-5">{startup.district.name}</div>
+																	<div class="fw-bold fs-5">{startup.district.name if startup.district else None}</div>
 																</div>
 																<!--end::district-->
                                                                  <div class="d-flex flex-column gap-1">
