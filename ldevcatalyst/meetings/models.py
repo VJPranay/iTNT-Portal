@@ -29,7 +29,7 @@ class MeetingRequests(models.Model):
     next_level = models.CharField(max_length=255, blank=True, null=True)
     
     class Meta:
-        verbose_name_plural ="MeetingRequests"
+        verbose_name_plural ="Meeting Requests"
 @receiver(pre_save, sender=MeetingRequests)
 def update_meeting_date_time(sender, instance, **kwargs):
     # Check if both meeting_date and meeting_time have values
