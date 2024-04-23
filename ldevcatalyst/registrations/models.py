@@ -71,7 +71,7 @@ class VCRegistrations(models.Model):
         super().save(*args, **kwargs)
     
     class Meta:
-        verbose_name_plural ="VCRegistrations"
+        verbose_name_plural ="VC Registrations"
 class ResearcherRegistrations(models.Model):
     name = models.CharField(max_length=255,blank=True, null=True)
     department = models.ForeignKey(Department, on_delete=models.SET_NULL,blank=True, null=True)
@@ -116,7 +116,7 @@ class ResearcherRegistrations(models.Model):
         super().save(*args, **kwargs)
 
     class Meta:
-        verbose_name_plural ="ResearcherRegistrations"
+        verbose_name_plural ="Researcher Registrations"
 
     
 class StartUpRegistrations(models.Model):
@@ -181,7 +181,7 @@ class StartUpRegistrations(models.Model):
         super().save(*args, **kwargs)
     
     class Meta:
-        verbose_name_plural ="StartUpRegistrations"
+        verbose_name_plural ="StartUp Registrations"
         
         
 class StartUpRegistrationsCoFounders(models.Model):
@@ -194,7 +194,7 @@ class StartUpRegistrationsCoFounders(models.Model):
     
     
     class Meta:
-        verbose_name_plural ="StartUpRegistrationsCoFounders"
+        verbose_name_plural ="StartUp Registrations CoFounders"
 class StudentRegistrations(models.Model):
     name = models.CharField(max_length=100,blank=True, null=True)
     institution = models.ForeignKey(Institution, on_delete=models.SET_NULL, null=True, blank=True)
@@ -230,7 +230,7 @@ class StudentRegistrations(models.Model):
     
     
     class Meta:
-        verbose_name_plural ="StudentRegistrations"
+        verbose_name_plural ="Student Registrations"
 class IndustryRegistrations(models.Model):
     name = models.CharField(max_length=100,blank=True, null=True)
     industry = models.ForeignKey(IndustryCategory, on_delete=models.SET_NULL,blank=True,null=True)
@@ -266,4 +266,4 @@ class IndustryRegistrations(models.Model):
     
     
     class Meta :
-        verbose_name_plural ="IndustryRegistrations"
+        verbose_name_plural ="Industry Registrations"
