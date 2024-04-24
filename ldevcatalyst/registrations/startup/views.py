@@ -285,6 +285,8 @@ def startup_registration(request):
                     area_of_interest_id = area_of_interest_id,
                     description = description,
                     funding_stage_id = funding_stage_id,
+                    fund_raised_id = fund_raised_id,  # Assign fund_raised_id
+                    fund_raised_value = fund_raised_input  # Assign fund_raised_input if provided
                     pitch_deck = pitch_deck,
                     company_logo = company_logo,
                     video_link = video_link,
@@ -320,14 +322,7 @@ def startup_registration(request):
                 # else:
                 #     new_startup_registration.fund_raised_id = fund_raised_id
                 #     new_startup_registration.save()
-                if fund_raised_id is not None:
-                    new_startup_registration.fund_raised_id = fund_raised_id
-                    new_startup_registration.save()
-                else:
-                    print('fund raised id none')
-                    if fund_raised_input is not None:
-                        new_startup_registration.fund_raised_value = fund_raised_input
-                        new_startup_registration.save()
+                
                 return JsonResponse(
                     {
                         'success': True,
