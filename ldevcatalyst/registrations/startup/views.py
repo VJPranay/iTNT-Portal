@@ -499,18 +499,20 @@ def fetch_startup_registration_details(request):
                             <div class="d-flex flex-column gap-1">
                                 <div class="fw-bold text-muted">Proof of Document</div>
                                 <a href="{startup.product_development_stage_document.url if startup.product_development_stage_document else ''}" target="_blank" rel="noopener noreferrer">Click here to view</a>
+
                             </div>
                             <!--end::Proof of Document-->
                             <!--begin::Video Link-->
                             <div class="d-flex flex-column gap-1">
                                 <div class="fw-bold text-muted">Video Link</div>
                                 <a href="{startup.video_link}" target="_blank" rel="noopener noreferrer">Click here to view</a>
+
                             </div>
                             <!--end::Video Link-->
                             <!--begin::Pitch Deck-->
                             <div class="d-flex flex-column gap-1">
                                 <div class="fw-bold text-muted">Pitch Deck</div>
-                                <a href="{startup.pitch_deck}" target="_blank" rel="noopener noreferrer">Click here to view</a>
+                                <a href="{startup.pitch_deck}" target="_blank" rel="noopener noreferrer">Click here to view</a> 
                             </div>
                             <!--end::Pitch Deck-->
                         </div>

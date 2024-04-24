@@ -210,7 +210,7 @@ startup's
         const csrftoken = getCookie('csrftoken');
 
         // Fetch startup details using AJAX POST request
-        fetch('{% url 'fetch_startup_details' %}', {
+        fetch("{% url 'fetch_startup_details' %}", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
