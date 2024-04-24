@@ -50,20 +50,17 @@ def fetch_startup_profiles(request):
         area_of_interest_ids = data.get('area_of_interest', None)
         if not area_of_interest_ids:
             return JsonResponse({'error': 'Area of Interest ID(s) are required'}, status=400)
-        get_startup_profiles = StartUp.objects.filter(
+        startup_profiles_q = StartUp.objects.filter(
             area_of_interest__id=area_of_interest_ids
         ) # Ensure unique startup profiles
-        print(get_startup_profiles)
-
-        startup_profiles_q = MeetingRequests.objects.filter(vc__user_id=request.user.id, start_up_id__in=get_startup_profiles.values_list('id', flat=True))
         print(startup_profiles_q)
-        
+
         startup_profiles = []
         for profile in startup_profiles_q:
             startup_profiles.append({
-                'startup_id': profile.start_up.id,
-                'name': profile.start_up.name,
-                'email': profile.start_up.email,
+                'startup_id': profile.id,
+                'name': profile.name,
+                'email': profile.email,
             })
         return JsonResponse(startup_profiles, safe=False)
     else:
