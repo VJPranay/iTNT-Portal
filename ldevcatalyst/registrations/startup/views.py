@@ -286,7 +286,7 @@ def startup_registration(request):
                     description = description,
                     funding_stage_id = funding_stage_id,
                     fund_raised_id = fund_raised_id,  # Assign fund_raised_id
-                    fund_raised_value = fund_raised_input  # Assign fund_raised_input if provided
+                    fund_raised_value = fund_raised_input,  # Assign fund_raised_input if provided
                     pitch_deck = pitch_deck,
                     company_logo = company_logo,
                     video_link = video_link,
