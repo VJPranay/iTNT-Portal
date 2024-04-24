@@ -285,6 +285,8 @@ def startup_registration(request):
                     area_of_interest_id = area_of_interest_id,
                     description = description,
                     funding_stage_id = funding_stage_id,
+                    fund_raised_id = fund_raised_id,  # Assign fund_raised_id
+                    fund_raised_value = fund_raised_input,  # Assign fund_raised_input if provided
                     pitch_deck = pitch_deck,
                     company_logo = company_logo,
                     video_link = video_link,
@@ -320,14 +322,7 @@ def startup_registration(request):
                 # else:
                 #     new_startup_registration.fund_raised_id = fund_raised_id
                 #     new_startup_registration.save()
-                if fund_raised_id is not None:
-                    new_startup_registration.fund_raised_id = fund_raised_id
-                    new_startup_registration.save()
-                else:
-                    print('fund raised id none')
-                    if fund_raised_input is not None:
-                        new_startup_registration.fund_raised_value = fund_raised_input
-                        new_startup_registration.save()
+                
                 return JsonResponse(
                     {
                         'success': True,
@@ -498,7 +493,7 @@ def fetch_startup_registration_details(request):
                             <!--begin::Proof of Document-->
                             <div class="d-flex flex-column gap-1">
                                 <div class="fw-bold text-muted">Proof of Document</div>
-                                <a href="{startup.product_development_stage_document.url if startup.product_development_stage_document else ''}" target="_blank" rel="noopener noreferrer">Click here to view</a>
+                                 <a href="/innovation-portal/media/{startup.product_development_stage_document.url.split('/media/', 1)[1] if startup.product_development_stage_document else '#'}" target="_blank" rel="noopener noreferrer">Click here to view</a>
 
                             </div>
                             <!--end::Proof of Document-->
@@ -512,7 +507,7 @@ def fetch_startup_registration_details(request):
                             <!--begin::Pitch Deck-->
                             <div class="d-flex flex-column gap-1">
                                 <div class="fw-bold text-muted">Pitch Deck</div>
-                                <a href="{startup.pitch_deck}" target="_blank" rel="noopener noreferrer">Click here to view</a> 
+                                <a href="/innovation-portal/media/{startup.pitch_deck.url.split('/media/', 1)[1] if startup.pitch_deck else '#'}" target="_blank" rel="noopener noreferrer">Click here to view</a> 
                             </div>
                             <!--end::Pitch Deck-->
                         </div>
