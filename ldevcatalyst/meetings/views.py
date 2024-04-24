@@ -77,7 +77,7 @@ def fetch_startup_details(request):
 
         # get meeting details
         try:
-            meeting_info = MeetingRequests.objects.get(vc__user_id=request.user.id,start_up_id=startup)
+            meeting_info = MeetingRequests.objects.get(vc__user_id=request.user.id, start_up_id=startup)
             print(meeting_info)
         except MeetingRequests.DoesNotExist:
             print('invalid request here ')

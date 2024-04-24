@@ -41,7 +41,7 @@ def startup_list(request):
     return render(request, 'dashboard/profiles/startup/list.html', context=template_data)
 
 
-
+from meetings.models import MeetingRequests
 
 @login_required
 def fetch_startup_profiles(request):
@@ -50,16 +50,20 @@ def fetch_startup_profiles(request):
         area_of_interest_ids = data.get('area_of_interest', None)
         if not area_of_interest_ids:
             return JsonResponse({'error': 'Area of Interest ID(s) are required'}, status=400)
-        startup_profiles_q = StartUp.objects.filter(
+        get_startup_profiles = StartUp.objects.filter(
             area_of_interest__id=area_of_interest_ids
         ) # Ensure unique startup profiles
+        print(get_startup_profiles)
+
+        startup_profiles_q = MeetingRequests.objects.filter(vc__user_id=request.user.id, start_up_id__in=get_startup_profiles.values_list('id', flat=True))
+        print(startup_profiles_q)
         
         startup_profiles = []
         for profile in startup_profiles_q:
             startup_profiles.append({
-                'startup_id': profile.id,
-                'name': profile.name,
-                'email': profile.email,
+                'startup_id': profile.start_up.id,
+                'name': profile.start_up.name,
+                'email': profile.start_up.email,
             })
         return JsonResponse(startup_profiles, safe=False)
     else:
