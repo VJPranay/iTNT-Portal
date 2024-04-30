@@ -33,7 +33,7 @@ urlpatterns = [
     path('startup-details', fetch_startup_details, name='fetch_startup_details') ,
 
     path('startup-list-v2', StartUpListView.as_view(), name='startup_list_v2'),
-    path('profiles/startup/<int:pk>', startup_profile_details, name='startup_profile_details'),
+    path('startup/<int:pk>', startup_profile_details, name='startup_profile_details'),
 
 
        

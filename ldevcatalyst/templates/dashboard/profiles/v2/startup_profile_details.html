@@ -1,6 +1,6 @@
 {% extends 'dashboard/base.html' %}
 {% load static %}
-{% load crispy_forms_tags %}
+
 <link href="{% static 'assets/plugins/custom/datatables/datatables.bundle.css' %}" rel="stylesheet" type="text/css" />
 
 {% block breadcrums %}
@@ -44,33 +44,106 @@ startup details
 
 
 {% block page_content %}
-							<div class="d-flex flex-column flex-column-fluid">
-								<!--begin::Content-->
-								<div id="kt_app_content" class="app-content flex-column-fluid">
-									<!--begin::Contacts App- View Contact-->
-									<div class="row g-7 justify-content-center">
-                                        <!--begin::filters-->
-                                        <div class="col-lg-8 col-xl-8">
-                                            <!--begin::Contact group wrapper-->
-                                            <div class="card card-flush">
-                                                <h2> pranay </h2>
-                                                <h2> {{startup.district}} </h2>
-                                                <h2> {{startup.founding_year}} </h2>
-                                                <h2> {{startup.area_of_interest}} </h2>
-                                                <h2> {{startup.name}} </h2>
+<div class="d-flex flex-column flex-column-fluid">
+    <!--begin::Content-->
+    <div id="kt_app_content" class="app-content flex-column-fluid">
+        <!--begin::Contacts App- View Contact-->
+        <div class="row justify-content-center">
+            <!--begin::filters-->
+            <div class="col-lg-8 col-xl-8">
+                <!--begin::Contact group wrapper-->
+                <div class="card card-flush">
+                    <div class="card-header bg-primary bg-gradient justify-content-center pt-5">
+                        <h1 class="mb-0 text-white">StartUp Details</h1>
+                    </div>
+                    <div class="p-10">
+                        <div class="mt-6"></div><!-- Add space between header and fields -->
 
-                                            </div>
-                                            <!--end::Contact group wrapper-->
-                                        </div>
-                                    </div>
-									<!--end::Contacts App- View Contact-->
-								</div>
-								<!--end::Content-->
-							</div>
-							<!--end::Content wrapper-->
-							<!--begin::Footer-->
+                        <div class="mb-6">
+                            <h4 style="color: #007bff;">StartUp Name </h4>
+                            <h4>{% if startup %}{{ startup.name }}{% else %}N/A{% endif %}</h4>
+                        </div>
+
+                        <div class="mb-6">
+                            <h4 style="color: #007bff;">Description</h4>
+                            <h4>{{ startup.description }}</h4>
+                        </div>
+
+                        <div class="mb-6">
+                            <h4 style="color: #007bff;">Area Of Interest</h4>
+                            <h4>{% if startup.area_of_interest %}{{ startup.area_of_interest.name }}{% else %}N/A{% endif %}</h4>
+                        </div>
+
+                        <!-- Add margin-bottom class to create space -->
+                        <div class="mb-6">
+                            <h4 style="color: #007bff;">Co-Founder Count</h4>
+                            <h4>{{ startup.co_founder_count }}</h4>
+                        </div>
+
+                        <div class="mb-4">
+                            <h4 style="color: #007bff;">Team Size</h4>
+                            <h4>{{ startup.team_size }}</h4>
+                        </div>
+
+                        <div class="mb-6">
+                            <h4 style="color: #007bff;">State</h4>
+                            <h4>{% if startup.state %}{{ startup.state.name }}{% else %}N/A{% endif %}</h4>
+                        </div>
+
+                        <div class="mb-6">
+                            <h4 style="color: #007bff;">District</h4>
+                            <h4>{% if startup.district %}{{ startup.district.name }}{% else %}N/A{% endif %}</h4>
+                        </div>
+
+                        <div class="mb-6">
+                            <h4 style="color: #007bff;">Website Link</h4>
+                            <h4>{% if startup.website %}{{ startup.website }}{% else %}N/A{% endif %}</h4>
+                        </div>
+
+                        <div class="mb-6">
+                            <h4 style="color: #007bff;">Preferred Investment Stage</h4>
+                            <h4>{% if startup.funding_stage %}{{ startup.funding_stage.name }}{% else %}N/A{% endif %}</h4>
+                        </div>
+
+                        <div class="mb-6">
+                            <h4 style="color: #007bff;">Funding Requirement Amount</h4>
+                            <h4>{{ startup.required_amount }}</h4>
+                        </div>
+
+                        <div class="mb-6">
+                            <h4 style="color: #007bff;">Pitch Deck</h4>
+                            <h4>{% if startup.pitch_deck %}
+                                <div class="d-flex flex-column gap-1">
+                                    <iframe src="https://dashboard/innovation-portal/media/url=https://docs.google.com/presentation/d/{{startup.pitch_deck}}/export/pdf" width="100%" height="400px"></iframe>
+                                </div>
+                                {% else %}
+                                N/A
+                                {% endif %}
+                            </h4>
+                        </div>
+
+                        <div class="mb-6">
+                            <h4 style="color: #007bff;">Pitch Video</h4>
+                            <h4>{% if startup.full_video %}
+                                <iframe width="560" height="315" src="https://www.youtube.com/embed/{{startup.full_video}}" frameborder="0" allowfullscreen></iframe>
+                                {% else %}
+                                N/A
+                                {% endif %}
+                            </h4>
+                        </div>
+                    </div>
+                </div>
+                <!--end::Contact group wrapper-->
+            </div>
+        </div>
+        <!--end::Contacts App- View Contact-->
+    </div>
+    <!--end::Content-->
+</div>
+<!--end::Content wrapper-->
+<!--begin::Footer-->
 {% endblock %}
-
+ 
 
 {% block custom_js %}
 <style>
