@@ -70,15 +70,12 @@ def fetch_startup_details(request):
         # Fetch startup details based on startup_id
         try:
             startup = StartUp.objects.get(id=startup_id)
-            print('startup --> ',startup.id)
-            print('vc --> ', request.user.id)
         except StartUp.DoesNotExist:
             return JsonResponse({'error': 'Invalid startup ID'}, status=400)
 
         # get meeting details
         try:
             meeting_info = MeetingRequests.objects.get(vc__user_id=request.user.id, start_up_id=startup)
-            print(meeting_info)
         except MeetingRequests.DoesNotExist:
             print('invalid request here ')
             return JsonResponse({'error': 'Invalid startup/vc ID'}, status=400)
@@ -113,9 +110,9 @@ def fetch_startup_details(request):
 														</div>
 														<!--end::Contact details-->
 													</div>
-                                                    <div style="margin: 20px;display: flex;">
+                                                    <div style="margin: 20px;display: flex;">""" + """
                                                       <a href="{reverse('vc_meeting_accept', kwargs={'meeting_id': meeting_info.id})}" id="acceptMeetingRequest" class="btn btn-sm btn-success btn-active-light-success" style="margin: 10px;">Accept meeting request</a>
-													  <a href="#" id="acceptMeetingRequest" class="btn btn-sm btn-danger btn-active-light-danger" style="margin: 10px;">Deny</a>
+													  <a href="#" id="acceptMeetingRequest" class="btn btn-sm btn-danger btn-active-light-danger" style="margin: 10px;">Deny</a> """ + """
                                                     </div>
 													<!--end::Profile-->
 													<!--begin:::Tabs-->

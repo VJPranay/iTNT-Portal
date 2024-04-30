@@ -12,8 +12,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-68bn2*xnujz@*i2(xb61^kk3vhzo8sfyw3mrn7***srqkm49_*'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
-DEV = False
+DEBUG = True
+DEV = True
 
 
 
@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'crispy_bootstrap5',
     'import_export',
+    'django_filters',
 ]
 
 AUTH_USER_MODEL = 'profiles.User'

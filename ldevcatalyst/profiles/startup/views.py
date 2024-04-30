@@ -17,6 +17,8 @@ from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 import json
 
+from meetings.models import MeetingRequests
+
 
 # Create your views here.
 
@@ -41,7 +43,6 @@ def startup_list(request):
     return render(request, 'dashboard/profiles/startup/list.html', context=template_data)
 
 
-from meetings.models import MeetingRequests
 
 @login_required
 def fetch_startup_profiles(request):
@@ -53,7 +54,6 @@ def fetch_startup_profiles(request):
         startup_profiles_q = StartUp.objects.filter(
             area_of_interest__id=area_of_interest_ids
         ) # Ensure unique startup profiles
-        print(startup_profiles_q)
 
         startup_profiles = []
         for profile in startup_profiles_q:
