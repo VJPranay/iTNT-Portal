@@ -73,175 +73,172 @@ def fetch_startup_details(request):
         except StartUp.DoesNotExist:
             return JsonResponse({'error': 'Invalid startup ID'}, status=400)
 
-        # get meeting details
+        # # get meeting details
+        # try:
+        #     meeting_info = MeetingRequests.objects.get(vc__user_id=request.user.id, start_up_id=startup)
+        # except MeetingRequests.DoesNotExist:
+        #     print('invalid request here ')
+        #     return JsonResponse({'error': 'Invalid startup/vc ID'}, status=400)
+        
         try:
             meeting_info = MeetingRequests.objects.get(vc__user_id=request.user.id, start_up_id=startup)
+            meeting_buttons_html = f"""
+                <div style="margin: 20px;display: flex;">
+                    <a href="{reverse('vc_meeting_accept', kwargs={'meeting_id': meeting_info.id})}" id="acceptMeetingRequest" class="btn btn-sm btn-success btn-active-light-success" style="margin: 10px;">Accept meeting request</a>
+                    <a href="#" id="acceptMeetingRequest" class="btn btn-sm btn-danger btn-active-light-danger" style="margin: 10px;">Deny</a>
+                </div>
+            """
         except MeetingRequests.DoesNotExist:
-            print('invalid request here ')
-            return JsonResponse({'error': 'Invalid startup/vc ID'}, status=400)
+            meeting_buttons_html = ""
 
         # Construct HTML for the startup details
         html = f"""
-           													<!--begin::Profile-->
-                                                      
-													<div class="d-flex gap-7 align-items-center" id="startup-id" data-startup-id="{startup.id}">
-														<!--begin::Avatar-->
-														<div class="symbol symbol-circle symbol-100px">
-															<span class="symbol-label bg-light-success fs-1 fw-bolder">{startup.name[:1]}</span>
-														</div>
-														<!--end::Avatar-->
-														<!--begin::Contact details-->
-														<div class="d-flex flex-column gap-2">
-															<!--begin::Name-->
-															<h3 class="mb-0">{startup.name}</h3>
-															<!--end::Name-->
-															<!--begin::Email-->
-															<div class="d-flex align-items-center gap-2">
-																<i class="ki-outline ki-sms fs-2"></i>
-																<a href="#" class="text-muted text-hover-primary">{startup.area_of_interest.name}</a>
-															</div>
-															<!--end::Email-->
-															<!--begin::Phone-->
-															<div class="d-flex align-items-center gap-2">
-																<i class="ki-outline ki-phone fs-2"></i>
-																<a href="#" class="text-muted text-hover-primary">{startup.funding_stage.name if startup.funding_stage else None}</a>
-															</div>
-															<!--end::Phone-->
-														</div>
-														<!--end::Contact details-->
-													</div>
-                                                    <div style="margin: 20px;display: flex;">""" + """
-                                                      <a href="{reverse('vc_meeting_accept', kwargs={'meeting_id': meeting_info.id})}" id="acceptMeetingRequest" class="btn btn-sm btn-success btn-active-light-success" style="margin: 10px;">Accept meeting request</a>
-													  <a href="#" id="acceptMeetingRequest" class="btn btn-sm btn-danger btn-active-light-danger" style="margin: 10px;">Deny</a> """ + """
-                                                    </div>
-													<!--end::Profile-->
-													<!--begin:::Tabs-->
-													<ul class="nav nav-custom nav-tabs nav-line-tabs nav-line-tabs-2x fs-6 fw-semibold mt-6 mb-8 gap-2">
-														<!--begin:::Tab item-->
-														<li class="nav-item">
-															<a class="nav-link text-active-primary d-flex align-items-center pb-4 active" data-bs-toggle="tab" href="#kt_contact_view_general">
-															<i class="ki-outline ki-home fs-4 me-1"></i>Information</a>
-														</li>
-														<!--end:::Tab item-->
-													</ul>
-													<!--end:::Tabs-->
-													<!--begin::Tab content-->
-													<div class="tab-content" id="">
-														<!--begin:::Tab pane-->
-														<div class="tab-pane fade show active" id="kt_contact_view_general" role="tabpanel">
-															<!--begin::Additional details-->
-															<div class="d-flex flex-column gap-5 mt-7">
-																<!--begin::Company description-->
-                                                                <div class="d-flex flex-column gap-1">
-                                                                    <div class="fw-bold text-muted">Pitch Deck</div>
-                                                                    <iframe src="https://docs.google.com/viewer?url=https://docs.google.com/presentation/d/{startup.pitch_deck}/export/pdf" width="100%" height="400px"></iframe>
-                                                                   <!-- <iframe width="560" height="315" src="https://docs.google.com/presentation/d/{startup.pitch_deck}/embed?start=false&loop=false" frameborder="0" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe> -->
-                                                                </div>
-                                                                 <div class="d-flex flex-column gap-1">
-                                                                    <div class="fw-bold text-muted">Short video</div>
-                                                                    <iframe width="560" height="315" src="https://www.youtube.com/embed/{startup.short_video}" frameborder="0" allowfullscreen></iframe>
-                                                                </div>
-																<div class="d-flex flex-column gap-1">
-																	<div class="fw-bold text-muted">Description</div>
-																	<div class="fw-bold fs-5">{startup.description}</div>
-																</div>
-																<!--end::Company description-->
-                                                                 <!--begin::dpiit number-->
-																<div class="d-flex flex-column gap-1">
-																	<div class="fw-bold text-muted">DPIIT number</div>
-																	<div class="fw-bold fs-5">{startup.dpiit_number}</div>
-																</div>
-																<!--end::dpiit number-->
-                                                                <!--begin::Website-->
-																<div class="d-flex flex-column gap-1">
-																	<div class="fw-bold text-muted">Website</div>
-																	<div class="fw-bold fs-5">{startup.website}</div>
-																</div>
-																<!--end::=Website-->
-                                                                 <!--begin::Website-->
-																<div class="d-flex flex-column gap-1">
-																	<div class="fw-bold text-muted">Email</div>
-																	<div class="fw-bold fs-5">{startup.email}</div>
-																</div>
-																<!--end::=Website-->
-																<!--begin::market_size-->
-																<div class="d-flex flex-column gap-1">
-																	<div class="fw-bold text-muted">Market size</div>
-																	<div class="fw-bold fs-5">{startup.market_size}</div>
-																</div>
-																<!--end::market_size-->
-																<!--begin::funding_stage-->
-																<div class="d-flex flex-column gap-1">
-																	<div class="fw-bold text-muted">Current funding stage</div>
-																	<div class="fw-bold fs-5">{startup.funding_stage.name if startup.funding_stage else None}</div>
-																</div>
-																<!--end::funding_stage-->
-                											    <!--begin::area_of_interest-->
-																<div class="d-flex flex-column gap-1">
-																	<div class="fw-bold text-muted">Industry</div>
-																	<div class="fw-bold fs-5">{startup.area_of_interest.name}</div>
-																</div>
-																<!--end::area_of_interest-->
-                                								<!--begin::area_of_interest-->
-																<div class="d-flex flex-column gap-1">
-																	<div class="fw-bold text-muted">Requried Amount</div>
-																	<div class="fw-bold fs-5">{startup.required_amount}</div>
-																</div>
-																<!--end::area_of_interest-->
-                                                			    <!--begin::area_of_interest-->
-																<div class="d-flex flex-column gap-1">
-																	<div class="fw-bold text-muted">Founding year</div>
-																	<div class="fw-bold fs-5">{startup.founding_year}</div>
-																</div>
-																<!--end::area_of_interest-->
-                                                                <!--begin::area_of_interest-->
-																<div class="d-flex flex-column gap-1">
-																	<div class="fw-bold text-muted">Co-Founder team size </div>
-																	<div class="fw-bold fs-5">{startup.co_founder_count}</div>
-																</div>
-																<!--end::area_of_interest-->
-                                                                <!--begin::area_of_interest-->
-																<div class="d-flex flex-column gap-1">
-																	<div class="fw-bold text-muted">Total team size</div>
-																	<div class="fw-bold fs-5">{startup.team_size}</div>
-																</div>
-																<!--end::area_of_interest-->
-                                                                <!--begin::area_of_interest-->
-																<div class="d-flex flex-column gap-1">
-																	<div class="fw-bold text-muted">Founding experince</div>
-																	<div class="fw-bold fs-5">{ "Yes" if startup.founding_experience else "No" }</div>
-																</div>
-																<!--end::area_of_interest-->
-                                                                <!--begin::area_of_interest-->
-																<div class="d-flex flex-column gap-1">
-																	<div class="fw-bold text-muted">State</div>
-																	<div class="fw-bold fs-5">{startup.state.name if startup.state else None}</div>
-																</div>
-																<!--end::area_of_interest-->
-                                                                <!--begin::district-->
-																<div class="d-flex flex-column gap-1">
-																	<div class="fw-bold text-muted">City</div>
-																	<div class="fw-bold fs-5">{startup.district.name if startup.district else None}</div>
-																</div>
-																<!--end::district-->
-                                                                 <div class="d-flex flex-column gap-1">
-                                                                    <div class="fw-bold text-muted">Full Video</div>
-                                                                    <iframe width="560" height="315" src="https://www.youtube.com/embed/{startup.video_link}" frameborder="0" allowfullscreen></iframe>
-                                                                </div>
-                
-															</div>
-															<!--end::Additional details-->
-														</div>
-														<!--end:::Tab pane-->
-													</div>
-													<!--end::Tab content-->
+            <!--begin::Profile-->
+            <div class="d-flex gap-7 align-items-center" id="startup-id" data-startup-id="{startup.id}">
+                <!--begin::Avatar-->
+                <div class="symbol symbol-circle symbol-100px">
+                    <span class="symbol-label bg-light-success fs-1 fw-bolder">{startup.name[:1]}</span>
+                </div>
+                <!--end::Avatar-->
+                <!--begin::Contact details-->
+                <div class="d-flex flex-column gap-2">
+                    <!--begin::Name-->
+                    <h3 class="mb-0">{startup.name}</h3>
+                    <!--end::Name-->
+                    <!--begin::Email-->
+                    <div class="d-flex align-items-center gap-2">
+                        <i class="ki-outline ki-sms fs-2"></i>
+                        <a href="#" class="text-muted text-hover-primary">{startup.area_of_interest.name}</a>
+                    </div>
+                    <!--end::Email-->
+                    <!--begin::Phone-->
+                    <div class="d-flex align-items-center gap-2">
+                        <i class="ki-outline ki-phone fs-2"></i>
+                        <a href="#" class="text-muted text-hover-primary">{startup.funding_stage.name if startup.funding_stage else None}</a>
+                    </div>
+                    <!--end::Phone-->
+                </div>
+                <!--end::Contact details-->
+            </div>
+            {meeting_buttons_html}
+            <!--end::Profile-->
+            <!--begin:::Tabs-->
+            <ul class="nav nav-custom nav-tabs nav-line-tabs nav-line-tabs-2x fs-6 fw-semibold mt-6 mb-8 gap-2">
+                <!--begin:::Tab item-->
+                <li class="nav-item">
+                    <a class="nav-link text-active-primary d-flex align-items-center pb-4 active" data-bs-toggle="tab" href="#kt_contact_view_general">
+                    <i class="ki-outline ki-home fs-4 me-1"></i>Information</a>
+                </li>
+                <!--end:::Tab item-->
+            </ul>
+            <!--end:::Tabs-->
+            <!--begin::Tab content-->
+            <div class="tab-content" id="">
+                <!--begin:::Tab pane-->
+                <div class="tab-pane fade show active" id="kt_contact_view_general" role="tabpanel">
+                    <!--begin::Additional details-->
+                    <div class="d-flex flex-column gap-5 mt-7">
+                        <!--begin::Company description-->
+                        <div class="d-flex flex-column gap-1">
+                            <div class="fw-bold text-muted">Pitch Deck</div>
+                            <iframe src="https://docs.google.com/viewer?url=https://docs.google.com/presentation/d/{startup.pitch_deck}/export/pdf" width="100%" height="400px"></iframe>
+                        </div>
+                        <div class="d-flex flex-column gap-1">
+                            <div class="fw-bold text-muted">Description</div>
+                            <div class="fw-bold fs-5">{startup.description}</div>
+                        </div>
+                        <!--end::Company description-->
+                        <!--begin::dpiit number-->
+                        <div class="d-flex flex-column gap-1">
+                            <div class="fw-bold text-muted">DPIIT number</div>
+                            <div class="fw-bold fs-5">{startup.dpiit_number}</div>
+                        </div>
+                        <!--end::dpiit number-->
+                        <!--begin::Website-->
+                        <div class="d-flex flex-column gap-1">
+                            <div class="fw-bold text-muted">Website</div>
+                            <div class="fw-bold fs-5">{startup.website}</div>
+                        </div>
+                        <!--end::=Website-->
+                        
+                        <!--begin::market_size-->
+                        <div class="d-flex flex-column gap-1">
+                            <div class="fw-bold text-muted">Market size</div>
+                            <div class="fw-bold fs-5">{startup.market_size}</div>
+                        </div>
+                        <!--end::market_size-->
+                        <!--begin::funding_stage-->
+                        <div class="d-flex flex-column gap-1">
+                            <div class="fw-bold text-muted">Current funding stage</div>
+                            <div class="fw-bold fs-5">{startup.funding_stage.name if startup.funding_stage else None}</div>
+                        </div>
+                        <!--end::funding_stage-->
+                        <!--begin::area_of_interest-->
+                        <div class="d-flex flex-column gap-1">
+                            <div class="fw-bold text-muted">Industry</div>
+                            <div class="fw-bold fs-5">{startup.area_of_interest.name}</div>
+                        </div>
+                        <!--end::area_of_interest-->
+                        <!--begin::area_of_interest-->
+                        <div class="d-flex flex-column gap-1">
+                            <div class="fw-bold text-muted">Requried Amount</div>
+                            <div class="fw-bold fs-5">{startup.required_amount}</div>
+                        </div>
+                        <!--end::area_of_interest-->
+                        <!--begin::area_of_interest-->
+                        <div class="d-flex flex-column gap-1">
+                            <div class="fw-bold text-muted">Founding year</div>
+                            <div class="fw-bold fs-5">{startup.founding_year}</div>
+                        </div>
+                        <!--end::area_of_interest-->
+                        <!--begin::area_of_interest-->
+                        <div class="d-flex flex-column gap-1">
+                            <div class="fw-bold text-muted">Co-Founder team size </div>
+                            <div class="fw-bold fs-5">{startup.co_founder_count}</div>
+                        </div>
+                        <!--end::area_of_interest-->
+                        <!--begin::area_of_interest-->
+                        <div class="d-flex flex-column gap-1">
+                            <div class="fw-bold text-muted">Total team size</div>
+                            <div class="fw-bold fs-5">{startup.team_size}</div>
+                        </div>
+                        <!--end::area_of_interest-->
+                        <!--begin::area_of_interest-->
+                        <div class="d-flex flex-column gap-1">
+                            <div class="fw-bold text-muted">Founding experince</div>
+                            <div class="fw-bold fs-5">{ "Yes" if startup.founding_experience else "No" }</div>
+                        </div>
+                        <!--end::area_of_interest-->
+                        <!--begin::area_of_interest-->
+                        <div class="d-flex flex-column gap-1">
+                            <div class="fw-bold text-muted">State</div>
+                            <div class="fw-bold fs-5">{startup.state.name if startup.state else None}</div>
+                        </div>
+                        <!--end::area_of_interest-->
+                        <!--begin::district-->
+                        <div class="d-flex flex-column gap-1">
+                            <div class="fw-bold text-muted">City</div>
+                            <div class="fw-bold fs-5">{startup.district.name if startup.district else None}</div>
+                        </div>
+                        <!--end::district-->
+                        <div class="d-flex flex-column gap-1">
+                            <div class="fw-bold text-muted">Full Video</div>
+                            <iframe width="560" height="315" src="https://www.youtube.com/embed/{startup.video_link}" frameborder="0" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                    <!--end::Additional details-->
+                </div>
+                <!--end:::Tab pane-->
+            </div>
+            <!--end::Tab content-->
         """
         # Send the HTML response to the JavaScript function
         return JsonResponse({'html': html})
     else:
         # Handle invalid request
         return JsonResponse({'error': 'Invalid request'}, status=400)
-    
+
+
 @login_required
 def vc_meeting_request(request):
     if request.user.user_role == 6:

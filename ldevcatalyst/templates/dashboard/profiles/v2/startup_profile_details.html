@@ -57,82 +57,107 @@ startup details
                         <h1 class="mb-0 text-white">StartUp Details</h1>
                     </div>
                     <div class="p-10">
-                        <div class="mt-6"></div><!-- Add space between header and fields -->
-
-                        <div class="mb-6">
-                            <h4 style="color: #007bff;">StartUp Name </h4>
-                            <h4>{% if startup %}{{ startup.name }}{% else %}N/A{% endif %}</h4>
-                        </div>
-
-                        <div class="mb-6">
-                            <h4 style="color: #007bff;">Description</h4>
-                            <h4>{{ startup.description }}</h4>
-                        </div>
-
-                        <div class="mb-6">
-                            <h4 style="color: #007bff;">Area Of Interest</h4>
-                            <h4>{% if startup.area_of_interest %}{{ startup.area_of_interest.name }}{% else %}N/A{% endif %}</h4>
-                        </div>
-
-                        <!-- Add margin-bottom class to create space -->
-                        <div class="mb-6">
-                            <h4 style="color: #007bff;">Co-Founder Count</h4>
-                            <h4>{{ startup.co_founder_count }}</h4>
-                        </div>
-
-                        <div class="mb-4">
-                            <h4 style="color: #007bff;">Team Size</h4>
-                            <h4>{{ startup.team_size }}</h4>
-                        </div>
-
-                        <div class="mb-6">
-                            <h4 style="color: #007bff;">State</h4>
-                            <h4>{% if startup.state %}{{ startup.state.name }}{% else %}N/A{% endif %}</h4>
-                        </div>
-
-                        <div class="mb-6">
-                            <h4 style="color: #007bff;">District</h4>
-                            <h4>{% if startup.district %}{{ startup.district.name }}{% else %}N/A{% endif %}</h4>
-                        </div>
-
-                        <div class="mb-6">
-                            <h4 style="color: #007bff;">Website Link</h4>
-                            <h4>{% if startup.website %}{{ startup.website }}{% else %}N/A{% endif %}</h4>
-                        </div>
-
-                        <div class="mb-6">
-                            <h4 style="color: #007bff;">Preferred Investment Stage</h4>
-                            <h4>{% if startup.funding_stage %}{{ startup.funding_stage.name }}{% else %}N/A{% endif %}</h4>
-                        </div>
-
-                        <div class="mb-6">
-                            <h4 style="color: #007bff;">Funding Requirement Amount</h4>
-                            <h4>{{ startup.required_amount }}</h4>
-                        </div>
-
-                        <div class="mb-6">
-                            <h4 style="color: #007bff;">Pitch Deck</h4>
-                            <h4>{% if startup.pitch_deck %}
-                                <div class="d-flex flex-column gap-1">
-                                    <iframe src="https://dashboard/innovation-portal/media/url=https://docs.google.com/presentation/d/{{startup.pitch_deck}}/export/pdf" width="100%" height="400px"></iframe>
+                        <div class="row mb-4">
+                            <div class="col-md-3">
+                                <h4 style="color: #007bff;">StartUp Logo</h4>
+                                <div class="d-flex justify-content-center align-items-center" style="padding-right:60px;">
+                                    {% if startup %}
+                                    <div style="font-size: 36px; background-color: #007bff; color: white; width: 100px; height: 100px; border-radius: 50%; display: flex; justify-content: center; align-items: center; margin-top: 15px;">                      
+                                        {{ startup.name|slice:":1" }}
+                                    </div>
+                                    {% else %}
+                                        N/A
+                                    {% endif %}
                                 </div>
-                                {% else %}
-                                N/A
-                                {% endif %}
-                            </h4>
+                            </div>
+                            <div class="col-md-9">
+                                <div class="row mb-4">
+                                    <div class="col-md-6">
+                                        <h4 style="color: #007bff;">StartUp Name</h4>
+                                        <h4>{% if startup %}{{ startup.name }}{% else %}N/A{% endif %}</h4>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h4 style="color: #007bff;">Area Of Interest</h4>
+                                        <h4>{% if startup.area_of_interest %}{{ startup.area_of_interest.name }}{% else %}N/A{% endif %}</h4>
+                                    </div>
+                                </div>
+                                <div class="row mb-4">
+                                    <div class="col-md-6">
+                                        <h4 style="color: #007bff;">Co-Founder Count</h4>
+                                        <h4>{{ startup.co_founder_count }}</h4>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h4 style="color: #007bff;">Team Size</h4>
+                                        <h4>{{ startup.team_size }}</h4>
+                                    </div>
+                                </div>
+                                <div class="row mb-4">
+                                    <div class="col-md-6">
+                                        <h4 style="color: #007bff;">State</h4>
+                                        <h4>{% if startup.state %}{{ startup.state.name }}{% else %}N/A{% endif %}</h4>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h4 style="color: #007bff;">District</h4>
+                                        <h4>{% if startup.district %}{{ startup.district.name }}{% else %}N/A{% endif %}</h4>
+                                    </div>
+                                </div>
+                                <div class="row mb-4">
+                                    <div class="col-md-6">
+                                        <h4 style="color: #007bff;">Website Link</h4>
+                                        <h4>{% if startup.website %}{{ startup.website }}{% else %}N/A{% endif %}</h4>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h4 style="color: #007bff;">Preferred Investment Stage</h4>
+                                        <h4>{% if startup.funding_stage %}{{ startup.funding_stage.name }}{% else %}N/A{% endif %}</h4>
+                                    </div>
+                                </div>
+                                <div class="row mb-4">
+                                    <div class="col-md-6">
+                                        <h4 style="color: #007bff;">Funding Requirement Amount</h4>
+                                        <h4>{{ startup.required_amount }}</h4>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-
-                        <div class="mb-6">
-                            <h4 style="color: #007bff;">Pitch Video</h4>
-                            <h4>{% if startup.full_video %}
-                                <iframe width="560" height="315" src="https://www.youtube.com/embed/{{startup.full_video}}" frameborder="0" allowfullscreen></iframe>
-                                {% else %}
-                                N/A
-                                {% endif %}
-                            </h4>
+                        <div class="row mb-4">
+                            <div class="col-md-12">
+                                <h4 style="color: #007bff;">Description</h4>
+                                <p>{{ startup.description }}</p>
+                            </div>
+                        </div>
+                        <div class="row mb-4">
+                            <div class="col-md-12">
+                                <h4 style="color: #007bff;">Pitch Deck</h4>
+                                <!-- <div class="embed-responsive embed-responsive-16by9">
+                                    <iframe class="embed-responsive-item" src="{% if startup.pitch_deck %}https://docs.google.com/presentation/d/{{ startup.pitch_deck }}/embed{% else %}# {% endif %}" allowfullscreen></iframe>
+                                </div> -->
+                                <h4>{% if startup.pitch_deck %}
+                                    <div class="d-flex flex-column gap-1">
+                                        <iframe src="https://dashboard/innovation-portal/media/url=https://docs.google.com/presentation/d/{{startup.pitch_deck}}/export/pdf" width="100%" height="400px"></iframe>
+                                    </div>
+                                    {% else %}
+                                    N/A
+                                    {% endif %}
+                                </h4>
+                            </div>
+                        </div>
+                        <div class="row mb-4">
+                            <div class="col-md-12">
+                                <h4 style="color: #007bff;">Pitch Video</h4>
+                                <!-- <div class="embed-responsive embed-responsive-16by9">
+                                    <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/{% if startup.full_video %}{{ startup.full_video }}{% else %}# {% endif %}" allowfullscreen></iframe>
+                                </div> -->
+                                <h4>{% if startup.full_video %}
+                                    <iframe width="560" height="315" src="https://www.youtube.com/embed/{{startup.full_video}}" frameborder="0" allowfullscreen></iframe>
+                                    {% else %}
+                                    N/A
+                                    {% endif %}
+                                </h4>
+                            </div>
                         </div>
                     </div>
                 </div>
+                
                 <!--end::Contact group wrapper-->
             </div>
         </div>
