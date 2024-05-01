@@ -150,6 +150,21 @@
 											<!--end::Input-->
 										</div>
 
+										<div class="fv-row mb-10">
+											<!--begin::Label-->
+											<label class="form-label">Fund Type</label>
+											<!--end::Label-->
+											<!--begin::Input-->
+											<select name="fund_type" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="true">
+												<option value="" disabled selected>(Select...)</option>
+												{% for value, label in fund_types %}
+													<option value="{{ value }}">{{ label }}</option>
+												{% endfor %}
+											</select>
+											<!--end::Input-->
+											<!-- Button to add another investment stage -->
+										</div>
+
 									
 										<div class="fv-row mb-10">
 											<!--begin::Label-->

@@ -140,7 +140,8 @@ def vc_registration(request):
         portfolio_size = request.POST.get('portfolio_size')
         company_website = request.POST.get('company_website')
         linkedin_profile = request.POST.get('linkedin_profile')
-        company_portfolio_document = request.POST.get('portfolio_document')
+        company_portfolio_document = request.FILES.get('portfolio_document')
+        fund_type = request.POST.get('fund_type')
         request_schema = '''
         partner_name:
             type: string
@@ -196,12 +197,17 @@ def vc_registration(request):
         linkedin_profile:
             type: string
             required: false
+        portfolio_document:
+            type: string
+            required: false
+        fund_type:
+            type: string
+            required: false
 
         '''
         v = Validator()
         post_data = request.POST.dict()
         schema = yaml.load(request_schema, Loader=yaml.SafeLoader)
-        print(schema)
         if v.validate(post_data, schema):
                 try:
                     new_vc_registration = VCRegistrations.objects.create(
@@ -218,7 +224,8 @@ def vc_registration(request):
                         state_id = state_id,
                         company_website = company_website,
                         linkedin_profile = linkedin_profile,
-                        company_portfolio_document=company_portfolio_document
+                        company_portfolio_document=company_portfolio_document,
+                        fund_type=fund_type
                     )
                     new_vc_registration.save()
                     for area_id in area_of_interest_ids:
@@ -247,7 +254,6 @@ def vc_registration(request):
                             'error': str(e),
                         })
         else:
-                print('invalid form ')
                 return JsonResponse(
                         {
                             'success': False,
@@ -274,7 +280,9 @@ def vc_registration(request):
                 'area_of_interest_id' : x.id,
                 'area_of_interest_value' : x.name,
             } for x in AreaOfInterest.objects.filter(is_approved=True).order_by('name')    
-        ]})
+        ],
+        'fund_types': VCRegistrations.FUND_TYPE_CHOICES
+        })
         
         
 @login_required

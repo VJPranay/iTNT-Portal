@@ -30,6 +30,13 @@ class PublicationInfo(models.Model):
 
 
 class VCRegistrations(models.Model):
+    FUND_TYPE_CHOICES = [
+        ('angel_investor', 'Angel Investor'),
+        ('angel_network', 'Angel Network'),
+        ('venture_capital', 'Venture Capital Fund'),
+        ('family_office', 'Family Office'),
+        ('corporate_vc', 'Corporate Venture Capital'),
+    ]
     partner_name = models.CharField(max_length=255,blank=True, null=True)
     firm_name = models.CharField(max_length=255,blank=True, null=True)
     designation = models.CharField(max_length=100,blank=True, null=True)
@@ -50,6 +57,9 @@ class VCRegistrations(models.Model):
     updated = models.DateTimeField(auto_now=True)
     company_portfolio_document = models.FileField(upload_to='portfolio_documents/', validators=[validate_file_size], blank=True, null=True)
     registration_id = models.CharField(max_length=100,unique=True)
+    
+    fund_type = models.CharField(max_length=255, null=True, blank=True, default=None, choices=FUND_TYPE_CHOICES)
+    
     status = models.CharField(
         max_length=10,
         choices=[('pending', 'pending'), ('approved', 'approved'), ('rejected', 'rejected')],

@@ -263,7 +263,7 @@ var KTCreateAccount = function () {
                     funding_stage_id: {
 						validators: {
 							notEmpty: {
-								message: 'Preferred Investment Stage is required'
+								message: 'Fund Stage is required'
 							}
 						}
 					}
