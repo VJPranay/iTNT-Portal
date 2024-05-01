@@ -140,6 +140,7 @@ def vc_registration(request):
         portfolio_size = request.POST.get('portfolio_size')
         company_website = request.POST.get('company_website')
         linkedin_profile = request.POST.get('linkedin_profile')
+        company_portfolio_document = request.POST.get('portfolio_document')
         request_schema = '''
         partner_name:
             type: string
@@ -191,17 +192,16 @@ def vc_registration(request):
             required: true
         company_website:
             type: string
-            required: true
-            minlength: 6
+            required: false
         linkedin_profile:
             type: string
-            required: true
-            minlength: 6
+            required: false
 
         '''
         v = Validator()
         post_data = request.POST.dict()
         schema = yaml.load(request_schema, Loader=yaml.SafeLoader)
+        print(schema)
         if v.validate(post_data, schema):
                 try:
                     new_vc_registration = VCRegistrations.objects.create(
@@ -218,6 +218,7 @@ def vc_registration(request):
                         state_id = state_id,
                         company_website = company_website,
                         linkedin_profile = linkedin_profile,
+                        company_portfolio_document=company_portfolio_document
                     )
                     new_vc_registration.save()
                     for area_id in area_of_interest_ids:
@@ -246,6 +247,7 @@ def vc_registration(request):
                             'error': str(e),
                         })
         else:
+                print('invalid form ')
                 return JsonResponse(
                         {
                             'success': False,
