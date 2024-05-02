@@ -34,7 +34,7 @@ urlpatterns = [
 
     path('startup-list-v2', StartUpListView.as_view(), name='startup_list_v2'),
     path('startup/<int:pk>', startup_profile_details, name='startup_profile_details'),
+    
 
-
-       
+   
 ]
