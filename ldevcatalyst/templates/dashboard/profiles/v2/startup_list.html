@@ -56,11 +56,14 @@ startup's
                                                 <form method="get">
                                                     <div class="card-body">
                                                         {{ filter.form|crispy }}
+                                                        <br>
                                                         <div class="d-grid">
                                                             <button type="submit" class="btn btn-primary">Apply Filters</button>
-                                                        </br>
-                                                            <button type="button" class="btn btn-secondary" onclick="clearFilters()">Clear Filters</button>
+                                                            <div style="margin-top: 20px;"> <!-- Adjust margin-top value as needed -->
+                                                                <button type="button" class="btn btn-secondary" onclick="clearFilters()">Clear Filters</button>
+                                                            </div>
                                                         </div>
+                                                        
                                                     </div>
                                                     
                                                 </form>
