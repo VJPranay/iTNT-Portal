@@ -279,33 +279,33 @@ var KTCreateAccount = function () {
                             }
                         }
                     },
-                    paper_link: {
-                        validators: {
-                            notEmptyIfPhD: {
-                                message: 'Please enter Paper Link',
-                                enabled: false // Initially disabled
-                            },
+                    // paper_link: {
+                    //     validators: {
+                    //         notEmptyIfPhD: {
+                    //             message: 'Please enter Paper Link',
+                    //             enabled: false // Initially disabled
+                    //         },
                             
-                        }
-                    },
-                    journal: {
-                        validators: {
-                            notEmptyIfPhD: {
-                                message: 'Please enter Journal',
-                                enabled: false // Initially disabled
-                            }
-                        }
-                    },
-                },
-                plugins: {
-                    trigger: new FormValidation.plugins.Trigger(),
-                    // Bootstrap Framework Integration
-                    bootstrap: new FormValidation.plugins.Bootstrap5({
-                        rowSelector: '.fv-row',
-                        eleInvalidClass: '',
-                        eleValidClass: ''
-                    })
-                }
+                    //     }
+                    // },
+                //     journal: {
+                //         validators: {
+                //             notEmptyIfPhD: {
+                //                 message: 'Please enter Journal',
+                //                 enabled: false // Initially disabled
+                //             }
+                //         }
+                //     },
+                // },
+                // plugins: {
+                //     trigger: new FormValidation.plugins.Trigger(),
+                //     // Bootstrap Framework Integration
+                //     bootstrap: new FormValidation.plugins.Bootstrap5({
+                //         rowSelector: '.fv-row',
+                //         eleInvalidClass: '',
+                //         eleValidClass: ''
+                //     })
+                // }
             }
         ));
 
