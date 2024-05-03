@@ -218,6 +218,11 @@ class StudentRegistrations(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     registration_id=models.CharField(max_length=100,unique=True,null=True)
+    # requested fields
+    gender = models.CharField(max_length=100,choices=[('male','Male'),('female','Female')],blank=True, null=True)
+    mobile = models.CharField(max_length=255,blank=True, null=True)
+    project_guide_name = models.CharField(max_length=255,blank=True, null=True)
+
     status = models.CharField(
         max_length=10,
         choices=[('pending', 'pending'), ('approved', 'approved'), ('rejected', 'rejected')],
