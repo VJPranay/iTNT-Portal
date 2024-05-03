@@ -165,7 +165,7 @@ def sme_registration(request):
         area_of_interest_id = request.POST.get('collaboration_sector')
         mobile = request.POST.get('mobile')
         highest_qualification = request.POST.get('highest_qualification')
-        picture=request.FILES.get('picture')
+        picture = request.FILES.get('picture')
         # Patent
         patent_data = request.POST.get('patents')
 
@@ -202,6 +202,7 @@ def sme_registration(request):
         name:
             type: string
             required: true
+
         gender:
             type: string
             required: true
@@ -288,20 +289,12 @@ def sme_registration(request):
 
         title[]:
             type: string
-            required: false
-            
-        picture:
-            type: string
-            required: true
-            
-        
+            required: false        
         '''
         v=Validator()
         post_data = request.POST.dict()
         schema=yaml.load(request_schema, Loader=yaml.SafeLoader)     
-        if v.validate(post_data,schema): 
-            print("Picture valideated") 
-             
+        if v.validate(post_data,schema):              
             try:
 
                 # Create ResearcherRegistrations object
@@ -360,7 +353,7 @@ def sme_registration(request):
                     'error': str(e),
                 })
         else:
-            print("HEHEHE")
+            print("failed")
             return JsonResponse(
                     {
                         'success': False,

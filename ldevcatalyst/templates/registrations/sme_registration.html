@@ -334,11 +334,17 @@
 
 												<div class="fv-row mb-10">
 													<!--begin::Label-->
-													<label class="form-label required">Photograph of the applicant </span></label>
-													<!--end::Label-->
-													<!--begin::Input-->
-													<input type="file" name="picture" accept=".pdf,.png" class="form-control form-control-lg form-control-solid" required />
-													<!--end::Input-->
+													<label class="form-label required">Photograph of the applicant </label>
+													<div class="card h-100 flex-center bg-light-primary border-primary border border-dashed p-8">
+
+														<!--end::Label-->
+														<!--begin::Image-->
+														<img src="{% static 'assets/media/svg/files/upload.svg' %}" class="mb-5" alt="" />
+														<!--end::Image-->
+														<!--begin::Input-->
+														<input type="file" name="picture" id="picture" accept=".pdf,.png" class="form-control form-control-lg form-control-solid" required />
+														<!--end::Input-->
+													</div>
 												</div>
 
 
