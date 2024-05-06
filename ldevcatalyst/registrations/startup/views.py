@@ -151,12 +151,12 @@ def startup_registration(request):
         fund_raised_id = request.POST.get('fund_raised_id')
         fund_raised_input = request.POST.get('fund_raised_input')
         primary_business_model_id = request.POST.get('primary_business_model_id')
-        incubator_associated = request.POST.get('incubator_associated')
+        incubators_associated = request.POST.get('incubators_associated')
         client_customer_size = request.POST.get('client_customer_size')
         reveune_stage_id = request.POST.get('reveune_stage_id')
         development_stage_id = request.POST.get('development_stage_id')
         development_stage_document = request.FILES.get('development_stage_document')
-        website = request.POST.get('website')
+        company_website = request.POST.get('company_website')
         company_linkedin = request.POST.get('company_linkedin')
         video_link = request.POST.get('video_link')
         pitch_deck = request.FILES.get('pitch_deck')
@@ -224,7 +224,7 @@ def startup_registration(request):
         primary_business_model_id:
             type: string
             required: true
-        incubator_associated:
+        incubators_associated:
             type: string
             required: true
         client_customer_size:
@@ -257,6 +257,12 @@ def startup_registration(request):
         company_logo:
             type: string
             required: false
+        incubator:
+            type: string
+            required: false
+        incubator_associated:
+            type: string
+            required: false
         '''
         v = Validator()
         post_data = request.POST.dict()
@@ -277,13 +283,13 @@ def startup_registration(request):
                     fund_raised_id = fund_raised_id,
                     fund_raised_input = fund_raised_input,
                     primary_business_model_id = primary_business_model_id,
-                    incubator_associated = incubator_associated,
+                    incubators_associated = incubators_associated,
                     client_customer_size = client_customer_size,
                     reveune_stage_id = reveune_stage_id,
                     company_description = company_description,
                     development_stage_id = development_stage_id,
                     development_stage_document = development_stage_document,
-                    website = website,
+                    company_website = company_website,
                     company_linkedin = company_linkedin,
                     video_link = video_link,
                     pitch_deck = pitch_deck,

@@ -110,7 +110,7 @@ class StartUpRegistrationsResource(resources.ModelResource):
         'reveune_stage',
         'development_stage',
         'development_stage_document',
-        'website',
+        'company_website',
         'company_linkedin',
         'video_link',
         'pitch_deck',
@@ -133,7 +133,6 @@ class StartUpRegistrationsAdmin(ImportExportMixin,admin.ModelAdmin):
         'state',
         'district',
         'funding_request_amount',
-        'website',
         'dpiit_number',
         'area_of_interest',
     ]

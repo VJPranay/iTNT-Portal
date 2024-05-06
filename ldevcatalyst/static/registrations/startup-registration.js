@@ -121,7 +121,7 @@ var KTCreateAccount = function () {
 					var incubatorValues = Array.from(incubatorFields).map(field => field.value).join(",");
 					
 					// Set the concatenated incubator value in the FormData object
-					formData.set("incubator", incubatorValues);
+					formData.set("incubators_associated", incubatorValues);
 
 					// Display the form data for testing (remove this line in production)
 					for (var pair of formData.entries()) {
@@ -140,7 +140,7 @@ var KTCreateAccount = function () {
 							if (response.success) {
 								// Optionally, display a success message
 								Swal.fire({
-									text: "Form submitted successfully!",
+									text: "Your registration details have been submitted successfully!",
 									icon: "success",
 									buttonsStyling: false,
 									confirmButtonText: "Ok, got it!",
@@ -294,13 +294,6 @@ var KTCreateAccount = function () {
 						validators: {
 							notEmpty: {
 								message: 'please select primary business model'
-							}
-						}
-					},
-					incubator_associated: {
-						validators: {
-							notEmpty: {
-								message: 'please add incubator associated'
 							}
 						}
 					},
