@@ -6,6 +6,7 @@ from registrations.vc.views import vc_registrations,vc_approve_registration
 from registrations.student.views import student_approve_registration,student_registrations
 from registrations.sme.views import sme_registrations,sme_approve_registrations
 from dashboard.registrations.list_view import StartUpRegistrtaionsListView
+from dashboard.registrations.registration_details import startup_registration_details
 
 
 urlpatterns = [
@@ -28,4 +29,5 @@ urlpatterns = [
     path('registrations/sme/<str:registration_status>/', sme_registrations, name='sme_registrations'),
     path('registrations/sme/approve_registration', sme_approve_registrations, name='sme_approve_registrations'),
     path('registrations/v2/startups', StartUpRegistrtaionsListView.as_view(), name='startup_registrations_list'),
+    path('registrations/v2/startup/<int:pk>', startup_registration_details, name='startup_registration_details'),
 ]

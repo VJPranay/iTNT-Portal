@@ -51,12 +51,3 @@ class StartUpRegistrtaionsListView(FilterView):
         context['filter'].form.helper.add_input(Submit('submit', 'Apply Filters', css_class='btn btn-primary'))
         return context
 
-@login_required
-def startup_profile_details(request, pk):
-    try:
-        startup = StartUpRegistrations.objects.get(pk=pk)
-        return render(request, 'dashboard/profiles/v2/startup_profile_details.html', {'startup': startup})
-    except StartUpRegistrations.DoesNotExist:
-        return HttpResponseRedirect(reverse('not_found'))
-    
-
