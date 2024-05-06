@@ -78,6 +78,20 @@
 													<!--begin:Menu item-->
 													<div class="menu-item">
 														<!--begin:Menu link-->
+														<a class="menu-link" href="{% url 'researcher_registrations_list' %}">
+															<span class="menu-bullet">
+																<span class="bullet bullet-dot"></span>
+															</span>
+															<span class="menu-title">List</span>
+														</a>
+														<!--end:Menu link-->
+													</div>
+													<!--end:Menu item-->
+													<!--begin:Menu item-->
+												
+													
+														{% comment %}
+														<!--begin:Menu link-->
 														<a class="menu-link" href="{% url 'sme_registrations' registration_status='pending' %}">
 															<span class="menu-bullet">
 																<span class="bullet bullet-dot"></span>
@@ -110,6 +124,7 @@
 														</a>
 														<!--end:Menu link-->
 													</div>
+													{% endcomment %}
 													<!--end:Menu item-->
 												</div>
 												<!--end:Menu sub-->
