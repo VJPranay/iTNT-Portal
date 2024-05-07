@@ -109,7 +109,7 @@ Researcher Profile's
                                                                         N/A
                                                                     {% endif %}
                                                                 </td>
-                                                                <td>{{ researcher.area_of_interest }}</td>
+                                                                <td>{{ researcher.area_of_interest.name }}</td>
                                                                 <td><a href="{% url 'researcher_registration_details' researcher.id  %}" class="btn btn-primary" target='_blank'>View Details</a></td>
                                                             </tr>
                                                             {% endfor %}
