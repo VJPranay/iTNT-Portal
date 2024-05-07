@@ -54,19 +54,19 @@ Researcher's details
                 <!--begin::Contact group wrapper-->
                 <div class="card card-flush">
                     <div class="card-header bg-info bg-gradient justify-content-center pt-5">
-                        <h1 class="mb-0 text-white">{{ researcher.name }} details</h1>
+                        <h1 class="mb-0 text-white">{{ researcher.name }} Details</h1>
                     </div>
                     <div class="p-10">
                         <div class="row mb-4">
                             <div class="col-md-3">
-                                <h4 style="color: #007bff;">StartUp Logo</h4>
+                                <h4 style="color: #007bff;">Researcher Logo</h4>
                                 <div class="d-flex justify-content-center align-items-center" style="padding-right:60px;">
                                     {% if researcher %}
                                     <div style="font-size: 36px; background-color: #007bff; color: white; width: 100px; height: 100px; border-radius: 50%; display: flex; justify-content: center; align-items: center; margin-top: 15px;">                      
                                         {{ researcher.name|slice:":1" }}
                                     </div>
                                     {% else %}
-                                        N/A
+                                    N/A
                                     {% endif %}
                                 </div>
                             </div>
@@ -74,23 +74,14 @@ Researcher's details
                                 <div class="row mb-4">
                                     <div class="col-md-6">
                                         <h4 style="color: #007bff;">Researcher Name</h4>
-                                        <h4>{% if startup %}{{ startup.name }}{% else %}N/A{% endif %}</h4>
+                                        <h4>{% if researcher %}{{ researcher.name }}{% else %}N/A{% endif %}</h4>
                                     </div>
                                     <div class="col-md-6">
                                         <h4 style="color: #007bff;">Area Of Interest</h4>
                                         <h4>{% if researcher.area_of_interest %}{{ researcher.area_of_interest.name }}{% else %}N/A{% endif %}</h4>
                                     </div>
                                 </div>
-                                <div class="row mb-4">
-                                    <div class="col-md-6">
-                                        <h4 style="color: #007bff;">Co-Founder Count</h4>
-                                        <h4>{{ researcher.co_founder_count }}</h4>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <h4 style="color: #007bff;">Team Size</h4>
-                                        <h4>{{ researcher.team_size }}</h4>
-                                    </div>
-                                </div>
+                                
                                 <div class="row mb-4">
                                     <div class="col-md-6">
                                         <h4 style="color: #007bff;">State</h4>
@@ -106,25 +97,42 @@ Researcher's details
                                         <h4 style="color: #007bff;">Website Link</h4>
                                         <h4>{% if researcher.website %}{{ researcher.website }}{% else %}N/A{% endif %}</h4>
                                     </div>
-                                    
+                                    <div class="col-md-6">
+                                        <h4 style="color: #007bff;">Gender</h4>
+                                        <h4>{% if researcher.gender %}{{ researcher.gender }}{% else %}N/A{% endif %}</h4>
+                                    </div>
                                 </div>
                                 <div class="row mb-4">
                                     <div class="col-md-6">
-                                        <h4 style="color: #007bff;">Funding Requirement Amount</h4>
-                                        <h4>{{ researcher.required_amount }}</h4>
+                                        <h4 style="color: #007bff;">Area Of Interest For Collaboration</h4>
+                                        <h4>{% if researcher.collaboration_interest %}{{ researcher.collaboration_interest }}{% else %}N/A{% endif %}</h4>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h4 style="color: #007bff;">Institution Name</h4>
+                                        <h4>{% if researcher.institution_name %}{{ researcher.institution_name }}{% else %}N/A{% endif %}</h4>
                                     </div>
                                 </div>
+                                <div class="row mb-4">
+                                    <div class="col-md-6">
+                                        <h4 style="color: #007bff;">Department Name</h4>
+                                        <h4>{% if researcher.department_name %}{{ researcher.department_name }}{% else %}N/A{% endif %}</h4>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h4 style="color: #007bff;">Highest Qualification</h4>
+                                        <h4>{% if researcher.highest_qualification %}{{ researcher.highest_qualification }}{% else %}N/A{% endif %}</h4>
+                                    </div>
+                                </div>
+                               
                             </div>
                         </div>
                         <div class="row mb-4">
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <h4 style="color: #007bff;">Description</h4>
                                 <p>{{ researcher.description }}</p>
                             </div>
                         </div>
-                        
-                        
                     </div>
+                    
                 </div>
                 <br>
                
