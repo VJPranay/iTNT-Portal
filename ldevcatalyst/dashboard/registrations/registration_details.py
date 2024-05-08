@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
-from registrations.models import StartUpRegistrations,ResearcherRegistrations, StudentRegistrations
+from registrations.models import StartUpRegistrations,ResearcherRegistrations, StudentRegistrations,VCRegistrations
 
 
 @login_required
@@ -37,4 +37,12 @@ def student_registration_details(request, pk):
         return HttpResponseRedirect(reverse('not_found'))
 
 
+
+@login_required
+def vc_registration_details(request, pk):
+    try:
+        vc = VCRegistrations.objects.get(pk=pk)
+        return render(request, 'dashboard/registrations/v2/vc_registration_details.html', {'vc':vc})
+    except VCRegistrations.DoesNotExist:
+        return HttpResponseRedirect(reverse('not_found'))
 

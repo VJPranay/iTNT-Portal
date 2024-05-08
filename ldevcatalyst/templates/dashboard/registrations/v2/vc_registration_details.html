@@ -1,0 +1,167 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+
+<link href="{% static 'assets/plugins/custom/datatables/datatables.bundle.css' %}" rel="stylesheet" type="text/css" />
+
+{% block breadcrums %}
+
+<!--begin::Breadcrumb-->
+																<ul class="breadcrumb breadcrumb-separatorless fw-semibold">
+																	<!--begin::Item-->
+																	<li class="breadcrumb-item text-white fw-bold lh-1">
+																		<a href="{% url 'dashboard_index' %}" class="text-white text-hover-primary">
+																			<i class="ki-outline ki-home text-gray-700 fs-6"></i>
+																		</a>
+																	</li>
+																	<!--end::Item-->
+																	<!--begin::Item-->
+																	<li class="breadcrumb-item">
+																		<i class="ki-outline ki-right fs-7 text-gray-700 mx-n1"></i>
+																	</li>
+																	<!--end::Item-->
+																	<!--begin::Item-->
+																	<li class="breadcrumb-item text-white fw-bold lh-1">Registrations</li>
+																	<!--end::Item-->
+																	<!--begin::Item-->
+																	<li class="breadcrumb-item">
+																		<i class="ki-outline ki-right fs-7 text-gray-700 mx-n1"></i>
+																	</li>
+																	<!--end::Item-->
+																	<!--begin::Item-->
+																	<li class="breadcrumb-item text-white fw-bold lh-1">VC's</li>
+																	<!--end::Item-->
+																</ul>
+																<!--end::Breadcrumb-->
+{% endblock  %}
+
+{% block pageheading %}
+Profiles
+{% endblock  %}
+{% block pagedescription %}
+vc details
+{% endblock  %}
+
+
+
+{% block page_content %}
+<div class="d-flex flex-column flex-column-fluid">
+    <!--begin::Content-->
+    <div id="kt_app_content" class="app-content flex-column-fluid">
+        <!--begin::Contacts App- View Contact-->
+        <div class="row justify-content-center">
+            <!--begin::filters-->
+            <div class="col-lg-8 col-xl-8">
+                <!--begin::Contact group wrapper-->
+                <div class="card card-flush">
+                    <div class="card-header bg-info bg-gradient justify-content-center pt-5">
+                        <h1 class="mb-0 text-white">{{ vc.name }} details</h1>
+                    </div>
+                    <div class="p-10">
+                        <div class="row mb-4">
+                            <!-- <div class="col-md-3">
+                                <h4 style="color: #007bff;">StartUp Logo</h4>
+                                <div class="d-flex justify-content-center align-items-center" style="padding-right:60px;">
+                                    {% if startup %}
+                                    <div style="font-size: 36px; background-color: #007bff; color: white; width: 100px; height: 100px; border-radius: 50%; display: flex; justify-content: center; align-items: center; margin-top: 15px;">
+                                        {{ startup.name|slice:":1" }}
+                                    </div>
+                                    {% else %}
+                                        N/A
+                                    {% endif %}
+                                </div>
+                            </div> -->
+                            <div class="col-md-9">
+                                <div class="row mb-4">
+                                    <div class="col-md-6">
+                                        <h4 style="color: #007bff;">Student Name</h4>
+                                        <h4>{% if vc %}{{ vc.name }}{% else %}N/A{% endif %}</h4>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h4 style="color: #007bff;">Area Of Interest</h4>
+                                        <h4>{% if vc.area_of_interest %}{{ vc.area_of_interest.name }}{% else %}N/A{% endif %}</h4>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-4">
+                                    <div class="col-md-6">
+                                        <h4 style="color: #007bff;">State</h4>
+                                        <h4>{% if vc.state %}{{ vc.state.name }}{% else %}N/A{% endif %}</h4>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h4 style="color: #007bff;">District</h4>
+                                        <h4>{% if vc.district %}{{ vc.district.name }}{% else %}N/A{% endif %}</h4>
+                                    </div>
+                                </div>
+                                <div class="row mb-4">
+                                    <div class="col-md-6">
+                                        <h4 style="color: #007bff;">Institution</h4>
+                                        <h4>{% if vc.institution %}{{ vc.institution.name }}{% else %}N/A{% endif %}</h4>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h4 style="color: #007bff;">Designation</h4>
+                                        <h4>{{ vc.designation.name }}</h4>
+                                    </div>
+                                </div>
+                                <div class="row mb-4">
+                                    <div class="col-md-6">
+                                        <h4 style="color: #007bff;">Funding Stage</h4>
+                                        <h4>{{ vc.funding_stage }}</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+<!--                        <div class="row mb-4">-->
+<!--                            <div class="col-md-12">-->
+<!--                                <h4 style="color: #007bff;">Project Idea</h4>-->
+<!--                                <p>{{ vc.project_idea }}</p>-->
+<!--                            </div>-->
+<!--                        </div>-->
+
+
+                    </div>
+                </div>
+                <br>
+
+            <div class="d-grid gap-2 d-md-flex justify-content-center">
+                <button class="btn btn-primary me-md-2" type="button"><a href="{% url 'vc_registrations_list' %}" style="color: white;"> Go Back</a></button>
+
+            </div>
+
+
+
+                <!--end::Contact group wrapper-->
+            </div>
+        </div>
+        <!--end::Contacts App- Vie Contact-->
+    </div>
+    <!--end::Content-->
+</div>
+<!--end::Content wrapper-->
+<!--begin::Footer-->
+{% endblock %}
+
+
+{% block custom_js %}
+<style>
+    .profile-icon {
+        width: 80px; /* Increased icon size */
+        height: 80px; /* Increased icon size */
+        background-color: #007bff;
+        color: #fff;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 5px; /* Square-shaped */
+        font-size: 24px; /* Increased font size */
+        margin-right: 20px; /* Increased margin for better spacing */
+      }
+  </style>
+  <script>
+    function clearFilters() {
+        document.getElementById('id_area_of_interest').value = '';
+        document.getElementById('id_district').value = '';
+        document.getElementById('id_founding_experience').value = '';
+        document.querySelector('form').submit();
+    }
+</script>
+{%endblock %}
