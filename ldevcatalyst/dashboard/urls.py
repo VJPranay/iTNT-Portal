@@ -5,8 +5,8 @@ from registrations.startup.views import startup_registrations,startup_approve_re
 from registrations.vc.views import vc_registrations,vc_approve_registration
 from registrations.student.views import student_approve_registration,student_registrations
 from registrations.sme.views import sme_registrations,sme_approve_registrations
-from dashboard.registrations.list_view import StartUpRegistrationsListView,ResearcherRegistrationsListView, StudentRegistrationsListView,VCRegistrationsListView
-from dashboard.registrations.registration_details import startup_registration_details,Researcher_registration_details, student_registration_details,vc_registration_details
+from dashboard.registrations.list_view import StartUpRegistrationsListView,ResearcherRegistrationsListView, StudentRegistrationsListView,VCRegistrationsListView, IndustryRegistrationsListView
+from dashboard.registrations.registration_details import startup_registration_details,Researcher_registration_details, student_registration_details,vc_registration_details, industry_registration_details
 
 
 urlpatterns = [
@@ -42,8 +42,12 @@ urlpatterns = [
     path('registrations/v2/students', StudentRegistrationsListView.as_view(), name='student_registrations_list'),
     path('registrations/v2/student/<int:pk>', student_registration_details, name='student_registration_details'),
 
-
+    # vc
     path('registrations/v2/vc', VCRegistrationsListView.as_view(), name='vc_registrations_list'),
     path('registrations/v2/vc/<int:pk>', vc_registration_details, name='vc_registration_details'),
+
+     # industry
+    path('registrations/v2/industrys', IndustryRegistrationsListView.as_view(), name='industry_registrations_list'),
+    path('registrations/v2/industry/<int:pk>', industry_registration_details, name='industry_registration_details'),
 
 ]

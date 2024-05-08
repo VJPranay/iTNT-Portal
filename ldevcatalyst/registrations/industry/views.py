@@ -132,7 +132,6 @@ def industry_registration(request):
         poc_email = request.POST.get('poc_email')
         poc_mobile = request.POST.get('poc_mobile')
         area_of_interest_id = request.POST.get('collaboration_sector')
-        print(request.POST)
         request_schema ='''
         company_name:
             type: string
@@ -159,7 +158,7 @@ def industry_registration(request):
         poc_name:
             type: string
             required: true
-            minlength: 5
+            minlength: 6
 
 
         poc_email:
@@ -179,6 +178,7 @@ def industry_registration(request):
             required: true
 
         '''
+        print(request_schema)
         v=Validator()
         post_data = request.POST.dict()
         schema=yaml.load(request_schema, Loader=yaml.SafeLoader)
@@ -195,10 +195,12 @@ def industry_registration(request):
                     mobile = poc_mobile,
                 )
                 new_industry_registration.save()
-                for x in area_of_interest_id:
-                    new_industry_registration.area_of_interest.add(x)
-                    new_industry_registration.save()
+                for area_id in area_of_interest_id:
+                    area_of_interest = AreaOfInterest.objects.get(pk=area_id)
+                    new_industry_registration.area_of_interest.add(area_of_interest)
+
                 new_industry_registration.save()
+
                 # Optionally, you can return a success response
                 return JsonResponse(
                     {
@@ -215,6 +217,7 @@ def industry_registration(request):
                     }
                     )
         else:
+            print('failed')
             return JsonResponse(
                     {
                         'success': False,

@@ -1,5 +1,5 @@
 import django_filters
-from registrations.models import StartUpRegistrations,ResearcherRegistrations, StudentRegistrations,VCRegistrations
+from registrations.models import StartUpRegistrations,ResearcherRegistrations, StudentRegistrations,VCRegistrations, IndustryRegistrations
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
 
@@ -46,6 +46,18 @@ class VCRegistrationsFilter(django_filters.FilterSet):
     class Meta:
         model = VCRegistrations
         fields = ['area_of_interest', 'district']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_method = 'get'
+        self.helper.add_input(Submit('submit', 'Apply Filters', css_class='btn btn-primary'))
+
+
+class IndustryRegistrationsFilter(django_filters.FilterSet):
+    class Meta:
+        model = IndustryRegistrations
+        fields = ['area_of_interest', 'industry', 'district']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
