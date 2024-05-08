@@ -182,7 +182,7 @@ var KTCreateAccount = function () {
                             }
                         }
                     },
-                    area_of_interest: {
+                    area_of_interest_id: {
                         validators: {
                             notEmpty: {
                                 message: 'Please select your Research Area...'
@@ -203,14 +203,14 @@ var KTCreateAccount = function () {
                             }
                         }
                     },
-                    location_state: {
+                    state_id: {
                         validators: {
                             notEmpty: {
                                 message: 'Please select your State...'
                             }
                         }
                     },
-                    location_district: {
+                    district_id: {
                         validators: {
                             notEmpty: {
                                 message: 'Please select your District... '
@@ -279,23 +279,23 @@ var KTCreateAccount = function () {
                             }
                         }
                     },
-                    // paper_link: {
-                    //     validators: {
-                    //         notEmptyIfPhD: {
-                    //             message: 'Please enter Paper Link',
-                    //             enabled: false // Initially disabled
-                    //         },
+                    paper_link: {
+                        validators: {
+                            notEmptyIfPhD: {
+                                message: 'Please enter Paper Link',
+                                enabled: false // Initially disabled
+                            },
                             
-                    //     }
-                    // },
-                    // journal: {
-                    //     validators: {
-                    //         notEmptyIfPhD: {
-                    //             message: 'Please enter Journal',
-                    //             enabled: false // Initially disabled
-                    //         }
-                    //     }
-                    // },
+                        }
+                    },
+                    journal: {
+                        validators: {
+                            notEmptyIfPhD: {
+                                message: 'Please enter Journal',
+                                enabled: false // Initially disabled
+                            }
+                        }
+                    },
                 },
                 plugins: {
                     trigger: new FormValidation.plugins.Trigger(),

@@ -158,11 +158,11 @@ def sme_registration(request):
         name = request.POST.get('name')
         institution_id = request.POST.get('institution')
         department_id = request.POST.get('department')
-        district_id = request.POST.get('location_district')
-        state_id = request.POST.get('location_state')
+        district_id = request.POST.get('district_id')
+        state_id = request.POST.get('state_id')
         email = request.POST.get('email')
         gender = request.POST.get('gender')
-        area_of_interest_id = request.POST.get('collaboration_sector')
+        area_of_interest_id = request.POST.get('area_of_interest_id')
         mobile = request.POST.get('mobile')
         highest_qualification = request.POST.get('highest_qualification')
         picture = request.FILES.get('picture')
@@ -229,11 +229,11 @@ def sme_registration(request):
             type: string
             required: true
 
-        location_state:
+        state_id:
             type: string
             required: true
 
-        location_district:
+        district_id:
             type: string
             required: true
 
@@ -242,7 +242,7 @@ def sme_registration(request):
             required: true
             regex: '^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'
            
-        collaboration_sector:
+        area_of_interest_id:
             type: string
             required: true
         
