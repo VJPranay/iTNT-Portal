@@ -86,7 +86,7 @@ student
                                                 </div>
                                                 <!--end::Card header-->
                                                 <!--begin::Card body-->
-                                                <div class="card-body pt-5" id="startup_profile_data">
+                                                <div class="card-body pt-5" id="student_profile_data">
                                                     <table class="table align-middle table-row-dashed fs-6 gy-5 rounded-3">
                                                         <thead class="bg-primary bg-gradient text-white">
                                                             <tr class="text-start text-gray-500 fw-bold fs-7 text-uppercase gs-0">
@@ -104,7 +104,10 @@ student
                                                             <tr>
                                                                 <td>{{ student.name }}</td>
                                                                 <td>{% if student.area_of_interest %}
-                                                                    {{ student.area_of_interest.name }}
+                                                                    {% for x in student.area_of_interest.all %}
+                                                                        {{ x.name}}
+                                                                        {% if not forloop.last %}, {% endif %}
+                                                                    {% endfor %}
                                                                 {% else %}
                                                                     N/A
                                                                 {% endif %}</td>
@@ -177,7 +180,7 @@ student
     function clearFilters() {
         document.getElementById('id_area_of_interest').value = '';
         document.getElementById('id_district').value = '';
-        document.getElementById('id_preferred_investment_stage').value = '';
+        document.getElementById('id_department').value = '';
         document.querySelector('form').submit();
     }
 </script>
