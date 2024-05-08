@@ -90,7 +90,7 @@ student
                                                     <table class="table align-middle table-row-dashed fs-6 gy-5 rounded-3">
                                                         <thead class="bg-primary bg-gradient text-white">
                                                             <tr class="text-start text-gray-500 fw-bold fs-7 text-uppercase gs-0">
-                                                                <th><a href="?sort_by=name" class="text-white text-decoration-none" style="padding-left: 10px;">Student Name</a></th>
+                                                                <th><a href="?sort_by=firm_name" class="text-white text-decoration-none" style="padding-left: 10px;">Firm Name</a></th>
                                                                 <th><a href="?sort_by=area_of_interest" class="text-white text-decoration-none">Area Of Interest</a></th>
                                                                 <th class="text-white text-decoration-none">District</th>
                                                                 <th class="text-white text-decoration-none">Funding Stage</th>
@@ -102,7 +102,7 @@ student
                                                         <tbody class="fw text-gray-900">
                                                             {% for vc in object_list %}
                                                             <tr>
-                                                                <td>{{ vc.name }}</td>
+                                                                <td>{{ vc.firm_name }}</td>
                                                                 <td>{% if vc.area_of_interest %}
                                                                     {% for x in vc.area_of_interest.all %}
                                                                         {{ x.name}}
@@ -118,8 +118,14 @@ student
                                                                         N/A
                                                                     {% endif %}
                                                                 </td>
-                                                                <td>{{ vc.funding_stage }}</td>
-                                                                <td><a href="{% url 'vc_registration_details' vc.id %}" class="btn btn-primary" target='_blank'>View Details</a></td>
+                                                                <td>{% if vc.funding_stage %}
+                                                                    {% for x in vc.funding_stage.all %}
+                                                                        {{ x.name}}
+                                                                        {% if not forloop.last %}, {% endif %}
+                                                                    {% endfor %}
+                                                                {% else %}
+                                                                    N/A
+                                                                {% endif %}</td>                                                                <td><a href="{% url 'vc_registration_details' vc.id %}" class="btn btn-primary" target='_blank'>View Details</a></td>
                                                             </tr>
                                                             {% endfor %}
                                                         </tbody>

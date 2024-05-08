@@ -73,12 +73,29 @@ vc details
                             <div class="col-md-9">
                                 <div class="row mb-4">
                                     <div class="col-md-6">
-                                        <h4 style="color: #007bff;">Student Name</h4>
-                                        <h4>{% if vc %}{{ vc.name }}{% else %}N/A{% endif %}</h4>
+                                        <h4 style="color: #007bff;">Firm Name</h4>
+                                        <h4>{{ vc.firm_name }}</h4>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h4 style="color: #007bff;">Partner Name</h4>
+                                        <h4>{{ vc.partner_name }}</h4>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h4 style="color: #007bff;">Designation</h4>
+                                        <h4>{{ vc.designation }}</h4>
                                     </div>
                                     <div class="col-md-6">
                                         <h4 style="color: #007bff;">Area Of Interest</h4>
-                                        <h4>{% if vc.area_of_interest %}{{ vc.area_of_interest.name }}{% else %}N/A{% endif %}</h4>
+                                        <h4>
+                                            {% if vc.area_of_interest.all %}
+                                                {% for x in vc.area_of_interest.all %}
+                                                    {{ x.name }}
+                                                    {% if not forloop.last %}, {% endif %}
+                                                {% endfor %}
+                                            {% else %}
+                                                N/A
+                                            {% endif %}
+                                        </h4>                                    
                                     </div>
                                 </div>
 
@@ -94,28 +111,41 @@ vc details
                                 </div>
                                 <div class="row mb-4">
                                     <div class="col-md-6">
-                                        <h4 style="color: #007bff;">Institution</h4>
-                                        <h4>{% if vc.institution %}{{ vc.institution.name }}{% else %}N/A{% endif %}</h4>
+                                        <h4 style="color: #007bff;">Fund Type</h4>
+                                        <h4>{{ vc.fund_type }}</h4>
                                     </div>
-                                    <div class="col-md-6">
-                                        <h4 style="color: #007bff;">Designation</h4>
-                                        <h4>{{ vc.designation.name }}</h4>
-                                    </div>
+                                    
                                 </div>
                                 <div class="row mb-4">
                                     <div class="col-md-6">
                                         <h4 style="color: #007bff;">Funding Stage</h4>
-                                        <h4>{{ vc.funding_stage }}</h4>
+                                        <h4>
+                                            {% if vc.funding_stage.all %}
+                                                {% for x in vc.funding_stage.all %}
+                                                    {{ x.name }}
+                                                    {% if not forloop.last %}, {% endif %}
+                                                {% endfor %}
+                                            {% else %}
+                                                N/A
+                                            {% endif %}
+                                        </h4>                                   
+                                    </div>
+                                </div>
+                                <div class="row-md-4">
+                                    <div class="col-md-6">
+
+                                    <h4 style="color: #007bff;">Number of Investments</h4>
+                                    <h4>{{ vc.portfolio_size }}</h4>
                                     </div>
                                 </div>
                             </div>
                         </div>
-<!--                        <div class="row mb-4">-->
-<!--                            <div class="col-md-12">-->
-<!--                                <h4 style="color: #007bff;">Project Idea</h4>-->
-<!--                                <p>{{ vc.project_idea }}</p>-->
-<!--                            </div>-->
-<!--                        </div>-->
+                       <div class="row mb-4">
+                            <div class="col-md-12">
+                                <h4 style="color: #007bff;">Deal size range(USD)</h4>
+                               <h4>{{ vc.deal_size_range_usd }}</h4>
+                          </div>
+                       </div>
 
 
                     </div>
