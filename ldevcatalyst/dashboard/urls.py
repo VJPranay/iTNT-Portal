@@ -5,8 +5,8 @@ from registrations.startup.views import startup_registrations,startup_approve_re
 from registrations.vc.views import vc_registrations,vc_approve_registration
 from registrations.student.views import student_approve_registration,student_registrations
 from registrations.sme.views import sme_registrations,sme_approve_registrations
-from dashboard.registrations.list_view import StartUpRegistrtaionsListView,ResearcherRegistrationsListView
-from dashboard.registrations.registration_details import startup_registration_details,Researcher_registration_details
+from dashboard.registrations.list_view import StartUpRegistrationsListView,ResearcherRegistrationsListView, StudentRegistrationsListView
+from dashboard.registrations.registration_details import startup_registration_details,Researcher_registration_details, student_registration_details
 
 
 urlpatterns = [
@@ -34,8 +34,12 @@ urlpatterns = [
     path('registrations/v2/researchers', ResearcherRegistrationsListView.as_view(), name='researcher_registrations_list'),
     path('registrations/v2/researcher/<int:pk>', Researcher_registration_details, name='researcher_registration_details'),
     
-    
-    
-    path('registrations/v2/startups', StartUpRegistrtaionsListView.as_view(), name='startup_registrations_list'),
+    # startup
+    path('registrations/v2/startups', StartUpRegistrationsListView.as_view(), name='startup_registrations_list'),
     path('registrations/v2/startup/<int:pk>', startup_registration_details, name='startup_registration_details'),
+
+    # student
+    path('registrations/v2/students', StudentRegistrationsListView.as_view(), name='student_registrations_list'),
+    path('registrations/v2/student/<int:pk>', student_registration_details, name='student_registration_details'),
+
 ]
