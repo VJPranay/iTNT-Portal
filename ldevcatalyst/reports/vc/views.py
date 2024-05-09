@@ -12,6 +12,8 @@ from registrations.models import StartUpRegistrations
 from django.db.models import Count
 from django.contrib import messages
 
+
+
 @login_required
 def vc_overview(request):
     # VC count by district

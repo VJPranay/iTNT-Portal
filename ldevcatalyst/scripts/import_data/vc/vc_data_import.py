@@ -55,6 +55,6 @@ def import_vc_data(csv_file_path):
     return 'Data imported successfully'
 
 # Usage example
-csv_file_path = '/Users/vj/itnt/iTNT-Portal/ldevcatalyst/scripts/import_data/vc/latest_vc.csv'  # Update with your actual CSV file path
+csv_file_path = '/opt/portal/iTNT-Portal/ldevcatalyst/scripts/import_data/vc/latest_vc.csv'  # Update with your actual CSV file path
 result_message = import_vc_data(csv_file_path)
 print(result_message)

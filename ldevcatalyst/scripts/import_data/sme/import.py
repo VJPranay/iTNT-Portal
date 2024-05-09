@@ -121,7 +121,7 @@ def import_researcher_data(csv_file_path):
     return 'Data imported successfully'
 
 # Usage example
-#csv_file_path = '/opt/portal/iTNT-Portal/ldevcatalyst/scripts/import_data/sme/3000sme.csv'
-csv_file_path = '/Users/vj/itnt/iTNT-Portal/ldevcatalyst/scripts/import_data/sme/a.csv'
+csv_file_path = '/opt/portal/iTNT-Portal/ldevcatalyst/scripts/import_data/sme/a.csv'
+#csv_file_path = '/Users/vj/itnt/iTNT-Portal/ldevcatalyst/scripts/import_data/sme/a.csv'
 result_message = import_researcher_data(csv_file_path)
 print(result_message)
