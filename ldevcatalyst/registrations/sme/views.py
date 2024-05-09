@@ -158,13 +158,14 @@ def sme_registration(request):
         name = request.POST.get('name')
         institution_id = request.POST.get('institution')
         department_id = request.POST.get('department')
-        district_id = request.POST.get('location_district')
-        state_id = request.POST.get('location_state')
+        district_id = request.POST.get('district_id')
+        state_id = request.POST.get('state_id')
         email = request.POST.get('email')
         gender = request.POST.get('gender')
-        area_of_interest_id = request.POST.get('collaboration_sector')
+        area_of_interest_id = request.POST.get('area_of_interest_id')
         mobile = request.POST.get('mobile')
         highest_qualification = request.POST.get('highest_qualification')
+        picture = request.FILES.get('picture')
         # Patent
         patent_data = request.POST.get('patents')
 
@@ -201,6 +202,7 @@ def sme_registration(request):
         name:
             type: string
             required: true
+
         gender:
             type: string
             required: true
@@ -227,11 +229,11 @@ def sme_registration(request):
             type: string
             required: true
 
-        location_state:
+        state_id:
             type: string
             required: true
 
-        location_district:
+        district_id:
             type: string
             required: true
 
@@ -240,7 +242,7 @@ def sme_registration(request):
             required: true
             regex: '^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'
            
-        collaboration_sector:
+        area_of_interest_id:
             type: string
             required: true
         
@@ -287,12 +289,12 @@ def sme_registration(request):
 
         title[]:
             type: string
-            required: false
+            required: false        
         '''
         v=Validator()
         post_data = request.POST.dict()
         schema=yaml.load(request_schema, Loader=yaml.SafeLoader)     
-        if v.validate(post_data,schema):   
+        if v.validate(post_data,schema):              
             try:
 
                 # Create ResearcherRegistrations object
@@ -306,6 +308,7 @@ def sme_registration(request):
                     email=email,
                     gender=gender,
                     highest_qualification=highest_qualification,
+                    picture=picture
                     #patents_id=new_patent_info.id
                 )
                 if title.replace(" ",'') != '' or journal.replace(" ",'') != '':
@@ -350,6 +353,7 @@ def sme_registration(request):
                     'error': str(e),
                 })
         else:
+            print("failed")
             return JsonResponse(
                     {
                         'success': False,

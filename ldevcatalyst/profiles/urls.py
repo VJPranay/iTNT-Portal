@@ -4,6 +4,7 @@ from .student.views import student_list,fetch_student_profiles,fetch_student_det
 from .sme.views import sme_list,fetch_sme_profiles,fetch_sme_details
 from .industry.views import industry_list,fetch_industry_profiles,fetch_industry_details
 from .startup.views import startup_list,fetch_startup_profiles,fetch_startup_details
+from .v2.startup_views import StartUpListView,startup_profile_details
 
 
 urlpatterns = [
@@ -31,5 +32,9 @@ urlpatterns = [
     path('startup-profiles', fetch_startup_profiles, name='fetch_startup_profiles'),
     path('startup-details', fetch_startup_details, name='fetch_startup_details') ,
 
-       
+    path('startup-list-v2', StartUpListView.as_view(), name='startup_list_v2'),
+    path('startup/<int:pk>', startup_profile_details, name='startup_profile_details'),
+    
+
+   
 ]

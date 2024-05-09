@@ -221,7 +221,7 @@ var KTCreateAccount = function () {
 					portfolio_size: {
 						validators: {
 							notEmpty: {
-								message: 'Please enter your portfolio size '
+								message: 'Please enter your number of Investments '
 							}
 						}
 					},
@@ -256,14 +256,14 @@ var KTCreateAccount = function () {
                     collaboration_sector: {
 						validators: {
 							notEmpty: {
-								message: 'Area of collaboration is required'
+								message: 'Preferred sector for investment is required'
 							}
 						}
 					},
                     funding_stage_id: {
 						validators: {
 							notEmpty: {
-								message: 'Preferred Investment Stage is required'
+								message: 'Fund Stage is required'
 							}
 						}
 					}
@@ -307,20 +307,21 @@ var KTCreateAccount = function () {
                             },
 						}
 					},
-					company_website: {
-						validators: {
-							notEmpty: {
-								message: 'Company website is required'
-							}
-						}
-					},
-					linkedin_profile: {
-						validators: {
-							notEmpty: {
-								message: 'LinkedIn profile is required'
-							}
-						}
-					},
+					// company_website: {
+					// 	validators: {
+					// 		notEmpty: {
+					// 			message: 'Company website is required'
+					// 		}
+					// 	}
+					// },
+					// linkedin_profile: {
+					// 	validators: {
+					// 		notEmpty: {
+					// 			message: 'LinkedIn profile is required'
+					// 		}
+					// 	}
+					// },
+					
 				},
 				plugins: {
 					trigger: new FormValidation.plugins.Trigger(),
