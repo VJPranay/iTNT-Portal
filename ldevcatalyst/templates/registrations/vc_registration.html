@@ -143,12 +143,29 @@
 										<!--begin::Input group-->
 										<div class="fv-row mb-10">
 											<!--begin::Label-->
-											<label class="form-label required">Firm Name</label>
+											<label class="form-label required">Firm Name / Investor Name</label>
 											<!--end::Label-->
 											<!--begin::Input-->
 											<input name="firm_name" class="form-control form-control-lg form-control-solid" placeholder="Your VC name" value="" />
 											<!--end::Input-->
 										</div>
+
+										<div class="fv-row mb-10">
+											<!--begin::Label-->
+											<label class="form-label">Fund Type</label>
+											<!--end::Label-->
+											<!--begin::Input-->
+											<select name="fund_type" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="true">
+												<option value="" disabled selected>(Select...)</option>
+												{% for value, label in fund_types %}
+													<option value="{{ value }}">{{ label }}</option>
+												{% endfor %}
+											</select>
+											<!--end::Input-->
+											<!-- Button to add another investment stage -->
+										</div>
+
+									
 										<div class="fv-row mb-10">
 											<!--begin::Label-->
 											<label class="form-label required">Partner Name</label>
@@ -203,13 +220,13 @@
 										
 										<div class="fv-row mb-10">
 											<!--begin::Label-->
-											<label class="form-label required">Portfolio Size</label>
+											<label class="form-label required">Number of Investments</label>
 											<!--end::Label-->
 											<!--begin::Input-->
 											<input name="portfolio_size" class="form-control form-control-lg form-control-solid" placeholder="5345" value="" />
 											<!--end::Input-->
 										</div>
-										<div class="fv-row mb-10" data-district-url="https://itnthub.tn.gov.in{% url 'districts' %}"  data-district-urlid="districtslink">
+										<div class="fv-row mb-10" data-district-url="http://127.0.0.1:8000{% url 'districts' %}"  data-district-urlid="districtslink">
 											<!--begin::Label-->
 											<label class="form-label required">State</label>
 											<!--end::Label-->
@@ -236,7 +253,7 @@
 
 										<div class="fv-row mb-10" id="dynamicAreaOfInterestContainer">
 											<!--begin::Label-->
-											<label class="form-label required">Area of interest for collaboration</label>
+											<label class="form-label required">Preferred sector for investment</label>
 											<!--end::Label-->
 											<!--begin::Input-->
 											<select name="collaboration_sector" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="true" multiple>
@@ -250,7 +267,7 @@
 										
 										<div class="fv-row mb-10" id="dynamicInvestmentStageContainer">
 											<!--begin::Label-->
-											<label class="form-label required">Preferred Investment Stage</label>
+											<label class="form-label required">Fund Stage</label>
 											<!--end::Label-->
 											<!--begin::Input-->
 											<select name="funding_stage_id" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="true" multiple>
@@ -261,18 +278,15 @@
 											<!--end::Input-->
 											<!-- Button to add another investment stage -->
 										</div>
-										
-										
 
 										<div class="fv-row mb-10">
-											<label class="form-label required">Select Portfolio Document (PDF only, max 20MB)</label>
+											<label class="form-label">Select Portfolio Document (PDF only, max 20MB)</label>
 											<div class="card h-100 flex-center bg-light-primary border-primary border border-dashed p-8">
 												<!--begin::Image-->
 												<img src="/innovation-portal/static/assets/media/svg/files/upload.svg" class="mb-5" alt="" />
 												<!--end::Image-->
 												<!--begin::Link-->
-												<input type="file" name="portfolio_document" id="portfolioDocumentFile" class="text-hover-primary fs-5 fw-bold mb-2" accept=".pdf" onchange="validateFile(this)">
-												<!--end::Link-->
+												<input type="file" name="portfolio_document" id="portfolioDocumentFile" class="text-hover-primary fs-5 fw-bold mb-2" accept=".pdf" onchange="validateFile(this)">												<!--end::Link-->
 											</div>
 											<!--end::Card-->
 										</div>
@@ -296,16 +310,8 @@
 											<!--end::Notice-->
 										</div>
 										<!--end::Heading-->
-										<!--begin::Input group-->
-										<div class="fv-row mb-10">
-											<!--begin::Label-->
-											<label class="form-label required">Email</label>
-											<!--end::Label-->
-											<!--begin::Input-->
-											<input type="email" class="form-control form-control-lg form-control-solid" name="poc_email" placeholder="email@domain.com" value="" />
-											<!--end::Input-->
-										</div>
-										<!--end::Input group-->
+
+
 										<!--begin::Input group-->
 										<div class="fv-row mb-10">
 											<!--begin::Label-->
@@ -316,10 +322,22 @@
 											<!--end::Input-->
 										</div>
 										<!--end::Input group-->
+
 										<!--begin::Input group-->
 										<div class="fv-row mb-10">
 											<!--begin::Label-->
-											<label class="form-label required">Website</label>
+											<label class="form-label required">Email</label>
+											<!--end::Label-->
+											<!--begin::Input-->
+											<input type="email" class="form-control form-control-lg form-control-solid" name="poc_email" placeholder="email@domain.com" value="" />
+											<!--end::Input-->
+										</div>
+										<!--end::Input group-->
+										
+										<!--begin::Input group-->
+										<div class="fv-row mb-10">
+											<!--begin::Label-->
+											<label class="form-label">Website</label>
 											<!--end::Label-->
 											<!--begin::Input-->
 											<input type="text" class="form-control form-control-lg form-control-solid" name="company_website" placeholder="Company website" value=" " />
@@ -330,7 +348,7 @@
 										<!--begin::Input group-->
 										<div class="fv-row mb-10">
 											<!--begin::Label-->
-											<label class="form-label required">LinkedIn</label>
+											<label class="form-label">LinkedIn</label>
 											<!--end::Label-->
 											<!--begin::Input-->
 											<input type="text" class="form-control form-control-lg form-control-solid" name="linkedin_profile" placeholder="LinkedIn" value=" " />

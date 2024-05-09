@@ -137,35 +137,35 @@ def startup_approve_registration(request):
 
 def startup_registration(request):
     if request.method == 'POST':
-        name = request.POST.get('name')
-        co_founder_count = request.POST.get('co_founder_count')
-        founder_names = request.POST.get('founder_names')
-        district_id = request.POST.get('location_district')
-        state_id = request.POST.get('location_state')
-        area_of_interest_id = request.POST.get('collaboration_sector')
-        funding_stage_id = request.POST.get('funding_stage_id')
-        reveune_stage_id = request.POST.get('reveune_stage_id')
+        company_name = request.POST.get('company_name')
+        co_founders_count = request.POST.get('co_founders_count')
+        team_size = request.POST.get('team_size')
+        funding_request_amount = request.POST.get('funding_request_amount')
+        year_of_establishment = request.POST.get('year_of_establishment')
+        dpiit_number = request.POST.get('dpiit_number')
+        company_description = request.POST.get('company_description')
+        district_id = request.POST.get('district_id')
+        state_id = request.POST.get('state_id')
+        area_of_interest_id = request.POST.get('area_of_interest_id')
+        preferred_investment_stage_id = request.POST.get('preferred_investment_stage_id')
         fund_raised_id = request.POST.get('fund_raised_id')
         fund_raised_input = request.POST.get('fund_raised_input')
-        product_development_stage_id = request.POST.get('product_development_stage_id')
         primary_business_model_id = request.POST.get('primary_business_model_id')
-        incubator = request.POST.get('incubator')
-        customer_size = request.POST.get('customer_size')
-        team_size = request.POST.get('team_size')
-        dpiit_number = request.POST.get('dpiit_number')
-        description = request.POST.get('description')
+        incubators_associated = request.POST.get('incubators_associated')
+        client_customer_size = request.POST.get('client_customer_size')
+        reveune_stage_id = request.POST.get('reveune_stage_id')
+        development_stage_id = request.POST.get('development_stage_id')
+        development_stage_document = request.FILES.get('development_stage_document')
+        company_website = request.POST.get('company_website')
+        company_linkedin = request.POST.get('company_linkedin')
+        video_link = request.POST.get('video_link')
         pitch_deck = request.FILES.get('pitch_deck')
         company_logo = request.FILES.get('company_logo')
-        product_development_stage_document = request.FILES.get('product_development_stage_document')
-        video_link = request.POST.get('video_link')
-        website = request.POST.get('company_website')
-        required_amount = request.POST.get('required_amount')
-        founding_year = request.POST.get('founding_year')
-        company_linkedin = request.POST.get('company_linkedin')
+        founder_names = request.POST.get('founder_names')
         founder_names = json.loads(founder_names)
         if pitch_deck and pitch_deck.size > 25 * 1024 * 1024:  # 25 MB limit
             return JsonResponse({'success': False, 'error': 'Pitch deck PDF file size exceeds the limit of 25 MB.'}, status=400)
-        if product_development_stage_document and product_development_stage_document.size > 25 * 1024 * 1024:  # 25 MB limit
+        if development_stage_document and development_stage_document.size > 25 * 1024 * 1024:  # 25 MB limit
             return JsonResponse({'success': False, 'error': 'Product development stage document PDF file size exceeds the limit of 25 MB.'}, status=400)
         file_extension_validator = FileExtensionValidator(allowed_extensions=['pdf'])
         try:
@@ -178,86 +178,91 @@ def startup_registration(request):
         except ValidationError as e:
             return JsonResponse({'success': False, 'error': str(e)}, status=400)
         request_schema = '''
-        name:
+        csrfmiddlewaretoken:
             type: string
             required: true
-        primary_business_model_id:
+            minlength: 5
+        company_name:
+            type: string
+            required: true
+        co_founders_count:
+            type: string
+            required: true
+        team_size:
+            type: string
+            required: true
+        funding_request_amount:
+            type: string
+            required: true
+        year_of_establishment:
+            type: string
+            required: true
+        dpiit_number:
             type: string
             required: false
+        company_description:
+            type: string
+            required: true
+        district_id:
+            type: string
+            required: true
+        state_id:
+            type: string
+            required: true
+        area_of_interest_id:
+            type: string
+            required: true
+        preferred_investment_stage_id:
+            type: string
+            required: true
         fund_raised_id:
             type: string
             required: false
         fund_raised_input:
             type: string
             required: false
-        incubator:
-            type: string
-            required: false
-        customer_size:
-            type: string
-            required: false
-        csrfmiddlewaretoken:
+        primary_business_model_id:
             type: string
             required: true
-            minlength: 5
-        co_founder_count:
+        incubators_associated:
             type: string
             required: true
-        founder_names:
-            type: string
-            required: true
-            minlength: 5
-        location_district:
-            type: string
-            required: true
-        location_state:
-            type: string
-            required: true
-        collaboration_sector:
-            type: string
-            required: true
-        funding_stage_id:
-            type: string
-            required: true
-        team_size:
-            type: string
-            required: true
-        dpiit_number:
-            type: string
-            required: false
-        description:
+        client_customer_size:
             type: string
             required: true
         reveune_stage_id:
             type: string
-            required: false
-        product_development_stage_id:
+            required: true
+        development_stage_id:
             type: string
             required: true
-        pitch_deck:
+        development_stage_document:
             type: string
             required: false
-        product_development_stage_document:
-            type: string
-            required: false
-        company_link:
+        founder_names:
+            type: string 
+            required: true
+        company_website:
             type: string
             required: false
         company_linkedin:
             type: string
             required: false
         video_link:
-            type: string 
-            required: false
-        company_website:
             type: string
             required: false
-        required_amount:
+        pitch_deck:
             type: string
-            required: true
-        founding_year:
+            required: false
+        company_logo:
             type: string
-            required: true
+            required: false
+        incubator:
+            type: string
+            required: false
+        incubator_associated:
+            type: string
+            required: false
         '''
         v = Validator()
         post_data = request.POST.dict()
@@ -265,36 +270,31 @@ def startup_registration(request):
         if v.validate(post_data, schema):
             try:
                 new_startup_registration = StartUpRegistrations.objects.create(
-                    name = name,
-                    #market_size = market_size,
-                    required_amount = required_amount,
-                    founding_year = founding_year,
-                    #founding_experience = founding_experience,
-                    #short_video = short_video_link,
-                    co_founder_count = co_founder_count,
-                    #founder_names = founder_names,
+                    company_name = company_name,
+                    co_founders_count = co_founders_count,
+                    team_size = team_size,
+                    funding_request_amount = funding_request_amount,
+                    year_of_establishment = year_of_establishment,
+                    dpiit_number = dpiit_number,
                     district_id = district_id,
                     state_id = state_id,
-                    team_size = team_size,
-                    primary_business_model_id = primary_business_model_id,
-                    incubator = incubator,
-                    customer_size = customer_size,
-                    #email = email,
-                    #mobile = mobile,
-                    dpiit_number = dpiit_number,
                     area_of_interest_id = area_of_interest_id,
-                    description = description,
-                    funding_stage_id = funding_stage_id,
-                    fund_raised_id = fund_raised_id,  # Assign fund_raised_id
-                    fund_raised_value = fund_raised_input,  # Assign fund_raised_input if provided
+                    preferred_investment_stage_id = preferred_investment_stage_id,
+                    fund_raised_id = fund_raised_id,
+                    fund_raised_input = fund_raised_input,
+                    primary_business_model_id = primary_business_model_id,
+                    incubators_associated = incubators_associated,
+                    client_customer_size = client_customer_size,
+                    reveune_stage_id = reveune_stage_id,
+                    company_description = company_description,
+                    development_stage_id = development_stage_id,
+                    development_stage_document = development_stage_document,
+                    company_website = company_website,
+                    company_linkedin = company_linkedin,
+                    video_link = video_link,
                     pitch_deck = pitch_deck,
                     company_logo = company_logo,
-                    video_link = video_link,
-                    website = website,
-                    reveune_stage_id = reveune_stage_id,
-                    product_development_stage_id = product_development_stage_id,
-                    company_linkedin = company_linkedin,
-                    product_development_stage_document = product_development_stage_document
+                    
                 )
                 new_startup_registration.save()
                 for founder in founder_names:
@@ -316,13 +316,6 @@ def startup_registration(request):
                     except Exception as e:
                         print('cofounder issue--> ',str(e))
                         return JsonResponse({'success': False,'registration_id': "Failed",'error': str(e),})
-                # if fund_raised_input is not None:
-                #     new_startup_registration.fund_raised_value = fund_raised_input
-                #     new_startup_registration.save()
-                # else:
-                #     new_startup_registration.fund_raised_id = fund_raised_id
-                #     new_startup_registration.save()
-                
                 return JsonResponse(
                     {
                         'success': True,
@@ -345,7 +338,7 @@ def startup_registration(request):
                     })
     elif request.method == 'GET':
         return render(request,'registrations/startup_registration.html',context={ 
-                                                                                 'startup_years' : [
+                                                                                 'year_of_establishment_years' : [
                                                                                      x for x in range(2009,2025)
                                                                                  ],
          

@@ -25,6 +25,16 @@
 													<!--begin:Menu item-->
 													<div class="menu-item">
 														<!--begin:Menu link-->
+														<a class="menu-link" href="{% url 'industry_registrations_list' %}">
+															<span class="menu-bullet">
+																<span class="bullet bullet-dot"></span>
+															</span>
+															<span class="menu-title">List</span>
+														</a>
+													</div>
+																				
+														
+														{% comment %}
 														<a class="menu-link" href="{% url 'industry_registrations' registration_status='pending' %}">
 															<span class="menu-bullet">
 																<span class="bullet bullet-dot"></span>
@@ -56,7 +66,7 @@
 															<span class="menu-title">Rejected</span>
 														</a>
 														<!--end:Menu link-->
-													</div>
+													</div>{%endcomment%}
 													<!--end:Menu item-->
 												</div>
 												<!--end:Menu sub-->
@@ -77,6 +87,20 @@
 												<div class="menu-sub menu-sub-lg-down-accordion menu-sub-lg-dropdown menu-active-bg px-lg-2 py-lg-4 w-lg-225px">
 													<!--begin:Menu item-->
 													<div class="menu-item">
+														<!--begin:Menu link-->
+														<a class="menu-link" href="{% url 'researcher_registrations_list' %}">
+															<span class="menu-bullet">
+																<span class="bullet bullet-dot"></span>
+															</span>
+															<span class="menu-title">List</span>
+														</a>
+														<!--end:Menu link-->
+													</div>
+													<!--end:Menu item-->
+													<!--begin:Menu item-->
+												
+													
+														{% comment %}
 														<!--begin:Menu link-->
 														<a class="menu-link" href="{% url 'sme_registrations' registration_status='pending' %}">
 															<span class="menu-bullet">
@@ -110,6 +134,7 @@
 														</a>
 														<!--end:Menu link-->
 													</div>
+													{% endcomment %}
 													<!--end:Menu item-->
 												</div>
 												<!--end:Menu sub-->
@@ -131,17 +156,17 @@
 													<!--begin:Menu item-->
 													<div class="menu-item">
 														<!--begin:Menu link-->
-														<a class="menu-link" href="{% url 'startup_registrations' registration_status='pending' %}">
+														<a class="menu-link" href="{% url 'startup_registrations_list' %}">
 															<span class="menu-bullet">
 																<span class="bullet bullet-dot"></span>
 															</span>
-															<span class="menu-title">Pending</span>
+															<span class="menu-title">List</span>
 														</a>
 														<!--end:Menu link-->
 													</div>
 													<!--end:Menu item-->
 													<!--begin:Menu item-->
-													<div class="menu-item">
+													{% comment %} <div class="menu-item">
 														<!--begin:Menu link-->
 														<a class="menu-link" href="{% url 'startup_registrations' registration_status='approved' %}">
 															<span class="menu-bullet">
@@ -162,7 +187,7 @@
 															<span class="menu-title">Rejected</span>
 														</a>
 														<!--end:Menu link-->
-													</div>
+													</div> {% endcomment %}
 													<!--end:Menu item-->
 												</div>
 												<!--end:Menu sub-->
@@ -184,6 +209,18 @@
 													<!--begin:Menu item-->
 													<div class="menu-item">
 														<!--begin:Menu link-->
+														<!--begin:Menu link-->
+														<a class="menu-link" href="{% url 'student_registrations_list' %}">
+															<span class="menu-bullet">
+																<span class="bullet bullet-dot"></span>
+															</span>
+															<span class="menu-title">List</span>
+														</a>
+														<!--end:Menu link-->
+													</div>
+														
+														
+													{% comment %}
 														<a class="menu-link" href="{% url 'student_registrations' registration_status='pending' %}">
 															<span class="menu-bullet">
 																<span class="bullet bullet-dot"></span>
@@ -215,7 +252,7 @@
 															<span class="menu-title">Rejected</span>
 														</a>
 														<!--end:Menu link-->
-													</div>
+													</div>{% endcomment %}
 													<!--end:Menu item-->
 												</div>
 												<!--end:Menu sub-->
@@ -238,6 +275,17 @@
 													<!--begin:Menu item-->
 													<div class="menu-item">
 														<!--begin:Menu link-->
+
+														<a class="menu-link" href="{% url 'vc_registrations_list' %}">
+															<span class="menu-bullet">
+																<span class="bullet bullet-dot"></span>
+															</span>
+															<span class="menu-title">List</span>
+														</a>
+													</div>
+
+
+													{%comment%}
 														<a class="menu-link" href="{% url 'vc_registrations' registration_status='pending' %}">
 															<span class="menu-bullet">
 																<span class="bullet bullet-dot"></span>
@@ -269,7 +317,7 @@
 															<span class="menu-title">Rejected</span>
 														</a>
 														<!--end:Menu link-->
-													</div>
+													</div>{%endcomment%}
 													<!--end:Menu item-->
 												</div>
 												<!--end:Menu sub-->

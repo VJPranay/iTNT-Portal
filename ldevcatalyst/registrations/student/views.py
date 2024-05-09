@@ -128,6 +128,10 @@ def student_registration(request):
         state_id = request.POST.get('location_state')
         district_id = request.POST.get('location_district')
         project_idea = request.POST.get('project_idea')
+        # requested fields
+        gender = request.POST.get('gender')
+        mobile = request.POST.get('mobile')
+        project_guide_name = request.POST.get('project_guide_name')
         print(request.POST)
         request_schema ='''
         name:
@@ -171,6 +175,17 @@ def student_registration(request):
         project_idea:
             type: string
             required: true
+        gender:
+            type: string
+            required: true
+        mobile:
+            type: string
+            required: true
+            regex: '^\d{10}$'
+        project_guide_name:
+            type: string
+            required: false
+
 
         '''
         v=Validator()
@@ -181,13 +196,13 @@ def student_registration(request):
             try:
                 # Creating a new StudentRegistration object
                 try:
-                    institution_info = Institution.objects.get(name=department_id)
+                    institution_info = Institution.objects.get(name=institution_id)
                 except Institution.DoesNotExist:
-                    institution_info = Institution.objects.create(name=department_id)
+                    institution_info = Institution.objects.create(name=institution_id)
                     institution_info.save()
                 try:
                     department_info = Department.objects.get(name=department_id)
-                except District.DoesNotExist:
+                except Department.DoesNotExist:
                     department_info = Department.objects.create(name=department_id)
                     department_info.save()
                 new_student_registration = StudentRegistrations.objects.create(
@@ -199,6 +214,9 @@ def student_registration(request):
                     state_id=state_id,
                     district_id=district_id,
                     project_idea=project_idea,
+                    gender=gender,
+                    mobile=mobile,
+                    project_guide_name=project_guide_name
                 )
                 new_student_registration.save()
                 for x in area_of_interest_id:

@@ -140,13 +140,15 @@
 											<input name="name" class="form-control form-control-lg form-control-solid" placeholder="Enter your First Name and Last Name" value="" required />
 										</div>
 										{% comment %} https://itnthub.tn.gov.in{% endcomment %}
-										<div class="fv-row mb-10" data-district-url="https://itnthub.tn.gov.in{% url 'districts' %}"  data-district-urlid="districtslink">
+										
+
+										<div class="fv-row mb-10" data-district-url="http://127.0.0.1:8000{% url 'districts' %}"  data-district-urlid="districtslink">
 											
 											<!--begin::Label-->
 											<label class="form-label required">State</label>
 											<!--end::Label-->
 											<!--begin::Input-->
-											<select name="location_state" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="true" onchange="fetchDistricts(this.value)">
+											<select name="state_id" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="true" onchange="fetchDistricts(this.value)">
 												<option>Select state</option>
 												{% for state in states %}
 												<option value="{{state.state_id}}">{{state.state_name}}</option>
@@ -159,11 +161,13 @@
 											<label class="form-label required">District</label>
 											<!--end::Label-->	
 											<!--begin::Input-->
-											<select id="districtshere" name="location_district" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="true" onchange="fetchInstitutions(this.value)">
+											<select id="districtshere" name="district_id" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="true" onchange="fetchInstitutions(this.value)">
 												<option value=""></option>
 											</select>
 											<!--end::Input-->
 										</div>
+
+
 										<!--begin::Input group-->
 										<div class="fv-row mb-10">
 											<!--begin::Label-->
@@ -182,7 +186,7 @@
 											<label class="form-label required">Area of interest for collaboration</label>
 											<!--end::Label-->
 											<!--begin::Input-->
-											<select id="collaboration_sector_select" name="collaboration_sector" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="true" onchange="handleSelectionChange()">
+											<select id="collaboration_sector_select" name="area_of_interest_id" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="true" onchange="handleSelectionChange()">
 												<option value="">Select...</option>
 												{% for area_of_interest in area_of_interests %}
 												<option value="{{area_of_interest.area_of_interest_id}}" data-value="{{area_of_interest.area_of_interest_name}}">{{area_of_interest.area_of_interest_name}}</option>
@@ -193,9 +197,10 @@
 											<!--end::Input-->
 										</div>
 										
-										<div class="fv-row mb-10" data-institution-url="https://itnthub.tn.gov.in{% url 'institutions' %}"  data-institution-urlid="institutionslink">
-											<label class="form-label required">Institutions</label>
-											{% comment %} <input name="institution" class="form-control form-control-lg form-control-solid" placeholder="Your institution name" value="" required /> {% endcomment %}
+										<div class="fv-row mb-10" data-institution-url="http://127.0.0.1:8000{% url 'institutions' %}"  data-institution-urlid="institutionslink">
+											<label class="form-label required">Institutions Name</label>
+											  
+											{% comment %}<input name="institution" class="form-control form-control-lg form-control-solid" placeholder="Your institution name" value="" required />   {% endcomment %}
 											<select id="institutionshere" name="institution" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="false" required>
 													<option value="">Please select institution</option>
 											</select> 
@@ -216,7 +221,7 @@
 											<input type="tel" pattern="[0-9]{10}" class="form-control form-control-lg form-control-solid" name="mobile" placeholder="9876543210" value="" required />
 										</div>
 										<div class="fv-row mb-10">
-											<label class="form-label required">Email</label>
+											<label class="form-label required">Mail ID</label>
 											<input type="email" class="form-control form-control-lg form-control-solid" name="email" placeholder="email@domain.com" value="" required />
 										</div>
 									</div>
@@ -254,7 +259,7 @@
 										<!--end::Input group-->
 										<div class="fv-row mb-10">
 											<!--begin::Label-->
-											<label for="publication_title" class="form-label ">Publication Title</label>
+											<label for="publication_title" class="form-label  required">Publication Title(Ph.D)</label>
 											<!--end::Label-->
 											<!--begin::Input-->
 											<input name="publication_title" class="form-control form-control-lg form-control-solid" placeholder="Enter Publication Title" value="" />
@@ -262,7 +267,7 @@
 										</div>
 										<div class="fv-row mb-10">
 											<!--begin::Label-->
-											<label for="paper_link" class="form-label ">Paper Link</label>
+											<label for="paper_link" class="form-label required">Paper Link</label>
 											<!--end::Label-->
 											<!--begin::Input-->
 											<input name="paper_link" class="form-control form-control-lg form-control-solid" type="url" placeholder="Enter Paper Link" value="https://" />
@@ -270,7 +275,7 @@
 										</div>
 										<div class="fv-row mb-10">
 											<!--begin::Label-->
-											<label for="journal" class="form-label ">Journal</label>
+											<label for="journal" class="form-label required">Journal</label>
 											<!--end::Label-->
 											<!--begin::Input-->
 											<input name="journal" class="form-control form-control-lg form-control-solid" placeholder="Enter Journal" value="" />
@@ -287,7 +292,7 @@
 												<!--end::Heading-->
 												<div class="fv-row mb-10">
 													<!--begin::Label-->
-													<label class="form-label r">Patent Number</label>
+													<label class="form-label ">Patent Number</label>
 													<!--end::Label-->
 													<!--begin::Input-->
 													<input name="number[]" class="form-control form-control-lg form-control-solid" placeholder="Enter Patent Number" value="" required />
@@ -320,7 +325,7 @@
 												</div>
 												<div class="fv-row mb-10">
 													<!--begin::Label-->
-													<label class="form-label ">Status</label>
+													<label class="form-label ">Current Status of the Patent</label>
 													<!--end::Label-->
 													<!--begin::Input-->
 													<select name="status[]" class="form-select form-select-lg form-select-solid" required>
@@ -330,6 +335,24 @@
 													</select>
 													<!--end::Input-->
 												</div>
+
+												<div class="fv-row mb-10">
+													<!--begin::Label-->
+													<label class="form-label required">Photograph of the applicant </label>
+													<div class="card h-100 flex-center bg-light-primary border-primary border border-dashed p-8">
+
+														<!--end::Label-->
+														<!--begin::Image-->
+														<img src="{% static 'assets/media/svg/files/upload.svg' %}" class="mb-5" alt="" />
+														<!--end::Image-->
+														<!--begin::Input-->
+														<input type="file" name="picture" id="picture" accept=".pdf,.png" class="form-control form-control-lg form-control-solid" required />
+														<!--end::Input-->
+													</div>
+												</div>
+
+
+
 											</div>
 										</div>
 										<div class="d-flex">
@@ -427,13 +450,13 @@
 <script src="{% static 'assets/js/scripts.bundle.js' %}"></script>
 <!--end::Global Javascript Bundle-->
 <!--begin::Custom Javascript(used for this page only)-->
-<script src="{% static 'assets/js/custom/utilities/modals/sme-registration.js' %}"></script>
+<script src="{% static 'registrations/sme-registration.js' %}"></script>
 <script>
 	// Define fetchDistricts function
 	function fetchDistricts(stateId) {
 		var stateMainSelect = document.querySelector('div[data-district-urlid="districtslink"]');
 		var districtUrl = stateMainSelect.getAttribute('data-district-url');
-		var districtSelect = document.querySelector('select[name="location_district"]');
+		var districtSelect = document.querySelector('select[name="district_id"]');
 		fetch(`${districtUrl}?state_id=${stateId}`)
 			.then(response => response.json())
 			.then(data => {
@@ -449,8 +472,8 @@
 			.catch(error => console.error('Error fetching districts:', error));
 	}
 	document.addEventListener('DOMContentLoaded', function() {
-		var stateSelect = document.querySelector('select[name="location_state"]');
-		var districtSelect = document.querySelector('select[name="location_district"]');
+		var stateSelect = document.querySelector('select[name="state_id"]');
+		var districtSelect = document.querySelector('select[name="district_id"]');
 		stateSelect.addEventListener('change', function() {
 			var stateId = this.value;
 			if (stateId) {
@@ -479,7 +502,7 @@
 			.catch(error => console.error('Error fetching institutions:', error));
 	}
 	document.addEventListener('DOMContentLoaded', function() {
-		var districtSelect = document.querySelector('select[name="location_district"]');
+		var districtSelect = document.querySelector('select[name="district_id"]');
 		var institutionSelect = document.querySelector('select[name="institution"]');
 		institutionSelect.addEventListener('change', function() {
 			var districtId = this.value;
@@ -527,12 +550,12 @@
         
         if (selectElement.value === "Others (Please specify)") {
             inputElement.style.display = "block";
-            inputElement.name = "collaboration_sector";
+            inputElement.name = "area_of_interest_id";
             selectElement.name = "";
         } else {
             inputElement.style.display = "none";
             inputElement.name = "";
-            selectElement.name = "collaboration_sector";
+            selectElement.name = "area_of_interest_id";
         }
     }
 	// Function to add more patents dynamically
