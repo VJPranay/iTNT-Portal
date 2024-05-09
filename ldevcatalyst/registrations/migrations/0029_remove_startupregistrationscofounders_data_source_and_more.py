@@ -10,10 +10,6 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RemoveField(
-            model_name='startupregistrationscofounders',
-            name='data_source',
-        ),
         migrations.AlterField(
             model_name='startupregistrations',
             name='company_linkedin',
