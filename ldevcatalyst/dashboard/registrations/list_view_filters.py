@@ -4,6 +4,10 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
 
 
+from django import forms
+from datarepo.models import AreaOfInterest
+
+
 class StartUpRegistraionsFilter(django_filters.FilterSet):
     class Meta:
         model = StartUpRegistrations
@@ -17,6 +21,12 @@ class StartUpRegistraionsFilter(django_filters.FilterSet):
 
 
 class ResearcherRegistrationsFilter(django_filters.FilterSet):
+
+    area_of_interest = django_filters.ChoiceFilter(
+        choices=[(obj.id, obj.name) for obj in AreaOfInterest.objects.all()],  # queryset for options
+        widget=forms.Select(attrs={'class': 'form-select'})  # Specify the widget as Select
+    )
+    
     class Meta:
         model = ResearcherRegistrations
         fields = ['area_of_interest', 'district', 'department']
@@ -31,6 +41,12 @@ class ResearcherRegistrationsFilter(django_filters.FilterSet):
 
 
 class StudentRegistrationsFilter(django_filters.FilterSet):
+
+    area_of_interest = django_filters.ChoiceFilter(
+        choices=[(obj.id, obj.name) for obj in AreaOfInterest.objects.all()],  # queryset for options
+        widget=forms.Select(attrs={'class': 'form-select'})  # Specify the widget as Select
+    )
+
     class Meta:
         model = StudentRegistrations
         fields = ['area_of_interest', 'district', 'department']
@@ -43,6 +59,11 @@ class StudentRegistrationsFilter(django_filters.FilterSet):
 
 
 class VCRegistrationsFilter(django_filters.FilterSet):
+
+    area_of_interest = django_filters.ChoiceFilter(
+        choices=[(obj.id, obj.name) for obj in AreaOfInterest.objects.all()],  # queryset for options
+        widget=forms.Select(attrs={'class': 'form-select'})  # Specify the widget as Select
+    )
     class Meta:
         model = VCRegistrations
         fields = ['area_of_interest', 'district']
@@ -55,6 +76,12 @@ class VCRegistrationsFilter(django_filters.FilterSet):
 
 
 class IndustryRegistrationsFilter(django_filters.FilterSet):
+
+    area_of_interest = django_filters.ChoiceFilter(
+        choices=[(obj.id, obj.name) for obj in AreaOfInterest.objects.all()],  # queryset for options
+        widget=forms.Select(attrs={'class': 'form-select'})  # Specify the widget as Select
+    )
+
     class Meta:
         model = IndustryRegistrations
         fields = ['area_of_interest', 'industry', 'district']
