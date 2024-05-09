@@ -189,7 +189,7 @@
 											<label class="form-label required">Area of interest for collaboration</label>
 											<!--end::Label-->
 											<!--begin::Input-->
-											<select name="collaboration_sector" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="true">
+											<select name="collaboration_sector" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="true" multiple>
 												{% for area_of_interest in area_of_interests %}
 												<option value="{{area_of_interest.area_of_interest_id}}">{{area_of_interest.area_of_interest_value}}</option>
 												{%endfor%}
