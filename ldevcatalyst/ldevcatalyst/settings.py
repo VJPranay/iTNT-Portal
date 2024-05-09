@@ -160,7 +160,9 @@ USE_TZ = True
 #STATIC_URL = 'static/'
 #STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 MEDIA_URL = '/innovation-portal/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = '/opt/portal/iTNT-Portal/ldevcatalyst/virtualdisk/'
+DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
+
 #STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 
