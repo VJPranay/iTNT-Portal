@@ -1,0 +1,4 @@
+gunicorn --workers 16 --bind 0.0.0.0:9898 --access-logfile - --max-requests 1000 --max-requests-jitter 100 --preload ldevcatalyst.wsgi:application
+sudo umount /opt/portal/iTNT-Portal/ldevcatalyst/virtualdisk
+sudo mount -t nfs 10.236.204.105:/opt/portal/mediafiles /opt/portal/iTNT-Portal/ldevcatalyst/virtualdisk
+
