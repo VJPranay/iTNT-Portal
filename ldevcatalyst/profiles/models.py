@@ -80,6 +80,9 @@ class Researcher(models.Model):
     highest_qualification = models.CharField(max_length=100, blank=True, null=True)
     patents = models.ManyToManyField(Patent, blank=True, null=True)
     publications = models.ForeignKey(Publication, on_delete=models.SET_NULL, blank=True, null=True)
+    
+    data_source = models.CharField(max_length=225,blank=True, null=True)
+
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
@@ -141,6 +144,12 @@ class Student(models.Model):
     district = models.ForeignKey(District, on_delete=models.SET_NULL, null=True, blank=True)
     state = models.ForeignKey(State, on_delete=models.SET_NULL, null=True, blank=True)
     project_idea = models.TextField(blank=True, null=True)
+    gender = models.CharField(max_length=100,choices=[('male','Male'),('female','Female')],blank=True, null=True)
+    mobile = models.CharField(max_length=255,blank=True, null=True)
+    project_guide_name = models.CharField(max_length=255,blank=True, null=True)
+
+    data_source = models.CharField(max_length=255,blank=True, null=True)
+
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 

@@ -78,10 +78,15 @@ def student_approve_registration(request):
                     institution = registration.institution,
                     state = registration.state,
                     district = registration.district,
-                    department=registration.department,
+                    department =registration.department,
                     year_of_graduation=registration.year_of_graduation,
                     email=registration.email,
                     project_idea = registration.project_idea,
+                    gender = registration.gender,
+                    mobile = registration.mobile,
+                    project_guide_name = registration.project_guide_name,
+                    data_source = registration.data_source
+
                 )
                 student_profile.save()
                 for x in registration.area_of_interest.all():

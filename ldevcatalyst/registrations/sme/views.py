@@ -85,7 +85,6 @@ def sme_approve_registrations(request):
                         journal=publication_info.journal,
                     )
 
-
                 # Create SME profile
                 sme_profile = Researcher.objects.create(
                     user_id=user.id,
@@ -98,9 +97,11 @@ def sme_approve_registrations(request):
                     gender=registration.gender,
                     mobile=registration.mobile,
                     highest_qualification=registration.highest_qualification,
+                    picture=registration.picture,
                     created=registration.created,
                     updated=registration.updated,
-                    publications=new_publication
+                    publications=new_publication,
+                    data_source=registration.data_source
                 )
                 sme_profile.save()
 

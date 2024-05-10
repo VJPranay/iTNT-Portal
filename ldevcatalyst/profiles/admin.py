@@ -36,7 +36,7 @@ class VCAdmin(admin.ModelAdmin):
 
 @admin.register(Researcher)
 class ResearcherAdmin(admin.ModelAdmin):
-    list_display = ('name', 'department', 'institution', 'email', 'mobile', 'district', 'state', 'highest_qualification')
+    list_display = ('id','name', 'department', 'institution', 'email', 'mobile', 'district', 'state', 'highest_qualification')
 
 @admin.register(StartUp)
 class StartUpAdmin(admin.ModelAdmin):
@@ -44,7 +44,7 @@ class StartUpAdmin(admin.ModelAdmin):
 
 @admin.register(Student)
 class StudentAdmin(admin.ModelAdmin):
-    list_display = ('name', 'institution', 'department', 'year_of_graduation', 'district', 'state')
+    list_display = ('id','name', 'institution', 'department', 'year_of_graduation', 'district', 'state')
 
 @admin.register(Industry)
 class IndustryAdmin(admin.ModelAdmin):
