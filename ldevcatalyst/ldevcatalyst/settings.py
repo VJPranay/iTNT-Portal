@@ -15,8 +15,6 @@ SECRET_KEY = 'django-insecure-68bn2*xnujz@*i2(xb61^kk3vhzo8sfyw3mrn7***srqkm49_*
 DEBUG = False
 DEV = False
 
-
-
 ALLOWED_HOSTS = [
 'itnthub.tn.gov.in',
 '127.0.0.1',
