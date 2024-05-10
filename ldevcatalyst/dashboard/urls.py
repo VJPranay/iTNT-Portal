@@ -9,8 +9,8 @@ from registrations.sme.views import sme_registrations,sme_approve_registrations
 from dashboard.registrations.list_view import StartUpRegistrationsListView,ResearcherRegistrationsListView, StudentRegistrationsListView,VCRegistrationsListView, IndustryRegistrationsListView
 from dashboard.registrations.registration_details import startup_registration_details,Researcher_registration_details, student_registration_details,vc_registration_details, industry_registration_details
 # profiles
-from dashboard.profiles.list_view import StartUpListView, ResearcherListView
-from dashboard.profiles.profile_details import startup_profile_details, researcher_profile_details
+from dashboard.profiles.list_view import StartUpListView, ResearcherListView, StudentListView
+from dashboard.profiles.profile_details import startup_profile_details, researcher_profile_details, student_profile_details
 
 
 
@@ -63,5 +63,9 @@ urlpatterns = [
     path('profiles/v2/researchers', ResearcherListView.as_view(), name='researcher_profiles_list'),
     path('profiles/v2/researcher/<int:pk>', researcher_profile_details, name='researcher_profile_details'),
     
+
+    # student profiles
+    path('profiles/v2/students', StudentListView.as_view(), name='student_profiles_list'),
+    path('profiles/v2/student/<int:pk>', student_profile_details, name='student_profile_details'),
 
 ]

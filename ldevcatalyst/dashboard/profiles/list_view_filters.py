@@ -1,5 +1,5 @@
 import django_filters
-from profiles.models import StartUp, Researcher
+from profiles.models import StartUp, Researcher, Student
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
 
@@ -25,6 +25,26 @@ class ResearcherFilter(django_filters.FilterSet):
     )
     class Meta:
         model = Researcher
+        fields = ['area_of_interest', 'district', 'department']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_method = 'get'
+        self.helper.add_input(Submit('submit', 'Apply Filters', css_class='btn btn-primary'))
+
+
+
+
+class StudentFilter(django_filters.FilterSet):
+
+    area_of_interest = django_filters.ChoiceFilter(
+        choices=[(obj.id, obj.name) for obj in AreaOfInterest.objects.all()],  # queryset for options
+        widget=forms.Select(attrs={'class': 'form-select'})  # Specify the widget as Select
+    )
+
+    class Meta:
+        model = Student
         fields = ['area_of_interest', 'district', 'department']
 
     def __init__(self, *args, **kwargs):

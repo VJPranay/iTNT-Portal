@@ -23,3 +23,12 @@ def researcher_profile_details(request, pk):
     except Researcher.DoesNotExist:
         return HttpResponseRedirect(reverse('not_found'))
     
+
+@login_required
+def student_profile_details(request, pk):
+    try:
+        student = Student.objects.get(pk=pk)
+        return render(request, 'dashboard/profiles/v2/student_profile_details.html', {'student': student})
+    except Student.DoesNotExist:
+        return HttpResponseRedirect(reverse('not_found'))
+    
