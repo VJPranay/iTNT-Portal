@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from .models import User, Patent, Publication, VC, Researcher, StartUp, Student, Industry
 
+
 class UserAdmin(BaseUserAdmin):
     fieldsets = (
         (None, {'fields': ('username', 'password')}),
@@ -48,3 +49,4 @@ class StudentAdmin(admin.ModelAdmin):
 @admin.register(Industry)
 class IndustryAdmin(admin.ModelAdmin):
     list_display = ('name', 'industry', 'state', 'district', 'point_of_contact_name', 'email', 'mobile')
+
