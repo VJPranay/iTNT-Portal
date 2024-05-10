@@ -3,6 +3,9 @@ from profiles.models import StartUp, Researcher
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
 
+from django import forms
+from datarepo.models import AreaOfInterest
+
 class StartUpFilter(django_filters.FilterSet):
     class Meta:
         model = StartUp
@@ -16,6 +19,10 @@ class StartUpFilter(django_filters.FilterSet):
 
 
 class ResearcherFilter(django_filters.FilterSet):
+    area_of_interest = django_filters.ChoiceFilter(
+        choices=[(obj.id, obj.name) for obj in AreaOfInterest.objects.all()],  # queryset for options
+        widget=forms.Select(attrs={'class': 'form-select'})  # Specify the widget as Select
+    )
     class Meta:
         model = Researcher
         fields = ['area_of_interest', 'district', 'department']
