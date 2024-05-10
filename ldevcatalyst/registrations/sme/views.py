@@ -101,7 +101,8 @@ def sme_approve_registrations(request):
                     created=registration.created,
                     updated=registration.updated,
                     publications=new_publication,
-                    data_source=registration.data_source
+                    data_source=registration.data_source,
+                    approved = True
                 )
                 sme_profile.save()
 

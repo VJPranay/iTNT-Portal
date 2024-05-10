@@ -45,13 +45,23 @@ class Publication(models.Model):
         return self.title
 
 class VC(models.Model):
+    FUND_TYPE_CHOICES = [
+        ('angel_investor', 'Angel Investor'),
+        ('angel_network', 'Angel Network'),
+        ('venture_capital', 'Venture Capital Fund'),
+        ('family_office', 'Family Office'),
+        ('corporate_vc', 'Corporate Venture Capital'),
+    ]
     user = models.ForeignKey(User, on_delete=models.SET_NULL,blank=True, null=True)
     partner_name = models.CharField(max_length=255,blank=True, null=True)
     firm_name = models.CharField(max_length=255,blank=True, null=True)
+    designation = models.CharField(max_length=100,blank=True, null=True)
     email = models.EmailField(blank=True, null=True)
     mobile = models.CharField(max_length=255,blank=True, null=True)
     deal_size_range_min = models.PositiveIntegerField(blank=True, null=True)
     deal_size_range_max = models.PositiveIntegerField(blank=True, null=True)
+    deal_size_range=models.PositiveBigIntegerField(blank=True, null=True)
+    deal_size_range_usd = models.PositiveBigIntegerField(blank=True, null=True)
     portfolio_size = models.PositiveIntegerField(blank=True, null=True)
     district = models.ForeignKey(District, on_delete=models.SET_NULL,blank=True, null=True)
     state = models.ForeignKey(State, on_delete=models.SET_NULL,blank=True, null=True)
@@ -59,6 +69,9 @@ class VC(models.Model):
     funding_stage = models.ForeignKey(PreferredInvestmentStage, on_delete=models.SET_NULL,blank=True, null=True)
     company_website = models.URLField(blank=True, null=True)
     linkedin_profile = models.URLField(blank=True, null=True)
+    fund_type = models.CharField(max_length=255, null=True, blank=True, default=None, choices=FUND_TYPE_CHOICES)
+    data_source = models.CharField(max_length=255, null=True, blank=True)
+    
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     approved = models.BooleanField(default=False)

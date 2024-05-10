@@ -85,7 +85,8 @@ def student_approve_registration(request):
                     gender = registration.gender,
                     mobile = registration.mobile,
                     project_guide_name = registration.project_guide_name,
-                    data_source = registration.data_source
+                    data_source = registration.data_source,
+                    approved = True
 
                 )
                 student_profile.save()
