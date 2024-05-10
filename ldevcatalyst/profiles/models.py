@@ -71,10 +71,11 @@ class VC(models.Model):
     linkedin_profile = models.URLField(blank=True, null=True)
     fund_type = models.CharField(max_length=255, null=True, blank=True, default=None, choices=FUND_TYPE_CHOICES)
     data_source = models.CharField(max_length=255, null=True, blank=True)
-    
+    approved = models.BooleanField(default=False)
+
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
-    approved = models.BooleanField(default=False)
+    
     def __str__(self):
         return self.partner_name
 
@@ -95,6 +96,7 @@ class Researcher(models.Model):
     publications = models.ForeignKey(Publication, on_delete=models.SET_NULL, blank=True, null=True)
     
     data_source = models.CharField(max_length=225,blank=True, null=True)
+    approved = models.BooleanField(default=False)
 
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
@@ -162,6 +164,7 @@ class Student(models.Model):
     project_guide_name = models.CharField(max_length=255,blank=True, null=True)
 
     data_source = models.CharField(max_length=255,blank=True, null=True)
+    approved = models.BooleanField(default=False)
 
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
@@ -181,6 +184,10 @@ class Industry(models.Model):
     email = models.EmailField(blank=True, null=True)
     mobile = models.CharField(max_length=255,blank=True, null=True)
     area_of_interest = models.ManyToManyField(AreaOfInterest)
+    
+    data_source = models.CharField(max_length=255,blank=True, null=True)
+    approved = models.BooleanField(default=False)
+
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 

@@ -84,8 +84,8 @@ def industry_approve_registration(request):
                     point_of_contact_name = registration.point_of_contact_name,
                     email = registration.email,
                     mobile = registration.mobile,
-                    created = registration.created,
-                    updated = registration.updated
+                    data_source = registration.data_source,
+                    approved = True
                 )
                 industry_profile.save()
                 for x in registration.area_of_interest.all():

@@ -48,5 +48,5 @@ class StudentAdmin(admin.ModelAdmin):
 
 @admin.register(Industry)
 class IndustryAdmin(admin.ModelAdmin):
-    list_display = ('name', 'industry', 'state', 'district', 'point_of_contact_name', 'email', 'mobile')
+    list_display = ('id', 'name', 'industry', 'state', 'district', 'point_of_contact_name', 'email', 'mobile')
 
