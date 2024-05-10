@@ -126,7 +126,7 @@ License: Unauthorized use is prohibited
 								<div class="d-flex flex-stack flex-wrap gap-3 fs-base fw-semibold mb-8">
 									<div></div>
 									<!--begin::Link-->
-									<a href="#" class="link-primary">Forgot Password ?</a>
+									<a href="#" class="link-primary" data-bs-toggle="modal" data-bs-target="#support_modal">Forgot Password ?</a>
 									<!--end::Link-->
 								</div>
 								<!--end::Wrapper-->
@@ -145,7 +145,7 @@ License: Unauthorized use is prohibited
 								<!--end::Submit button-->
 								<!--begin::Sign up-->
 								<div class="text-gray-500 text-center fw-semibold fs-6">Not a Member yet? 
-								<a href="#" class="link-primary">Register now</a></div>
+								<a href="https://itnthub.tn.gov.in/index.html#RegistrationSection" class="link-primary">Register now</a></div>
 								<!--end::Sign up-->
 							</form>
 							<!--end::Form-->
@@ -245,6 +245,7 @@ License: Unauthorized use is prohibited
 		<script src="{% static 'assets/js/custom/authentication/sign-in/general.js' %}"></script>
 		<!--end::Custom Javascript-->
 		<!--end::Javascript-->
+		{% include "support/support.html" %} 
 	</body>
 	<!--end::Body-->
 </html>

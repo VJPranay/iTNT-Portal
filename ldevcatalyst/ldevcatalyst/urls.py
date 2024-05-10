@@ -38,6 +38,7 @@ urlpatterns = [
     path('common/', include('common.urls')),
     path('support/', include('support.urls')),
     path('reports/', include('reports.urls')),
+    path('ic/rolls-royce/', include('custom_ic.urls')),
     path('', not_found),
 ]
 

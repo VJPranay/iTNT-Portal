@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'registrations',
     'profiles',
     'innovation_challenges',
+    'custom_ic',
     'analytics',
     'meetings',
     'datarepo',
