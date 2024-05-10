@@ -5,7 +5,7 @@ from crispy_forms.layout import Submit
 class StartUpFilter(django_filters.FilterSet):
     class Meta:
         model = StartUp
-        fields = ['area_of_interest', 'district', 'founding_experience']
+        fields = ['area_of_interest', 'district', 'year_of_establishment']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

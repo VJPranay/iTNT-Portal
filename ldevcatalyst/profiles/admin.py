@@ -39,7 +39,7 @@ class ResearcherAdmin(admin.ModelAdmin):
 
 @admin.register(StartUp)
 class StartUpAdmin(admin.ModelAdmin):
-    list_display = ('name', 'co_founder_count', 'founder_names', 'state', 'district', 'team_size', 'email', 'mobile', 'website', 'dpiit_number', 'area_of_interest', 'funding_stage')
+    list_display = ('id','company_name', 'co_founders_count', 'founder_names', 'state', 'district', 'team_size', 'email', 'mobile', 'dpiit_number', 'area_of_interest')
 
 @admin.register(Student)
 class StudentAdmin(admin.ModelAdmin):
