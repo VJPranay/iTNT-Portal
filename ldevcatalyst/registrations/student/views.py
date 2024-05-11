@@ -228,7 +228,7 @@ def student_registration(request):
                      new_student_registration.area_of_interest.add(area_of_interest_id)
                      new_student_registration.save()
                      
-                registration = StudentRegistrations.objects.get(id=new_student_registration.registration_id)
+                registration = StudentRegistrations.objects.get(id=new_student_registration.id)
                 registration.status = 'approved'
                 registration.save()
                 

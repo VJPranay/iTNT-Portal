@@ -347,7 +347,7 @@ def sme_registration(request):
                 
                 
                 
-                registration = ResearcherRegistrations.objects.get(id=new_sme_registration.registration_id)
+                registration = ResearcherRegistrations.objects.get(id=new_sme_registration.id)
 
                 # Generate Username from Registration Id
                 username = registration.registration_id
