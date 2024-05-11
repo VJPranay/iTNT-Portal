@@ -6,7 +6,17 @@ from django.core.files.uploadedfile import InMemoryUploadedFile
 
 @login_required
 def challenge_details(request):
-    return render(request,'custom_ic/rolls_royce/details.html')
+    proposal_exists = None
+    try:
+        proposal = RollsRoyceProposal.objects.get(user=request.user)
+        proposal_exists = 1
+    except RollsRoyceProposal.DoesNotExist:
+        proposal_exists = 0
+    except Exception as e:
+        proposal_exists = 1
+    return render(request,'custom_ic/rolls_royce/details.html',context={
+        'proposal_exists' : proposal_exists
+    })
 
 @login_required
 def success_page(request):
@@ -23,7 +33,7 @@ def error_page(request):
 def proposal_form(request):
     if request.method == 'POST':
         max_file_size  = 15 * 1024 * 1024  # 15MB
-        proposed_rc_research_papers_files = request.FILES.get('proposed_rc_research_papers_files')
+        proposed_rc_research_papers_files = request.FILES.get('proposed_rc_research_papers_files',None)
         supporting_documents = request.FILES.get('supporting_documents')
 
         user = request.user if request.user.is_authenticated else None
@@ -38,9 +48,9 @@ def proposal_form(request):
             'solution_sustainable_development_goals': request.POST.get('solution_sustainable_development_goals'),
             'innovation_current_stage': request.POST.get('innovation_current_stage'),
             'patent_status': request.POST.get('patent_status'),
-            'proposed_rc_research_papers_exist': request.POST.get('proposed_rc_research_papers_exist'),
-            'proposed_rc_research_papers_count': request.POST.get('proposed_rc_research_papers_count'),
-            'proposed_rc_research_papers_links': request.POST.get('proposed_rc_research_papers_links'),
+            'proposed_rc_research_papers_exist': request.POST.get('proposed_rc_research_papers_exist',None),
+            'proposed_rc_research_papers_count': request.POST.get('proposed_rc_research_papers_count',None),
+            'proposed_rc_research_papers_links': request.POST.get('proposed_rc_research_papers_links',None),
             'timeframe': request.POST.get('timeframe'),
             'expected_impacts_outcomes': request.POST.get('expected_impacts_outcomes'),
             'proposed_rc_research_papers_files' :request.FILES.get('proposed_rc_research_papers_files'),
@@ -59,15 +69,23 @@ def proposal_form(request):
                 errors.append("Supporting Documents file size should not exceed 15MB.")
             else:
                 form_data['supporting_documents'] = supporting_documents
+        else:
+            del form_data['supporting_documents']
         
         # Validate the form data
-        try:
-            proposed_rc_research_papers_count = form_data['proposed_rc_research_papers_count']
-            proposed_rc_research_papers_count = int(proposed_rc_research_papers_count)
-        except KeyError:
-            pass
-        except ValueError:
-            errors.append("proposed research papers count should be numeric.")
+        if form_data['proposed_rc_research_papers_exist'] is not None and form_data['proposed_rc_research_papers_exist'] == 'Yes':
+            try:
+                proposed_rc_research_papers_count = form_data['proposed_rc_research_papers_count']
+                proposed_rc_research_papers_count = int(proposed_rc_research_papers_count)
+                form_data['proposed_rc_research_papers_count'] = proposed_rc_research_papers_count
+            except KeyError:
+                pass
+            except ValueError:
+                errors.append("proposed research papers count should be numeric.")
+        else:
+            del form_data['proposed_rc_research_papers_count']
+            
+        
         if not form_data['solution_name']:
             errors.append("Solution Name is required.")
         if not form_data['focus_area']:

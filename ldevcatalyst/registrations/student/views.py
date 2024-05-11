@@ -124,7 +124,6 @@ def student_approve_registration(request):
 
 def student_registration(request):
     if request.method == 'POST':
-        print(request.POST)
         name = request.POST.get('name')
         institution_id = request.POST.get('institution')
         area_of_interest_id = request.POST.get('collaboration_sector')
@@ -228,6 +227,71 @@ def student_registration(request):
                 for x in area_of_interest_id:
                      new_student_registration.area_of_interest.add(area_of_interest_id)
                      new_student_registration.save()
+                     
+                registration = StudentRegistrations.objects.get(id=new_student_registration.registration_id)
+                registration.status = 'approved'
+                registration.save()
+                
+                # Generate username from registration ID
+                username = registration.registration_id
+           
+
+                # Generate random 6-digit number
+                password = ''.join(random.choices(string.digits, k=6))
+         
+
+                # Create user with the generated username and random password
+                try:
+                    user = User.objects.create_user(username=username, password=password)
+                    user.is_active = True
+                    user.user_role = 7
+                    user.email = registration.email
+                    user.save()
+                except IntegrityError:
+                   user = User.objects.get(username=username)
+                   return JsonResponse({'success': True},status=200)
+                student_profile=Student.objects.create(
+                    user_id = user.id,
+                    name = registration.name,
+                    institution = registration.institution,
+                    state = registration.state,
+                    district = registration.district,
+                    department =registration.department,
+                    year_of_graduation=registration.year_of_graduation,
+                    email=registration.email,
+                    project_idea = registration.project_idea,
+                    gender = registration.gender,
+                    mobile = registration.mobile,
+                    project_guide_name = registration.project_guide_name,
+                    data_source = registration.data_source,
+                    approved = True
+
+                )
+                student_profile.save()
+                for x in registration.area_of_interest.all():
+                    student_profile.area_of_interest.add(x.id)
+                    student_profile.save()
+                
+                email_host = settings.email_host
+                email_port = settings.email_port
+                email_username = settings.email_username
+                email_password = settings.email_password
+                email_from = settings.email_from
+                subject = 'You iTNT registration has been approved'
+                body = f'''
+                        Username: {user.username}
+                        Password: {password}
+                        Login URL: https://itnthub.tn.gov.in/innovation-portal/dashboard
+                        '''
+                
+                message = MIMEMultipart()
+                message['From'] = 'aso.itnt@tn.gov.in'
+                message['To'] = registration.email  # Add the additional email address
+                message['Subject'] = subject
+                message.attach(MIMEText(body, 'plain'))
+                with smtplib.SMTP_SSL(email_host, email_port) as server:
+                    server.login(email_username, email_password)
+                    server.sendmail(email_from, [registration.email], message.as_string())
                 return JsonResponse(
                     {
                         'success': True,

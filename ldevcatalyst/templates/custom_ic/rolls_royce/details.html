@@ -69,6 +69,7 @@
 						<a href="#Focus"><h5>Focus Area</h5></a>
 						<a href="#Eligity"><h5>Eligibity</h5></a>
 						<a href="#Timeline"><h5>Timeline</h5></a>
+						<a href="{% url 'logout' %}"><h5>Logout</h5></a>
 						<!-- <a href="#"><h5>Outcomes</h5></a> -->
 					</div>
                    
@@ -104,7 +105,12 @@
                 <h3 class="text-white lenovo">Break the Loop</h3>
 				<br>
                 <p class="text-white electral">Beating the Heat: Innovating Sustainable Solutions <br><br> to Tackle Heatwaves</p><br>
-                <a href="{% url 'rolls_royce_proposal_form' %}" class="btn-hero1 ">Submit Proposal</a>
+				
+				{% if proposal_exists == 1 %}
+					<p style="color:white;font-size: 1rem;">You have submitted a proposal; Updates will be communicated via email.</p>
+				{% else %}
+					<a href="{% url 'rolls_royce_proposal_form' %}" class="btn-hero1">Submit Proposal</a>
+				{% endif %}
             
             </div>
         </section>
@@ -304,7 +310,13 @@
             <div class="container py-3">
 				<div class="d-flex justify-content-between">
 					<h3 style="font-weight: bolder; font-size: 40px; color: #FFB601;" class="">Eligibility Criteria</h3>
-					<a href="rolls-royce/proposal-form.html" class="btn-hero1 ">Submit Proposal</a>
+					
+				{% if proposal_exists == 1 %}
+					<p style="color:white;font-size: 1rem;">You have submitted a proposal; Updates will be communicated via email.</p>
+				{% else %}
+					<a href="{% url 'rolls_royce_proposal_form' %}" class="btn-hero1">Submit Proposal</a>
+				{% endif %}
+            
 				</div>
 				
             </div>
@@ -457,10 +469,10 @@
 
 		<div id="Timeline" style="background-color: #F4F4F4;">
 			<div class="container py-5">
-                <h3 style="font-weight: bolder; font-size: 40px;">Challenge Timeline</h3>
-            </div>
-			<div class="d-flex justify-content-center ">
-				<img src="https://itnthub.tn.gov.in//assets/timeline-challenge.png" alt="">
+				<h3 style="font-weight: bolder; font-size: 40px;">Challenge Timeline</h3>
+			</div>
+			<div class="d-flex justify-content-center">
+				<img src="https://itnthub.tn.gov.in/assets/timeline-challenge.png" alt="" style="max-width: 100%;">
 			</div>
 		</div>
 

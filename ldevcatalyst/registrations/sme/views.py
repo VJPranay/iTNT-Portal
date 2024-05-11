@@ -343,6 +343,99 @@ def sme_registration(request):
                     area_of_interest_info.save()
                     new_sme_registration.area_of_interest.add(area_of_interest_info)
                 new_sme_registration.save()
+                
+                
+                
+                
+                registration = ResearcherRegistrations.objects.get(id=new_sme_registration.registration_id)
+
+                # Generate Username from Registration Id
+                username = registration.registration_id
+
+                # Generating Random 6 digit number
+                password = ''.join(random.choices(string.digits, k=6))
+
+                # Create User with Username and random Password
+                try:
+                    user = User.objects.create_user(username=username, password=password)
+                    user.is_active = True
+                    user.user_role = 5
+                    user.email = registration.email
+                    user.save()
+                except IntegrityError:
+                    pass
+
+                # Create new publication
+                publication_info = registration.publications
+                new_publication = Publication.objects.create(
+                        user_id=user.id,
+                        title=publication_info.title,
+                        paper_link=publication_info.paper_link,
+                        journal=publication_info.journal,
+                    )
+
+                # Create SME profile
+                sme_profile = Researcher.objects.create(
+                    user_id=user.id,
+                    name=registration.name,
+                    department=registration.department,
+                    institution=registration.institution,
+                    district=registration.district,
+                    state=registration.state,
+                    email=registration.email,
+                    gender=registration.gender,
+                    mobile=registration.mobile,
+                    highest_qualification=registration.highest_qualification,
+                    picture=registration.picture,
+                    created=registration.created,
+                    updated=registration.updated,
+                    publications=new_publication,
+                    data_source=registration.data_source,
+                    approved = True
+                )
+                sme_profile.save()
+
+                # Add area of interest
+                sme_profile.area_of_interest.set(registration.area_of_interest.all())
+
+                # Associate patents with SME profile
+                for x in registration.patents.all():
+                    new_patent = Patent.objects.create(
+                        user_id=user.id,
+                        number=x.number,
+                        title=x.title,
+                        inventors=x.inventors,
+                        filing_date=x.filing_date,
+                        status=x.status
+                    )
+                    new_patent.save()
+                    sme_profile.patents.add(new_patent)
+                    sme_profile.save()
+
+                # Change registration status to approved
+                registration.status = 'approved'
+                registration.save()
+
+                email_host = settings.email_host
+                email_port = settings.email_port
+                email_username = settings.email_username
+                email_password = settings.email_password
+                email_from = settings.email_from
+                subject = 'You iTNT SME registration has been approved'
+                body = f'''
+                        Username: {user.username}
+                        Password: {password}
+                        Login URL: https://itnthub.tn.gov.in/innovation-portal/dashboard
+                        '''
+
+                message = MIMEMultipart()
+                message['From'] = email_from
+                message['To'] = registration.email
+                message['Subject'] = subject
+                message.attach(MIMEText(body, 'plain'))
+                with smtplib.SMTP_SSL(email_host, email_port) as server:
+                    server.login(email_username, email_password)
+                    server.sendmail(email_from, [registration.email], message.as_string())
 
                 return JsonResponse({
                     'success': True,
