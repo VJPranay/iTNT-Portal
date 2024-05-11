@@ -338,6 +338,89 @@ def startup_registration(request):
                     except Exception as e:
                         print('cofounder issue--> ',str(e))
                         return JsonResponse({'success': False,'registration_id': "Failed",'error': str(e),})
+                
+                
+                
+                registration = new_startup_registration
+                registration.status = 'approved'
+                registration.save()
+                
+                # Generate username from registration ID
+                username = registration.registration_id
+                    # Generate random 6-digit number
+                password = ''.join(random.choices(string.digits, k=6))
+
+                    # Check co_founders of the startup
+                try:
+                    co_founders = StartUpRegistrationsCoFounders.objects.filter(startup_id=registration.id).first()
+                    
+                except StartUpRegistrationsCoFounders.DoesNotExist:
+                    co_founders = None
+                    # Create user wit the generated username and random password
+                try:
+                    user = User.objects.create_user(username=username, password=password)
+                    user.is_active = True
+                    user.user_role = 6
+                    user.email = co_founders.email
+                    user.save()
+                except IntegrityError:
+                    pass
+               
+                startup_profile = StartUp.objects.create(
+                        user_id = user.id,
+                        company_name = registration.company_name,
+                        co_founders_count = registration.co_founders_count,
+                        founder_names = co_founders.name,
+                        team_size = registration.team_size,
+                        funding_request_amount = registration.funding_request_amount,
+                        year_of_establishment = registration.year_of_establishment,
+                        dpiit_number = registration.dpiit_number,
+                        company_description = registration.company_description,
+                        state_id = registration.state_id,
+                        district_id = registration.district_id,
+                        area_of_interest_id = registration.area_of_interest_id,
+                        preferred_investment_stage_id = registration.preferred_investment_stage_id,
+                        fund_raised_id = registration.fund_raised_id,
+                        fund_raised_input = registration.fund_raised_input,
+                        primary_business_model_id = registration.primary_business_model_id,
+                        incubators_associated = registration.incubators_associated,
+                        client_customer_size = registration.client_customer_size,
+                        reveune_stage_id = registration.reveune_stage_id,
+                        development_stage_id = registration. development_stage_id,
+                        development_stage_document = registration.development_stage_document,
+                        company_website = registration.company_website,
+                        company_linkedin = registration.company_linkedin,
+                        video_link = registration.video_link,
+                        pitch_deck = registration.pitch_deck,
+                        company_logo = registration.company_logo,
+                        linkedin = co_founders.linkedin,
+                        email = co_founders.email,
+                        mobile = co_founders.mobile,
+                        gender = co_founders.gender,
+                        data_source = registration.data_source,
+                        approved = True
+                    )
+                startup_profile.save()
+                email_host = settings.email_host
+                email_port = settings.email_port
+                email_username = settings.email_username
+                email_password = settings.email_password
+                email_from = settings.email_from
+                subject = 'You iTNT registration has been approved'
+                body = f'''
+                            Username: {user.username}
+                            Password: {password}
+                            Login URL: https://itnthub.tn.gov.in/innovation-portal/dashboard
+                            
+                            '''
+                message = MIMEMultipart()
+                message['From'] = 'aso.itnt@tn.gov.in'
+                message['To'] = startup_profile.email  # Add the additional email address
+                message['Subject'] = subject
+                message.attach(MIMEText(body, 'plain'))
+                with smtplib.SMTP_SSL(email_host, email_port) as server:
+                    server.login(email_username, email_password)
+                    server.sendmail(email_from, [startup_profile.email], message.as_string())
                 return JsonResponse(
                     {
                         'success': True,
