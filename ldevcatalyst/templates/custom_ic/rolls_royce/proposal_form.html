@@ -112,11 +112,28 @@
 							<img class="back-chevron" style="width: 20px;" src="https://itnthub.tn.gov.in/rolls-royce/assets/images/proposal-form/ion_chevron-back.png" alt="" >
 						</div>
 						<div>
-							<a style="font-weight: 700; font-size: 18px;" class="fa-bold text-black" href="/inovation-challenge-private.html">Back</a>
+							<a style="font-weight: 700; font-size: 18px;" class="fa-bold text-black" href="{% url 'rolls_royce_challenge_details' %}">Back</a>
 						</div>
 					</div>
 
+					{% if messages %}
+					
+					<div class="d-flex flex-column mt-25 alert alert-warning" role="alert">
+    				<p class="mb-0">Please fix these errors before submitting the form</p>
+
+					<ul>
+						{% for message in messages %}
+						<div class="alert alert-{{ message.tags }}">
+							<li> {{ message }}</li>
+						</div>
+						{% endfor %}
+					</ul>
+					{% endif %}
+					</div>
+
 					<div class="d-flex flex-column mt-25  justify-content-center align-items-center w-100">
+
+				
 
 						<div class="d-flex flex-column align-items-center justify-content-center">
 
@@ -127,46 +144,15 @@
 							</div>
 						</div>
 
-						<div class="d-flex  align-items-center gap-2 justify-content-evenly " style="width: 80%; padding: 40px 0;">
-
-							<div class="timeline1 d-flex flex-column gap-1 m-auto align-items-center justify-content-center">
-								
-								<div class=" d-flex flex-column mt-3  align-items-center justify-content-center">
-									<h3 class=" text-white m-auto" style="font-size: 20px; font-weight: 700;">
-										Stage 1
-									</h3>
-									<p class="text-white  " style="font-size: 14px;">
-										06 May - 12:20PM
-									</p>
-								</div>
-
-							</div>
-							<div class="timeline d-flex flex-column gap-1 m-auto align-items-center justify-content-center">
-								<h3 class="  m-auto text-gray-10" style="font-size: 20px;">
-									Stage 2
-								</h3>
-							</div>
-
-							<div class="timeline  d-flex flex-column gap-1 m-auto align-items-center justify-content-center">
-								<h3 class="  m-auto text-gray-10" style="font-size: 20px;">
-									Stage 3
-								</h3>
-							</div>
-
-							<div class="timeline3  d-flex flex-column gap-1 m-auto align-items-center justify-content-center">
-								<h3 class="  m-auto text-gray-10" style="font-size: 20px;">
-									Stage 4
-								</h3>
-							</div>
-						</div>
-
+						<form method="POST" enctype="multipart/form-data">
+							{% csrf_token %}
 						<div class="w-100 border-bottom border-light-subtle mb-25"></div>
 
 						<div class="d-flex flex-column align-items-center justify-content-center gap-4 w-100 mt-20">
 
 							<div class="form-group d-flex flex-column align-items-start justify-content-start gap-3 w-100">
 								<label class="" for="name">1. Solution Name</label>
-								<input  type="text" class="form-control1 w-100 " id="name" placeholder="Enter Solution name">
+								<input type="text" class="form-control1 w-100 " name="solution_name" placeholder="Enter Solution name">
 							</div>
 
 							<div class="form-group d-flex mt-3  align-items-start justify-content-start gap-5 w-100">
@@ -174,11 +160,10 @@
 								<div class="form-group d-flex flex-column align-items-start justify-content-start gap-3 w-50">
 									<label  for="exampleSelect">2. Focus Area</label>
 									<div class="input-group1 w-100  px-2   rounded-3">
-									  <select class="custom-select w-100 py-3 rounded-3 border-0 " id="exampleSelect">
+									  <select class="custom-select w-100 py-3 rounded-3 border-0" name="focus_area" id="exampleSelect">
 										<option selected>Select Focus Area</option>
-										<option value="1">Option 1</option>
-										<option value="2">Option 2</option>
-										<option value="3">Option 3</option>
+										<option value="Predictive Analytics">Predictive Analytics</option>
+										<option value="Sustainable solutions to alleviate impact">Sustainable solutions to alleviate impact</option>
 									  </select>
 									</div>
 								</div>
@@ -186,11 +171,24 @@
 								<div class="form-group d-flex flex-column align-items-start justify-content-start gap-3 w-50">
 									<label  for="exampleSelect">3. Team Size</label>
 									<div class="input-group1 w-100  px-2   rounded-3">
-									  <select class="custom-select w-100 py-3 rounded-3 border-0 " id="exampleSelect">
+									  <select class="custom-select w-100 py-3 rounded-3 border-0" name="team_size" id="exampleSelect">
 										<option selected>Number of Team Members</option>
-										<option value="1">Option 1</option>
-										<option value="2">Option 2</option>
-										<option value="3">Option 3</option>
+										<option value="1">1</option>
+										<option value="2">2</option>
+										<option value="3">3</option>
+										<option value="4">4</option>
+										<option value="5">5</option>
+										<option value="6">6</option>
+										<option value="7">7</option>
+										<option value="8">8</option>
+										<option value="9">9</option>
+										<option value="10">10</option>
+										<option value="11">11</option>
+										<option value="12">12</option>
+										<option value="13">13</option>
+										<option value="14">14</option>
+										<option value="15">15</option>
+
 									  </select>
 									</div>
 								</div>
@@ -198,22 +196,22 @@
 
 							<div class="form-group d-flex flex-column mt-3 align-items-start justify-content-start gap-3 w-100">
 								<label class="" for="name">4. Team Composition</label>
-								<textarea class="form-control2 rounded-3" id="message" rows="5" style="height: 120px;" placeholder="Describe Team Composition and Roles"></textarea>
+								<textarea class="form-control2 rounded-3" id="message" name="team_composition" rows="5" style="height: 120px;" placeholder="Describe Team Composition and Roles"></textarea>
 							</div>
 
 							<div class="form-group d-flex flex-column mt-3 align-items-start justify-content-start gap-3 w-100">
 								<label class="" for="name">5. Solution Brief</label>
-								<textarea class="form-control2 rounded-3" id="message" rows="5" style="height: 180px;" placeholder="Brief Description of Solution - Problems, Technology, Relevance"></textarea>
+								<textarea class="form-control2 rounded-3" id="message" name="solution_brief" rows="5" style="height: 180px;" placeholder="Brief Description of Solution - Problems, Technology, Relevance"></textarea>
 							</div>
 
 							<div class="form-group d-flex flex-column mt-3 align-items-start justify-content-start gap-3 w-100">
 								<label class="" for="name">6. What is the uniqueness of the solution</label>
-								<textarea class="form-control2 rounded-3" id="message" rows="5" style="height: 120px;" placeholder="Describe What Makes Your Solution Unique"></textarea>
+								<textarea class="form-control2 rounded-3" id="message" rows="5"  name="solution_uniqueness" style="height: 120px;" placeholder="Describe What Makes Your Solution Unique"></textarea>
 							</div>
 
 							<div class="form-group d-flex flex-column mt-3 align-items-start justify-content-start gap-3 w-100">
 								<label class="" for="name">7. How does the solution contribute to the sustainable development goals ? </label>
-								<textarea class="form-control2 rounded-3" id="message" rows="5" style="height: 120px;" placeholder="Specify SDGs Supported and How"></textarea>
+								<textarea class="form-control2 rounded-3" id="message" rows="5" name="solution_sustainable_development_goals" style="height: 120px;" placeholder="Specify SDGs Supported and How"></textarea>
 							</div>
 
 							<div class="form-group d-flex mt-3  align-items-start justify-content-start gap-5 w-100">
@@ -221,11 +219,18 @@
 								<div class="form-group d-flex flex-column align-items-start justify-content-start gap-3 w-50">
 									<label  for="exampleSelect">8. What is the current stage of your innovation?</label>
 									<div class="input-group1 w-100  px-2   rounded-3">
-									  <select class="custom-select w-100 py-3 rounded-3 border-0 " id="exampleSelect">
+									  <select class="custom-select w-100 py-3 rounded-3 border-0 " id="exampleSelect" name="innovation_current_stage">
 										<option selected>Select Current Stage</option>
-										<option value="1">Option 1</option>
-										<option value="2">Option 2</option>
-										<option value="3">Option 3</option>
+										<option value="Ideation or Concept Stage">Ideation or Concept Stage</option>
+										<option value="Research and Development">Research and Development</option>
+										<option value="Prototype Development">Prototype Development</option>
+										<option value="Minimum Viable Product (MVP) Ready">Minimum Viable Product (MVP) Ready</option>
+										<option value="Testing and Validation">Testing and Validation</option>
+										<option value="Refinement and Optimization">Refinement and Optimization</option>
+										<option value="Pilot Production">Pilot Production</option>
+										<option value="Full Production or Manufacturing">Full Production or Manufacturing</option>
+										<option value="Launched and Commercialization">Launched and Commercialization</option>
+										<option value="Growth and Expansion">Growth and Expansion</option>
 									  </select>
 									</div>
 								</div>
@@ -233,11 +238,20 @@
 								<div class="form-group d-flex flex-column align-items-start justify-content-start gap-3 w-50">
 									<label  for="exampleSelect">9. Have you filed a patent application to protect your innovation?</label>
 									<div class="input-group1 w-100  px-2   rounded-3">
-									  <select class="custom-select w-100 py-3 rounded-3 border-0 " id="exampleSelect">
-										<option selected>Select Yes/No -  If yes - Patent Status if Applicable</option>
-										<option value="1">Option 1</option>
-										<option value="2">Option 2</option>
-										<option value="3">Option 3</option>
+									  <select class="custom-select w-100 py-3 rounded-3 border-0 " id="exampleSelect" name="patent_status">
+										<option selected>Status</option>
+										<option value="No Patent Protection">No Patent Protection</option>
+										<option value="Patent Pending">Patent Pending</option>
+										<option value="Patent Granted">Patent Granted</option>
+										<option value="Patent Published">Patent Published</option>
+										<option value="Patent Rejected">Patent Rejected</option>
+										<option value="Patent Abandoned">Patent Abandoned</option>
+										<option value="Patent Expired">Patent Expired</option>
+										<option value="Patent Lapsed">Patent Lapsed</option>
+										<option value="Patent Reinstated">Patent Reinstated</option>
+										<option value="Patent Litigation">Patent Litigation</option>
+										<option value="Patent Licensing">Patent Licensing</option>
+										<option value="Patent Sold or Assigned">Patent Sold or Assigned</option>
 									  </select>
 									</div>
 								</div>
@@ -246,54 +260,60 @@
 							<div class="form-group d-flex flex-column align-items-start mt-3 justify-content-start gap-3 w-100">
 								<label  for="exampleSelect">10. Have you published any research papers based on your proposed innovation ?</label>
 								<div class="input-group1 w-100  px-2   rounded-3">
-								  <select class="custom-select w-100 py-3 rounded-3 border-0 " id="exampleSelect">
-									<option selected>Select Yes/No -  If yes - Link or attach your research paper</option>
-									<option value="1">Yes</option>
-									<option value="2">No</option>
-									<!-- <option value="3">Option 3</option> -->
+								  <select class="custom-select w-100 py-3 rounded-3 border-0 " id="proposed_rc_research_papers_exist" name="proposed_rc_research_papers_exist" onchange="toggleAdditionalFields(this.value)"> 
+									<option selected>Select Yes/No</option>
+									<option value="Yes">Yes</option>
+									<option value="No">No</option>
 								  </select>
 								</div>
 							</div>
 
-							<div class="form-group d-flex flex-column align-items-start mt-3 justify-content-start gap-3 w-100">
-								<label  for="exampleSelect">If Yes - Select Upload Type</label>
-								<div class="input-group1 w-100  px-2   rounded-3">
-								  <select class="custom-select w-100 py-3 rounded-3 border-0 " id="exampleSelect">
-									<option selected>Select Upload Link / Upload File</option>
-									<option value="1">Option 1</option>
-									<option value="2">Option 2</option>
-									<option value="3">Option 3</option>
-								  </select>
-								</div>
+							<div style="visibility: hidden; max-height: 0; overflow: hidden;" class="form-group d-flex flex-column align-items-start mt-3 justify-content-start gap-3 w-100" id="proposed_rc_research_papers_sec">
+
+							<div class="form-group d-flex flex-column align-items-start mt-3 justify-content-start gap-3 w-100" id="proposed_rc_research_papers_count">
+								<div class="input-group1 w-100  px-2 rounded-3">
+								<label  for="exampleSelect">How many (count) research papers have been published based on your proposed innovation ?</label>
+								<input type="text" class="form-control1 w-100" name="proposed_rc_research_papers_count" placeholder="2">
+							</div>
+								
 							</div>
 
-							<div class="form-group d-flex flex-column align-items-start mt-3 justify-content-start gap-3 w-100">
-								<label  for="exampleSelect">If File Upload - Upload attachment</label>
+							<div class="form-group d-flex flex-column mt-3 align-items-start mt-3 justify-content-start gap-3 w-100" id="proposed_rc_research_papers_links">
+								<label class="" for="name">Reasearch papers links ?</label>
+								<textarea class="form-control2 rounded-3" id="message" name="proposed_rc_research_papers_links" rows="5" style="height: 120px;" placeholder="Reasearch papers links"></textarea>
+							</div>
+
+
+							<div class="form-group d-flex flex-column align-items-start mt-3 justify-content-start gap-3 w-100" id="proposed_rc_research_papers_files">
+								<label  for="exampleSelect">Please upload Reasearch papers as pdf if links are not working </label>
 								<div class="w-100 d-flex position-relative flex-column align-items-center justify-content-center">
-									<input type="file" class="custom-file-input" id="attachment" accept=".pdf,.docx,.png,.jpg">
-									<img class="position-absolute " style="width: 50px; top:18%;" src="/rolls-royce/assets/images/proposal-form/prime_upload.png" alt="">
+									<input type="file" class="custom-file-input" id="attachment" accept=".pdf" name="proposed_rc_research_papers_files">
+									<img class="position-absolute " style="width: 50px; top:18%;" src="https://itnthub.tn.gov.in/rolls-royce/assets/images/proposal-form/prime_upload.png" alt="">
 
 									<p class="position-absolute" style="font-size: 16px; font-weight: 500; bottom: 15%; opacity: 60%;">
-										Max file size : 2MB (pdf, docx, png, jpg)
+										Max file size : 5MB (pdf)
 									</p>
 								</div>
 							</div>
 
+							</div>	
+
+							
 							<div class="form-group d-flex flex-column mt-3 align-items-start mt-3 justify-content-start gap-3 w-100">
 								<label class="" for="name">11. What are your plans and timeframe to implement the idea ? </label>
-								<textarea class="form-control2 rounded-3" id="message" rows="5" style="height: 120px;" placeholder="Describe Implementation Plans and Timeline"></textarea>
+								<textarea class="form-control2 rounded-3" id="message" name="timeframe" rows="5" style="height: 120px;"  placeholder="Describe Implementation Plans and Timeline"></textarea>
 							</div>
 
 							<div class="form-group d-flex flex-column mt-3 align-items-start mt-3 justify-content-start gap-3 w-100">
 								<label class="" for="name">12. What are the expected impacts and outcomes ? </label>
-								<textarea class="form-control2 rounded-3" id="message" rows="5" style="height: 120px;" placeholder="Outline Expected Impacts and Outcomes"></textarea>
+								<textarea class="form-control2 rounded-3" id="message" rows="5" style="height: 120px;" name="expected_impacts_outcomes" placeholder="Outline Expected Impacts and Outcomes"></textarea>
 							</div>
 
 							<div class="form-group d-flex flex-column align-items-start mt-3 justify-content-start gap-3 w-100">
 								<label  for="exampleSelect">13. Supporting documents (in pdf): summary that includes proposed solution, technical aspects, and deliverables.</label>
 								<div class="w-100 d-flex position-relative flex-column align-items-center justify-content-center">
-									<input type="file" class="custom-file-input" id="attachment" accept=".pdf,.docx,.png,.jpg">
-									<img class="position-absolute " style="width: 50px; top:18%;" src="/rolls-royce/assets/images/proposal-form/prime_upload.png" alt="">
+									<input type="file" class="custom-file-input" id="attachment" accept=".pdf" name="supporting_documents">
+									<img class="position-absolute " style="width: 50px; top:18%;" src="https://itnthub.tn.gov.in/rolls-royce/assets/images/proposal-form/prime_upload.png" alt="">
 
 									<p class="position-absolute" style="font-size: 16px; font-weight: 500; bottom: 15%; opacity: 60%;">
 										Max file size : 2MB (pdf, docx, png, jpg)
@@ -302,7 +322,7 @@
 							</div>
 
 							<div class="form-group d-flex flex-column align-items-start mt-3 justify-content-start gap-3 w-100">
-								<label  for="exampleSelect">14. Please read and accept the terms & conditions before filling out or submitting the form</label>
+								<label for="exampleSelect">14. Please read and accept the terms and conditions before filling out or submitting the form</label>
 								<div class="slide-container">
 									
 									<div>
@@ -342,25 +362,21 @@
 									</div>
 									
 								</div>
-
 								<div class="form-group form-check mt-3">
-									<input style="border: #FF6500 solid 1px; " type="checkbox" class="form-check-input" id="acceptCheckbox">
-									<label style="font-weight: bold;"  class="form-check-label1" for="acceptCheckbox1">I have read and agree to the terms and conditions</label>
+									<input style="border: #FF6500 solid 1px;" type="checkbox" class="form-check-input" id="acceptCheckbox">
+									<label style="font-weight: bold;" class="form-check-label1" for="acceptCheckbox1">I have read and agree to the terms and conditions</label>
 								</div>
 							</div>
 
 
-							<div class="form-group d-flex  align-items-center justify-content-center mt-3 gap-5 py-3 w-100">
-								
-								<button class="btn-orange ">Submit</button>
-								<button class="btn-outline-orange ">Cancel</button>
+						
+							<div class="form-group d-flex align-items-center justify-content-center mt-3 gap-5 py-3 w-100">
+								<button type="submit"  id="submitButton" class="btn btn-orange">Submit</button>
+								<button class="btn btn-outline-orange">Cancel</button>
 							</div>
 
-							
-
+						</form>
 						</div>
-
-						
 					</div>
 				</div>
             </div>
@@ -401,6 +417,39 @@
 
 		<!-- Theme js -->
 		<script src="https://itnthub.tn.gov.in/js/theme.js"></script>
+		<script>
+			function toggleAdditionalFields(value) {
+				const additionalFields = document.getElementById('proposed_rc_research_papers_sec');
+				if (value === 'Yes') {
+					console.log('Showing additional fields.');
+					additionalFields.style.visibility = 'visible';
+					additionalFields.style.maxHeight = 'none'; // Reset max-height
+				} else {
+					console.log('Hiding additional fields.');
+					additionalFields.style.visibility = 'hidden';
+					additionalFields.style.maxHeight = '0';
+				}
+			}
+			document.addEventListener("DOMContentLoaded", function () {
+				const acceptCheckbox = document.getElementById('acceptCheckbox');
+				const submitButton = document.getElementById('submitButton');
+				submitButton.classList.add('disabled')
+			
+				acceptCheckbox.addEventListener('change', function () {
+					if (this.checked) {
+						submitButton.classList.remove('disabled');
+					} else {
+						submitButton.classList.add('disabled');
+					}
+				});
+			});
+		</script>
+		<style>
+			.disabled {
+				opacity: 0.5; /* You can adjust the opacity to visually indicate the button is disabled */
+				pointer-events: none; /* Prevents clicks on the button when disabled */
+			}
+	</style>
 	</div> <!-- /.main-page-wrapper -->
 </body>
 
