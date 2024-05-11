@@ -90,8 +90,8 @@ startup's
                                                     <table class="table align-middle table-row-dashed fs-6 gy-5 rounded-3">
                                                         <thead class="bg-primary bg-gradient text-white">
                                                             <tr class="text-start text-gray-500 fw-bold fs-7 text-uppercase gs-0">
-                                                                <th><a href="?sort_by=name" class="text-white text-decoration-none" style="padding-left: 10px;">Startup Name</a></th>
-                                                                <th><a href="?sort_by=founding_year" class="text-white text-decoration-none">Founding Year</a></th>
+                                                                <th><a href="?sort_by=company_name" class="text-white text-decoration-none" style="padding-left: 10px;">Startup Name</a></th>
+                                                                <th><a href="?sort_by=year_of_establishment" class="text-white text-decoration-none">Year of Establishment</a></th>
                                                                 <th class="text-white text-decoration-none">District</th>
                                                                 <th class="text-white text-decoration-none">Area of interest</th>
                                                                 <!-- Add other columns here -->
@@ -101,8 +101,8 @@ startup's
                                                         <tbody class="fw text-gray-900">
                                                             {% for startup in object_list %}
                                                             <tr>
-                                                                <td>{{ startup.name }}</td>
-                                                                <td>{{ startup.founding_year }}</td>
+                                                                <td>{{ startup.company_name }}</td>
+                                                                <td>{{ startup.year_of_establishment }}</td>
                                                                 <td>
                                                                     {% if startup.district %}
                                                                         {{ startup.district.name }}
@@ -172,7 +172,7 @@ startup's
     function clearFilters() {
         document.getElementById('id_area_of_interest').value = '';
         document.getElementById('id_district').value = '';
-        document.getElementById('id_founding_experience').value = '';
+        document.getElementById('id_year_of_establishment').value = '';
         document.querySelector('form').submit();
     }
 </script>

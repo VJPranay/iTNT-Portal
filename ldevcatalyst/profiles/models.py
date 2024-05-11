@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-from datarepo.models import AreaOfInterest,PreferredInvestmentStage,Department,Institution,District,State,IndustryCategory
+from datarepo.models import AreaOfInterest,PreferredInvestmentStage,Department,Institution,District,State,IndustryCategory, FundRaised, PrimaryBusinessModel, ProductDevelopmentStage, RevenueStage
 
 class User(AbstractUser):
     user_role = models.IntegerField(choices=[
@@ -45,13 +45,23 @@ class Publication(models.Model):
         return self.title
 
 class VC(models.Model):
+    FUND_TYPE_CHOICES = [
+        ('angel_investor', 'Angel Investor'),
+        ('angel_network', 'Angel Network'),
+        ('venture_capital', 'Venture Capital Fund'),
+        ('family_office', 'Family Office'),
+        ('corporate_vc', 'Corporate Venture Capital'),
+    ]
     user = models.ForeignKey(User, on_delete=models.SET_NULL,blank=True, null=True)
     partner_name = models.CharField(max_length=255,blank=True, null=True)
     firm_name = models.CharField(max_length=255,blank=True, null=True)
+    designation = models.CharField(max_length=100,blank=True, null=True)
     email = models.EmailField(blank=True, null=True)
     mobile = models.CharField(max_length=255,blank=True, null=True)
     deal_size_range_min = models.PositiveIntegerField(blank=True, null=True)
     deal_size_range_max = models.PositiveIntegerField(blank=True, null=True)
+    deal_size_range=models.PositiveBigIntegerField(blank=True, null=True)
+    deal_size_range_usd = models.PositiveBigIntegerField(blank=True, null=True)
     portfolio_size = models.PositiveIntegerField(blank=True, null=True)
     district = models.ForeignKey(District, on_delete=models.SET_NULL,blank=True, null=True)
     state = models.ForeignKey(State, on_delete=models.SET_NULL,blank=True, null=True)
@@ -59,9 +69,13 @@ class VC(models.Model):
     funding_stage = models.ForeignKey(PreferredInvestmentStage, on_delete=models.SET_NULL,blank=True, null=True)
     company_website = models.URLField(blank=True, null=True)
     linkedin_profile = models.URLField(blank=True, null=True)
+    fund_type = models.CharField(max_length=255, null=True, blank=True, default=None, choices=FUND_TYPE_CHOICES)
+    data_source = models.CharField(max_length=255, null=True, blank=True)
+    approved = models.BooleanField(default=False)
+
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
-    approved = models.BooleanField(default=False)
+    
     def __str__(self):
         return self.partner_name
 
@@ -80,6 +94,10 @@ class Researcher(models.Model):
     highest_qualification = models.CharField(max_length=100, blank=True, null=True)
     patents = models.ManyToManyField(Patent, blank=True, null=True)
     publications = models.ForeignKey(Publication, on_delete=models.SET_NULL, blank=True, null=True)
+    
+    data_source = models.CharField(max_length=225,blank=True, null=True)
+    approved = models.BooleanField(default=False)
+
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
@@ -89,33 +107,45 @@ class Researcher(models.Model):
     
 class StartUp(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL,blank=True, null=True)
-    name = models.CharField(max_length=255,blank=True, null=True)
-    co_founder_count = models.PositiveIntegerField(blank=True, null=True)
+    company_name = models.CharField(max_length=255,blank=True, null=True)
+    co_founders_count = models.PositiveIntegerField(blank=True, null=True)
     founder_names = models.CharField(max_length=255,blank=True, null=True)
+    team_size = models.PositiveIntegerField(blank=True, null=True)
+    funding_request_amount = models.CharField(max_length=100,blank=True, null=True)
+    year_of_establishment = models.PositiveIntegerField(blank=True, null=True)
+    dpiit_number = models.CharField(max_length=20,blank=True, null=True)
+    company_description = models.TextField(blank=True, null=True)
     state = models.ForeignKey(State, on_delete=models.SET_NULL, blank=True, null=True)
     district = models.ForeignKey(District, on_delete=models.SET_NULL,blank=True, null=True)
-    team_size = models.PositiveIntegerField(blank=True, null=True)
+    area_of_interest = models.ForeignKey(AreaOfInterest, on_delete=models.SET_NULL,blank=True, null=True)
+    preferred_investment_stage = models.ForeignKey(PreferredInvestmentStage, on_delete=models.SET_NULL,blank=True, null=True)
+    fund_raised = models.ForeignKey(FundRaised, on_delete=models.SET_NULL,blank=True, null=True)
+    fund_raised_input = models.CharField(max_length=255,blank=True, null=True)
+    primary_business_model = models.ForeignKey(PrimaryBusinessModel, on_delete=models.SET_NULL,blank=True, null=True)
+    incubators_associated = models.CharField(max_length=255,blank=True, null=True)
+    client_customer_size = models.CharField(max_length=255,blank=True, null=True)
+    reveune_stage = models.ForeignKey(RevenueStage, on_delete=models.SET_NULL,blank=True, null=True)
+    development_stage = models.ForeignKey(ProductDevelopmentStage, on_delete=models.SET_NULL,blank=True, null=True)
+    development_stage_document = models.FileField(upload_to='development_stage_document/', blank=True, null=True)
+    company_website = models.CharField(max_length=255,blank=True, null=True)
+    company_linkedin = models.CharField(max_length=500,blank=True, null=True)
+    video_link = models.CharField(max_length=255,blank=True, null=True)
+    pitch_deck = models.FileField(upload_to='pitch_decks/', blank=True, null=True)
+    company_logo = models.FileField(upload_to='company_logo/', blank=True, null=True)
+    #poc details
+    linkedin = models.CharField(max_length=255,blank=True, null=True)
     email = models.EmailField(blank=True, null=True)
     mobile = models.CharField(max_length=255,blank=True, null=True)
-    website = models.URLField(blank=True, null=True)
-    dpiit_number = models.CharField(max_length=20,blank=True, null=True)
-    area_of_interest = models.ForeignKey(AreaOfInterest, on_delete=models.SET_NULL,blank=True, null=True)
-    description = models.TextField(blank=True, null=True)
-    market_size = models.CharField(max_length=100,blank=True, null=True)
-    required_amount = models.CharField(max_length=100,blank=True, null=True)
-    founding_year = models.PositiveIntegerField(blank=True, null=True)
-    founding_experience= models.BooleanField(blank=True, null=True)
-    funding_stage = models.ForeignKey(PreferredInvestmentStage, on_delete=models.SET_NULL,blank=True, null=True)
-    pitch_deck = models.CharField(max_length=255,blank=True, null=True)
-    video_link = models.CharField(max_length=255,blank=True, null=True)
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
-    short_video =  models.CharField(max_length=255,blank=True, null=True)
+    gender = models.CharField(max_length=100,choices=[('male','Male'),('female','Female')],blank=True, null=True) 
+    # details
+    data_source = models.CharField(max_length=255,blank=True, null=True)
     approved = models.BooleanField(default=False)
 
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.name
+        return self.company_name
     
     
 class Student(models.Model):
@@ -129,6 +159,13 @@ class Student(models.Model):
     district = models.ForeignKey(District, on_delete=models.SET_NULL, null=True, blank=True)
     state = models.ForeignKey(State, on_delete=models.SET_NULL, null=True, blank=True)
     project_idea = models.TextField(blank=True, null=True)
+    gender = models.CharField(max_length=100,choices=[('male','Male'),('female','Female')],blank=True, null=True)
+    mobile = models.CharField(max_length=255,blank=True, null=True)
+    project_guide_name = models.CharField(max_length=255,blank=True, null=True)
+
+    data_source = models.CharField(max_length=255,blank=True, null=True)
+    approved = models.BooleanField(default=False)
+
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
@@ -147,8 +184,13 @@ class Industry(models.Model):
     email = models.EmailField(blank=True, null=True)
     mobile = models.CharField(max_length=255,blank=True, null=True)
     area_of_interest = models.ManyToManyField(AreaOfInterest)
+    
+    data_source = models.CharField(max_length=255,blank=True, null=True)
+    approved = models.BooleanField(default=False)
+
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.name
+    

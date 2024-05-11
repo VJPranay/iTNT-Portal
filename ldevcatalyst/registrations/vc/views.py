@@ -85,6 +85,8 @@ def vc_approve_registration(request):
                         mobile = registration.mobile,
                         deal_size_range_min = registration.deal_size_range_min,
                         deal_size_range_max = registration.deal_size_range_max,
+                        deal_size_range = registration.deal_size_range,
+                        deal_size_range_usd = registration.deal_size_range_usd,
                         portfolio_size = registration.portfolio_size,
                         district_id = registration.district.id,
                         state_id = registration.state.id,
@@ -92,6 +94,9 @@ def vc_approve_registration(request):
                         funding_stage_id = registration.funding_stage.id,
                         company_website = registration.company_website,
                         linkedin_profile = registration.linkedin_profile,
+                        fund_type = registration.fund_type,
+                        data_source = registration.data_source,
+                        approved = True
                     )
                     vc_profile.save()
                     email_host = settings.email_host

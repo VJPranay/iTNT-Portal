@@ -51,11 +51,12 @@ def startup_registrations(request,registration_status=None,area_of_interest=None
         return render(request, 'dashboard/registrations/startup/list.html',context={'startup_registrations':startup_registrations_list})
     else:
         return render(request, 'common/not_found.html')
-
+    
+from django.views.decorators.csrf import csrf_exempt
 
 @login_required
 def startup_approve_registration(request):
-    if request.user.user_role == 2:
+    # if request.user.user_role == 2:
         if request.method == 'POST':
             registration_id = request.POST.get('registration_id',None)
             if not registration_id:
@@ -72,40 +73,61 @@ def startup_approve_registration(request):
                     # Generate random 6-digit number
                     password = ''.join(random.choices(string.digits, k=6))
 
+                    # Check co_founders of the startup
+                    try:
+                        co_founders = StartUpRegistrationsCoFounders.objects.filter(startup_id=registration.id).first()
+                        print(co_founders)
+                    except StartUpRegistrationsCoFounders.DoesNotExist:
+                        co_founders = None
+
                     # Create user with the generated username and random password
                     try:
                         user = User.objects.create_user(username=username, password=password)
                         user.is_active = True
                         user.user_role = 6
-                        user.email = registration.email
+                        user.email = co_founders.email
                         user.save()
                     except IntegrityError:
+                        print('integirty error')
                         user = User.objects.get(username=username)
                         return JsonResponse({'success': True},status=200)
+                    
                     startup_profile = StartUp.objects.create(
                         user_id = user.id,
-                        name = registration.name,
-                        co_founder_count = registration.co_founder_count,
-                        founder_names = registration.founder_names,
-                        state = registration.state,
-                        district = registration.district,
+                        company_name = registration.company_name,
+                        co_founders_count = registration.co_founders_count,
+                        founder_names = co_founders.name,
                         team_size = registration.team_size,
-                        email = registration.email,
-                        mobile = registration.mobile,
-                        website = registration.website,
+                        funding_request_amount = registration.funding_request_amount,
+                        year_of_establishment = registration.year_of_establishment,
                         dpiit_number = registration.dpiit_number,
-                        area_of_interest = registration.area_of_interest,
-                        description = registration.description,
-                        funding_stage = registration.funding_stage,
-                        pitch_deck = registration.pitch_deck,
+                        company_description = registration.company_description,
+                        state_id = registration.state_id,
+                        district_id = registration.district_id,
+                        area_of_interest_id = registration.area_of_interest_id,
+                        preferred_investment_stage_id = registration.preferred_investment_stage_id,
+                        fund_raised_id = registration.fund_raised_id,
+                        fund_raised_input = registration.fund_raised_input,
+                        primary_business_model_id = registration.primary_business_model_id,
+                        incubators_associated = registration.incubators_associated,
+                        client_customer_size = registration.client_customer_size,
+                        reveune_stage_id = registration.reveune_stage_id,
+                        development_stage_id = registration. development_stage_id,
+                        development_stage_document = registration.development_stage_document,
+                        company_website = registration.company_website,
+                        company_linkedin = registration.company_linkedin,
                         video_link = registration.video_link,
-                        #market_size = registration.market_size,
-                        required_amount = registration.required_amount,
-                        founding_year = registration.founding_year,
-                        #founding_experience = registration.founding_experience,
-                        short_video = registration.short_video,
+                        pitch_deck = registration.pitch_deck,
+                        company_logo = registration.company_logo,
+                        linkedin = co_founders.linkedin,
+                        email = co_founders.email,
+                        mobile = co_founders.mobile,
+                        gender = co_founders.gender,
+                        data_source = registration.data_source,
+                        approved = True
                     )
                     startup_profile.save()
+                    print(startup_profile.id)
                     email_host = settings.email_host
                     email_port = settings.email_port
                     email_username = settings.email_username
@@ -120,19 +142,19 @@ def startup_approve_registration(request):
                             '''
                     message = MIMEMultipart()
                     message['From'] = 'aso.itnt@tn.gov.in'
-                    message['To'] = registration.email  # Add the additional email address
+                    message['To'] = startup_profile.email  # Add the additional email address
                     message['Subject'] = subject
                     message.attach(MIMEText(body, 'plain'))
                     with smtplib.SMTP_SSL(email_host, email_port) as server:
                         server.login(email_username, email_password)
-                        server.sendmail(email_from, [registration.email], message.as_string())
+                        server.sendmail(email_from, [startup_profile.email], message.as_string())
                     return JsonResponse({'success': True})
                 except StartUpRegistrations.DoesNotExist:
                     return JsonResponse({'success': False, 'error': 'Registration not found'}, status=404)
         else:
             return JsonResponse({'success': False, 'error': 'Method not allowed'}, status=405)
-    else:
-        return render(request, 'common/not_found.html')
+    # else:
+        # return render(request, 'common/not_found.html')
 
 
 def startup_registration(request):
