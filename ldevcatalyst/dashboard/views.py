@@ -55,15 +55,28 @@ def dashboard_index(request):
     # messages.info(request, 'This is an info message.')
 
     # messages.warning(request, 'This is a warning message.')
-    sme_count = ResearcherRegistrations.objects.all().count()
-    startup_count = StartUpRegistrations.objects.all().count()
-    vc_count = VCRegistrations.objects.all().count()
-    meeting_count = MeetingRequests.objects.all().count()
-    data = {
-        'sme_count': sme_count,
-        'startup_count': startup_count,
-        'vc_count': vc_count,
-        'meeting_count': meeting_count
-    }
-    return render(request,'dashboard/dashboard.html',context=data)
+    return redirect('rolls_royce_challenge_details')
+
+
+
+# @login_required
+# def dashboard_index(request):
+#     # messages.success(request, 'This is a success message.')
+
+#     # messages.error(request, 'This is an error message.')
+
+#     # messages.info(request, 'This is an info message.')
+
+#     # messages.warning(request, 'This is a warning message.')
+#     sme_count = ResearcherRegistrations.objects.all().count()
+#     startup_count = StartUpRegistrations.objects.all().count()
+#     vc_count = VCRegistrations.objects.all().count()
+#     meeting_count = MeetingRequests.objects.all().count()
+#     data = {
+#         'sme_count': sme_count,
+#         'startup_count': startup_count,
+#         'vc_count': vc_count,
+#         'meeting_count': meeting_count
+#     }
+#     return render(request,'dashboard/dashboard.html',context=data)
 
