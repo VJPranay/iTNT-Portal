@@ -284,6 +284,13 @@ var KTCreateAccount = function () {
 			form,
 			{
 				fields: {
+					poc_name: {
+						validators: {
+							notEmpty: {
+								message: 'Please enter name'
+							}
+						}
+					},
                     poc_email: {
 						validators: {
 							notEmpty: {

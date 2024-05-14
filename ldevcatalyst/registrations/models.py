@@ -40,6 +40,7 @@ class VCRegistrations(models.Model):
     partner_name = models.CharField(max_length=255,blank=True, null=True)
     firm_name = models.CharField(max_length=255,blank=True, null=True)
     designation = models.CharField(max_length=100,blank=True, null=True)
+    name = models.CharField(max_length=255,blank=True, null=True)
     email = models.EmailField(blank=True, null=True)
     mobile = models.CharField(max_length=255,blank=True, null=True)
     deal_size_range_min = models.PositiveIntegerField(blank=True, null=True)

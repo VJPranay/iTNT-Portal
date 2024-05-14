@@ -81,6 +81,7 @@ def vc_approve_registration(request):
                         partner_name = registration.partner_name,
                         firm_name = registration.firm_name,
                         designation = registration.designation,
+                        name = registration.name,
                         email = registration.email,
                         mobile = registration.mobile,
                         deal_size_range_min = registration.deal_size_range_min,
@@ -133,6 +134,7 @@ def vc_registration(request):
         partner_name = request.POST.get('partner_name')
         firm_name = request.POST.get('firm_name')
         designation= request.POST.get('designation')
+        name = request.POST.get('poc_name')
         email = request.POST.get('poc_email')
         mobile = request.POST.get('poc_mobile')
         district_id = request.POST.get('location_district')
@@ -161,6 +163,9 @@ def vc_registration(request):
             required: true
             minlength: 6
         designation:
+            type: string
+            required: true
+        poc_name:
             type: string
             required: true
         poc_email:
@@ -223,6 +228,7 @@ def vc_registration(request):
                         deal_size_range_max=deal_size_range_max,
                         deal_size_range_usd=deal_size_range_usd,  
                         portfolio_size = portfolio_size,
+                        name = name,
                         email = email,
                         mobile = mobile,
                         district_id = district_id,
