@@ -217,8 +217,10 @@ def vc_registration(request):
         '''
         v = Validator()
         post_data = request.POST.dict()
+        print(post_data)
         schema = yaml.load(request_schema, Loader=yaml.SafeLoader)
         if v.validate(post_data, schema):
+                print('test')
                 try:
                     new_vc_registration = VCRegistrations.objects.create(
                         partner_name = partner_name,
