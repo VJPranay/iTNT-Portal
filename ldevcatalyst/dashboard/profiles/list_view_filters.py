@@ -1,5 +1,5 @@
 import django_filters
-from profiles.models import StartUp, Researcher, Student, VC
+from profiles.models import StartUp, Researcher, Student, VC, Industry
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
 
@@ -66,6 +66,26 @@ class VCFilter(django_filters.FilterSet):
     class Meta:
         model = VC
         fields = ['area_of_interest', 'district', 'funding_stage']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_method = 'get'
+        self.helper.add_input(Submit('submit', 'Apply Filters', css_class='btn btn-primary'))
+
+
+
+
+class IndustryFilter(django_filters.FilterSet):
+
+    area_of_interest = django_filters.ChoiceFilter(
+        choices=[(obj.id, obj.name) for obj in AreaOfInterest.objects.all()],  # queryset for options
+        widget=forms.Select(attrs={'class': 'form-select'})  # Specify the widget as Select
+    )
+
+    class Meta:
+        model = Industry
+        fields = ['area_of_interest', 'district', 'industry',]
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

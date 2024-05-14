@@ -42,3 +42,13 @@ def vc_profile_details(request, pk):
     except VC.DoesNotExist:
         return HttpResponseRedirect(reverse('not_found'))
     
+
+
+@login_required
+def industry_profile_details(request, pk):
+    try:
+        industry = Industry.objects.get(pk=pk)
+        return render(request, 'dashboard/profiles/v2/industry_profile_details.html', {'industry': industry})
+    except Industry.DoesNotExist:
+        return HttpResponseRedirect(reverse('not_found'))
+    
