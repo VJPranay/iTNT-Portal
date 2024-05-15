@@ -58,7 +58,7 @@ vc
                                                         {{ filter.form|crispy }}
                                                         <br>
                                                         <div class="d-grid">
-                                                            <button type="submit" class="btn btn-primary">Apply Filters</button>
+                                                            <button type="submit" class="btn btn-warning">Apply Filters</button>
                                                             <div style="margin-top: 20px;"> <!-- Adjust margin-top value as needed -->
                                                                 <button type="button" class="btn btn-secondary" onclick="clearFilters()">Clear Filters</button>
                                                             </div>
@@ -88,7 +88,7 @@ vc
                                                 <!--begin::Card body-->
                                                 <div class="card-body pt-5" id="vc_profile_data">
                                                     <table class="table align-middle table-row-dashed fs-6 gy-5 rounded-3">
-                                                        <thead class="bg-primary bg-gradient text-white">
+                                                        <thead class="bg-warning bg-gradient text-white">
                                                             <tr class="text-start text-gray-500 fw-bold fs-7 text-uppercase gs-0">
                                                                 <th><a href="?sort_by=name" class="text-white text-decoration-none" style="padding-left: 10px;">Firm Name</a></th>
                                                                 <th><a href="?sort_by=area_of_interest" class="text-white text-decoration-none">Area Of Interest</a></th>
@@ -116,7 +116,7 @@ vc
                                                                     {% endif %}
                                                                 </td>
                                                                 <td>{{ vc.fund_type }}</td>
-                                                                <td><a href="{% url 'vc_profile_details' vc.id %}" class="btn btn-primary" target='_blank'>View Details</a></td>
+                                                                <td><a href="{% url 'vc_profile_details' vc.id %}" class="btn btn-warning" target='_blank'>View Details</a></td>
                                                             </tr>
                                                             {% endfor %}
                                                         </tbody>
@@ -172,6 +172,12 @@ vc
         font-size: 24px; /* Increased font size */
         margin-right: 20px; /* Increased margin for better spacing */
       }
+    .page-item.active .page-link {
+        background-color: #f8cd33;
+    }
+    .pagination .page-item:not(.active) .page-link:hover {
+    color: yellow !important;
+    }
   </style>
   <script>
     function clearFilters() {
