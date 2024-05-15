@@ -74,6 +74,11 @@ class ResearcherListView(FilterView):
         area_of_interest = self.request.GET.get('area_of_interest')
         district = self.request.GET.get('district')
         department= self.request.GET.get('department')
+        institution = self.request.GET.get('institution')
+        gender = self.request.GET.get('gender')
+        highest_qualification = self.request.GET.get('highest_qualification')
+        publications = self.request.GET.get('publications')
+
       
         if area_of_interest:
             filters &= Q(area_of_interest=area_of_interest)
@@ -81,6 +86,14 @@ class ResearcherListView(FilterView):
             filters &= Q(district=district)
         if department:
             filters &= Q(department=department)
+        if institution:
+            filters &= Q(institution=institution)
+        if gender:
+            filters &= Q(gender=gender)
+        if highest_qualification:
+            filters &= Q(highest_qualification=highest_qualification)
+        if publications:
+            filters &= Q(publications=publications)
       
 
         queryset = queryset.filter(filters)

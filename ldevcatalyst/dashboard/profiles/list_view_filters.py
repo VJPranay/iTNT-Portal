@@ -25,7 +25,7 @@ class ResearcherFilter(django_filters.FilterSet):
     )
     class Meta:
         model = Researcher
-        fields = ['area_of_interest', 'district', 'department']
+        fields = ['area_of_interest', 'district', 'department', 'institution', 'gender', 'highest_qualification', 'publications']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
