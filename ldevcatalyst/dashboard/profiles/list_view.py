@@ -27,12 +27,24 @@ class StartUpListView(FilterView):
             queryset = queryset.order_by('company_name')
         elif sort_by == 'year_of_establishment':
             queryset = queryset.order_by('year_of_establishment')
+        elif sort_by == 'team_size':
+            queryset == queryset.order_by('team_size')
+        elif sort_by =='funding_request_amount':
+            queryset == queryset.order_by('funding_request_amount')
+            
 
         # Apply filters
         filters = Q()
         area_of_interest = self.request.GET.get('area_of_interest')
         district = self.request.GET.get('district')
         preferred_investment_stage = self.request.GET.get('preferred_investment_stage')
+        state=self.request.GET.get('state')
+        fund_raised=self.request.GET.get('fund_raised')
+        development_stage=self.request.GET.get('development_stage')
+        gender=self.request.GET.get('gender')
+        primary_business_model=self.request.GET.get('primary_business_model')
+        reveune_stage=self.request.GET.get('reveune_stage')
+        dpiit_number=self.request.GET.get('dpiit_number')
 
         if area_of_interest:
             filters &= Q(area_of_interest=area_of_interest)
@@ -40,6 +52,21 @@ class StartUpListView(FilterView):
             filters &= Q(district=district)
         if preferred_investment_stage:
             filters &= Q(preferred_investment_stage=preferred_investment_stage)
+        if  state:
+            filters &= Q(state=state)
+        if fund_raised:
+            filters &= Q(fund_raised=fund_raised)
+        if development_stage:
+            filters &= Q(development_stage=development_stage)
+        if gender:
+            filters &= Q(gender=gender)
+        if  primary_business_model:
+            filters &= Q( primary_business_model= primary_business_model)
+        if  reveune_stage:
+            filters &= Q( reveune_stage= reveune_stage)
+        if   dpiit_number:
+            filters &= Q(  dpiit_number=  dpiit_number)
+
 
         queryset = queryset.filter(filters)
         return queryset
@@ -130,6 +157,9 @@ class StudentListView(FilterView):
         area_of_interest = self.request.GET.get('area_of_interest')
         district = self.request.GET.get('district')
         department= self.request.GET.get('department')
+        institution=self.request.GEt.get('institution')
+        gender=self.request.GET.get('gender')
+        year_of_graduation=self.request.GET.get('year_of_graduation')
       
         if area_of_interest:
             filters &= Q(area_of_interest=area_of_interest)
@@ -137,6 +167,12 @@ class StudentListView(FilterView):
             filters &= Q(district=district)
         if department:
             filters &= Q(department=department)
+        if institution:
+            filters &= Q(institution=institution)
+        if gender:
+            filters &= Q(gender=gender)
+        if year_of_graduation:
+            filters &= Q(year_of_graduation=year_of_graduation)
       
 
         queryset = queryset.filter(filters)

@@ -9,7 +9,7 @@ from datarepo.models import AreaOfInterest
 class StartUpFilter(django_filters.FilterSet):
     class Meta:
         model = StartUp
-        fields = ['area_of_interest', 'district', 'year_of_establishment']
+        fields = ['area_of_interest', 'district','state','fund_raised','development_stage','gender','primary_business_model','reveune_stage','dpiit_number']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -23,6 +23,12 @@ class ResearcherFilter(django_filters.FilterSet):
         choices=[(obj.id, obj.name) for obj in AreaOfInterest.objects.all()],  # queryset for options
         widget=forms.Select(attrs={'class': 'form-select'})  # Specify the widget as Select
     )
+    
+    highest_qualification = django_filters.ChoiceFilter(
+        choices=Researcher.objects.values_list('highest_qualification', 'highest_qualification').distinct(),
+        label='Highest Qualification'
+    )
+    
     class Meta:
         model = Researcher
         fields = ['area_of_interest', 'district', 'department', 'institution', 'gender', 'highest_qualification', 'publications']
@@ -36,6 +42,7 @@ class ResearcherFilter(django_filters.FilterSet):
 
 
 
+
 class StudentFilter(django_filters.FilterSet):
 
     area_of_interest = django_filters.ChoiceFilter(
@@ -45,7 +52,7 @@ class StudentFilter(django_filters.FilterSet):
 
     class Meta:
         model = Student
-        fields = ['area_of_interest', 'district', 'department']
+        fields = ['area_of_interest', 'district', 'department','institution','gender','year_of_graduation']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
