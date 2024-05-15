@@ -9,7 +9,7 @@ from datarepo.models import AreaOfInterest
 class StartUpFilter(django_filters.FilterSet):
     class Meta:
         model = StartUp
-        fields = ['area_of_interest', 'district','state','fund_raised','development_stage','gender','primary_business_model','reveune_stage','dpiit_number']
+        fields = ['area_of_interest','year_of_establishment', 'district','state','fund_raised','development_stage','gender','primary_business_model','reveune_stage','dpiit_number']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

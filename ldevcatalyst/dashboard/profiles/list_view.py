@@ -36,6 +36,7 @@ class StartUpListView(FilterView):
         # Apply filters
         filters = Q()
         area_of_interest = self.request.GET.get('area_of_interest')
+        year_of_establishment=self.request.GET.get('year_of_establishment')
         district = self.request.GET.get('district')
         preferred_investment_stage = self.request.GET.get('preferred_investment_stage')
         state=self.request.GET.get('state')
@@ -48,6 +49,8 @@ class StartUpListView(FilterView):
 
         if area_of_interest:
             filters &= Q(area_of_interest=area_of_interest)
+        if year_of_establishment:
+            filters &= Q(year_of_establishment=year_of_establishment)
         if district:
             filters &= Q(district=district)
         if preferred_investment_stage:
@@ -157,7 +160,7 @@ class StudentListView(FilterView):
         area_of_interest = self.request.GET.get('area_of_interest')
         district = self.request.GET.get('district')
         department= self.request.GET.get('department')
-        institution=self.request.GEt.get('institution')
+        institution=self.request.GET.get('institution')
         gender=self.request.GET.get('gender')
         year_of_graduation=self.request.GET.get('year_of_graduation')
       
