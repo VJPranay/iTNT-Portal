@@ -156,21 +156,49 @@ Researcher's details
                                     <div class="row mb-4">
                                         <div class="col-md-6">
                                             <h4 style="color: #007bff;">Patent Title</h4>
-                                            <h4>{% if researcher.patents %}{{ researcher.patents.title }}{% else %}N/A{% endif %}</h4>
+                                            <h4>
+                                                {% if researcher.patents.all %}
+                                                    {% for x in researcher.patents.all %}
+                                                        {{ x.title }}
+                                                        {% if not forloop.last %}, {% endif %}
+                                                    {% endfor %}
+                                                {% else %}N/A{% endif %}
+                                            </h4>    
                                         </div>
                                         <div class="col-md-6">
                                             <h4 style="color: #007bff;">Inventor(s) and Applicant(s)</h4>
-                                            <h4>{% if researcher.patents %}{{ researcher.patents.inventors }}{% else %}N/A{% endif %}</h4>
+                                            <h4>
+                                                {% if researcher.patents %}
+                                                {%for x in researcher.patents.all %}
+                                                    {{x.inventors}}
+                                                    {% if not forloop.last %}, {% endif %}
+                                                {% endfor %}
+                                                {% else %}N/A{% endif %}
+                                            </h4>
                                         </div>
                                     </div>
                                     <div class="row mb-4">
                                         <div class="col-md-6">
                                             <h4 style="color: #007bff;">Filing Date</h4>
-                                            <h4>{% if researcher.patents %}{{ researcher.patents.filing_date }}{% else %}N/A{% endif %}</h4>
+                                            <h4>
+                                                {% if researcher.patents %}
+                                                {%for x in researcher.patents.all %}
+                                                    {{x.filing_date}}
+                                                    {% if not forloop.last %}, {% endif %}
+                                                {% endfor %}
+                                                {% else %}N/A{% endif %}
+                                            </h4>
                                         </div>
                                         <div class="col-md-6">
                                             <h4 style="color: #007bff;">Current Status of Patent</h4>
-                                            <h4>{% if researcher.patents %}{{ researcher.patents.status }}{% else %}N/A{% endif %}</h4>
+                                            <h4>
+                                                {% if researcher.patents %}
+                                                {%for x in researcher.patents.all %}
+                                                    {{x.status}}
+                                                    {% if not forloop.last %}, {% endif %}
+                                                {% endfor %}
+                                                {% else %}N/A{% endif %}
+                                            </h4>
                                         </div>
                                     </div>
                                 {% endif %}
