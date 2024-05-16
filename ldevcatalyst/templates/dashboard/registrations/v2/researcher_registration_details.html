@@ -79,7 +79,7 @@ Researcher's details
                                     <div class="col-md-6">
                                         <h4 style="color: #007bff;">Area Of Interest</h4>
                                         {% for area in researcher.area_of_interest.all %}
-                                            <h3 class="mb-0 text-white">{{ area.name }}</h3>>
+                                            <h3>{{ area.name }}</h3>
                                         {% endfor %}
                                     </div>
                                 </div>
@@ -106,19 +106,15 @@ Researcher's details
                                 </div>
                                 <div class="row mb-4">
                                     <div class="col-md-6">
-                                        <h4 style="color: #007bff;">Area Of Interest For Collaboration</h4>
-                                        <h4>{% if researcher.collaboration_interest %}{{ researcher.collaboration_interest }}{% else %}N/A{% endif %}</h4>
-                                    </div>
-                                    <div class="col-md-6">
                                         <h4 style="color: #007bff;">Institution Name</h4>
                                         <h4>{% if researcher.institution_name %}{{ researcher.institution_name }}{% else %}N/A{% endif %}</h4>
                                     </div>
-                                </div>
-                                <div class="row mb-4">
                                     <div class="col-md-6">
                                         <h4 style="color: #007bff;">Department Name</h4>
                                         <h4>{% if researcher.department_name %}{{ researcher.department_name }}{% else %}N/A{% endif %}</h4>
                                     </div>
+                                </div>
+                                <div class="row mb-4">
                                     <div class="col-md-6">
                                         <h4 style="color: #007bff;">Patent Count</h4>
                                         <h4>{% if researcher.patents  %}{{ researcher.patents.count }} {% else %}N/A{% endif %}</h4>
