@@ -131,14 +131,10 @@ startup details
                                 <!-- <div class="embed-responsive embed-responsive-16by9">
                                     <iframe class="embed-responsive-item" src="{% if startup.pitch_deck %}https://docs.google.com/presentation/d/{{ startup.pitch_deck }}/embed{% else %}# {% endif %}" allowfullscreen></iframe>
                                 </div> -->
-                                <h4>{% if startup.pitch_deck %}
-                                    <div class="d-flex flex-column gap-1">
-                                        <iframe src="https://dashboard/innovation-portal/media/url=https://docs.google.com/presentation/d/{{startup.pitch_deck}}/export/pdf" width="100%" height="400px"></iframe>
-                                    </div>
-                                    {% else %}
-                                    N/A
+                                {% if startup.pitch_deck %}
+                                
+                                        <a href="{{ startup.pitch_deck.url }}" target="_blank">View PDF</a>
                                     {% endif %}
-                                </h4>
                             </div>
                         </div>
                         <div class="row mb-4">
