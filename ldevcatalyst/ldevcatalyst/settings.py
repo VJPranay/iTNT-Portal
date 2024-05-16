@@ -18,7 +18,6 @@ DEV = False
 ALLOWED_HOSTS = [
 'itnthub.tn.gov.in',
 '127.0.0.1',
-'innovationportal.tnthub.org.ldev.in',
 ]
 
 CSRF_TRUSTED_ORIGINS = [ 
