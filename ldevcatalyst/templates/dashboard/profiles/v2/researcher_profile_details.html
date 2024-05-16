@@ -62,7 +62,7 @@ Researcher's details
                                 <h4 style="color: #007bff;">Researcher Logo</h4>
                                 <div class="d-flex justify-content-center align-items-center" style="padding-right:60px;">
                                     {% if researcher %}
-                                    <div style="font-size: 36px; background-color: #007bff; color: white; width: 100px; height: 100px; border-radius: 50%; display: flex; justify-content: center; align-items: center; margin-top: 15px;">                      
+                                    <div style="font-size: 36px; background-color: #007bff; color: white; width: 100px; height: 100px; border-radius: 50%; display: flex; justify-content: center; align-items: center; margin-top: 15px;">
                                         {{ researcher.name|slice:":1" }}
                                     </div>
                                     {% else %}
@@ -95,7 +95,19 @@ Researcher's details
                                 <div class="row mb-4">
                                     <div class="col-md-6">
                                         <h4 style="color: #007bff;">Gender</h4>
-                                        <h4>{{ researcher.gender }}</h4>
+                                        <h4>{% if researcher.gender %}
+                                                {% if researcher.gender == 1 %}
+                                                    Male
+                                                {% elif researcher.gender == 2 %}
+                                                    Female
+                                                {% else %}
+                                                    N/A
+                                                {% endif %}
+                                            {% else %}
+                                                N/A
+                                            {% endif %}
+                                        </h4>
+
                                     </div>
                                     <div class="col-md-6">
                                         <h4 style="color: #007bff;">Institution</h4>
