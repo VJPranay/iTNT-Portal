@@ -50,8 +50,8 @@ def fetch_startup_profiles(request):
             for profile in startup_profiles:
                 profiles_data.append({
                     'startup_id': profile.id,
-                    'startup_name': profile.name,
-                    'funding_stage': profile.funding_stage.name,
+                    'startup_name': profile.company_name,
+                    'funding_stage': profile.fund_raised.name,
                 })
             return JsonResponse(profiles_data, safe=False)
         else:
