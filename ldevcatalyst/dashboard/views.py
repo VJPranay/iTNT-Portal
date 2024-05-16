@@ -43,9 +43,6 @@ def logout(request):
 
 
 
-
-
-
 @login_required
 def dashboard_index(request):
     # messages.success(request, 'This is a success message.')
@@ -55,7 +52,7 @@ def dashboard_index(request):
     # messages.info(request, 'This is an info message.')
 
     # messages.warning(request, 'This is a warning message.')
-    if request.user in [1,2,3]:
+    if request.user.user_role in [1,2,3]:
         sme_count = ResearcherRegistrations.objects.all().count()
         startup_count = StartUpRegistrations.objects.all().count()
         vc_count = VCRegistrations.objects.all().count()

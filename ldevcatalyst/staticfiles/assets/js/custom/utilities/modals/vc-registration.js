@@ -86,6 +86,9 @@ var KTCreateAccount = function () {
 		});
 	}
 
+
+	
+
 	var handleForm = function() {
 		formSubmitButton.addEventListener('click', function (e) {
 			// Validate form before change stepper step
@@ -102,6 +105,7 @@ var KTCreateAccount = function () {
 
 					// Disable button to avoid multiple click 
 					formSubmitButton.disabled = true;
+
 
 					// Show loading indication
 					formSubmitButton.setAttribute('data-kt-indicator', 'on');
@@ -142,24 +146,34 @@ var KTCreateAccount = function () {
 											confirmButton: "btn btn-light"
 										}
 									}).then(function () {
-										stepperObj.goPrevious();
-										stepperObj.goPrevious();
-										KTUtil.scrollTop();
+										formSubmitButton.removeAttribute('data-kt-indicator');
+									formSubmitButton.disabled = false;
+									stepperObj.goPrevious();
+									stepperObj.goPrevious();
+									KTUtil.scrollTop();
 										});			
 								}
 							},
 							error: function (xhr, status, error) {
-								// Handle error response
-								// Show error message
+								var errorMessage = "An error occurred while submitting the form. Please try again later.";
+								if (xhr.responseJSON && xhr.responseJSON.error) {
+									errorMessage = "Please fix the following error: " + xhr.responseJSON.error;
+								}
 								Swal.fire({
-									text: "An error occurred while submitting the form. Please try again later.",
+									text: errorMessage,
 									icon: "error",
 									buttonsStyling: false,
 									confirmButtonText: "Ok, got it!",
 									customClass: {
 										confirmButton: "btn btn-light"
 									}
-								});
+								}).then(function () {
+									formSubmitButton.removeAttribute('data-kt-indicator');
+									formSubmitButton.disabled = false;
+									stepperObj.goPrevious();
+									stepperObj.goPrevious();
+									KTUtil.scrollTop();
+								});    
 							}
 						});
 
@@ -207,7 +221,7 @@ var KTCreateAccount = function () {
 					portfolio_size: {
 						validators: {
 							notEmpty: {
-								message: 'Please enter your portfolio size '
+								message: 'Please enter your number of Investments '
 							}
 						}
 					},
@@ -242,14 +256,14 @@ var KTCreateAccount = function () {
                     collaboration_sector: {
 						validators: {
 							notEmpty: {
-								message: 'Area of collaboration is required'
+								message: 'Preferred sector for investment is required'
 							}
 						}
 					},
                     funding_stage_id: {
 						validators: {
 							notEmpty: {
-								message: 'Preferred Investment Stage is required'
+								message: 'Fund Stage is required'
 							}
 						}
 					}
@@ -270,6 +284,13 @@ var KTCreateAccount = function () {
 			form,
 			{
 				fields: {
+					poc_name: {
+						validators: {
+							notEmpty: {
+								message: 'Please enter name'
+							}
+						}
+					},
                     poc_email: {
 						validators: {
 							notEmpty: {
@@ -293,20 +314,21 @@ var KTCreateAccount = function () {
                             },
 						}
 					},
-					company_website: {
-						validators: {
-							notEmpty: {
-								message: 'Company website is required'
-							}
-						}
-					},
-					linkedin_profile: {
-						validators: {
-							notEmpty: {
-								message: 'LinkedIn profile is required'
-							}
-						}
-					},
+					// company_website: {
+					// 	validators: {
+					// 		notEmpty: {
+					// 			message: 'Company website is required'
+					// 		}
+					// 	}
+					// },
+					// linkedin_profile: {
+					// 	validators: {
+					// 		notEmpty: {
+					// 			message: 'LinkedIn profile is required'
+					// 		}
+					// 	}
+					// },
+					
 				},
 				plugins: {
 					trigger: new FormValidation.plugins.Trigger(),

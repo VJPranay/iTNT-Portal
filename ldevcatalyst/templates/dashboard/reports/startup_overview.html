@@ -68,14 +68,14 @@
 						<table class="table table-bordered table-hover">
 							<thead class="table-light">
 								<tr>
-									<th style="width: 8%" class="text-center">Funding Stage</th>
+									<th style="width: 8%" class="text-center">Preferred investment stage</th>
 									<th style="width: 8%" class="text-center">Startup Count</th>
 								</tr>
 							</thead>
 							<tbody>
-								{% for item in funding_stage_data %}
+								{% for item in preferred_investment_stage_data %}
 								<tr>
-									<td><a href="{% url 'startup_list_v2' %}">{{ item.funding_stage__name }}</a></td>
+									<td><a href="{% url 'startup_list_v2' %}">{{ item.preferred_investment_stage__name }}</a></td>
 									<td>{{ item.startup_count }}</td>
 								</tr>
 								{% endfor %}
@@ -121,7 +121,7 @@
 			<!--begin::fundingstategraphs-->
 			<div class="card text-center">
 				<div class="card-body">
-					<h1 class="card-title">Funding stage</h1>
+					<h1 class="card-title">Preferred investment stage</h1>
 				</div>
 				<div class="row g-5 g-xl-10 mb-xl-10 justify-content-center">
 					<div class="col-lg-4 d-flex justify-content-center">
@@ -299,7 +299,7 @@
             data: {
                 labels: fundingLabels,
                 datasets: [{
-                    label: 'Funding Stage',
+                    label: 'preferred investment stage',
                     data: fundingCounts,
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.8)',
@@ -323,8 +323,8 @@
         // Get data for the funding bar chart
         var fundingLabels = [];
         var fundingCounts = [];
-        {% for item in funding_stage_data %}
-            fundingLabels.push("{{ item.funding_stage__name }}");
+        {% for item in preferred_investment_stage_data %}
+            fundingLabels.push("{{ item.preferred_investment_stage__name }}");
             fundingCounts.push("{{ item.startup_count }}");
         {% endfor %}
 
@@ -334,7 +334,7 @@
             data: {
                 labels: fundingLabels,
                 datasets: [{
-                    label: 'Funding Stage',
+                    label: 'preferred investment stage',
                     data: fundingCounts,
                     backgroundColor: 'rgba(54, 162, 235, 0.8)',
                     borderWidth: 1

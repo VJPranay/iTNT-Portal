@@ -15,14 +15,6 @@ from django.contrib import messages
 
 @login_required
 def startup_overview(request):
-    # messages.success(request, 'This is a success message.')
-
-    # messages.error(request, 'This is an error message.')
-
-    # messages.info(request, 'This is an info message.')
-
-    # messages.warning(request, 'This is a warning message.')
-
     startup_count_by_interest = StartUpRegistrations.objects.values('area_of_interest__name').annotate(startup_count=Count('id')).order_by('-startup_count')
     by_area_of_interest = []
     for item in startup_count_by_interest:
@@ -37,11 +29,11 @@ def startup_overview(request):
             'district__name' : item['district__name'],
             'startup_count' : item['startup_count'],
         })
-    startup_count_by_funding_stage = StartUpRegistrations.objects.values('funding_stage__name').annotate(startup_count=Count('id')).order_by('-startup_count')
-    by_funding_stage = []
-    for item in startup_count_by_funding_stage:
-        by_funding_stage.append({
-            'funding_stage__name' : item['funding_stage__name'],
+    startup_count_by_preferred_investment_stage = StartUpRegistrations.objects.values('preferred_investment_stage__name').annotate(startup_count=Count('id')).order_by('-startup_count')
+    by_preferred_investment_stage = []
+    for item in startup_count_by_preferred_investment_stage:
+        by_preferred_investment_stage.append({
+            'preferred_investment_stage__name' : item['preferred_investment_stage__name'],
             'startup_count' : item['startup_count'],
         })
 
@@ -52,6 +44,6 @@ def startup_overview(request):
         'counts' :counts,
         'area_of_interest_data' : by_area_of_interest,
         'district_data' : by_district,
-        'funding_stage_data' : by_funding_stage,
+        'preferred_investment_stage_data' : by_preferred_investment_stage,
     })
 
