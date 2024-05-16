@@ -59,7 +59,7 @@ startup details
                     <div class="p-10">
                         <div class="row mb-4">
                             <div class="col-md-3">
-                                <h4 style="color: #007bff;">StartUp Logo</h4>
+                                <h4 style="color: #007bff;">StartUp</h4>
                                 <div class="d-flex justify-content-center align-items-center" style="padding-right:60px;">
                                     {% if startup %}
                                     <div style="font-size: 36px; background-color: #007bff; color: white; width: 100px; height: 100px; border-radius: 50%; display: flex; justify-content: center; align-items: center; margin-top: 15px;">                      
@@ -77,18 +77,18 @@ startup details
                                         <h4>{% if startup %}{{ startup.company_name }}{% else %}N/A{% endif %}</h4>
                                     </div>
                                     <div class="col-md-6">
-                                        <h4 style="color: #007bff;">Area Of Interest</h4>
-                                        <h4>{% if startup.area_of_interest %}{{ startup.area_of_interest.name }}{% else %}N/A{% endif %}</h4>
+                                        <h4 style="color: #007bff;">Co-Founders Count</h4>
+                                        <h4>{{ startup.co_founders_count }}</h4>
                                     </div>
                                 </div>
                                 <div class="row mb-4">
                                     <div class="col-md-6">
-                                        <h4 style="color: #007bff;">Co-Founder Count</h4>
-                                        <h4>{{ startup.co_founders_count }}</h4>
+                                        <h4 style="color: #007bff;">Funding Request Amount</h4>
+                                        <h4>{{ startup.funding_request_amount }}</h4>
                                     </div>
                                     <div class="col-md-6">
-                                        <h4 style="color: #007bff;">Team Size</h4>
-                                        <h4>{{ startup.team_size }}</h4>
+                                        <h4 style="color: #007bff;">Established Year</h4>
+                                        <h4>{{ startup.year_of_establishment }}</h4>
                                     </div>
                                 </div>
                                 <div class="row mb-4">
@@ -103,8 +103,8 @@ startup details
                                 </div>
                                 <div class="row mb-4">
                                     <div class="col-md-6">
-                                        <h4 style="color: #007bff;">Website Link</h4>
-                                        <h4>{% if startup.website %}{{ startup.website }}{% else %}N/A{% endif %}</h4>
+                                        <h4 style="color: #007bff;">Area of Interest</h4>
+                                        <h4>{% if startup.area_of_interest %}{{ startup.area_of_interest.name }}{% else %}N/A{% endif %}</h4>
                                     </div>
                                     <div class="col-md-6">
                                         <h4 style="color: #007bff;">Preferred Investment Stage</h4>
@@ -113,8 +113,32 @@ startup details
                                 </div>
                                 <div class="row mb-4">
                                     <div class="col-md-6">
-                                        <h4 style="color: #007bff;">Funding Requirement Amount</h4>
-                                        <h4>{{ startup.funding_request_amount }}</h4>
+                                        <h4 style="color: #007bff;">Primary Business Model</h4>
+                                        <h4>{% if startup.primary_business_model %}{{ startup.primary_business_model.name }}{% else %}N/A{% endif %}</h4>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h4 style="color: #007bff;">Revenue Stage</h4>
+                                        <h4>{% if startup.reveune_stage %}{{ startup.reveune_stage.name }}{% else %}N/A{% endif %}</h4>
+                                    </div>
+                                </div>
+                                <div class="row mb-4">
+                                    <div class="col-md-6">
+                                        <h4 style="color: #007bff;">Client & Customer Size</h4>
+                                        <h4>{{ startup.client_customer_size }}</h4>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h4 style="color: #007bff;">Funds Raised</h4>
+                                        <h4>{% if startup.fund_raised %}{{ startup.fund_raised.name }}{% else %}N/A{% endif %}</h4>
+                                    </div>
+                                </div>
+                                <div class="row mb-4">
+                                    <div class="col-md-6">
+                                        <h4 style="color: #007bff;">Development Stage</h4>
+                                        <h4>{% if startup.development_stage %}{{ startup.development_stage.name }}{% else %}N/A{% endif %}</h4>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h4 style="color: #007bff;">LinkedIn</h4>
+                                        <h4>{{ startup.company_linkedin }}</h4>
                                     </div>
                                 </div>
                             </div>
@@ -128,27 +152,18 @@ startup details
                         <div class="row mb-4">
                             <div class="col-md-12">
                                 <h4 style="color: #007bff;">Pitch Deck</h4>
-                                <!-- <div class="embed-responsive embed-responsive-16by9">
-                                    <iframe class="embed-responsive-item" src="{% if startup.pitch_deck %}https://docs.google.com/presentation/d/{{ startup.pitch_deck }}/embed{% else %}# {% endif %}" allowfullscreen></iframe>
-                                </div> -->
                                 {% if startup.pitch_deck %}
-                                
-                                        <a href="{{ startup.pitch_deck.url }}" target="_blank">View PDF</a>
-                                    {% endif %}
+                                <a href="{{ startup.pitch_deck.url }}" target="_blank">View Pitch Deck</a>
+                                {% endif %}
                             </div>
                         </div>
                         <div class="row mb-4">
                             <div class="col-md-12">
                                 <h4 style="color: #007bff;">Pitch Video</h4>
-                                <!-- <div class="embed-responsive embed-responsive-16by9">
-                                    <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/{% if startup.full_video %}{{ startup.full_video }}{% else %}# {% endif %}" allowfullscreen></iframe>
-                                </div> -->
-                                <h4>{% if startup.full_video %}
-                                    <iframe width="560" height="315" src="https://www.youtube.com/embed/{{startup.full_video}}" frameborder="0" allowfullscreen></iframe>
-                                    {% else %}
-                                    N/A
+                                {% if startup.video_link %}
+                                    <a href="https://{{ startup.video_link }}" target="_blank">View Video</a>
                                     {% endif %}
-                                </h4>
+                                
                             </div>
                         </div>
                     </div>
