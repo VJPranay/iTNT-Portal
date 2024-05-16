@@ -27,6 +27,8 @@ class StartUpRegistrationsListView(FilterView):
             queryset = queryset.order_by('company_name')
         elif sort_by == 'year_of_establishment':
             queryset = queryset.order_by('year_of_establishment')
+        else:
+            queryset = queryset.order_by('-id')
 
         # Apply filters
         filters = Q()
