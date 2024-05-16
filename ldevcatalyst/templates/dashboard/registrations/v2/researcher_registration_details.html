@@ -59,7 +59,7 @@ Researcher's details
                     <div class="p-10">
                         <div class="row mb-4">
                             <div class="col-md-3">
-                                <h4 style="color: #007bff;">Researcher Logo</h4>
+                                <h4 style="color: #007bff;">Researcher</h4>
                                 <div class="d-flex justify-content-center align-items-center" style="padding-right:60px;">
                                     {% if researcher %}
                                     <div style="font-size: 36px; background-color: #007bff; color: white; width: 100px; height: 100px; border-radius: 50%; display: flex; justify-content: center; align-items: center; margin-top: 15px;">                      
@@ -78,7 +78,9 @@ Researcher's details
                                     </div>
                                     <div class="col-md-6">
                                         <h4 style="color: #007bff;">Area Of Interest</h4>
-                                        <h4>{% if researcher.area_of_interest %}{{ researcher.area_of_interest.name }}{% else %}N/A{% endif %}</h4>
+                                        {% for area in researcher.area_of_interest.all %}
+                                            <h3 class="mb-0 text-white">{{ area.name }}</h3>>
+                                        {% endfor %}
                                     </div>
                                 </div>
                                 
@@ -94,8 +96,8 @@ Researcher's details
                                 </div>
                                 <div class="row mb-4">
                                     <div class="col-md-6">
-                                        <h4 style="color: #007bff;">Website Link</h4>
-                                        <h4>{% if researcher.website %}{{ researcher.website }}{% else %}N/A{% endif %}</h4>
+                                        <h4 style="color: #007bff;">Highest Qualification</h4>
+                                        <h4>{% if researcher.highest_qualification %}{{ researcher.highest_qualification }}{% else %}N/A{% endif %}</h4>
                                     </div>
                                     <div class="col-md-6">
                                         <h4 style="color: #007bff;">Gender</h4>
@@ -118,17 +120,11 @@ Researcher's details
                                         <h4>{% if researcher.department_name %}{{ researcher.department_name }}{% else %}N/A{% endif %}</h4>
                                     </div>
                                     <div class="col-md-6">
-                                        <h4 style="color: #007bff;">Highest Qualification</h4>
-                                        <h4>{% if researcher.highest_qualification %}{{ researcher.highest_qualification }}{% else %}N/A{% endif %}</h4>
+                                        <h4 style="color: #007bff;">Patent Count</h4>
+                                        <h4>{% if researcher.patents  %}{{ researcher.patents.count }} {% else %}N/A{% endif %}</h4>
                                     </div>
                                 </div>
                                
-                            </div>
-                        </div>
-                        <div class="row mb-4">
-                            <div class="col-md-6">
-                                <h4 style="color: #007bff;">Description</h4>
-                                <p>{{ researcher.description }}</p>
                             </div>
                         </div>
                     </div>
