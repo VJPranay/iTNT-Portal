@@ -31,6 +31,9 @@ class StartUpListView(FilterView):
             queryset == queryset.order_by('team_size')
         elif sort_by =='funding_request_amount':
             queryset == queryset.order_by('funding_request_amount')
+        else:
+            queryset = queryset.order_by('-id')
+
             
 
         # Apply filters
@@ -97,7 +100,9 @@ class ResearcherListView(FilterView):
             queryset = queryset.order_by('name')
         elif sort_by == 'year_of_establishment':
             queryset = queryset.order_by('year_of_establishment')
-            
+        else:
+            queryset = queryset.order_by('-id')
+
 
         # Apply filters
         filters = Q()
@@ -153,7 +158,9 @@ class StudentListView(FilterView):
             queryset = queryset.order_by('name')
         elif sort_by == 'area_of_interest':
             queryset = queryset.order_by('area_of_interest')
-            
+        else:
+            queryset = queryset.order_by('-id')
+
 
         # Apply filters
         filters = Q()
@@ -203,7 +210,9 @@ class VCListView(FilterView):
             queryset = queryset.order_by('firm_name')
         elif sort_by == 'area_of_interest':
             queryset = queryset.order_by('area_of_interest')
-            
+        else:
+            queryset = queryset.order_by('-id')
+  
 
         # Apply filters
         filters = Q()
@@ -245,7 +254,9 @@ class IndustryListView(FilterView):
             queryset = queryset.order_by('name')
         elif sort_by == 'area_of_interest':
             queryset = queryset.order_by('area_of_interest')
-            
+        else:
+            queryset = queryset.order_by('-id')
+  
 
         # Apply filters
         filters = Q()

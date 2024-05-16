@@ -112,6 +112,9 @@ class StudentRegistrationsListView(FilterView):
             queryset = queryset.order_by('name')
         elif sort_by == 'area_of_interest':
             queryset = queryset.order_by('area_of_interest')
+        else:
+            queryset = queryset.order_by('-id')
+
             
 
         # Apply filters
@@ -153,6 +156,8 @@ class VCRegistrationsListView(FilterView):
             queryset = queryset.order_by('firm_name')
         elif sort_by == 'area_of_interest':
             queryset = queryset.order_by('area_of_interest')
+        else:
+            queryset = queryset.order_by('-id')
 
         # Apply filters
         filters = Q()
@@ -190,6 +195,8 @@ class IndustryRegistrationsListView(FilterView):
             queryset = queryset.order_by('name')
         elif sort_by == 'industry':
             queryset = queryset.order_by('industry')
+        else:
+            queryset = queryset.order_by('-id')
 
         # Apply filters
         filters = Q()
