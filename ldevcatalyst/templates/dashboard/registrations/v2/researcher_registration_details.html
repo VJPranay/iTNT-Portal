@@ -54,19 +54,19 @@ Researcher's details
                 <!--begin::Contact group wrapper-->
                 <div class="card card-flush">
                     <div class="card-header bg-info bg-gradient justify-content-center pt-5">
-                        <h1 class="mb-0 text-white">{{ researcher.name }} Details</h1>
+                        <h1 class="mb-0 text-white">Details</h1>
                     </div> 
                     <div class="p-10">
                         <div class="row mb-4">
                             <div class="col-md-3">
                                 <h4 style="color: #007bff;">Researcher</h4>
                                 <div class="d-flex justify-content-center align-items-center" style="padding-right:60px;">
-                                    {% if researcher %}
+                                    {% if researcher.picture %}
+                                    <img src="{{ researcher.picture.url }}" alt="Researcher Picture" width="250" height="250">
+                                    {% else %}
                                     <div style="font-size: 36px; background-color: #007bff; color: white; width: 100px; height: 100px; border-radius: 50%; display: flex; justify-content: center; align-items: center; margin-top: 15px;">                      
                                         {{ researcher.name|slice:":1" }}
                                     </div>
-                                    {% else %}
-                                    N/A
                                     {% endif %}
                                 </div>
                             </div>
