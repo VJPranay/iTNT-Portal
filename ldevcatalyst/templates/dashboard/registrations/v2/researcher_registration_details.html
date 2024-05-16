@@ -100,17 +100,29 @@ Researcher's details
                                     </div>
                                     <div class="col-md-6">
                                         <h4 style="color: #007bff;">Gender</h4>
-                                        <h4>{% if researcher.gender %}{{ researcher.gender }}{% else %}N/A{% endif %}</h4>
+                                        <h4>
+                                            {% if researcher.gender %}
+                                                {% if researcher.gender == 1 %}
+                                                    Male
+                                                {% elif researcher.gender == 2 %}
+                                                    Female
+                                                {% else %}
+                                                    N/A
+                                                {% endif %}
+                                            {% else %}
+                                                N/A
+                                            {% endif %}
+                                        </h4>
                                     </div>
                                 </div>
                                 <div class="row mb-4">
                                     <div class="col-md-6">
                                         <h4 style="color: #007bff;">Institution Name</h4>
-                                        <h4>{% if researcher.institution_name %}{{ researcher.institution_name }}{% else %}N/A{% endif %}</h4>
+                                        <h4>{% if researcher.institution %}{{ researcher.institution.name }}{% else %}N/A{% endif %}</h4>
                                     </div>
                                     <div class="col-md-6">
                                         <h4 style="color: #007bff;">Department Name</h4>
-                                        <h4>{% if researcher.department_name %}{{ researcher.department_name }}{% else %}N/A{% endif %}</h4>
+                                        <h4>{% if researcher.department %}{{ researcher.department.name }}{% else %}N/A{% endif %}</h4>
                                     </div>
                                 </div>
                                 <div class="row mb-4">
