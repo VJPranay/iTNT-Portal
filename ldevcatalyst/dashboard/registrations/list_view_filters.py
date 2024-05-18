@@ -49,7 +49,7 @@ class StudentRegistrationsFilter(django_filters.FilterSet):
 
     class Meta:
         model = StudentRegistrations
-        fields = ['area_of_interest', 'district', 'department']
+        fields = ['area_of_interest', 'district', 'department','state','institution','gender']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -64,9 +64,14 @@ class VCRegistrationsFilter(django_filters.FilterSet):
         choices=[(obj.id, obj.name) for obj in AreaOfInterest.objects.all()],  # queryset for options
         widget=forms.Select(attrs={'class': 'form-select'})  # Specify the widget as Select
     )
+    funding_stage = django_filters.ChoiceFilter(
+        choices=VCRegistrations.objects.values_list('funding_stage', 'funding_stage').distinct(),
+        label='funding_stage'
+    )   
+        
     class Meta:
         model = VCRegistrations
-        fields = ['area_of_interest', 'district']
+        fields = ['area_of_interest', 'district','state','funding_stage','fund_type']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -84,7 +89,7 @@ class IndustryRegistrationsFilter(django_filters.FilterSet):
 
     class Meta:
         model = IndustryRegistrations
-        fields = ['area_of_interest', 'industry', 'district']
+        fields = ['area_of_interest', 'industry', 'district','state']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
