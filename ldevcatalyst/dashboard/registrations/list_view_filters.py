@@ -11,7 +11,7 @@ from datarepo.models import AreaOfInterest
 class StartUpRegistraionsFilter(django_filters.FilterSet):
     class Meta:
         model = StartUpRegistrations
-        fields = ['area_of_interest', 'district', 'preferred_investment_stage']
+        fields = ['state','dpiit_number','reveune_stage','development_stage','primary_business_model','area_of_interest', 'district', 'preferred_investment_stage']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -29,7 +29,7 @@ class ResearcherRegistrationsFilter(django_filters.FilterSet):
     
     class Meta:
         model = ResearcherRegistrations
-        fields = ['area_of_interest', 'district', 'department']
+        fields = ['area_of_interest', 'district', 'department','state','institution','gender','highest_qualification','publications']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
