@@ -20,7 +20,7 @@ class StartUpRegistraionsFilter(django_filters.FilterSet):
     )
     class Meta:
         model = StartUpRegistrations
-        fields = ['area_of_interest', 'district', 'preferred_investment_stage']
+        fields = ['state','dpiit_number','reveune_stage','development_stage','primary_business_model','area_of_interest', 'district', 'preferred_investment_stage']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -52,10 +52,15 @@ class ResearcherRegistrationsFilter(django_filters.FilterSet):
         choices=[(obj.id, obj.name) for obj in AreaOfInterest.objects.all()],  # queryset for options
         widget=forms.Select(attrs={'class': 'form-select'})  # Specify the widget as Select
     )
+
+    highest_qualification = django_filters.ChoiceFilter(
+        choices=ResearcherRegistrations.objects.values_list('highest_qualification', 'highest_qualification').distinct(),
+        label='Highest Qualification'
+    )
     
     class Meta:
         model = ResearcherRegistrations
-        fields = ['area_of_interest', 'district', 'department']
+        fields = ['area_of_interest', 'district', 'department','state','institution','gender','highest_qualification','publications']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
