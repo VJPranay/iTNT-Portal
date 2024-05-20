@@ -263,6 +263,7 @@ class IndustryListView(FilterView):
         area_of_interest = self.request.GET.get('area_of_interest')
         district = self.request.GET.get('district')
         industry = self.request.GET.get('industry')
+        state= self.request.GET.get('state')
       
         if area_of_interest:
             filters &= Q(area_of_interest=area_of_interest)
@@ -270,6 +271,8 @@ class IndustryListView(FilterView):
             filters &= Q(district=district)
         if industry:
             filters &= Q(industry=industry)
+        if state:
+            filters &= Q(state=state)
 
         queryset = queryset.filter(filters)
         return queryset

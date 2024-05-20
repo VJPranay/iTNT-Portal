@@ -190,4 +190,26 @@ startup's
         document.querySelector('form').submit();
     }
 </script>
+<script src="{% static 'js/jquery.min.js' %}"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#id_state').change(function() {
+            var stateId = $(this).val();
+            $.ajax({
+                url: "{% url 'districts' %}",
+                data: {
+                    'state_id': stateId
+                },
+                success: function(data) {
+                    $("#id_district").html('');
+                    $("#id_district").append('<option value="">---------</option>');
+                    $.each(data, function(key, value) {
+                        $("#id_district").append('<option value="' + value.id + '">' + value.name + '</option>');
+                    });
+                }
+            });
+        });
+    });
+</script>
+
 {%endblock %}

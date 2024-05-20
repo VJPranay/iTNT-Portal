@@ -35,7 +35,7 @@
 {% endblock  %}
 
 {% block pageheading %}
-Profiles
+Profile
 {% endblock  %}
 {% block pagedescription %}
 industry details
@@ -79,20 +79,6 @@ industry details
                         </div>
                         <div class="row mb-4">
                             <div class="col-md-6">
-                                <h4 style="color: #007bff;">Point of Contact Name</h4>
-                                <h4>{% if industry.point_of_contact_name %}{{ industry.point_of_contact_name }}{% else %}N/A{% endif %}</h4>
-                            </div>
-                            <div class="col-md-6">
-                                <h4 style="color: #007bff;">Email</h4>
-                                <h4>{% if industry.email %}{{ industry.email }}{% else %}N/A{% endif %}</h4>
-                            </div>
-                        </div>
-                        <div class="row mb-4">
-                            <div class="col-md-6">
-                                <h4 style="color: #007bff;">Mobile</h4>
-                                <h4>{% if industry.mobile %}{{ industry.mobile }}{% else %}N/A{% endif %}</h4>
-                            </div>
-                            <div class="col-md-6">
                                 <h4 style="color: #007bff;">Area of Interest</h4>
                                 <h4>
                                     {% if industry.area_of_interest.all %}
@@ -105,13 +91,32 @@ industry details
                                     {% endif %}
                                 </h4>
                             </div>
+                            {% if request.user.user_role == 1 or request.user.user_role == 2 %}
+                            <div class="col-md-6">
+                                <h4 style="color: #007bff;">Mobile</h4>
+                                <h4>{% if industry.mobile %}{{ industry.mobile }}{% else %}N/A{% endif %}</h4>
+                            </div>
+                            {% endif %}
                         </div>
+                        {% if request.user.user_role == 1 or request.user.user_role == 2 %}
                         <div class="row mb-4">
                             <div class="col-md-6">
-                                <h4 style="color: #007bff;">Registration ID</h4>
-                                <h4>{% if industry.registration_id %}{{ industry.registration_id }}{% else %}N/A{% endif %}</h4>
+                                <h4 style="color: #007bff;">Point of Contact Name</h4>
+                                <h4>{% if industry.point_of_contact_name %}{{ industry.point_of_contact_name }}{% else %}N/A{% endif %}</h4>
+                            </div>
+                            <div class="col-md-6">
+                                <h4 style="color: #007bff;">Email</h4>
+                                <h4>{% if industry.email %}{{ industry.email }}{% else %}N/A{% endif %}</h4>
                             </div>
                         </div>
+                        <!-- <div class="row mb-4">
+                            <div class="col-md-6">
+                                <h4 style="color: #007bff;">Mobile</h4>
+                                <h4>{% if industry.mobile %}{{ industry.mobile }}{% else %}N/A{% endif %}</h4>
+                            </div>
+                        </div> -->
+                        {% endif %}
+                        
                     </div>
                 <br>
                 <!--end::Contact group wrapper-->
