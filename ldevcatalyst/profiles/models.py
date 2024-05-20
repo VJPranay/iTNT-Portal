@@ -2,6 +2,9 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from datarepo.models import AreaOfInterest,PreferredInvestmentStage,Department,Institution,District,State,IndustryCategory, FundRaised, PrimaryBusinessModel, ProductDevelopmentStage, RevenueStage
 
+from django.core.exceptions import ValidationError
+
+
 class User(AbstractUser):
     user_role = models.IntegerField(choices=[
         (1, 'superadmin'),
@@ -43,6 +46,16 @@ class Publication(models.Model):
 
     def __str__(self):
         return self.title
+    
+
+
+def validate_file_size(value):
+    """
+    Validate that the file size is less than or equal to 20MB (20 * 1024 * 1024 bytes).
+    """
+    max_size = 20 * 1024 * 1024  # 20MB in bytes
+    if value.size > max_size:
+        raise ValidationError('File size cannot exceed 20MB.')
 
 class VC(models.Model):
     FUND_TYPE_CHOICES = [
@@ -71,6 +84,8 @@ class VC(models.Model):
     company_website = models.URLField(blank=True, null=True)
     linkedin_profile = models.URLField(blank=True, null=True)
     fund_type = models.CharField(max_length=255, null=True, blank=True, default=None, choices=FUND_TYPE_CHOICES)
+    company_portfolio_document = models.FileField(upload_to='portfolio_documents/', validators=[validate_file_size], blank=True, null=True)
+
     data_source = models.CharField(max_length=255, null=True, blank=True)
     approved = models.BooleanField(default=False)
 
@@ -163,6 +178,9 @@ class Student(models.Model):
     gender = models.CharField(max_length=100,choices=[('male','Male'),('female','Female')],blank=True, null=True)
     mobile = models.CharField(max_length=255,blank=True, null=True)
     project_guide_name = models.CharField(max_length=255,blank=True, null=True)
+    highest_qualification = models.CharField(max_length=255,blank=True, null=True)
+    paper_published = models.CharField(max_length=255,blank=True, null=True)
+
 
     data_source = models.CharField(max_length=255,blank=True, null=True)
     approved = models.BooleanField(default=False)

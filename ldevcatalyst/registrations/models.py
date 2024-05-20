@@ -214,6 +214,8 @@ class StudentRegistrations(models.Model):
     gender = models.CharField(max_length=100,choices=[('male','Male'),('female','Female')],blank=True, null=True)
     mobile = models.CharField(max_length=255,blank=True, null=True)
     project_guide_name = models.CharField(max_length=255,blank=True, null=True)
+    highest_qualification = models.CharField(max_length=255,blank=True, null=True)
+    paper_published = models.CharField(max_length=255,blank=True, null=True)
 
     status = models.CharField(
         max_length=10,
