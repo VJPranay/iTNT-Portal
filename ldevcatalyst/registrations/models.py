@@ -58,7 +58,6 @@ class VCRegistrations(models.Model):
     updated = models.DateTimeField(auto_now=True)
     company_portfolio_document = models.FileField(upload_to='portfolio_documents/', validators=[validate_file_size], blank=True, null=True)
     registration_id = models.CharField(max_length=100,unique=True)
-    
     fund_type = models.CharField(max_length=255, null=True, blank=True, default=None, choices=FUND_TYPE_CHOICES)
     
     status = models.CharField(

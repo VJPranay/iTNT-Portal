@@ -122,6 +122,10 @@ class StudentRegistrationsListView(FilterView):
         area_of_interest = self.request.GET.get('area_of_interest')
         district = self.request.GET.get('district')
         department= self.request.GET.get('department')
+        state=self.request.GET.get('state')
+        institution=self.request.GET.get('institution')
+        gender=self.request.GET.get('gender')
+        
       
         if area_of_interest:
             filters &= Q(area_of_interest=area_of_interest)
@@ -129,6 +133,12 @@ class StudentRegistrationsListView(FilterView):
             filters &= Q(district=district)
         if department:
             filters &= Q(department=department)
+        if state:
+            filters &= Q(state=state)
+        if institution:
+            filters &= Q(institution=institution)
+        if gender:
+            filters &= Q(gender=gender)
       
 
         queryset = queryset.filter(filters)
@@ -163,11 +173,21 @@ class VCRegistrationsListView(FilterView):
         filters = Q()
         area_of_interest = self.request.GET.get('area_of_interest')
         district = self.request.GET.get('district')
+        state=self.request.GET.get('state')
+        funding_stage=self.request.GET.get('funding_stage')
+        fund_type=self.request.GET.get('fund_type')
+       
 
         if area_of_interest:
             filters &= Q(area_of_interest=area_of_interest)
         if district:
             filters &= Q(district=district)
+        if state:
+            filters &= Q(state=state)
+        if funding_stage:
+            filters &= Q(funding_stage=funding_stage)
+        if fund_type:
+            filters &= Q(fund_type=fund_type)
 
         queryset = queryset.filter(filters)
         return queryset
@@ -203,6 +223,7 @@ class IndustryRegistrationsListView(FilterView):
         area_of_interest = self.request.GET.get('area_of_interest')
         industry = self.request.GET.get('industry')
         district = self.request.GET.get('district')
+        state=self.request.GET.get('state')
 
 
         if area_of_interest:
@@ -211,6 +232,8 @@ class IndustryRegistrationsListView(FilterView):
             filters &= Q(industry=industry)
         if district:
             filters &= Q(district=district)
+        if state:
+            filters &= Q(state=state)
 
         queryset = queryset.filter(filters)
         return queryset
