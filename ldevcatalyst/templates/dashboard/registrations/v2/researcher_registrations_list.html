@@ -114,9 +114,9 @@ Researcher Profile's
                                                                         {{ x.name}}
                                                                         {% if not forloop.last %}, {% endif %}
                                                                     {% endfor %}
-                                                                {% else %}
-                                                                    N/A
-                                                                {% endif %}</td>                                                                
+                                                                    {% else %}
+                                                                        N/A
+                                                                    {% endif %}</td>                                                                
                                                                 <td><a href="{% url 'researcher_registration_details' researcher.id  %}" class="btn btn-primary" target='_blank'>View Details</a></td>
                                                             </tr>
                                                             {% endfor %}
