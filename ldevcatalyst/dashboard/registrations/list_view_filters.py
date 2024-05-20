@@ -26,6 +26,11 @@ class ResearcherRegistrationsFilter(django_filters.FilterSet):
         choices=[(obj.id, obj.name) for obj in AreaOfInterest.objects.all()],  # queryset for options
         widget=forms.Select(attrs={'class': 'form-select'})  # Specify the widget as Select
     )
+
+    highest_qualification = django_filters.ChoiceFilter(
+        choices=ResearcherRegistrations.objects.values_list('highest_qualification', 'highest_qualification').distinct(),
+        label='Highest Qualification'
+    )
     
     class Meta:
         model = ResearcherRegistrations
