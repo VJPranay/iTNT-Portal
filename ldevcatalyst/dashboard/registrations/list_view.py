@@ -53,7 +53,7 @@ class StartUpRegistrationsListView(FilterView):
         if reveune_stage:
             filters &= Q(reveune_stage=reveune_stage)
         # if gender:
-        #     filters &= Q(gender=gender)
+            # filters &= Q(gender=gender)
         if development_stage:
             filters &= Q(development_stage=development_stage)
         if district:
