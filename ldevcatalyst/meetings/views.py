@@ -51,7 +51,7 @@ def fetch_startup_profiles(request):
                 profiles_data.append({
                     'startup_id': profile.id,
                     'startup_name': profile.company_name,
-                    'funding_stage': profile.fund_raised.name,
+                    'funding_stage': 'N / A' if not profile.fund_raised else profile.fund_raised.name,
                 })
             return JsonResponse(profiles_data, safe=False)
         else:
@@ -90,6 +90,8 @@ def fetch_startup_details(request):
             """
         except MeetingRequests.DoesNotExist:
             meeting_buttons_html = ""
+            
+        
 
         # Construct HTML for the startup details
         html = f"""
@@ -97,24 +99,24 @@ def fetch_startup_details(request):
             <div class="d-flex gap-7 align-items-center" id="startup-id" data-startup-id="{startup.id}">
                 <!--begin::Avatar-->
                 <div class="symbol symbol-circle symbol-100px">
-                    <span class="symbol-label bg-light-success fs-1 fw-bolder">{startup.name[:1]}</span>
+                    <span class="symbol-label bg-light-success fs-1 fw-bolder">{startup.company_name[:1]}</span>
                 </div>
                 <!--end::Avatar-->
                 <!--begin::Contact details-->
                 <div class="d-flex flex-column gap-2">
                     <!--begin::Name-->
-                    <h3 class="mb-0">{startup.name}</h3>
+                    <h3 class="mb-0">{startup.company_name}</h3>
                     <!--end::Name-->
                     <!--begin::Email-->
                     <div class="d-flex align-items-center gap-2">
                         <i class="ki-outline ki-sms fs-2"></i>
-                        <a href="#" class="text-muted text-hover-primary">{startup.area_of_interest.name}</a>
+                        <a href="#" class="text-muted text-hover-primary">{startup.area_of_interest.name if startup.area_of_interest else None}</a>
                     </div>
                     <!--end::Email-->
                     <!--begin::Phone-->
                     <div class="d-flex align-items-center gap-2">
                         <i class="ki-outline ki-phone fs-2"></i>
-                        <a href="#" class="text-muted text-hover-primary">{startup.funding_stage.name if startup.funding_stage else None}</a>
+                        <a href="#" class="text-muted text-hover-primary">{startup.fund_raised.name if startup.fund_raised else None}</a>
                     </div>
                     <!--end::Phone-->
                 </div>
@@ -140,13 +142,10 @@ def fetch_startup_details(request):
                     <div class="d-flex flex-column gap-5 mt-7">
                         <!--begin::Company description-->
                         <div class="d-flex flex-column gap-1">
-                            <div class="fw-bold text-muted">Pitch Deck</div>
-                            <iframe src="https://docs.google.com/viewer?url=https://docs.google.com/presentation/d/{startup.pitch_deck}/export/pdf" width="100%" height="400px"></iframe>
+                            <div class="fw-bold text-muted">Pitch Desk</div>
+                            <a href="{startup.pitch_deck}" class="fw-bold fs-5">{startup.pitch_deck}</a>
                         </div>
-                        <div class="d-flex flex-column gap-1">
-                            <div class="fw-bold text-muted">Description</div>
-                            <div class="fw-bold fs-5">{startup.description}</div>
-                        </div>
+                        
                         <!--end::Company description-->
                         <!--begin::dpiit number-->
                         <div class="d-flex flex-column gap-1">
@@ -155,46 +154,34 @@ def fetch_startup_details(request):
                         </div>
                         <!--end::dpiit number-->
                         <!--begin::Website-->
-                        <div class="d-flex flex-column gap-1">
-                            <div class="fw-bold text-muted">Website</div>
-                            <div class="fw-bold fs-5">{startup.website}</div>
-                        </div>
                         <!--end::=Website-->
                         
                         <!--begin::market_size-->
-                        <div class="d-flex flex-column gap-1">
-                            <div class="fw-bold text-muted">Market size</div>
-                            <div class="fw-bold fs-5">{startup.market_size}</div>
-                        </div>
                         <!--end::market_size-->
                         <!--begin::funding_stage-->
                         <div class="d-flex flex-column gap-1">
                             <div class="fw-bold text-muted">Current funding stage</div>
-                            <div class="fw-bold fs-5">{startup.funding_stage.name if startup.funding_stage else None}</div>
+                            <div class="fw-bold fs-5">{startup.fund_raised.name if startup.fund_raised else None}</div>
                         </div>
                         <!--end::funding_stage-->
                         <!--begin::area_of_interest-->
                         <div class="d-flex flex-column gap-1">
                             <div class="fw-bold text-muted">Industry</div>
-                            <div class="fw-bold fs-5">{startup.area_of_interest.name}</div>
+                            <div class="fw-bold fs-5">{startup.area_of_interest.name if startup.area_of_interest else None}</div>
                         </div>
                         <!--end::area_of_interest-->
                         <!--begin::area_of_interest-->
-                        <div class="d-flex flex-column gap-1">
-                            <div class="fw-bold text-muted">Requried Amount</div>
-                            <div class="fw-bold fs-5">{startup.required_amount}</div>
-                        </div>
                         <!--end::area_of_interest-->
                         <!--begin::area_of_interest-->
                         <div class="d-flex flex-column gap-1">
                             <div class="fw-bold text-muted">Founding year</div>
-                            <div class="fw-bold fs-5">{startup.founding_year}</div>
+                            <div class="fw-bold fs-5">{startup.year_of_establishment}</div>
                         </div>
                         <!--end::area_of_interest-->
                         <!--begin::area_of_interest-->
                         <div class="d-flex flex-column gap-1">
                             <div class="fw-bold text-muted">Co-Founder team size </div>
-                            <div class="fw-bold fs-5">{startup.co_founder_count}</div>
+                            <div class="fw-bold fs-5">{startup.co_founders_count}</div>
                         </div>
                         <!--end::area_of_interest-->
                         <!--begin::area_of_interest-->
@@ -204,10 +191,6 @@ def fetch_startup_details(request):
                         </div>
                         <!--end::area_of_interest-->
                         <!--begin::area_of_interest-->
-                        <div class="d-flex flex-column gap-1">
-                            <div class="fw-bold text-muted">Founding experince</div>
-                            <div class="fw-bold fs-5">{ "Yes" if startup.founding_experience else "No" }</div>
-                        </div>
                         <!--end::area_of_interest-->
                         <!--begin::area_of_interest-->
                         <div class="d-flex flex-column gap-1">
@@ -223,7 +206,7 @@ def fetch_startup_details(request):
                         <!--end::district-->
                         <div class="d-flex flex-column gap-1">
                             <div class="fw-bold text-muted">Full Video</div>
-                            <iframe width="560" height="315" src="https://www.youtube.com/embed/{startup.video_link}" frameborder="0" allowfullscreen></iframe>
+                            <a href="{startup.video_link}" class="fw-bold fs-5">{startup.video_link}</a>
                         </div>
                     </div>
                     <!--end::Additional details-->
@@ -299,7 +282,7 @@ def meetings(request,meeting_status=None):
         for x in meeting_requests:
             temp = {
                 'meeting_id' : x.id,
-                'start_up':x.start_up.name,
+                'start_up':x.start_up.company_name,
                 'vc' : x.vc.firm_name,
                 'created' : x.created,
                 'updated':x.updated,
@@ -428,7 +411,7 @@ def calendar_data(request):
         if meeting.meeting_date_time is not None:
             meeting_data.append({
                 'meeting_id' : meeting.id,
-                'start_up': meeting.start_up.name,
+                'start_up': meeting.start_up.company_name,
                 'vc': meeting.vc.firm_name,
                 'meeting_date_time': meeting.meeting_date_time.isoformat(),
                 'status': meeting.status
