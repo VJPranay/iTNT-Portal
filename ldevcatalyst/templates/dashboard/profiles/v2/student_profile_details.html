@@ -107,6 +107,16 @@ student details
                                 <h4>{% if student.gender %} {{student.gender }}{% else %}N/A{% endif %}</h4>
                             </div>
                         </div>
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <h4 style="color: #007bff;">Highest Qualification</h4>
+                                <h4>{{ student.highest_qualification }}</h4>
+                            </div>
+                            <div class="col-md-6">
+                                <h4 style="color: #007bff;">Paper Published</h4>
+                                <h4>{{ student.paper_published }}</h4>
+                           </div>
+                        </div>
 
                         {% if request.user.user_role == 1 or request.user.user_role == 2 %}
                         <div class="row mb-4">

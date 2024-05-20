@@ -183,6 +183,19 @@
 											<input name="year_of_graduation" class="form-control form-control-lg form-control-solid" placeholder="2022" value="" />
 											<!--end::Input-->
 										</div>
+										<div class="fv-row mb-10">
+											<!--begin::Label-->
+											<label class="form-label required">Highest Qualification</label>
+											<!--end::Label-->
+											<!--begin::Input-->
+											<select name="highest_qualification" class="form-select form-select-lg form-select-solid">
+												<option value="UG">UG</option>
+												<option value="PG">PG</option>
+												<option value="Ph.D">Ph.D</option>
+												<option value="Others">Others</option>
+											</select>
+											<!--end::Input-->
+										</div>
 										
 										<!-- Gender Field -->
 										<div class="fv-row mb-10">
@@ -283,6 +296,19 @@
 											{% csrf_token %}
 											<!--end::Input-->
 										</div>
+
+										<div class="fv-row mb-10">
+											<!--begin::Label-->
+											<label class="form-label required">Paper Published</label>
+											<!--end::Label-->
+											<!--begin::Input-->
+											<input type="text" class="form-control form-control-lg form-control-solid" name="paper_published" placeholder="Paper Publication here" value="" />
+											{% csrf_token %}
+											<!--end::Input-->
+										</div>
+
+
+
 										<!-- Project Guide Name Field -->
 										<div class="fv-row mb-10">
 											<!--begin::Label-->

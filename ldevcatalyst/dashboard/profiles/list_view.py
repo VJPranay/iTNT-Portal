@@ -170,6 +170,7 @@ class StudentListView(FilterView):
         institution=self.request.GET.get('institution')
         gender=self.request.GET.get('gender')
         year_of_graduation=self.request.GET.get('year_of_graduation')
+        highest_qualification=self.request.GET.get('highest_qualification')
       
         if area_of_interest:
             filters &= Q(area_of_interest=area_of_interest)
@@ -183,6 +184,8 @@ class StudentListView(FilterView):
             filters &= Q(gender=gender)
         if year_of_graduation:
             filters &= Q(year_of_graduation=year_of_graduation)
+        if highest_qualification:
+            filters &= Q(highest_qualification=highest_qualification)
       
 
         queryset = queryset.filter(filters)

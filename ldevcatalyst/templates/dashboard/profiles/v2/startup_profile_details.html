@@ -35,7 +35,7 @@
 {% endblock  %}
 
 {% block pageheading %}
-Profiles
+Profile
 {% endblock  %}
 {% block pagedescription %}
 startup details
@@ -72,172 +72,167 @@ startup details
                                     </div>
                                     {% endif %}
                                 </div>
+                            </div>
                                 
                             </div>
-                            <div class="col-md-3">
-                            </div>
-                            <div class="col-md-6">
-                               
+                            <br>
+                            
+                            <div class="row mb-4">
                                 <div class="col-md-6">
-                                    <h4 style="color: #007bff;"> Company Name</h4>
-                                    <h4>{{ startup.company_name }}</h4>
+                                    <h4 style="color: #007bff;">Company Name</h4>
+                                    <h4>{% if startup.company_name %}{{ startup.company_name }}{% else %}N/A{% endif %}</h4>
                                 </div>
                                 <div class="col-md-6">
                                     <h4 style="color: #007bff;">Co-Founders Count</h4>
-                                    <h4>{{ startup.co_founders_count }}</h4>
-                                </div>
-                               
-                            </div>
-                            <div class="row mb-4">
-                                <div class="col-md-6">
-                                    <h4 style="color: #007bff;">Funding Request Amount (In USD)</h4>
-                                    <h4>{{ startup.funding_request_amount }}</h4>
-                                </div>
-                                <div class="col-md-6">
-                                    <h4 style="color: #007bff;">Year of Establishment</h4>
-                                    <h4>{{ startup.year_of_establishment }}</h4>
+                                    <h4>{% if startup.co_founders_count %}{{ startup.co_founders_count }}{% else %}N/A{% endif %}</h4>
                                 </div>
                             </div>
-                            <div class="row mb-4">
-                                <div class="col-md-6">
-                                    <h4 style="color: #007bff;">State Name</h4>
-                                    <h4>{% if startup.state %}{{ startup.state.name }}{% else %}N/A{% endif %}</h4>
+                                
+                                <div class="row mb-4">
+                                    <div class="col-md-6">
+                                        <h4 style="color: #007bff;">Funding Request Amount (In USD)</h4>
+                                        <h4>{% if startup.funding_request_amount %}{{ startup.funding_request_amount }}{% else %}N/A{% endif %}</h4>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h4 style="color: #007bff;">Year of Establishment</h4>
+                                        <h4>{% if startup.year_of_establishment %}{{ startup.year_of_establishment }}{% else %}N/A{% endif %}</h4>
+                                    </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <h4 style="color: #007bff;">District</h4>
-                                    <h4>{% if startup.district %}{{ startup.district.name }}{% else %}N/A{% endif %}</h4>
+                                <div class="row mb-4">
+                                    <div class="col-md-6">
+                                        <h4 style="color: #007bff;">State Name</h4>
+                                        <h4>{% if startup.state %}{{ startup.state.name }}{% else %}N/A{% endif %}</h4>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h4 style="color: #007bff;">District</h4>
+                                        <h4>{% if startup.district %}{{ startup.district.name }}{% else %}N/A{% endif %}</h4>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="row mb-4">
-                                <div class="col-md-6">
-                                    <h4 style="color: #007bff;">Area of Interest</h4>
-                                    <h4>{% if startup.area_of_interest %}{{ startup.area_of_interest.name }}{% else %}N/A{% endif %}</h4>
+                                <div class="row mb-4">
+                                    <div class="col-md-6">
+                                        <h4 style="color: #007bff;">Area of Interest</h4>
+                                        <h4>{% if startup.area_of_interest %}{{ startup.area_of_interest.name }}{% else %}N/A{% endif %}</h4>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h4 style="color: #007bff;">Client & Customer Size</h4>
+                                        <h4>{% if startup.client_customer_size %}{{ startup.client_customer_size }}{% else %}N/A{% endif %}</h4>
+                                    </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <h4 style="color: #007bff;">Client & Customer Size</h4>
-                                    <h4>{{ startup.client_customer_size }}</h4>
+                                <div class="row mb-4">
+                                    <div class="col-md-6">
+                                        <h4 style="color: #007bff;">Preferred Investment Stage</h4>
+                                        <h4>{% if startup.preferred_investment_stage %}{{ startup.preferred_investment_stage.name }}{% else %}N/A{% endif %}</h4>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h4 style="color: #007bff;">Primary Business Model</h4>
+                                        <h4>{% if startup.primary_business_model %}{{ startup.primary_business_model.name }}{% else %}N/A{% endif %}</h4>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="row mb-4">
-                                <div class="col-md-6">
-                                    <h4 style="color: #007bff;">Preferred Investment Stage</h4>
-                                    <h4>{% if startup.preferred_investment_stage %}{{ startup.preferred_investment_stage.name }}{% else %}N/A{% endif %}</h4>
+                                <div class="row mb-4">
+                                    <div class="col-md-6">
+                                        <h4 style="color: #007bff;">Fund Raised</h4>
+                                        <h4>{% if startup.fund_raised %}{{ startup.fund_raised.name }}{% else %}N/A{% endif %}</h4>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h4 style="color: #007bff;">Fund Raised Input</h4>
+                                        <h4>{% if startup.fund_raised_input %}{{ startup.fund_raised_input }}{% else %}N/A{% endif %}</h4>
+                                    </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <h4 style="color: #007bff;">Primary Business Model</h4>
-                                    <h4>{% if startup.primary_business_model %}{{ startup.primary_business_model.name }}{% else %}N/A{% endif %}</h4>
+                                <div class="row mb-4">
+                                    <div class="col-md-6">
+                                        <h4 style="color: #007bff;">Development Stage</h4>
+                                        <h4>{% if startup.development_stage %}{{ startup.development_stage }}{% else %}N/A{% endif %}</h4>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h4 style="color: #007bff;">Founder Name</h4>
+                                        <h4>{% if startup.founder_names %}{{ startup.founder_names }}{% else %}N/A{% endif %}</h4>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="row mb-4">
-                                <div class="col-md-6">
-                                    <h4 style="color: #007bff;">Fund Raised</h4>
-                                    <h4>{% if startup.fund_raised %}{{ startup.fund_raised.name }}{% else %} N/A{% endif %}</h4>
+                                <div class="row mb-4">
+                                    <div class="col-md-6">
+                                        <h4 style="color: #007bff;">LinkedIn Profile Link</h4>
+                                        <h4>{% if startup.linkedin_profile_link %}{{ startup.linkedin_profile_link }}{% else %}N/A{% endif %}</h4>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h4 style="color: #007bff;">Website Link</h4>
+                                        <h4>{% if startup.website_link %}{{ startup.website_link }}{% else %}N/A{% endif %}</h4>
+                                    </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <h4 style="color: #007bff;">Fund Raised Input</h4>
-                                    <h4>{{ startup.fund_raised_input }}</h4>
+                                <div class="row mb-4">
+                                    <div class="col-md-6">
+                                        <h4 style="color: #007bff;">Company LinkedIn</h4>
+                                        <h4>{% if startup.company_linkedin %}{{ startup.company_linkedin }}{% else %}N/A{% endif %}</h4>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h4 style="color: #007bff;">Video Link</h4>
+                                        <h4>{% if startup.video_link %}{{ startup.video_link }}{% else %}N/A{% endif %}</h4>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="row mb-4">
-                                <div class="col-md-6">
-                                    <h4 style="color: #007bff;">Development Stage</h4>
-                                    <h4>{{ startup.development_stage }}</h4>
-                                </div>
-                                <div class="col-md-6">
-                                    <h4 style="color: #007bff;">Founder Name</h4>
-                                    <h4>{{ startup.founder_names }}</h4>
-                                </div>
-                            </div>
-                            <div class="row mb-4">
-                                <div class="col-md-6">
-                                    <h4 style="color: #007bff;">LinkedIn Profile Link</h4>
-                                    <h4>{{ startup.linkedin_profile_link }}</h4>
-                                </div>
-                                <div class="col-md-6">
-                                    <h4 style="color: #007bff;">Website Link</h4>
-                                    <h4>{{ startup.website_link }}</h4>
-                                </div>
-                            </div>
-                            <div class="row mb-4">
-                                <div class="col-md-6">
-                                    <h4 style="color: #007bff;">Company LinkedIn</h4>
-                                    <h4>{{ startup.company_linkedin }}</h4>
-                                </div>
-                                <div class="col-md-6">
-                                    <h4 style="color: #007bff;">Video Link</h4>
-                                    <h4>{{ startup.video_link }}</h4>
-                                </div>
-                            </div>
-                            <div class="row mb-4">
-                                <div class="col-md-6">
-                                    <h4 style="color: #007bff;">Pitch Deck</h4>
-                                    <h4>{{ startup.pitch_deck }}</h4>
+                                <div class="row mb-4">
+                                    <div class="col-md-6">
+                                        <h4 style="color: #007bff;">Pitch Deck</h4>
+                                        <h4>{% if startup.pitch_deck %}{{ startup.pitch_deck }}{% else %}N/A{% endif %}</h4>
+                                    </div>
                                 </div>
                                 <div class="row mb-4">
                                     <div class="col-md-12">
                                         <h4 style="color: #007bff;">Description</h4>
-                                        <p>{{ startup.company_description }}</p>
+                                        <p>{% if startup.company_description %}{{ startup.company_description }}{% else %}N/A{% endif %}</p>
                                     </div>
                                 </div>
-                            </div>
-                            {% if request.user.user_role == 1 or request.user.user_role == 2 %}
-                            <div class="row mb-4">
-                                <div class="col-md-6">
-                                    <h4 style="color: #007bff;">Co Founder Name</h4>
-                                    <h4>{{ startup.founder_names }}</h4>
-                                </div>
-                                <div class="col-md-6">
+                                {% if request.user.user_role == 1 or request.user.user_role == 2 %}
+                                <div class="row mb-4">
+                                    <div class="col-md-6">
+                                        <h4 style="color: #007bff;">Co Founder Name</h4>
+                                        <h4>{% if startup.founder_names %}{{ startup.founder_names }}{% else %}N/A{% endif %}</h4>
+                                    </div>
+                                    <div class="col-md-6">
                                         <h4 style="color: #007bff;">Mobile</h4>
-                                        <h4>{{ startup.mobile }}</h4>
+                                        <h4>{% if startup.mobile %}{{ startup.mobile }}{% else %}N/A{% endif %}</h4>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="row mb-4">
-                                <div class="col-md-6">
-                                    <h4 style="color: #007bff;">Email</h4>
-                                    <h4>{{ startup.email }}</h4>
+                                <div class="row mb-4">
+                                    <div class="col-md-6">
+                                        <h4 style="color: #007bff;">Email</h4>
+                                        <h4>{% if startup.email %}{{ startup.email }}{% else %}N/A{% endif %}</h4>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h4 style="color: #007bff;">Gender</h4>
+                                        <h4>{% if startup.gender %}{{ startup.gender }}{% else %}N/A{% endif %}</h4>
+                                    </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <h4 style="color: #007bff;">Gender</h4>
-                                    <h4>{{ startup.gender }}</h4>
+                                <div class="row mb-4">
+                                    <div class="col-md-6">
+                                        <h4 style="color: #007bff;">Team Size</h4>
+                                        <h4>{% if startup.team_size %}{{ startup.team_size }}{% else %}N/A{% endif %}</h4>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h4 style="color: #007bff;">DPIIT Number</h4>
+                                        <h4>{% if startup.dpiit_number %}{{ startup.dpiit_number }}{% else %}N/A{% endif %}</h4>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="row mb-4">
-                                <div class="col-md-6">
-                                    <h4 style="color: #007bff;">Team Size</h4>
-                                    <h4>{{ startup.team_size }}</h4>
+                                <div class="row mb-4">
+                                    <div class="col-md-6">
+                                        <h4 style="color: #007bff;">Incubator Associated</h4>
+                                        <h4>{% if startup.incubators_associated %}{{ startup.incubators_associated }}{% else %}N/A{% endif %}</h4>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h4 style="color: #007bff;">Revenue Stage</h4>
+                                        <h4>{% if startup.reveune_stage %}{{ startup.reveune_stage.name }}{% else %}N/A{% endif %}</h4>
+                                    </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <h4 style="color: #007bff;">DPIIT Number</h4>
-                                    <h4>{{ startup.dpiit_number }}</h4>
-                                </div>
-                            </div>
-                            <div class="row mb-4">
-                                <div class="col-md-6">
-                                    <h4 style="color: #007bff;">Incubator Associated</h4>
-                                    <h4>{{ startup.incubators_associated }}</h4>
-                                </div>
-                                <div class="col-md-6">
-                                    <h4 style="color: #007bff;">Revenue Stage</h4>
-                                    <h4>{%if startup.reveune_stage %}{{ startup.reveune_stage.name }}{% else %} N/A {% endif %}</h4>
-                                </div>
-                            </div>
-                            {% endif %}
-                        </div>
-                    </div>
-                </div>
-                <br>
-               
-            <div class="d-grid gap-2 d-md-flex justify-content-center">
-                <button class="btn btn-warning me-md-2" type="button"><a href="{% url 'startup_profiles_list' %}" style="color: white;"> Go Back</a></button>
-                
-            </div>
-            
-           
-           
+                                {% endif %}                     
+                            <br>
                 <!--end::Contact group wrapper-->
             </div>
+           
         </div>
         <!--end::Contacts App- View Contact-->
+    </div>
+    <br>
+    <div class="d-grid gap-2 d-md-flex justify-content-center">
+        <button class="btn btn-warning me-md-2" type="button"><a href="{% url 'startup_profiles_list' %}" style="color: white;"> Go Back</a></button>
+        
     </div>
     <!--end::Content-->
 </div>

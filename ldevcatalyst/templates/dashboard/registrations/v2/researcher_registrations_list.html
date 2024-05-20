@@ -109,14 +109,15 @@ Researcher Profile's
                                                                         N/A
                                                                     {% endif %}
                                                                 </td>
-                                                                <td>{% if researcher.area_of_interest %}
-                                                                    {% for x in researcher.area_of_interest.all %}
-                                                                        {{ x.name}}
-                                                                        {% if not forloop.last %}, {% endif %}
-                                                                    {% endfor %}
+                                                                <td>
+                                                                    {% if researcher.area_of_interest.all %}
+                                                                        {% for x in researcher.area_of_interest.all %}
+                                                                            {{ x.name }}{% if not forloop.last %}, {% endif %}
+                                                                        {% endfor %}
                                                                     {% else %}
                                                                         N/A
-                                                                    {% endif %}</td>                                                                
+                                                                    {% endif %}
+                                                                </td>                                                               
                                                                 <td><a href="{% url 'researcher_registration_details' researcher.id  %}" class="btn btn-primary" target='_blank'>View Details</a></td>
                                                             </tr>
                                                             {% endfor %}

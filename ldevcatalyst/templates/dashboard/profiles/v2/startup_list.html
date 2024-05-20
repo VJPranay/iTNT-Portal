@@ -102,7 +102,7 @@ startup's
                                                             {% for startup in object_list %}
                                                             <tr>
                                                                 <td>{{ startup.company_name }}</td>
-                                                                <td>{{ startup.year_of_establishment }}</td>
+                                                                <td>{% if startup.year_of_establishment %}{{ startup.year_of_establishment }}{% else %}N/A{% endif %}</td>
                                                                 <td>
                                                                     {% if startup.district %}
                                                                         {{ startup.district.name }}
@@ -110,7 +110,7 @@ startup's
                                                                         N/A
                                                                     {% endif %}
                                                                 </td>
-                                                                <td>{{ startup.area_of_interest }}</td>
+                                                                <td>{% if startup.area_of_interest %}{{ startup.area_of_interest.name }}{% else %}N/A{% endif %}</td>
                                                                 <td><a href="{% url 'startup_profile_details' startup.id %}" class="btn btn-warning" target='_blank'>View Profile</a></td>
                                                             </tr>
                                                             {% endfor %}

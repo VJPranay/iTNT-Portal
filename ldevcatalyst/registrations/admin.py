@@ -159,7 +159,7 @@ class StudentRegistrationsResource(resources.ModelResource):
 @admin.register(StudentRegistrations)
 class StudentAdmin(ImportExportMixin,admin.ModelAdmin):
     resource_class = StudentRegistrationsResource
-    list_display = ('id','name', 'institution', 'department', 'year_of_graduation', 'district', 'state')
+    list_display = ('id','name', 'institution', 'department', 'year_of_graduation', 'district', 'state','highest_qualification','paper_published')
 
 
 

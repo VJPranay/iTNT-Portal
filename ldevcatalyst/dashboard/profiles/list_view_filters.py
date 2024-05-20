@@ -87,6 +87,10 @@ class StudentFilter(django_filters.FilterSet):
         queryset=District.objects.none(),
         widget=forms.Select(attrs={'class': 'form-select', 'id': 'id_district'})
     )
+    highest_qualification = django_filters.ChoiceFilter(
+        choices=Researcher.objects.values_list('highest_qualification', 'highest_qualification').distinct(),
+        label='Highest Qualification'
+    )
 
     area_of_interest = django_filters.ChoiceFilter(
         choices=[(obj.id, obj.name) for obj in AreaOfInterest.objects.all()],  # queryset for options
@@ -95,7 +99,7 @@ class StudentFilter(django_filters.FilterSet):
 
     class Meta:
         model = Student
-        fields = ['area_of_interest', 'district', 'department','institution','gender','year_of_graduation']
+        fields = ['area_of_interest', 'district', 'department','institution','gender','year_of_graduation','highest_qualification']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

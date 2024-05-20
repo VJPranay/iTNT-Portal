@@ -137,6 +137,8 @@ def student_registration(request):
         gender = request.POST.get('gender')
         mobile = request.POST.get('mobile')
         project_guide_name = request.POST.get('project_guide_name')
+        highest_qualification = request.POST.get('highest_qualification')
+        paper_published=request.POST.get('paper_published')
         print(request.POST)
         request_schema ='''
         name:
@@ -190,6 +192,12 @@ def student_registration(request):
         project_guide_name:
             type: string
             required: false
+        highest_qualification:
+            type: string
+            required: false
+        paper_published:
+            type: string
+            required: false
 
 
         '''
@@ -221,7 +229,9 @@ def student_registration(request):
                     project_idea=project_idea,
                     gender=gender,
                     mobile=mobile,
-                    project_guide_name=project_guide_name
+                    project_guide_name=project_guide_name,
+                    highest_qualification=highest_qualification,
+                    paper_published=paper_published
                 )
                 new_student_registration.save()
                 for x in area_of_interest_id:
@@ -263,6 +273,8 @@ def student_registration(request):
                     gender = registration.gender,
                     mobile = registration.mobile,
                     project_guide_name = registration.project_guide_name,
+                    highest_qualification = registration.highest_qualification,
+                    paper_published = registration.paper_published,
                     data_source = registration.data_source,
                     approved = True
 

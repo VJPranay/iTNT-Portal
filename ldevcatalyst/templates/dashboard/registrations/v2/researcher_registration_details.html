@@ -54,34 +54,30 @@ Researcher's details
                 <!--begin::Contact group wrapper-->
                 <div class="card card-flush">
                     <div class="card-header bg-info bg-gradient justify-content-center pt-5">
-                        <h1 class="mb-0 text-white">Details</h1>
+                        <h1 class="mb-0 text-white"> {{ researcher.name }} Details</h1>
                     </div> 
                     <div class="p-10">
                         <div class="row mb-4">
-                            <div class="col-md-3">
-                                <div class="d-flex justify-content-center align-items-center" style="padding-right:60px;">
+                            <div class="col-md-6">
+                                <h4 style="color: #007bff;">Researcher Picture</h4>
+                               
                                     {% if researcher.picture %}
-                                    <img src="{{ researcher.picture.url }}" alt="" width="160">
+                                    <h4>{% if researcher.picture %} <a style="color:black;" href="{{ researcher.picture.url }}"> click here </a>{% else %}N/A{% endif %}</h4>
+                                        
                                     {% else %}
-                                    <div style="font-size: 36px; background-color: #007bff; color: white; width: 100px; height: 100px; border-radius: 50%; display: flex; justify-content: center; align-items: center; margin-top: 15px;">                      
-                                        {{ researcher.name|slice:":1" }}
-                                    </div>
+                                        <div style="font-size: 36px; background-color: #007bff; color: white; width: 100px; height: 100px; border-radius: 50%; display: flex; justify-content: center; align-items: center; margin-top: 15px;">
+                                            {{ researcher.name|slice:":1" }}
+                                        </div>
                                     {% endif %}
-                                </div>
+                               
                             </div>
-                            <div class="col-md-9">
-                                <div class="row mb-4">
-                                    <div class="col-md-6">
-                                        <h4 style="color: #007bff;">Researcher Name</h4>
-                                        <h4>{% if researcher %}{{ researcher.name }}{% else %}N/A{% endif %}</h4>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <h4 style="color: #007bff;">Area Of Interest</h4>
-                                        {% for area in researcher.area_of_interest.all %}
-                                            <h3>{{ area.name }}</h3>
-                                        {% endfor %}
-                                    </div>
+                                <div class="col-md-6">
+                                    <h4 style="color: #007bff;">Researcher Name</h4>
+                                    <h4>{% if researcher.name %}{{ researcher.name }}{% else %}N/A{% endif %}</h4>
                                 </div>
+                               
+                            </div>
+                                <!-- State and District -->
                                 <div class="row mb-4">
                                     <div class="col-md-6">
                                         <h4 style="color: #007bff;">State</h4>
@@ -92,6 +88,8 @@ Researcher's details
                                         <h4>{% if researcher.district %}{{ researcher.district.name }}{% else %}N/A{% endif %}</h4>
                                     </div>
                                 </div>
+                                
+                                <!-- Highest Qualification and Gender -->
                                 <div class="row mb-4">
                                     <div class="col-md-6">
                                         <h4 style="color: #007bff;">Highest Qualification</h4>
@@ -114,6 +112,8 @@ Researcher's details
                                         </h4>
                                     </div>
                                 </div>
+                                
+                                <!-- Institution and Department -->
                                 <div class="row mb-4">
                                     <div class="col-md-6">
                                         <h4 style="color: #007bff;">Institution Name</h4>
@@ -124,15 +124,91 @@ Researcher's details
                                         <h4>{% if researcher.department %}{{ researcher.department.name }}{% else %}N/A{% endif %}</h4>
                                     </div>
                                 </div>
+
                                 <div class="row mb-4">
                                     <div class="col-md-6">
+                                        <h4 style="color: #007bff;">Area Of Interest</h4>
+                                        <h4>
+                                            {% if researcher.area_of_interest.exists %}
+                                                {% for area in researcher.area_of_interest.all %}
+                                                    {{ area.name }}{% if not forloop.last %}, {% endif %}
+                                                {% endfor %}
+                                            {% else %}
+                                                N/A
+                                            {% endif %}
+                                        </h4>
+                                    </div>
+                                    
+                                    <div class="col-md-6">
                                         <h4 style="color: #007bff;">Patent Count</h4>
-                                        <h4>{% if researcher.patents  %}{{ researcher.patents.count }} {% else %}N/A{% endif %}</h4>
+                                        <h4>{% if researcher.patents.exists %}{{ researcher.patents.count }}{% else %}N/A{% endif %}</h4>
                                     </div>
                                 </div>
+                                
+                                
+                                
                                
+                        
+                                <!-- Publications -->
+                                <div class="row mb-4">
+                                    <div class="col-md-6">
+                                        <h4 style="color: #007bff;">Publication Title</h4>
+                                        <h4>{% if researcher.publications %}{{ researcher.publications.title }}{% else %}N/A{% endif %}</h4>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h4 style="color: #007bff;">Publication Journal</h4>
+                                        <h4>{% if researcher.publications %}{{ researcher.publications.journal }}{% else %}N/A{% endif %}</h4>
+                                    </div>
+                                </div>
+                                <div class="row mb-4">
+                                    <div class="col-md-6">
+                                        <h4 style="color: #007bff;">Filing Date</h4>
+                                        <h4>{% if researcher.filing_date %}{{ researcher.filing_date }}{% else %}N/A{% endif %}</h4>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h4 style="color: #007bff;">Status</h4>
+                                        <h4>{% if researcher.status %}{{ researcher.status }}{% else %}N/A{% endif %}</h4>
+                                    </div>
+                                </div>
+                                <div class="row mb-4">
+                                    <div class="col-md-6">
+                                        <h4 style="color: #007bff;">Patent Title</h4>
+                                        <h4>{% if researcher.patent_title %}{{ researcher.patent_title }}{% else %}N/A{% endif %}</h4>
+                                    </div>
+                                    
+                                    <div class="col-md-6">
+                                        <h4 style="color: #007bff;">Investors</h4>
+                                        <h4>{% if researcher.investors %}{{ researcher.investors }}{% else %}N/A{% endif %}</h4>
+                                    </div>
+                                </div>
+                        
+                                
+                               
+                        
+                                <!-- Contact Information -->
+                                <div class="row mb-4">
+                                    <div class="col-md-6">
+                                        <h4 style="color: #007bff;">Email</h4>
+                                        <h4>{% if researcher.email %}{{ researcher.email }}{% else %}N/A{% endif %}</h4>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h4 style="color: #007bff;">Mobile</h4>
+                                        <h4>{% if researcher.mobile %}{{ researcher.mobile }}{% else %}N/A{% endif %}</h4>
+                                    </div>
+                                </div>
+                                <div class="row mb-4">
+                                    <div class="col-md-6">
+                                        <h4 style="color: #007bff;">Applicant Photograph</h4>
+                                        {% if researcher.picture %}
+                                        <h4>{% if researcher.picture %} <a style="color:black;" href="{{ researcher.picture.url }}"> click here </a>{% else %}N/A{% endif %}</h4>
+                                        {% else %}
+                                            N/A
+                                        {% endif %}
+                                    </div>
+                                </div>
                             </div>
                         </div>
+                        
                     </div>
                     
                 </div>
