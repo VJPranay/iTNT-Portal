@@ -110,14 +110,15 @@ industry's
                                                                         N/A
                                                                     {% endif %}
                                                                 </td>
-                                                                <td>{% if industry.area_of_interest %}
+                                                                <td>{% if industry.area_of_interest.all %}
                                                                     {% for x in industry.area_of_interest.all %}
                                                                         {{ x.name}}
                                                                         {% if not forloop.last %}, {% endif %}
                                                                     {% endfor %}
                                                                 {% else %}
                                                                     N/A
-                                                                {% endif %}</td>                                                                
+                                                                {% endif %}
+                                                                </td>  
                                                                 <td><a href="{% url 'industry_profile_details' industry.id %}" class="btn btn-warning" target='_blank'>View Details</a></td>
                                                             </tr>
                                                             {% endfor %}

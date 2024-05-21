@@ -89,7 +89,7 @@ class ResearcherRegistrations(models.Model):
     district = models.ForeignKey(District, on_delete=models.SET_NULL,blank=True, null=True)
     state = models.ForeignKey(State, on_delete=models.SET_NULL,blank=True, null=True)
     email = models.EmailField(blank=True, null=True)
-    gender = models.IntegerField(choices=[(1,'Male'),(2,'Female')],blank=True, null=True)
+    gender = models.IntegerField(choices=[(1,'Male'),(2,'Female'), (3,'Prefer not to say')],blank=True, null=True)
     mobile = models.CharField(max_length=255,blank=True, null=True)
     picture = models.ImageField(upload_to='researcher_pictures/', blank=True, null=True)
     area_of_interest = models.ManyToManyField(AreaOfInterest,blank=True, null=True)
@@ -193,7 +193,7 @@ class StartUpRegistrationsCoFounders(models.Model):
     linkedin = models.CharField(max_length=255,blank=True, null=True)
     email = models.EmailField(blank=True, null=True)
     mobile = models.CharField(max_length=255,blank=True, null=True)
-    gender = models.CharField(max_length=100,choices=[('male','Male'),('female','Female')],blank=True, null=True) 
+    gender = models.CharField(max_length=100,choices=[('male','Male'),('female','Female'), ('prefer not to say','Prefer not to say')],blank=True, null=True) 
     
     class Meta:
         verbose_name_plural ="StartUp Registrations CoFounders"
@@ -211,7 +211,7 @@ class StudentRegistrations(models.Model):
     updated = models.DateTimeField(auto_now=True)
     registration_id=models.CharField(max_length=100,unique=True,null=True)
     # requested fields
-    gender = models.CharField(max_length=100,choices=[('male','Male'),('female','Female')],blank=True, null=True)
+    gender = models.CharField(max_length=100,choices=[('male','Male'),('female','Female'), ('prefer not to say','Prefer not to say')],blank=True, null=True)
     mobile = models.CharField(max_length=255,blank=True, null=True)
     project_guide_name = models.CharField(max_length=255,blank=True, null=True)
     highest_qualification = models.CharField(max_length=255,blank=True, null=True)

@@ -59,7 +59,7 @@ Researcher's details
                     <div class="p-10">
                         <div class="row mb-4">
                             <div class="col-md-6">
-                                <h4 style="color: #007bff;">Researcher Picture</h4>
+                                <h4 style="color: #007bff;">Applicant Photograph</h4>
                                
                                     {% if researcher.picture %}
                                     <h4>{% if researcher.picture %} <a style="color:black;" href="{{ researcher.picture.url }}"> click here </a>{% else %}N/A{% endif %}</h4>
@@ -194,16 +194,6 @@ Researcher's details
                                     <div class="col-md-6">
                                         <h4 style="color: #007bff;">Mobile</h4>
                                         <h4>{% if researcher.mobile %}{{ researcher.mobile }}{% else %}N/A{% endif %}</h4>
-                                    </div>
-                                </div>
-                                <div class="row mb-4">
-                                    <div class="col-md-6">
-                                        <h4 style="color: #007bff;">Applicant Photograph</h4>
-                                        {% if researcher.picture %}
-                                        <h4>{% if researcher.picture %} <a style="color:black;" href="{{ researcher.picture.url }}"> click here </a>{% else %}N/A{% endif %}</h4>
-                                        {% else %}
-                                            N/A
-                                        {% endif %}
                                     </div>
                                 </div>
                             </div>

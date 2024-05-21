@@ -1,5 +1,5 @@
 import django_filters
-from registrations.models import StartUpRegistrations,ResearcherRegistrations, StudentRegistrations,VCRegistrations, IndustryRegistrations
+from registrations.models import StartUpRegistrations,ResearcherRegistrations, StudentRegistrations,VCRegistrations, IndustryRegistrations, StartUpRegistrationsCoFounders
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
 from datarepo.models import State,District
@@ -18,10 +18,16 @@ class StartUpRegistraionsFilter(django_filters.FilterSet):
         queryset=District.objects.none(),
         widget=forms.Select(attrs={'class': 'form-select', 'id': 'id_district'})
     )
+    gender = django_filters.ChoiceFilter(
+        field_name='startupregistartionscofounders__gender',
+        choices=[('male', 'Male'), ('female', 'Female'), ('prefer not to say', 'Prefer not to say')],
+        label='Gender',
+    )
+    
     class Meta:
         model = StartUpRegistrations
-        fields = ['state','district','area_of_interest','year_of_establishment','fund_raised','development_stage','primary_business_model','reveune_stage','dpiit_number']
-
+        fields = ['state','district','area_of_interest','year_of_establishment','fund_raised','gender','development_stage','primary_business_model','reveune_stage','dpiit_number']
+   
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
@@ -95,6 +101,11 @@ class StudentRegistrationsFilter(django_filters.FilterSet):
         widget=forms.Select(attrs={'class': 'form-select'})  # Specify the widget as Select
     )
 
+    highest_qualification = django_filters.ChoiceFilter(
+        choices=ResearcherRegistrations.objects.values_list('highest_qualification', 'highest_qualification').distinct(),
+        label='Highest Qualification'
+    )
+
     class Meta:
         model = StudentRegistrations
         fields = [ 'state','district','area_of_interest','department','institution','gender','highest_qualification']
@@ -131,7 +142,7 @@ class VCRegistrationsFilter(django_filters.FilterSet):
     )
     funding_stage = django_filters.ChoiceFilter(
         choices=VCRegistrations.objects.values_list('funding_stage', 'funding_stage').distinct(),
-        label='funding_stage'
+        label='Funding stage'
     )   
         
     class Meta:

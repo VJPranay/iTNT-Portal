@@ -50,6 +50,8 @@ class StartUpRegistrationsListView(FilterView):
         reveune_stage=self.request.GET.get('reveune_stage')
         dpiit_number=self.request.GET.get('dpiit_number')
 
+        gender = self.request.GET.get('gender')
+
         if area_of_interest:
             filters &= Q(area_of_interest=area_of_interest)
         if year_of_establishment:
@@ -71,6 +73,9 @@ class StartUpRegistrationsListView(FilterView):
             filters &= Q( reveune_stage= reveune_stage)
         if   dpiit_number:
             filters &= Q(  dpiit_number=dpiit_number)
+
+        if gender:
+            filters &= Q( gender= gender)
 
 
         queryset = queryset.filter(filters)
