@@ -1,4 +1,74 @@
 <div class="menu menu-roundedx menu-active-bg menu-state-primary menu-column menu-lg-row menu-title-gray-700 menu-icon-gray-500 menu-arrow-gray-500 menu-bullet-gray-500 my-5 my-lg-0 align-items-stretch fw-semibold px-2 px-lg-0" id="kt_app_header_menu" data-kt-menu="true">
+    
+    <!--begin:Menu item-->
+    <div data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-placement="bottom-start" class="menu-item menu-lg-down-accordion menu-sub-lg-down-indention me-0 me-lg-2">
+        <!--begin:Menu link-->
+        <span class="menu-link">
+            <span class="menu-title">Profiles</span>
+            <span class="menu-arrow d-lg-none"></span>
+        </span> 
+        <!--end:Menu link-->
+
+        <!--begin:Menu sub-->
+        <div class="menu-sub menu-sub-lg-down-accordion menu-sub-lg-dropdown px-lg-2 py-lg-4 w-lg-200px">
+            <!--begin:Menu item-->
+            <div class="menu-item">
+                <!--begin:Menu link-->
+             <a class="menu-link" href="{% url 'researcher_profiles_list' %}" title="Researcher Details here" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss="click" data-bs-placement="right">
+                    <span class="menu-icon">
+                        <i class="ki-outline ki-switch fs-2"></i>
+                    </span>
+                    <span class="menu-title">SME / Researcher</span>
+                </a> 
+                <!--end:Menu link-->
+            </div>
+            <!--end:Menu item-->
+
+			 <!--begin:Menu item-->
+			 <div class="menu-item">
+                <!--begin:Menu link-->
+             <a class="menu-link" href="{% url 'startup_profiles_list' %}" title="StartUp Details here" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss="click" data-bs-placement="right">
+                    <span class="menu-icon">
+                        <i class="ki-outline ki-switch fs-2"></i>
+                    </span>
+                    <span class="menu-title">StartUp</span>
+                </a> 
+                <!--end:Menu link-->
+            </div>
+            <!--end:Menu item-->
+
+
+			<!--begin:Menu item-->
+			<div class="menu-item">
+                <!--begin:Menu link-->
+             <a class="menu-link" href="{% url 'vc_profiles_list' %}" title="Vc Details here" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss="click" data-bs-placement="right">
+                    <span class="menu-icon">
+                        <i class="ki-outline ki-switch fs-2"></i>
+                    </span>
+                    <span class="menu-title">VC</span>
+                </a> 
+                <!--end:Menu link-->
+            </div>
+            <!--end:Menu item-->
+
+
+        </div>
+        <!--end:Menu sub-->
+
+		
+
+    </div>
+    <!--end:Menu item-->
+
+
+
+
+
+
+
+
+
+
     <div data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-placement="bottom-start" class="menu-item menu-lg-down-accordion menu-sub-lg-down-indention me-0 me-lg-2">
         <!--begin:Menu link-->
         <span class="menu-link">
