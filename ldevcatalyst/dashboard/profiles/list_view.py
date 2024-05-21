@@ -111,6 +111,7 @@ class ResearcherListView(FilterView):
         department= self.request.GET.get('department')
         institution = self.request.GET.get('institution')
         gender = self.request.GET.get('gender')
+        state=self.request.GET.get('state')
         highest_qualification = self.request.GET.get('highest_qualification')
         publications = self.request.GET.get('publications')
 
@@ -125,6 +126,8 @@ class ResearcherListView(FilterView):
             filters &= Q(institution=institution)
         if gender:
             filters &= Q(gender=gender)
+        if state:
+            filters &= Q(state=state)
         if highest_qualification:
             filters &= Q(highest_qualification=highest_qualification)
         if publications:
@@ -169,7 +172,7 @@ class StudentListView(FilterView):
         department= self.request.GET.get('department')
         institution=self.request.GET.get('institution')
         gender=self.request.GET.get('gender')
-        year_of_graduation=self.request.GET.get('year_of_graduation')
+        state=self.request.GET.get('state')
         highest_qualification=self.request.GET.get('highest_qualification')
       
         if area_of_interest:
@@ -182,8 +185,8 @@ class StudentListView(FilterView):
             filters &= Q(institution=institution)
         if gender:
             filters &= Q(gender=gender)
-        if year_of_graduation:
-            filters &= Q(year_of_graduation=year_of_graduation)
+        if state:
+            filters &= Q(state=state)
         if highest_qualification:
             filters &= Q(highest_qualification=highest_qualification)
       
@@ -219,6 +222,8 @@ class VCListView(FilterView):
 
         # Apply filters
         filters = Q()
+        state=self.request.GET.get('state')
+        fund_type=self.request.GET.get('fund_type')
         area_of_interest = self.request.GET.get('area_of_interest')
         district = self.request.GET.get('district')
         funding_stage = self.request.GET.get('funding_stage')
@@ -229,6 +234,10 @@ class VCListView(FilterView):
             filters &= Q(district=district)
         if funding_stage:
             filters &= Q(funding_stage=funding_stage)
+        if state:
+            filters &= Q(state=state)
+        if fund_type:
+            filters &= Q(fund_type=fund_type)
 
         queryset = queryset.filter(filters)
         return queryset

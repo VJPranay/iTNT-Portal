@@ -18,7 +18,7 @@ class StartUpFilter(django_filters.FilterSet):
     )
     class Meta:
         model = StartUp
-        fields = ['area_of_interest','year_of_establishment', 'district','state','fund_raised','development_stage','gender','primary_business_model','reveune_stage','dpiit_number']
+        fields = ['state','district','area_of_interest','year_of_establishment','fund_raised','development_stage','gender','primary_business_model','reveune_stage','dpiit_number']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -57,7 +57,7 @@ class ResearcherFilter(django_filters.FilterSet):
     
     class Meta:
         model = Researcher
-        fields = ['area_of_interest', 'district', 'department', 'institution', 'gender', 'highest_qualification', 'publications']
+        fields = ['state','district','area_of_interest','department', 'institution', 'gender', 'highest_qualification', 'publications']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -99,7 +99,7 @@ class StudentFilter(django_filters.FilterSet):
 
     class Meta:
         model = Student
-        fields = ['area_of_interest', 'district', 'department','institution','gender','year_of_graduation','highest_qualification']
+        fields = [ 'state','district','area_of_interest','department','institution','gender','highest_qualification']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -136,7 +136,7 @@ class VCFilter(django_filters.FilterSet):
 
     class Meta:
         model = VC
-        fields = ['area_of_interest', 'district', 'funding_stage']
+        fields = ['state','district','area_of_interest','funding_stage','fund_type']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
