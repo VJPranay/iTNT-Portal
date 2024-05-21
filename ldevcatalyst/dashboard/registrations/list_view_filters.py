@@ -20,7 +20,7 @@ class StartUpRegistraionsFilter(django_filters.FilterSet):
     )
     class Meta:
         model = StartUpRegistrations
-        fields = ['state','dpiit_number','reveune_stage','development_stage','primary_business_model','area_of_interest', 'district', 'preferred_investment_stage']
+        fields = ['state','district','area_of_interest','year_of_establishment','fund_raised','development_stage','primary_business_model','reveune_stage','dpiit_number']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -60,7 +60,7 @@ class ResearcherRegistrationsFilter(django_filters.FilterSet):
     
     class Meta:
         model = ResearcherRegistrations
-        fields = ['area_of_interest', 'district', 'department','state','institution','gender','highest_qualification','publications']
+        fields = ['state','district','area_of_interest','department', 'institution', 'gender', 'highest_qualification', 'publications']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -97,7 +97,7 @@ class StudentRegistrationsFilter(django_filters.FilterSet):
 
     class Meta:
         model = StudentRegistrations
-        fields = ['area_of_interest', 'district', 'department','state','institution','gender']
+        fields = [ 'state','district','area_of_interest','department','institution','gender','highest_qualification']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -136,7 +136,7 @@ class VCRegistrationsFilter(django_filters.FilterSet):
         
     class Meta:
         model = VCRegistrations
-        fields = ['area_of_interest', 'district','state','funding_stage','fund_type']
+        fields = ['state','district','area_of_interest','funding_stage','fund_type']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -171,7 +171,7 @@ class IndustryRegistrationsFilter(django_filters.FilterSet):
 
     class Meta:
         model = IndustryRegistrations
-        fields = ['area_of_interest', 'industry', 'district','state']
+        fields = ['state', 'district', 'industry', 'area_of_interest','state']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

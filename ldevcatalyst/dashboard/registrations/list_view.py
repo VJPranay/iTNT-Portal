@@ -27,39 +27,51 @@ class StartUpRegistrationsListView(FilterView):
             queryset = queryset.order_by('company_name')
         elif sort_by == 'year_of_establishment':
             queryset = queryset.order_by('year_of_establishment')
+        elif sort_by == 'team_size':
+            queryset == queryset.order_by('team_size')
+        elif sort_by =='funding_request_amount':
+            queryset == queryset.order_by('funding_request_amount')
         else:
             queryset = queryset.order_by('-id')
+
+            
 
         # Apply filters
         filters = Q()
         area_of_interest = self.request.GET.get('area_of_interest')
-        state = self.request.GET.get('state')
-        dpiit_number = self.request.GET.get('dpiit_number')
-        reveune_stage = self.request.GET.get('reveune_stage')
-        # gender = self.request.GET.get('gender')
-        development_stage = self.request.GET.get('development_stage')
-        primary_business_model = self.request.GET.get('primary_business_model')
+        year_of_establishment=self.request.GET.get('year_of_establishment')
         district = self.request.GET.get('district')
         preferred_investment_stage = self.request.GET.get('preferred_investment_stage')
+        state=self.request.GET.get('state')
+        fund_raised=self.request.GET.get('fund_raised')
+        development_stage=self.request.GET.get('development_stage')
+        
+        primary_business_model=self.request.GET.get('primary_business_model')
+        reveune_stage=self.request.GET.get('reveune_stage')
+        dpiit_number=self.request.GET.get('dpiit_number')
 
         if area_of_interest:
             filters &= Q(area_of_interest=area_of_interest)
-        if primary_business_model:
-            filters &= Q(primary_business_model=primary_business_model)
-        if dpiit_number:
-            filters &= Q(dpiit_number=dpiit_number)
-        if state:
-            filters &= Q(state=state)
-        if reveune_stage:
-            filters &= Q(reveune_stage=reveune_stage)
-        # if gender:
-            # filters &= Q(gender=gender)
-        if development_stage:
-            filters &= Q(development_stage=development_stage)
+        if year_of_establishment:
+            filters &= Q(year_of_establishment=year_of_establishment)
         if district:
             filters &= Q(district=district)
         if preferred_investment_stage:
             filters &= Q(preferred_investment_stage=preferred_investment_stage)
+        if  state:
+            filters &= Q(state=state)
+        if fund_raised:
+            filters &= Q(fund_raised=fund_raised)
+        if development_stage:
+            filters &= Q(development_stage=development_stage)
+        
+        if  primary_business_model:
+            filters &= Q( primary_business_model= primary_business_model)
+        if  reveune_stage:
+            filters &= Q( reveune_stage= reveune_stage)
+        if   dpiit_number:
+            filters &= Q(  dpiit_number=dpiit_number)
+
 
         queryset = queryset.filter(filters)
         return queryset
@@ -88,31 +100,32 @@ class ResearcherRegistrationsListView(FilterView):
             queryset = queryset.order_by('year_of_establishment')
         else:
             queryset = queryset.order_by('-id')
-            
+
 
         # Apply filters
         filters = Q()
         area_of_interest = self.request.GET.get('area_of_interest')
         district = self.request.GET.get('district')
         department= self.request.GET.get('department')
-        state= self.request.GET.get('state')
-        institution= self.request.GET.get('institution')
-        gender= self.request.GET.get('gender')
-        highest_qualification= self.request.GET.get('highest_qualification')
-        publications= self.request.GET.get('publications')
+        institution = self.request.GET.get('institution')
+        gender = self.request.GET.get('gender')
+        state=self.request.GET.get('state')
+        highest_qualification = self.request.GET.get('highest_qualification')
+        publications = self.request.GET.get('publications')
 
+      
         if area_of_interest:
             filters &= Q(area_of_interest=area_of_interest)
         if district:
             filters &= Q(district=district)
         if department:
             filters &= Q(department=department)
-        if state:
-            filters &= Q(state=state)
         if institution:
             filters &= Q(institution=institution)
         if gender:
             filters &= Q(gender=gender)
+        if state:
+            filters &= Q(state=state)
         if highest_qualification:
             filters &= Q(highest_qualification=highest_qualification)
         if publications:
@@ -148,17 +161,16 @@ class StudentRegistrationsListView(FilterView):
         else:
             queryset = queryset.order_by('-id')
 
-            
 
         # Apply filters
         filters = Q()
         area_of_interest = self.request.GET.get('area_of_interest')
         district = self.request.GET.get('district')
         department= self.request.GET.get('department')
-        state=self.request.GET.get('state')
         institution=self.request.GET.get('institution')
         gender=self.request.GET.get('gender')
-        
+        state=self.request.GET.get('state')
+        highest_qualification=self.request.GET.get('highest_qualification')
       
         if area_of_interest:
             filters &= Q(area_of_interest=area_of_interest)
@@ -166,12 +178,14 @@ class StudentRegistrationsListView(FilterView):
             filters &= Q(district=district)
         if department:
             filters &= Q(department=department)
-        if state:
-            filters &= Q(state=state)
         if institution:
             filters &= Q(institution=institution)
         if gender:
             filters &= Q(gender=gender)
+        if state:
+            filters &= Q(state=state)
+        if highest_qualification:
+            filters &= Q(highest_qualification=highest_qualification)
       
 
         queryset = queryset.filter(filters)
@@ -201,24 +215,24 @@ class VCRegistrationsListView(FilterView):
             queryset = queryset.order_by('area_of_interest')
         else:
             queryset = queryset.order_by('-id')
+  
 
         # Apply filters
         filters = Q()
+        state=self.request.GET.get('state')
+        fund_type=self.request.GET.get('fund_type')
         area_of_interest = self.request.GET.get('area_of_interest')
         district = self.request.GET.get('district')
-        state=self.request.GET.get('state')
-        funding_stage=self.request.GET.get('funding_stage')
-        fund_type=self.request.GET.get('fund_type')
-       
-
+        funding_stage = self.request.GET.get('funding_stage')
+      
         if area_of_interest:
             filters &= Q(area_of_interest=area_of_interest)
         if district:
             filters &= Q(district=district)
-        if state:
-            filters &= Q(state=state)
         if funding_stage:
             filters &= Q(funding_stage=funding_stage)
+        if state:
+            filters &= Q(state=state)
         if fund_type:
             filters &= Q(fund_type=fund_type)
 
@@ -246,25 +260,25 @@ class IndustryRegistrationsListView(FilterView):
         sort_by = self.request.GET.get('sort_by')
         if sort_by == 'name':
             queryset = queryset.order_by('name')
-        elif sort_by == 'industry':
-            queryset = queryset.order_by('industry')
+        elif sort_by == 'area_of_interest':
+            queryset = queryset.order_by('area_of_interest')
         else:
             queryset = queryset.order_by('-id')
+  
 
         # Apply filters
         filters = Q()
         area_of_interest = self.request.GET.get('area_of_interest')
-        industry = self.request.GET.get('industry')
         district = self.request.GET.get('district')
-        state=self.request.GET.get('state')
-
-
+        industry = self.request.GET.get('industry')
+        state= self.request.GET.get('state')
+      
         if area_of_interest:
             filters &= Q(area_of_interest=area_of_interest)
-        if industry:
-            filters &= Q(industry=industry)
         if district:
             filters &= Q(district=district)
+        if industry:
+            filters &= Q(industry=industry)
         if state:
             filters &= Q(state=state)
 
