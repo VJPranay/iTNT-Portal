@@ -179,6 +179,7 @@ startup details
                                    
                                
                                 {% if request.user.user_role == 1 or request.user.user_role == 2 %}
+                                
                                 <div class="row mb-4">
                                     <div class="col-md-6">
                                         <h4 style="color: #007bff;">Co Founder Name</h4>
@@ -253,8 +254,8 @@ startup details
         font-size: 24px; /* Increased font size */
         margin-right: 20px; /* Increased margin for better spacing */
       }
-  </style>
-  <script>
+</style>
+<script>
     function clearFilters() {
         document.getElementById('id_area_of_interest').value = '';
         document.getElementById('id_district').value = '';
