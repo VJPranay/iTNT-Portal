@@ -148,7 +148,7 @@
 											<label class="form-label required">State</label>
 											<!--end::Label-->
 											<!--begin::Input-->
-											<select name="state_id" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="true" onchange="fetchDistricts(this.value)">
+											<select name="state_id" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="false" onchange="fetchDistricts(this.value)">
 												<option>Select state</option>
 												{% for state in states %}
 												<option value="{{state.state_id}}">{{state.state_name}}</option>

@@ -1,5 +1,5 @@
 import django_filters
-from profiles.models import StartUp, Researcher, Student, VC, Industry
+from profiles.models import StartUp, Researcher, Student, VC, Industry,PreferredInvestmentStage
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
 from datarepo.models import State,District
@@ -16,6 +16,7 @@ class StartUpFilter(django_filters.FilterSet):
         queryset=District.objects.none(),
         widget=forms.Select(attrs={'class': 'form-select', 'id': 'id_district'})
     )
+    
     class Meta:
         model = StartUp
         fields = ['state','district','area_of_interest','year_of_establishment','fund_raised','development_stage','gender','primary_business_model','reveune_stage','dpiit_number']
@@ -99,7 +100,7 @@ class StudentFilter(django_filters.FilterSet):
 
     class Meta:
         model = Student
-        fields = [ 'state','district','area_of_interest','department','institution','gender','highest_qualification']
+        fields = [ 'state','district','area_of_interest','department','institution','gender','highest_qualification','paper_published']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

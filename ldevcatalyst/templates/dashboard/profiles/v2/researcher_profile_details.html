@@ -58,6 +58,18 @@ Researcher's details
                     </div> 
                     <div class="p-10">
                         <div class="row mb-4">
+                            <div class="col-md-3">
+                            <h4 style="color: #007bff;">Researcher Image</h4>
+                            <div class="d-flex justify-content-center align-items-center" style="padding-right:60px;">
+                                {% if researcher.picture %}
+                                <img src="{{ researcher.picture.url }}" alt="" width="160">
+                                {% else %}
+                                N/A
+                                {% endif %}
+                            </div>
+                           </div>
+                        </div>
+                        <div class="row mb-4">
                             <div class="col-md-6">
                                 <h4 style="color: #007bff;">Full Name</h4>
                                 <h4>{% if researcher.name %}{{ researcher.name }}{% else %}N/A{% endif %}</h4>
@@ -136,6 +148,17 @@ Researcher's details
 
                         <div class="row mb-4">
                             <div class="col-md-6">
+                                <h4 style="color: #007bff;">Paper link</h4>
+                                <h4>
+                                    {% if researcher.paper_link %}
+                                        <a href="{{ researcher.paper_link.url }}" style="color: black;" target="_blank">{{ researcher.paper_link.url }}</a>
+                                    {% else %}
+                                        N/A
+                                    {% endif %}
+                                </h4>
+                            </div>
+                            
+                            <div class="col-md-6">
                                 <h4 style="color: #007bff;">Applicant Photograph</h4>
                                 {% if researcher.picture %}
                                 <h4>{% if researcher.picture %} <a style="color:black;" href="{{ researcher.picture.url }}"> click here</a>{% else %}N/A{% endif %}</h4>
@@ -144,18 +167,22 @@ Researcher's details
                                 {% endif %}
                             </div>
                         </div>
-                        {% if user.user_role == 1 or user.user_role == 2 %}
-                      
                         <div class="row mb-4">
                             <div class="col-md-6">
-                                <h4 style="color: #007bff;">Mobile</h4>
-                                <h4>{% if researcher.mobile %}{{ researcher.mobile }}{% else %}N/A{% endif %}</h4>
+                                <h4 style="color: #007bff;">Journal</h4>
+                                <h4>{% if researcher.journal %}{{ researcher.journal }}{% else %}N/A{% endif %}</h4>
                             </div>
+                            {% if user.user_role == 1 or user.user_role == 2 %}
                             <div class="col-md-6">
-                                <h4 style="color: #007bff;">Mail ID</h4>
-                                <h4>{% if researcher.email %}{{ researcher.email }}{% else %}N/A{% endif %}</h4>
+                                <h4 style="color: #007bff;">Filing Date</h4>
+                                <h4>{% if researcher.filing_date %}{{ researcher.filing_date }}{% else %}N/A{% endif %}</h4>
                             </div>
+                            {% endif %}
+                            
                         </div>
+
+                        {% if user.user_role == 1 or user.user_role == 2 %}
+                      
                         <div class="row mb-4">
                             <div class="col-md-6">
                                 <h4 style="color: #007bff;">Patent Title</h4>
@@ -168,9 +195,15 @@ Researcher's details
                         </div>
                         <div class="row mb-4">
                             <div class="col-md-6">
-                                <h4 style="color: #007bff;">Filing Date</h4>
-                                <h4>{% if researcher.filing_date %}{{ researcher.filing_date }}{% else %}N/A{% endif %}</h4>
+                                <h4 style="color: #007bff;">Mobile</h4>
+                                <h4>{% if researcher.mobile %}{{ researcher.mobile }}{% else %}N/A{% endif %}</h4>
                             </div>
+                            <div class="col-md-6">
+                                <h4 style="color: #007bff;">Mail ID</h4>
+                                <h4>{% if researcher.email %}{{ researcher.email }}{% else %}N/A{% endif %}</h4>
+                            </div>
+                        </div>
+                        <div class="row mb-4">
                             <div class="col-md-6">
                                 <h4 style="color: #007bff;">Current Status of the Patent</h4>
                                 <h4>{% if researcher.status %}{{ researcher.status }}{% else %}N/A{% endif %}</h4>

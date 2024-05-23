@@ -150,35 +150,64 @@ startup details
                                 <div class="row mb-4">
                                     <div class="col-md-6">
                                         <h4 style="color: #007bff;">LinkedIn Profile Link</h4>
-                                        <h4>{% if startup.linkedin_profile_link %}{{ startup.linkedin_profile_link }}{% else %}N/A{% endif %}</h4>
+                                        <h4>
+                                            {% if startup.linkedin_profile_link %}
+                                                <a href="{{ startup.linkedin_profile_link }}" style="color: black;" target="_blank">{{ startup.linkedin_profile_link }}</a>
+                                            {% else %}
+                                                N/A
+                                            {% endif %}
+                                        </h4>
                                     </div>
                                     <div class="col-md-6">
                                         <h4 style="color: #007bff;">Website Link</h4>
-                                        <h4>{% if startup.website_link %}{{ startup.website_link }}{% else %}N/A{% endif %}</h4>
+                                        <h4>
+                                            {% if startup.website_link %}
+                                                <a href="{{ startup.website_link }}" style="color: black;" target="_blank">{{ startup.website_link }}</a>
+                                            {% else %}
+                                                N/A
+                                            {% endif %}
+                                        </h4>
                                     </div>
                                 </div>
+                                
                                 <div class="row mb-4">
                                     <div class="col-md-6">
                                         <h4 style="color: #007bff;">Company LinkedIn</h4>
-                                        <h4>{% if startup.company_linkedin %}{{ startup.company_linkedin }}{% else %}N/A{% endif %}</h4>
-                                    </div>
+                                        <h4>
+                                            {% if startup.company_linkedin %}
+                                                <a href="{{ startup.company_linkedin }}" style="color: black;" target="_blank">{{ startup.company_linkedin }}</a>
+                                            {% else %}
+                                                N/A
+                                            {% endif %}
+                                        </h4>
+                                    </div>                                    
                                     <div class="col-md-6">
                                         <h4 style="color: #007bff;">Video Link</h4>
-                                        <h4>{% if startup.video_link %}{{ startup.video_link }}{% else %}N/A{% endif %}</h4>
-                                    </div>
+                                        <h4>
+                                            {% if startup.video_link %}
+                                                <a href="{{ startup.video_link }}" style="color: black;" target="_blank">{{ startup.video_link }}</a>
+                                            {% else %}
+                                                N/A
+                                            {% endif %}
+                                        </h4>
+                                    </div>                                  
                                 </div>
                                 <div class="row mb-4">
                                     <div class="col-md-6">
                                         <h4 style="color: #007bff;">Pitch Deck</h4>
-                                        <h4>{% if startup.pitch_deck %} <a style="color:black;" href="{{ startup.pitch_deck.url }}"> click here </a>{% else %}N/A{% endif %}</h4>
-                                    </div>
+                                        <h4>
+                                            {% if startup.pitch_deck %}
+                                                <a href="{{ startup.pitch_deck.url }}" style="color: black;" target="_blank">{{ startup.pitch_deck.url }}</a>
+                                            {% else %}
+                                                N/A
+                                            {% endif %}
+                                        </h4>
+                                    </div>                                  
                                     <div class="col-md-6">
                                         <h4 style="color: #007bff;">Description</h4>
                                         <p>{% if startup.company_description %}{{ startup.company_description }}{% else %}N/A{% endif %}</p>
                                     </div>
                                 </div>
-                               
-                               
                                 <div class="row mb-4">
                                     <div class="col-md-6">
                                         <h4 style="color: #007bff;">Co Founder Name</h4>
@@ -219,6 +248,18 @@ startup details
                                         <h4>{% if startup.reveune_stage %}{{ startup.reveune_stage.name }}{% else %}N/A{% endif %}</h4>
                                     </div>
                                 </div>
+                                <div class="row mb-4">               
+                                    <div class="col-md-6">
+                                        <h4 style="color: #007bff;">Development stage document</h4>
+                                        <h4>
+                                            {% if startup.development_stage_document %}
+                                                <a href="{{ startup.development_stage_document.url }}" style="color: black;" target="_blank">{{ startup.development_stage_document.url }}</a>
+                                            {% else %}
+                                                N/A
+                                            {% endif %}
+                                        </h4>
+                                    </div>          
+                               </div>
                                           
                             <br>
                 <!--end::Contact group wrapper-->

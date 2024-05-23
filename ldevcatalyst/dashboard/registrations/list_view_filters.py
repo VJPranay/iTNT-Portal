@@ -108,7 +108,7 @@ class StudentRegistrationsFilter(django_filters.FilterSet):
 
     class Meta:
         model = StudentRegistrations
-        fields = [ 'state','district','area_of_interest','department','institution','gender','highest_qualification']
+        fields = [ 'state','district','area_of_interest','department','institution','gender','highest_qualification','paper_published']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

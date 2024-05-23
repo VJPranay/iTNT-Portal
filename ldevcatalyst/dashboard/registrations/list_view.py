@@ -41,15 +41,12 @@ class StartUpRegistrationsListView(FilterView):
         area_of_interest = self.request.GET.get('area_of_interest')
         year_of_establishment=self.request.GET.get('year_of_establishment')
         district = self.request.GET.get('district')
-        preferred_investment_stage = self.request.GET.get('preferred_investment_stage')
         state=self.request.GET.get('state')
         fund_raised=self.request.GET.get('fund_raised')
-        development_stage=self.request.GET.get('development_stage')
-        
+        development_stage=self.request.GET.get('development_stage') 
         primary_business_model=self.request.GET.get('primary_business_model')
         reveune_stage=self.request.GET.get('reveune_stage')
         dpiit_number=self.request.GET.get('dpiit_number')
-
         gender = self.request.GET.get('gender')
 
         if area_of_interest:
@@ -58,15 +55,12 @@ class StartUpRegistrationsListView(FilterView):
             filters &= Q(year_of_establishment=year_of_establishment)
         if district:
             filters &= Q(district=district)
-        if preferred_investment_stage:
-            filters &= Q(preferred_investment_stage=preferred_investment_stage)
         if  state:
             filters &= Q(state=state)
         if fund_raised:
             filters &= Q(fund_raised=fund_raised)
         if development_stage:
-            filters &= Q(development_stage=development_stage)
-        
+            filters &= Q(development_stage=development_stage)   
         if  primary_business_model:
             filters &= Q( primary_business_model= primary_business_model)
         if  reveune_stage:
@@ -176,6 +170,7 @@ class StudentRegistrationsListView(FilterView):
         gender=self.request.GET.get('gender')
         state=self.request.GET.get('state')
         highest_qualification=self.request.GET.get('highest_qualification')
+        paper_published=self.request.GET.get('paper_published')
       
         if area_of_interest:
             filters &= Q(area_of_interest=area_of_interest)
@@ -191,6 +186,8 @@ class StudentRegistrationsListView(FilterView):
             filters &= Q(state=state)
         if highest_qualification:
             filters &= Q(highest_qualification=highest_qualification)
+        if paper_published:
+            filters &= Q(paper_published=paper_published)
       
 
         queryset = queryset.filter(filters)
