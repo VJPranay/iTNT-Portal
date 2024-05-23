@@ -22,7 +22,7 @@ ALLOWED_HOSTS = [
 
 CSRF_TRUSTED_ORIGINS = [ 
     'https://itnthub.tn.gov.in',
-    'http://127.0.0.1',
+    'http://127.0.0.1'
 ]
 
 SESSION_COOKIE_SECURE = True
