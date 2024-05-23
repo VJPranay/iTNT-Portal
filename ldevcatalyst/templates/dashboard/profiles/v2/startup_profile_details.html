@@ -128,16 +128,7 @@ startup details
                                         <h4>{% if startup.primary_business_model %}{{ startup.primary_business_model.name }}{% else %}N/A{% endif %}</h4>
                                     </div>
                                 </div>
-                                <div class="row mb-4">
-                                    <div class="col-md-6">
-                                        <h4 style="color: #007bff;">Fund Raised</h4>
-                                        <h4>{% if startup.fund_raised %}{{ startup.fund_raised.name }}{% else %}N/A{% endif %}</h4>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <h4 style="color: #007bff;">Fund Raised Input</h4>
-                                        <h4>{% if startup.fund_raised_input %}{{ startup.fund_raised_input }}{% else %}N/A{% endif %}</h4>
-                                    </div>
-                                </div>
+                                
                                 <div class="row mb-4">
                                     <div class="col-md-6">
                                         <h4 style="color: #007bff;">Development Stage</h4>
@@ -173,13 +164,20 @@ startup details
                                         <h4 style="color: #007bff;">Pitch Deck</h4>
                                         <h4>{% if startup.pitch_deck %}{{ startup.pitch_deck }}{% else %}N/A{% endif %}</h4>
                                     </div>
-                                </div>
-                                <div class="row mb-4">
                                     <div class="col-md-12">
                                         <h4 style="color: #007bff;">Description</h4>
                                         <p>{% if startup.company_description %}{{ startup.company_description }}{% else %}N/A{% endif %}</p>
                                     </div>
                                 </div>
+                                <div class="row mb-4">
+                                    <div class="col-md-6">
+                                        <h4 style="color: #007bff;">Fund Raised</h4>
+                                        <h4>{% if startup.fund_raised %}{{ startup.fund_raised.name }}{% else %}N/A{% endif %}</h4>
+                                    </div>
+                                </div>
+                               
+                                   
+                               
                                 {% if request.user.user_role == 1 or request.user.user_role == 2 %}
                                 <div class="row mb-4">
                                     <div class="col-md-6">

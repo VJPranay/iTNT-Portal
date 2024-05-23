@@ -118,6 +118,13 @@ student details
                            </div>
                         </div>
 
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <h4 style="color: #007bff;">Project Idea</h4>
+                                <h4>{{ student.project_idea }}</h4>
+                            </div>
+                        </div>
+
                         {% if request.user.user_role == 1 or request.user.user_role == 2 %}
                         <div class="row mb-4">
                             <div class="col-md-6">
@@ -134,10 +141,6 @@ student details
                                 <h4 style="color: #007bff;">Project Guide Name</h4>
                                 <h4>{{ student.project_guide_name }}</h4>
                             </div>
-                            <div class="col-md-6">
-                                <h4 style="color: #007bff;">Project Idea</h4>
-                                <h4>{{ student.project_idea }}</h4>
-                        </div>
                         </div>
                         {% endif %}
                     </div>
