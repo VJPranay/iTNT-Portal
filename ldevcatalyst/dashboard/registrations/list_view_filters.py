@@ -166,6 +166,12 @@ class VCRegistrationsFilter(django_filters.FilterSet):
 
 
 class IndustryRegistrationsFilter(django_filters.FilterSet):
+    registration_status = django_filters.ChoiceFilter(
+        field_name='status',
+        choices=[('pending', 'pending'), ('approved', 'approved')], # add , ('rejected', 'rejected') if they ask]
+        widget=forms.Select(attrs={'class': 'form-select'})
+    )
+    
     state = django_filters.ModelChoiceFilter(
         queryset=State.objects.all(),
         widget=forms.Select(attrs={'class': 'form-select', 'id': 'id_state'})

@@ -47,7 +47,6 @@ def industry_registrations(request,registration_status=None):
 @login_required
 def industry_approve_registration(request):
     if request.method == 'POST':
-
         registration_id = request.POST.get('registration_id',None)
         if not registration_id:
             return JsonResponse({'success': False, 'error': 'Missing registration ID'}, status=400)
@@ -98,7 +97,7 @@ def industry_approve_registration(request):
                 email_username = settings.email_username
                 email_password = settings.email_password
                 email_from = settings.email_from
-                subject = 'You iTNT registration has been approved'
+                subject = 'Your iTNT registration has been approved'
                 body = f'''
                         Username: {user.username}
                         Password: {password}
