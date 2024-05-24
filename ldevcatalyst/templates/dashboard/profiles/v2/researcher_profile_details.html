@@ -183,16 +183,7 @@ Researcher's details
 
                         {% if user.user_role == 1 or user.user_role == 2 %}
                       
-                        <div class="row mb-4">
-                            <div class="col-md-6">
-                                <h4 style="color: #007bff;">Patent Title</h4>
-                                <h4>{% if researcher.patent_title %}{{ researcher.patent_title }}{% else %}N/A{% endif %}</h4>
-                            </div>
-                            <div class="col-md-6">
-                                <h4 style="color: #007bff;">Inventor(s) and Applicant(s)</h4>
-                                <h4>{% if researcher.inventors %}{{ researcher.inventors }}{% else %}N/A{% endif %}</h4>
-                            </div>
-                        </div>
+                      
                         <div class="row mb-4">
                             <div class="col-md-6">
                                 <h4 style="color: #007bff;">Mobile</h4>
@@ -211,6 +202,38 @@ Researcher's details
                         </div>
 
                         {% endif %}
+
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <h4 style="color: #007bff;">Patents</h4>
+                                {% if researcher.patents.exists %}
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Number</th>
+                                                <th>Title</th>
+                                                <th>Inventors</th>
+                                                <th>Filing Date</th>
+                                                <th>Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for patent in researcher.patents.all %}
+                                                <tr>
+                                                    <td>{{ patent.number }}</td>
+                                                    <td>{{ patent.title }}</td>
+                                                    <td>{{ patent.inventors }}</td>
+                                                    <td>{{ patent.filing_date }}</td>
+                                                    <td>{{ patent.status }}</td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                {% else %}
+                                    <p>N/A</p>
+                                {% endif %}
+                            </div>
+                        </div>
                       
                         
                         

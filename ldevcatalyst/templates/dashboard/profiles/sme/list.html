@@ -40,102 +40,62 @@ Sme / Researcher
 
 {% block page_content %}
 <div class="d-flex flex-column flex-column-fluid">
-    <!--begin::Content-->
     <div id="kt_app_content" class="app-content flex-column-fluid">
-        <!--begin::Contacts App- View Contact-->
         <div class="row g-7">
-            <!--begin::Contact groups-->
             <div class="col-lg-6 col-xl-3">
-                <!--begin::Contact group wrapper-->
                 <div class="card card-flush">
-                    <!--begin::Card header-->
                     <div class="card-header pt-7" id="kt_chat_contacts_header">
-                        <!--begin::Card title-->
                         <div class="card-title">
                             <h2>Categories</h2>
                         </div>
-                        <!--end::Card title-->
                     </div>
-                    <!--end::Card header-->
-                    <!--begin::Card body-->
                     <div class="card-body pt-5">
-                        <!--begin::Contact groups-->
                         <div class="d-flex flex-column gap-5">
-                            <!--begin::Contact group-->
                             {% for x in areas_list %}
                             <div class="d-flex flex-stack">
-                                <a href="#" class="fs-6 fw-bold text-gray-800 text-hover-primary text-active-primary active sme-cat-data="{{x.id}}" onclick="fetchsmeProfiles('{{ x.id }}')"">{{x.name}}</a>
+                                <a href="#" class="fs-6 fw-bold text-gray-800 text-hover-primary text-active-primary active sme-cat-data="{{x.id}}" onclick="fetchsmeProfiles('{{ x.id }}')">{{x.name}}</a>
                                 <div class="badge badge-light-primary">{{x.count}}</div>
                             </div>
                             {% endfor %}
                         </div>
-                        <!--end::Contact groups-->
                     </div>
-                    <!--end::Card body-->
                 </div>
-                <!--end::Contact group wrapper-->
             </div>
-            <!--end::Contact groups-->
-            <!--begin::Search-->
             <div class="col-lg-6 col-xl-3">
-                <!--begin::Contacts-->
                 <div class="card card-flush" id="kt_contacts_list">
-
                     <div class="card-body pt-5" id="kt_contacts_list_body">
-                        <!--begin::List-->
-                        <div class="scroll-y me-n5 pe-5 h-300px h-xl-auto" data-kt-scroll="true"
-                            data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-max-height="auto"
-                            data-kt-scroll-dependencies="#kt_header, #kt_toolbar, #kt_footer, #kt_contacts_list_header"
-                            data-kt-scroll-wrappers="#kt_content, #kt_contacts_list_body"
-                            data-kt-scroll-stretch="#kt_contacts_list, #kt_contacts_main" data-kt-scroll-offset="5px"
-                            id="sme-profiles-list">
-
+                        <form method="get">
+                            {{ filter.form.as_p }}
+                            <button type="submit" name="search_type" value="patents" class="btn btn-primary">Search Patents</button>
+                            <button type="submit" name="search_type" value="publications" class="btn btn-secondary">Search Publications</button>
+                        </form>
+                        <div class="scroll-y me-n5 pe-5 h-300px h-xl-auto" data-kt-scroll="true" data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-max-height="auto" data-kt-scroll-dependencies="#kt_header, #kt_toolbar, #kt_footer, #kt_contacts_list_header" data-kt-scroll-wrappers="#kt_content, #kt_contacts_list_body" data-kt-scroll-stretch="#kt_contacts_list, #kt_contacts_main" data-kt-scroll-offset="5px" id="sme-profiles-list">
                         </div>
-                        <!--end::List-->
                     </div>
-                    <!--end::Card body-->
                 </div>
-                <!--end::Contacts-->
             </div>
-            <!--end::Search-->
-            <!--begin::Content-->
             <div class="col-xl-6">
-                <!--begin::Contacts-->
                 <div class="card card-flush h-lg-100" id="kt_contacts_main">
-                    <!--begin::Card header-->
                     <div class="card-header pt-7" id="kt_chat_contacts_header">
-                        <!--begin::Card title-->
                         <div class="card-title">
                             <i class="ki-outline ki-badge fs-1 me-2"></i>
                             <h2>Sme Details</h2>
                         </div>
-                        <!--end::Card title-->
                     </div>
-                    <!--end::Card header-->
-                    <!--begin::Card body-->
                     <div class="card-body pt-5" id="sme_profile_data">
-
-
                     </div>
-                    <!--end::Card body-->
                 </div>
-                <!--end::Contacts-->
             </div>
-            <!--end::Content-->
         </div>
-        <!--end::Contacts App- View Contact-->
     </div>
-    <!--end::Content-->
 </div>
-<!--end::Content wrapper-->
-<!--begin::Footer-->
 {% endblock %}
 
 {% block custom_js %}
-<script src="assets/js/custom/apps/contacts/view-contact.js"></script>
+<script src="{% static 'assets/js/custom/apps/contacts/view-contact.js' %}"></script>
 <script>
     function fetchsmeProfiles(areaOfInterestId) {
-        var csrftoken = getCookie('csrftoken'); // Function to retrieve CSRF token from cookies
+        var csrftoken = getCookie('csrftoken');
 
         fetch('{% url "fetch_sme_profiles" %}', {
             method: 'POST',
@@ -169,7 +129,7 @@ Sme / Researcher
                                 <span class="symbol-label bg-light-danger text-danger fs-6 fw-bolder">${profile.sme_id}</span>
                             </div>
                             <div class="ms-4">
-                                <a href="#"  onclick="fetchsmeDetails(${profile.sme_id})" class="fs-6 fw-bold text-gray-900 text-hover-primary mb-2">${profile.name}</a>
+                                <a href="#" onclick="fetchsmeDetails(${profile.sme_id})" class="fs-6 fw-bold text-gray-900 text-hover-primary mb-2">${profile.name}</a>
                                 <div class="fw-semibold fs-7 text-muted">${profile.state}</div>
                             </div>
                         </div>
@@ -182,19 +142,15 @@ Sme / Researcher
     }
 
     function fetchsmeDetails(smeId) {
-        // Get CSRF token
         const csrftoken = getCookie('csrftoken');
 
-        // Fetch sme details using AJAX POST request
-        fetch('{% url 'fetch_sme_details' %}', {
+        fetch('{% url "fetch_sme_details" %}', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'X-CSRFToken': csrftoken
             },
-            body: JSON.stringify({
-                sme_id: smeId
-            })
+            body: JSON.stringify({ sme_id: smeId })
         })
         .then(response => {
             if (!response.ok) {
@@ -203,9 +159,7 @@ Sme / Researcher
             return response.json();
         })
         .then(data => {
-            // Check if HTML data is present
             if (data.html) {
-                // Render the sme details HTML
                 rendersmeDetails(data.html);
             } else {
                 throw new Error('No HTML data received');
@@ -216,9 +170,7 @@ Sme / Researcher
         });
     }
 
-    // Function to render sme details HTML
     function rendersmeDetails(html) {
-        // Update the HTML of the sme profile data element
         document.getElementById('sme_profile_data').innerHTML = html;
     }
 
@@ -236,6 +188,5 @@ Sme / Researcher
         }
         return cookieValue;
     }
-
 </script>
 {% endblock %}

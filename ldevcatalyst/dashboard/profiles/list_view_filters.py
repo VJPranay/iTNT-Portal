@@ -47,18 +47,19 @@ class ResearcherFilter(django_filters.FilterSet):
         widget=forms.Select(attrs={'class': 'form-select', 'id': 'id_district'})
     )
     area_of_interest = django_filters.ChoiceFilter(
-        choices=[(obj.id, obj.name) for obj in AreaOfInterest.objects.all()],  # queryset for options
-        widget=forms.Select(attrs={'class': 'form-select'})  # Specify the widget as Select
+        choices=[(obj.id, obj.name) for obj in AreaOfInterest.objects.all()],
+        widget=forms.Select(attrs={'class': 'form-select'})
     )
-    
     highest_qualification = django_filters.ChoiceFilter(
         choices=Researcher.objects.values_list('highest_qualification', 'highest_qualification').distinct(),
         label='Highest Qualification'
     )
-    
+    patent_title = django_filters.CharFilter(field_name='patents__title', lookup_expr='icontains', label='Patent Title')
+    publication_title = django_filters.CharFilter(field_name='publications__title', lookup_expr='icontains', label='Publication Title')
+
     class Meta:
         model = Researcher
-        fields = ['state','district','area_of_interest','department', 'institution', 'gender', 'highest_qualification', 'publications']
+        fields = ['state', 'district', 'area_of_interest', 'department', 'institution', 'gender', 'highest_qualification', 'patent_title', 'publication_title']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

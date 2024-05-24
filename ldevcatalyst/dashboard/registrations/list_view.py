@@ -113,7 +113,6 @@ class ResearcherRegistrationsListView(FilterView):
         gender = self.request.GET.get('gender')
         state=self.request.GET.get('state')
         highest_qualification = self.request.GET.get('highest_qualification')
-        publications = self.request.GET.get('publications')
         status = self.request.GET.get('status')
       
         if area_of_interest:
@@ -130,8 +129,6 @@ class ResearcherRegistrationsListView(FilterView):
             filters &= Q(state=state)
         if highest_qualification:
             filters &= Q(highest_qualification=highest_qualification)
-        if publications:
-            filters &= Q(publications=publications)
         if status:
             filters &= Q(status=status)
       

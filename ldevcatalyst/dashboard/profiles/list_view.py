@@ -94,7 +94,6 @@ class ResearcherListView(FilterView):
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        # Apply sorting
         sort_by = self.request.GET.get('sort_by')
         if sort_by == 'name':
             queryset = queryset.order_by('name')
@@ -103,19 +102,17 @@ class ResearcherListView(FilterView):
         else:
             queryset = queryset.order_by('-id')
 
-
-        # Apply filters
         filters = Q()
         area_of_interest = self.request.GET.get('area_of_interest')
         district = self.request.GET.get('district')
-        department= self.request.GET.get('department')
+        department = self.request.GET.get('department')
         institution = self.request.GET.get('institution')
         gender = self.request.GET.get('gender')
-        state=self.request.GET.get('state')
+        state = self.request.GET.get('state')
         highest_qualification = self.request.GET.get('highest_qualification')
-        publications = self.request.GET.get('publications')
+        patent_title = self.request.GET.get('patent_title')
+        publication_title = self.request.GET.get('publication_title')
 
-      
         if area_of_interest:
             filters &= Q(area_of_interest=area_of_interest)
         if district:
@@ -130,9 +127,10 @@ class ResearcherListView(FilterView):
             filters &= Q(state=state)
         if highest_qualification:
             filters &= Q(highest_qualification=highest_qualification)
-        if publications:
-            filters &= Q(publications=publications)
-      
+        if patent_title:
+            filters &= Q(patents__title__icontains=patent_title)
+        if publication_title:
+            filters &= Q(publications__title__icontains=publication_title)
 
         queryset = queryset.filter(filters)
         return queryset
