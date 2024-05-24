@@ -155,6 +155,11 @@ class VCRegistrationsFilter(django_filters.FilterSet):
         choices=VCRegistrations.objects.values_list('funding_stage', 'funding_stage').distinct(),
         label='Funding stage'
     )   
+    registration_status = django_filters.ChoiceFilter(
+        field_name='status',
+        choices=[('pending', 'pending'), ('approved', 'approved')], # add , ('rejected', 'rejected') if they ask]
+        widget=forms.Select(attrs={'class': 'form-select'})
+    )
         
     class Meta:
         model = VCRegistrations

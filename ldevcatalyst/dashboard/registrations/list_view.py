@@ -231,6 +231,7 @@ class VCRegistrationsListView(FilterView):
         area_of_interest = self.request.GET.get('area_of_interest')
         district = self.request.GET.get('district')
         funding_stage = self.request.GET.get('funding_stage')
+        status = self.request.GET.get('status')
       
         if area_of_interest:
             filters &= Q(area_of_interest=area_of_interest)
@@ -242,6 +243,8 @@ class VCRegistrationsListView(FilterView):
             filters &= Q(state=state)
         if fund_type:
             filters &= Q(fund_type=fund_type)
+        if status:
+            filters &= Q(status=status)
 
         queryset = queryset.filter(filters)
         return queryset

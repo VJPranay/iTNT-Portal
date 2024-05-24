@@ -61,10 +61,10 @@ def vc_approve_registration(request):
                     
                     # Generate username from registration ID
                     username = registration.registration_id
-
+                    print(username)
                     # Generate random 6-digit number
                     password = ''.join(random.choices(string.digits, k=6))
-
+                    print(password)
                     # Create user with the generated username and random password
                     try:
                         user = User.objects.create_user(username=username, password=password)
@@ -91,8 +91,6 @@ def vc_approve_registration(request):
                         portfolio_size = registration.portfolio_size,
                         district_id = registration.district.id,
                         state_id = registration.state.id,
-                        area_of_interest_id = registration.area_of_interest.id,
-                        funding_stage_id = registration.funding_stage.id,
                         company_website = registration.company_website,
                         linkedin_profile = registration.linkedin_profile,
                         fund_type = registration.fund_type,
@@ -100,6 +98,12 @@ def vc_approve_registration(request):
                         approved = True
                     )
                     vc_profile.save()
+                    for x in registration.area_of_interest.all():
+                        vc_profile.area_of_interest.add(x.id)
+                        vc_profile.save()
+                    for x in registration.funding_stage.all():
+                        vc_profile.funding_stage.add(x.id)
+                        vc_profile.save()
                     email_host = settings.email_host
                     email_port = settings.email_port
                     email_username = settings.email_username

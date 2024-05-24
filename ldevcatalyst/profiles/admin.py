@@ -32,7 +32,7 @@ class PublicationAdmin(admin.ModelAdmin):
 
 @admin.register(VC)
 class VCAdmin(admin.ModelAdmin):
-    list_display = ('id','partner_name', 'firm_name', 'email', 'mobile', 'district', 'state', 'area_of_interest', 'funding_stage', 'company_website', 'linkedin_profile')
+    list_display = ('id','partner_name', 'firm_name', 'email', 'mobile', 'district', 'state', 'company_website', 'linkedin_profile')
 
 @admin.register(Researcher)
 class ResearcherAdmin(admin.ModelAdmin):
