@@ -56,7 +56,7 @@ var KTCreateAccount = function () {
 						KTUtil.scrollTop();
 					} else {
 						Swal.fire({
-							text: "Sorry, looks like there are some errors detected, please try again.",
+							text: "We noticed some errors in your form. Please review the information you entered, make any necessary corrections, and then resubmit the form.",
 							icon: "error",
 							buttonsStyling: false,
 							confirmButtonText: "Ok, got it!",
@@ -155,7 +155,7 @@ var KTCreateAccount = function () {
 								});
 							} else {
 								Swal.fire({
-									text: "An error occurred while submitting the form. Please try again later.",
+									text: "We noticed some errors in your form. Please review the information you entered, make any necessary corrections, and then resubmit the form.",
 									icon: "error",
 									buttonsStyling: false,
 									confirmButtonText: "Ok, got it!",
@@ -172,7 +172,7 @@ var KTCreateAccount = function () {
 							}
 						},
 						error: function (xhr, status, error) {
-							var errorMessage = "An error occurred while submitting the form. Please try again later.";
+							var errorMessage = "We noticed some errors in your form. Please review the information you entered, make any necessary corrections, and then resubmit the form.";
 							if (xhr.responseJSON && xhr.responseJSON.error) {
 								errorMessage = "Please fix the following error: " + xhr.responseJSON.error;
 							}
@@ -195,7 +195,7 @@ var KTCreateAccount = function () {
 					});
 				} else {
 					Swal.fire({
-						text: "Sorry, looks like there are some errors detected, please try again.",
+						text: "We noticed some errors in your form. Please review the information you entered, make any necessary corrections, and then resubmit the form.",
 						icon: "error",
 						buttonsStyling: false,
 						confirmButtonText: "Ok, got it!",
