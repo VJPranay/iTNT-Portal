@@ -48,6 +48,7 @@ class StartUpRegistrationsListView(FilterView):
         reveune_stage=self.request.GET.get('reveune_stage')
         dpiit_number=self.request.GET.get('dpiit_number')
         gender = self.request.GET.get('gender')
+        status = self.request.GET.get('status')
 
         if area_of_interest:
             filters &= Q(area_of_interest=area_of_interest)
@@ -70,6 +71,8 @@ class StartUpRegistrationsListView(FilterView):
 
         if gender:
             filters &= Q( gender= gender)
+        if status:
+            filters &= Q( status= status)
 
 
         queryset = queryset.filter(filters)
@@ -111,7 +114,7 @@ class ResearcherRegistrationsListView(FilterView):
         state=self.request.GET.get('state')
         highest_qualification = self.request.GET.get('highest_qualification')
         publications = self.request.GET.get('publications')
-
+        status = self.request.GET.get('status')
       
         if area_of_interest:
             filters &= Q(area_of_interest=area_of_interest)
@@ -129,6 +132,8 @@ class ResearcherRegistrationsListView(FilterView):
             filters &= Q(highest_qualification=highest_qualification)
         if publications:
             filters &= Q(publications=publications)
+        if status:
+            filters &= Q(status=status)
       
 
         queryset = queryset.filter(filters)

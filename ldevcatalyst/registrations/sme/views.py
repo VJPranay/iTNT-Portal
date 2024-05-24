@@ -56,7 +56,9 @@ def sme_approve_registrations(request):
         if not registration_id:
             return JsonResponse({'success': False, 'error': 'Missing registration ID'}, status=400)
         else:
+            print('working')
             try:
+                print('ID here --> ',registration_id)
                 registration = ResearcherRegistrations.objects.get(id=registration_id)
 
                 # Generate Username from Registration Id
