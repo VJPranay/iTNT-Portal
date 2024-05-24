@@ -3,8 +3,8 @@ from .views import custom_login,dashboard_index,logout
 from registrations.industry.views import industry_registrations,industry_approve_registration
 from registrations.startup.views import startup_registrations,startup_approve_registration
 from registrations.vc.views import vc_registrations,vc_approve_registration
-from registrations.student.views import student_approve_registration,student_registrations
-from registrations.sme.views import sme_registrations,sme_approve_registrations
+from registrations.student.views import student_registrations, student_approve_registration
+from registrations.sme.views import sme_registrations,sme_approve_registration
 # registrations
 from dashboard.registrations.list_view import StartUpRegistrationsListView,ResearcherRegistrationsListView, StudentRegistrationsListView,VCRegistrationsListView, IndustryRegistrationsListView
 from dashboard.registrations.registration_details import startup_registration_details,Researcher_registration_details, student_registration_details,vc_registration_details, industry_registration_details
@@ -35,10 +35,10 @@ urlpatterns = [
     path('registrations/sme/<str:registration_status>/', sme_registrations, name='sme_registrations'),
         
 
-
+    # sme registrations
     path('registrations/v2/researchers', ResearcherRegistrationsListView.as_view(), name='researcher_registrations_list'),
     path('registrations/v2/researcher/<int:pk>', Researcher_registration_details, name='researcher_registration_details'),
-    path('registrations/sme/approve_registration', sme_approve_registrations, name='sme_approve_registrations'),
+    path('registrations/sme/approve_registration', sme_approve_registration, name='sme_approve_registration'),
 
     
     # startup registrations
@@ -49,7 +49,7 @@ urlpatterns = [
     # student registrations
     path('registrations/v2/students', StudentRegistrationsListView.as_view(), name='student_registrations_list'),
     path('registrations/v2/student/<int:pk>', student_registration_details, name='student_registration_details'),
-    path('registrations/student/approve_registration', student_approve_registration, name='student_approve_registrations'),
+    path('registrations/student/approve_registration', student_approve_registration, name='student_approve_registration'),
 
     # vc registrations
     path('registrations/v2/vc', VCRegistrationsListView.as_view(), name='vc_registrations_list'),

@@ -176,6 +176,7 @@ class StudentRegistrationsListView(FilterView):
         state=self.request.GET.get('state')
         highest_qualification=self.request.GET.get('highest_qualification')
         paper_published=self.request.GET.get('paper_published')
+        status = self.request.GET.get('status')
       
         if area_of_interest:
             filters &= Q(area_of_interest=area_of_interest)
@@ -193,7 +194,8 @@ class StudentRegistrationsListView(FilterView):
             filters &= Q(highest_qualification=highest_qualification)
         if paper_published:
             filters &= Q(paper_published=paper_published)
-      
+        if status:
+            filters &= Q(status=status)
 
         queryset = queryset.filter(filters)
         return queryset

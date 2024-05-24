@@ -146,7 +146,16 @@ student details
                
             <div class="d-grid gap-2 d-md-flex justify-content-center">
                 <button class="btn btn-primary me-md-2" type="button"><a href="{% url 'student_registrations_list' %}" style="color: white;"> Go Back</a></button>
-                
+                {% if student.status == 'pending' %}
+                    <a href="{% url 'admin:registrations_studentregistrations_change' student.id|escapejs %}" target="_blank">
+                        <button class="btn btn-warning me-md-2" type="button">
+                            Edit Student Registration
+                        </button>
+                    </a>  
+                    <button class="btn btn-info me-md-2" onclick="showApproveConfirmation('{{ student.id|escapejs }}')" type="button">Approve registration</button>
+                {% elif student.status == 'approved' %}
+                    <button class="btn btn-success me-md-2" type="button">Registration approved</button>
+                {% endif %}
             </div>
             
            
@@ -184,6 +193,79 @@ student details
         document.getElementById('id_district').value = '';
         document.getElementById('id_founding_experience').value = '';
         document.querySelector('form').submit();
+    }
+    function showApproveConfirmation(registration_id) {
+        event.preventDefault();
+        Swal.fire({
+            text: "Do you really want to approve?",
+            icon: "warning",
+            showCancelButton: true,
+            buttonsStyling: false,
+            confirmButtonText: "Yes, approve it!",
+            cancelButtonText: "No",
+            customClass: {
+                confirmButton: "btn btn-primary",
+                cancelButton: "btn btn-active-light"
+            }
+        }).then(function(result) {
+            if (result.value) {
+                // Make AJAX request to approve registration
+                approveRegistration(registration_id);
+            } else if (result.dismiss === 'cancel') {
+                Swal.fire({
+                    text: "Approval has been halted! You can approve again later.",
+                    icon: "error",
+                    buttonsStyling: false,
+                    confirmButtonText: "Ok, got it!",
+                    customClass: {
+                        confirmButton: "btn btn-primary",
+                    }
+                });
+            }
+        });
+    }
+
+    function approveRegistration(registration_id) {
+        // Make AJAX request
+        $.ajax({
+            url: '{% url 'student_approve_registration' %}',
+            type: 'POST',
+            data: {
+                'registration_id': registration_id,
+                csrfmiddlewaretoken: '{{ csrf_token }}' // Include CSRF token
+            },
+            success: function(response) {
+                if (response.success) {
+                    // Registration approved
+                    Swal.fire({
+                        text: "Approved!",
+                        icon: "success",
+                        buttonsStyling: false,
+                        confirmButtonText: "Ok",
+                        customClass: {
+                            confirmButton: "btn btn-primary",
+                        }
+                    }).then(function() {
+                        location.reload(); // Reload the page after approval
+                    });
+                } else {
+                    // Approval failed
+                    Swal.fire({
+                        text: "Not approved!",
+                        icon: "error",
+                        buttonsStyling: false,
+                        confirmButtonText: "Ok",
+                        customClass: {
+                            confirmButton: "btn btn-primary",
+                        }
+                    });
+                }
+            },
+            error: function(xhr, status, error) {
+                // Error handling
+                console.error(xhr.responseText);
+            }
+        });
     }
 </script>
 {%endblock %}

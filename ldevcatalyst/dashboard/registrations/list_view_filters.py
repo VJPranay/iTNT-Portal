@@ -116,6 +116,11 @@ class StudentRegistrationsFilter(django_filters.FilterSet):
         choices=ResearcherRegistrations.objects.values_list('highest_qualification', 'highest_qualification').distinct(),
         label='Highest Qualification'
     )
+    registration_status = django_filters.ChoiceFilter(
+        field_name='status',
+        choices=[('pending', 'pending'), ('approved', 'approved')], # add , ('rejected', 'rejected') if they ask]
+        widget=forms.Select(attrs={'class': 'form-select'})
+    )
 
     class Meta:
         model = StudentRegistrations

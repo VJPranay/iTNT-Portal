@@ -50,7 +50,7 @@ def sme_registrations(request,registration_status=None,area_of_interest=None):
 
 
 @login_required
-def sme_approve_registrations(request):
+def sme_approve_registration(request):
     if request.method == 'POST':
         registration_id = request.POST.get('registration_id', None)
         if not registration_id:
