@@ -1,0 +1,79 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block breadcrums %}
+<!--begin::Breadcrumb-->
+<ul class="breadcrumb breadcrumb-separatorless fw-semibold">
+    <!--begin::Item-->
+    <li class="breadcrumb-item text-white fw-bold lh-1">
+        <a href="{% url 'dashboard_index' %}" class="text-white text-hover-primary">
+            <i class="ki-outline ki-home text-gray-700 fs-6"></i>
+        </a>
+    </li>
+    <!--end::Item-->
+    <!--begin::Item-->
+    <li class="breadcrumb-item">
+        <i class="ki-outline ki-right fs-7 text-gray-700 mx-n1"></i>
+    </li>
+    <!--end::Item-->
+    <!--begin::Item-->
+    <li class="breadcrumb-item text-white fw-bold lh-1">SME Connect</li>
+    <!--end::Item-->
+    <!--begin::Item-->
+    <li class="breadcrumb-item">
+        <i class="ki-outline ki-right fs-7 text-gray-700 mx-n1"></i>
+    </li>
+    <!--end::Item-->
+    <!--begin::Item-->
+    <li class="breadcrumb-item text-white fw-bold lh-1">Sent requests</li>
+    <!--end::Item-->
+</ul>
+<!--end::Breadcrumb-->
+{% endblock  %}
+
+{% block pageheading %}
+SME Connect
+{% endblock  %}
+
+{% block pagedescription %}
+Sent requests
+{% endblock  %}
+
+{% block page_content %}
+<div class="d-flex flex-column flex-column-fluid">
+    <!--begin::Content-->
+    <div id="kt_app_content" class="app-content flex-column-fluid">
+        <!--begin::Contacts App- View Contact-->
+        <div class="row g-7 justify-content-center">
+            <div class="col-lg-6 col-xl-6">
+                <!--begin::Contact group wrapper-->
+                <div class="card card-flush">
+                    <!--begin::Card header-->
+                    <div class="card-header pt-7" id="kt_chat_contacts_header">
+                        <!--begin::Card title-->
+                        <div class="card-title">
+                                <h1>Meeting Requests</h1>
+                                <h2>Sent Requests</h2>
+                        </div>
+                        <div class="card-body">
+                                <ul>
+                                    {% for request in sent_requests %}
+                                    <li><a href="{% url 'meeting_request_detail' request.pk %}">{{ request.receiver }} - {{ request.date }} {{ request.time }}</a></li>
+                                    {% endfor %}
+                                </ul>
+
+                                <h2>Received Requests</h2>
+                                <ul>
+                                    {% for request in received_requests %}
+                                    <li><a href="{% url 'meeting_request_detail' request.pk %}">{{ request.sender }} - {{ request.date }} {{ request.time }}</a></li>
+                                    {% endfor %}
+                                </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

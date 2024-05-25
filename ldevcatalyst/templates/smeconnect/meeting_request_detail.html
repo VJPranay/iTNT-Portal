@@ -1,0 +1,75 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block breadcrums %}
+<!--begin::Breadcrumb-->
+<ul class="breadcrumb breadcrumb-separatorless fw-semibold">
+    <!--begin::Item-->
+    <li class="breadcrumb-item text-white fw-bold lh-1">
+        <a href="{% url 'dashboard_index' %}" class="text-white text-hover-primary">
+            <i class="ki-outline ki-home text-gray-700 fs-6"></i>
+        </a>
+    </li>
+    <!--end::Item-->
+    <!--begin::Item-->
+    <li class="breadcrumb-item">
+        <i class="ki-outline ki-right fs-7 text-gray-700 mx-n1"></i>
+    </li>
+    <!--end::Item-->
+    <!--begin::Item-->
+    <li class="breadcrumb-item text-white fw-bold lh-1">SME Connect</li>
+    <!--end::Item-->
+    <!--begin::Item-->
+    <li class="breadcrumb-item">
+        <i class="ki-outline ki-right fs-7 text-gray-700 mx-n1"></i>
+    </li>
+    <!--end::Item-->
+    <!--begin::Item-->
+    <li class="breadcrumb-item text-white fw-bold lh-1">Request details</li>
+    <!--end::Item-->
+</ul>
+<!--end::Breadcrumb-->
+{% endblock  %}
+
+{% block pageheading %}
+SME Connect
+{% endblock  %}
+
+{% block pagedescription %}
+request details
+{% endblock  %}
+
+{% block page_content %}
+<div class="d-flex flex-column flex-column-fluid">
+    <!--begin::Content-->
+    <div id="kt_app_content" class="app-content flex-column-fluid">
+        <!--begin::Contacts App- View Contact-->
+        <div class="row g-7 justify-content-center">
+            <div class="col-lg-6 col-xl-6">
+                <!--begin::Contact group wrapper-->
+                <div class="card card-flush">
+                    <!--begin::Card header-->
+                    <div class="card-header pt-7" id="kt_chat_contacts_header">
+                        <!--begin::Card title-->
+                        <div class="card-title">
+                                <h1>Meeting Request Detail</h1>
+                        </div>
+                        <div class="card-body">
+                                <p>Sender: {{ meeting_request.sender }}</p>
+                                <p>Receiver: {{ meeting_request.receiver }}</p>
+                                <p>Date: {{ meeting_request.date }}</p>
+                                <p>Time: {{ meeting_request.time }}</p>
+                                <p>Type: {{ meeting_request.get_meeting_type_display }}</p>
+                                <p>Link: {{ meeting_request.meeting_link }}</p>
+                                <p>Notes: {{ meeting_request.notes }}</p>
+                                <p>Status: {{ meeting_request.get_status_display }}</p>
+                                <a href="{% url 'meeting_request_update' meeting_request.pk %}">Update Status</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
