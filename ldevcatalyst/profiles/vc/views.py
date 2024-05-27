@@ -53,7 +53,7 @@ def fetch_vc_profiles(request):
             vc_profiles.append({
                 'vc_id': profile.id,
                 'firm_name': profile.firm_name,
-                'funding_stage': ', '.join([stage.name for stage in profile.funding_stage.all()]) if profile.funding_stage.exists() else None,
+                'partner_name': profile.partner_name,
             })
         return JsonResponse(vc_profiles, safe=False)
     else:
@@ -90,13 +90,13 @@ def fetch_vc_details(request):
 															<!--begin::Email-->
 															<div class="d-flex align-items-center gap-2">
 																<i class="ki-outline ki-sms fs-2"></i>
-																<a href="#" class="text-muted text-hover-primary">"""+escape(vc.area_of_interest.name)+"""</a>
+																<a href="#" class="text-muted text-hover-primary">"""+escape(vc.partner_name)+"""</a>
 															</div>
 															<!--end::Email-->
 															<!--begin::Phone-->
 															<div class="d-flex align-items-center gap-2">
 																<i class="ki-outline ki-phone fs-2"></i>
-																<a href="#" class="text-muted text-hover-primary">"""+escape(vc.funding_stage.name if vc.funding_stage else None)+"""</a>
+																<a href="#" class="text-muted text-hover-primary">"""+escape(vc.fund_type)+"""</a>
 															</div>
 															<!--end::Phone-->
 														</div>
