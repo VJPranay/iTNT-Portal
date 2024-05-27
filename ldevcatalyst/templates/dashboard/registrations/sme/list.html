@@ -321,7 +321,7 @@ sme
     function approveRegistration(registration_id) {
         // Make AJAX request
         $.ajax({
-            url: '{% url 'sme_approve_registrations' %}',
+            url: '{% url "sme_approve_registration" %}',
             type: 'POST',
             data: {
                 'registration_id': registration_id,

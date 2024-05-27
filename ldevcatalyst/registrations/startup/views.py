@@ -127,6 +127,7 @@ def startup_approve_registration(request):
                         approved = True
                     )
                     startup_profile.save()
+                   
                     print(startup_profile.id)
                     email_host = settings.email_host
                     email_port = settings.email_port

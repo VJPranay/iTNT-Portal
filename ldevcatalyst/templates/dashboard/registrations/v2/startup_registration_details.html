@@ -143,9 +143,15 @@ startup details
                                         <h4>{% if startup.development_stage %}{{ startup.development_stage }}{% else %}N/A{% endif %}</h4>
                                     </div>
                                     <div class="col-md-6">
-                                        <h4 style="color: #007bff;">Founder Name</h4>
-                                        <h4>{% if startup.founder_names %}{{ startup.founder_names }}{% else %}N/A{% endif %}</h4>
-                                    </div>
+                                        <h4 style="color: #007bff;">Development stage document</h4>
+                                        <h4>
+                                            {% if startup.development_stage_document %}
+                                                <a href="{{ startup.development_stage_document.url }}" style="color: black;" target="_blank">{{ startup.development_stage_document.url }}</a>
+                                            {% else %}
+                                                N/A
+                                            {% endif %}
+                                        </h4>
+                                    </div> 
                                 </div>
                                 <div class="row mb-4">
                                     <div class="col-md-6">
@@ -208,26 +214,30 @@ startup details
                                         <p>{% if startup.company_description %}{{ startup.company_description }}{% else %}N/A{% endif %}</p>
                                     </div>
                                 </div>
+                                {% if cofounders.exists %}
+                                {% for cofounder in cofounders %}
                                 <div class="row mb-4">
                                     <div class="col-md-6">
                                         <h4 style="color: #007bff;">Co Founder Name</h4>
-                                        <h4>{% if startup.founder_names %}{{ startup.founder_names }}{% else %}N/A{% endif %}</h4>
+                                        <h4>{% if cofounder.name %}{{  cofounder.name }}{% else %}N/A{% endif %}</h4>
                                     </div>
                                     <div class="col-md-6">
                                         <h4 style="color: #007bff;">Mobile</h4>
-                                        <h4>{% if startup.mobile %}{{ startup.mobile }}{% else %}N/A{% endif %}</h4>
+                                        <h4>{% if cofounder.mobile %}{{ cofounder.mobile }}{% else %}N/A{% endif %}</h4>
                                     </div>
                                 </div>
                                 <div class="row mb-4">
                                     <div class="col-md-6">
                                         <h4 style="color: #007bff;">Email</h4>
-                                        <h4>{% if startup.email %}{{ startup.email }}{% else %}N/A{% endif %}</h4>
+                                        <h4>{% if cofounder.email %}{{ cofounder.email}}{% else %}N/A{% endif %}</h4>
                                     </div>
                                     <div class="col-md-6">
                                         <h4 style="color: #007bff;">Gender</h4>
-                                        <h4>{% if startup.gender %}{{ startup.gender }}{% else %}N/A{% endif %}</h4>
+                                        <h4>{% if cofounder.gender %}{{ cofounder.gender }}{% else %}N/A{% endif %}</h4>
                                     </div>
                                 </div>
+                                {% endfor %}
+                                {% endif %}
                                 <div class="row mb-4">
                                     <div class="col-md-6">
                                         <h4 style="color: #007bff;">Team Size</h4>
@@ -248,18 +258,7 @@ startup details
                                         <h4>{% if startup.reveune_stage %}{{ startup.reveune_stage.name }}{% else %}N/A{% endif %}</h4>
                                     </div>
                                 </div>
-                                <div class="row mb-4">               
-                                    <div class="col-md-6">
-                                        <h4 style="color: #007bff;">Development stage document</h4>
-                                        <h4>
-                                            {% if startup.development_stage_document %}
-                                                <a href="{{ startup.development_stage_document.url }}" style="color: black;" target="_blank">{{ startup.development_stage_document.url }}</a>
-                                            {% else %}
-                                                N/A
-                                            {% endif %}
-                                        </h4>
-                                    </div>          
-                               </div>
+                               
                                           
                             <br>
                 <!--end::Contact group wrapper-->

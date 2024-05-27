@@ -3,7 +3,7 @@ from .industry.views import industry_registration,fetch_industry_registration_de
 from .student.views import student_registration,fetch_student_registration_details
 from .vc.views import vc_registration,vc_registration_details
 from .startup.views import startup_registration,fetch_startup_registration_details, startup_approve_registration
-from .sme.views import sme_registration,fetch_sme_registration_details
+from .sme.views import sme_registration,fetch_sme_registration_details,sme_approve_registration
 
 
 urlpatterns = [
@@ -25,6 +25,7 @@ urlpatterns = [
     #sme
     path('sme/details/', fetch_sme_registration_details, name='sme_registration_details'),
     path('sme/', sme_registration, name='sme_registration'),
+    path('sme/approve/', sme_approve_registration, name='sme_approve_registration'),
 
 
 ]
