@@ -118,7 +118,7 @@ Researcher Profile's
                                                                         N/A
                                                                     {% endif %}
                                                                 </td>                                                               
-                                                                <td><a href="{% url 'researcher_registration_details' researcher.id  %}" class="btn btn-primary" >View Details</a></td>
+                                                                <td><a href="{% url 'researcher_registration_details' researcher.id  %}?{{ request.GET.urlencode }}" class="btn btn-primary" >View Details</a></td>
                                                             </tr>
                                                             {% endfor %}
                                                         </tbody>
@@ -127,16 +127,16 @@ Researcher Profile's
                                                         <ul class="pagination justify-content-center">
                                                             {% if is_paginated %}
                                                                 {% if page_obj.has_previous %}
-                                                                    <li class="page-item"><a class="page-link" href="?page=1">First</a></li>
-                                                                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a></li>
+                                                                    <li class="page-item"><a class="page-link" href="?{% if request.GET %}{{ request.GET.urlencode }}&{% endif %}page=1">First</a></li>
+                                                                    <li class="page-item"><a class="page-link" href="?{% if request.GET %}{{ request.GET.urlencode }}&{% endif %}page={{ page_obj.previous_page_number }}">Previous</a></li>
                                                                 {% else %}
                                                                     <li class="page-item disabled"><span class="page-link">First</span></li>
                                                                     <li class="page-item disabled"><span class="page-link">Previous</span></li>
                                                                 {% endif %}
                                                                 <li class="page-item active"><span class="page-link">{{ page_obj.number }}</span></li>
                                                                 {% if page_obj.has_next %}
-                                                                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a></li>
-                                                                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Last</a></li>
+                                                                    <li class="page-item"><a class="page-link" href="?{% if request.GET %}{{ request.GET.urlencode }}&{% endif %}page={{ page_obj.next_page_number }}">Next</a></li>
+                                                                    <li class="page-item"><a class="page-link" href="?{% if request.GET %}{{ request.GET.urlencode }}&{% endif %}page={{ page_obj.paginator.num_pages }}">Last</a></li>
                                                                 {% else %}
                                                                     <li class="page-item disabled"><span class="page-link">Next</span></li>
                                                                     <li class="page-item disabled"><span class="page-link">Last</span></li>
@@ -185,6 +185,7 @@ Researcher Profile's
         document.getElementById('id_gender').value = '';
         document.getElementById('id_highest_qualification').value = '';
         document.getElementById('id_publications').value = '';
+        document.getElementById('id_status').value = '';
         document.querySelector('form').submit();
     }
 </script>

@@ -24,7 +24,7 @@ class StartUpRegistraionsFilter(django_filters.FilterSet):
         label='Gender',
     )
     
-    registration_status = django_filters.ChoiceFilter(
+    status = django_filters.ChoiceFilter(
         field_name='status',
         choices=[('pending', 'pending'), ('approved', 'approved')], # add , ('rejected', 'rejected') if they ask]
         widget=forms.Select(attrs={'class': 'form-select'})
@@ -32,7 +32,7 @@ class StartUpRegistraionsFilter(django_filters.FilterSet):
     
     class Meta:
         model = StartUpRegistrations
-        fields = ['state','district','area_of_interest','year_of_establishment','fund_raised','gender','development_stage','primary_business_model','reveune_stage','dpiit_number']
+        fields = ['state','district','area_of_interest','year_of_establishment','fund_raised','gender','development_stage','primary_business_model','reveune_stage','dpiit_number', 'status']
    
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -69,7 +69,7 @@ class ResearcherRegistrationsFilter(django_filters.FilterSet):
         choices=ResearcherRegistrations.objects.values_list('highest_qualification', 'highest_qualification').distinct(),
         label='Highest Qualification'
     )
-    registration_status = django_filters.ChoiceFilter(
+    status = django_filters.ChoiceFilter(
         field_name='status',
         choices=[('pending', 'pending'), ('approved', 'approved')], # add , ('rejected', 'rejected') if they ask]
         widget=forms.Select(attrs={'class': 'form-select'})
@@ -77,7 +77,7 @@ class ResearcherRegistrationsFilter(django_filters.FilterSet):
     
     class Meta:
         model = ResearcherRegistrations
-        fields = ['state','district','area_of_interest','department', 'institution', 'gender', 'highest_qualification', 'publications']
+        fields = ['state','district','area_of_interest','department', 'institution', 'gender', 'highest_qualification', 'publications', 'status']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -116,7 +116,7 @@ class StudentRegistrationsFilter(django_filters.FilterSet):
         choices=ResearcherRegistrations.objects.values_list('highest_qualification', 'highest_qualification').distinct(),
         label='Highest Qualification'
     )
-    registration_status = django_filters.ChoiceFilter(
+    status = django_filters.ChoiceFilter(
         field_name='status',
         choices=[('pending', 'pending'), ('approved', 'approved')], # add , ('rejected', 'rejected') if they ask]
         widget=forms.Select(attrs={'class': 'form-select'})
@@ -124,7 +124,7 @@ class StudentRegistrationsFilter(django_filters.FilterSet):
 
     class Meta:
         model = StudentRegistrations
-        fields = [ 'state','district','area_of_interest','department','institution','gender','highest_qualification','paper_published']
+        fields = [ 'state','district','area_of_interest','department','institution','gender','highest_qualification','paper_published', 'status']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -160,7 +160,7 @@ class VCRegistrationsFilter(django_filters.FilterSet):
         choices=VCRegistrations.objects.values_list('funding_stage', 'funding_stage').distinct(),
         label='Funding stage'
     )   
-    registration_status = django_filters.ChoiceFilter(
+    status = django_filters.ChoiceFilter(
         field_name='status',
         choices=[('pending', 'pending'), ('approved', 'approved')], # add , ('rejected', 'rejected') if they ask]
         widget=forms.Select(attrs={'class': 'form-select'})
@@ -168,7 +168,7 @@ class VCRegistrationsFilter(django_filters.FilterSet):
         
     class Meta:
         model = VCRegistrations
-        fields = ['state','district','area_of_interest','funding_stage','fund_type']
+        fields = ['state','district','area_of_interest','funding_stage','fund_type', 'status']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -187,7 +187,7 @@ class VCRegistrationsFilter(django_filters.FilterSet):
 
 
 class IndustryRegistrationsFilter(django_filters.FilterSet):
-    registration_status = django_filters.ChoiceFilter(
+    status = django_filters.ChoiceFilter(
         field_name='status',
         choices=[('pending', 'pending'), ('approved', 'approved')], # add , ('rejected', 'rejected') if they ask]
         widget=forms.Select(attrs={'class': 'form-select'})
@@ -209,7 +209,7 @@ class IndustryRegistrationsFilter(django_filters.FilterSet):
 
     class Meta:
         model = IndustryRegistrations
-        fields = ['state', 'district', 'industry', 'area_of_interest','state']
+        fields = ['state', 'district', 'industry', 'area_of_interest','status']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
