@@ -164,7 +164,7 @@ Developed by https://LDev.in
 					<!--end::Header container-->
 				</div>
 				<!--end::Header-->
-				{% if messages %}
+				{% comment %} {% if messages %}
 				<div class="app-container container-xxl align-items-stretch justify-content-between" style="padding-top: 10px;">
 					{% for message in messages %}
 			
@@ -185,7 +185,7 @@ Developed by https://LDev.in
 						</div>
 					{% endfor %}
 				</div>
-				{% endif %}
+				{% endif %} {% endcomment %}
 				<!--begin::Wrapper-->
 				<div class="app-wrapper flex-column flex-row-fluid" id="kt_app_wrapper">
 					<!--begin::Toolbar-->

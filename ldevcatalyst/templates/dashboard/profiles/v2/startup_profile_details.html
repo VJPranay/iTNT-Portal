@@ -263,6 +263,7 @@ startup details
                                 </div>
                                 {% endif %}                     
                             <br>
+                           
                 <!--end::Contact group wrapper-->
             </div>
            
@@ -274,6 +275,11 @@ startup details
 <br>
 <div class="d-grid gap-2 d-md-flex justify-content-center">
     <button class="btn btn-warning me-md-2" type="button"><a href="{% url 'startup_profiles_list' %}" style="color: white;"> Go Back</a></button>
+    {% if user.user_role == 5 %}
+    {% if meeting_exists == 'false' %}
+        <button class="btn btn-primary me-md-2" type="button"><a href="{% url 'meeting_request_create' receiver_id=startup.user.id %}" style="color: white;">Send meeting request</a></button>
+    {% endif %}
+{% endif %} 
     {% if request.user.user_role == 1 or request.user.user_role == 2 %}
     {% endif %}     
 

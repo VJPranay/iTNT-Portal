@@ -26,19 +26,19 @@
     </li>
     <!--end::Item-->
     <!--begin::Item-->
-    <li class="breadcrumb-item text-white fw-bold lh-1">Sent requests</li>
+    <li class="breadcrumb-item text-white fw-bold lh-1">Meeting request</li>
     <!--end::Item-->
 </ul>
 <!--end::Breadcrumb-->
-{% endblock  %}
+{% endblock %}
 
 {% block pageheading %}
 SME Connect
-{% endblock  %}
+{% endblock %}
 
 {% block pagedescription %}
 Sent requests
-{% endblock  %}
+{% endblock %}
 
 {% block page_content %}
 <div class="d-flex flex-column flex-column-fluid">
@@ -46,33 +46,77 @@ Sent requests
     <div id="kt_app_content" class="app-content flex-column-fluid">
         <!--begin::Contacts App- View Contact-->
         <div class="row g-7 justify-content-center">
+            <!--begin::Column for Sent Requests-->
             <div class="col-lg-6 col-xl-6">
-                <!--begin::Contact group wrapper-->
                 <div class="card card-flush">
-                    <!--begin::Card header-->
-                    <div class="card-header pt-7" id="kt_chat_contacts_header">
-                        <!--begin::Card title-->
+                    <div class="card-header pt-7">
                         <div class="card-title">
-                                <h1>Meeting Requests</h1>
-                                <h2>Sent Requests</h2>
+                            <h2>Sent Requests</h2>
                         </div>
-                        <div class="card-body">
-                                <ul>
-                                    {% for request in sent_requests %}
-                                    <li><a href="{% url 'meeting_request_detail' request.pk %}">{{ request.receiver }} - {{ request.date }} {{ request.time }}</a></li>
-                                    {% endfor %}
-                                </ul>
-
-                                <h2>Received Requests</h2>
-                                <ul>
-                                    {% for request in received_requests %}
-                                    <li><a href="{% url 'meeting_request_detail' request.pk %}">{{ request.sender }} - {{ request.date }} {{ request.time }}</a></li>
-                                    {% endfor %}
-                                </ul>
-                        </div>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Receiver</th>
+                                    <th>Date</th>
+                                    <th>Time</th>
+                                    <th>Status</th>
+                                    <th>Detail</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for request in sent_requests %}
+                                <tr>
+                                    <td>{{ request.receiver }}</td>
+                                    <td>{{ request.date }}</td>
+                                    <td>{{ request.time  }}</td>
+                                    <td>{{ request.status }}</td>
+                                    <td><a href="{% url 'meeting_request_detail' request.pk %}">View</a></td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
+            <!--end::Column for Sent Requests-->
+
+            <!--begin::Column for Received Requests-->
+            <div class="col-lg-6 col-xl-6">
+                <div class="card card-flush">
+                    <div class="card-header pt-7">
+                        <div class="card-title">
+                            <h2>Received Requests</h2>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Sender</th>
+                                    <th>Date</th>
+                                    <th>Time</th>
+                                    <th>Status</th>
+                                    <th>Detail</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for request in received_requests %}
+                                <tr>
+                                    <td>{{ request.sender }}</td>
+                                    <td>{{ request.date }}</td>
+                                    <td>{{ request.time }}</td>
+                                    <td>{{ request.status }}</td>
+                                    <td><a href="{% url 'meeting_request_detail' request.pk %}">View</a></td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!--end::Column for Received Requests-->
         </div>
     </div>
 </div>

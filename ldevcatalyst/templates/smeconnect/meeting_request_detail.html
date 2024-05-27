@@ -30,15 +30,15 @@
     <!--end::Item-->
 </ul>
 <!--end::Breadcrumb-->
-{% endblock  %}
+{% endblock %}
 
 {% block pageheading %}
 SME Connect
-{% endblock  %}
+{% endblock %}
 
 {% block pagedescription %}
-request details
-{% endblock  %}
+Request Details
+{% endblock %}
 
 {% block page_content %}
 <div class="d-flex flex-column flex-column-fluid">
@@ -53,19 +53,47 @@ request details
                     <div class="card-header pt-7" id="kt_chat_contacts_header">
                         <!--begin::Card title-->
                         <div class="card-title">
-                                <h1>Meeting Request Detail</h1>
+                            <h2>Meeting Request Detail</h2>
                         </div>
-                        <div class="card-body">
-                                <p>Sender: {{ meeting_request.sender }}</p>
-                                <p>Receiver: {{ meeting_request.receiver }}</p>
-                                <p>Date: {{ meeting_request.date }}</p>
-                                <p>Time: {{ meeting_request.time }}</p>
-                                <p>Type: {{ meeting_request.get_meeting_type_display }}</p>
-                                <p>Link: {{ meeting_request.meeting_link }}</p>
-                                <p>Notes: {{ meeting_request.notes }}</p>
-                                <p>Status: {{ meeting_request.get_status_display }}</p>
-                                <a href="{% url 'meeting_request_update' meeting_request.pk %}">Update Status</a>
+                    </div>
+                    <div class="card-body">
+                        {% if messages %}
+                        <div class="alert alert-success">
+                            {% for message in messages %}
+                                {{ message }}
+                            {% endfor %}
                         </div>
+                        {% endif %}
+                        <div class="mb-3">
+                            <strong>Sender:</strong> {{ meeting_request.sender }}
+                        </div>
+                        <div class="mb-3">
+                            <strong>Receiver:</strong> {{ meeting_request.receiver }}
+                        </div>
+                        <div class="mb-3">
+                            <strong>Date:</strong> {{ meeting_request.date }}
+                        </div>
+                        <div class="mb-3">
+                            <strong>Time:</strong> {{ meeting_request.time }}
+                        </div>
+                        <div class="mb-3">
+                            <strong>Type:</strong> {{ meeting_request.get_meeting_type_display }}
+                        </div>
+                        <div class="mb-3">
+                            <strong>Link:</strong> <a href="{{ meeting_request.meeting_link }}" target="_blank">{{ meeting_request.meeting_link }}</a>
+                        </div>
+                        <div class="mb-3">
+                            <strong>Notes:</strong> {{ meeting_request.notes }}
+                        </div>
+                        <div class="mb-3">
+                            <strong>Status:</strong> {{ meeting_request.get_status_display }}
+                        </div>
+                        {% if meeting_request.receiver == user and meeting_request.status == 'sent' %}
+                        <div class="mb-3 text-center">
+                            <a href="{% url 'meeting_request_accept' meeting_request.pk %}" class="btn btn-success mx-2">Accept</a>
+                            <a href="{% url 'meeting_request_reject' meeting_request.pk %}" class="btn btn-danger mx-2">Reject</a>
+                        </div>
+                        {% endif %}
                     </div>
                 </div>
             </div>
