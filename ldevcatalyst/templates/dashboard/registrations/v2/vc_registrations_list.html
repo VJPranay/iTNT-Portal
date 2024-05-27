@@ -125,7 +125,8 @@ VC
                                                                     {% endfor %}
                                                                 {% else %}
                                                                     N/A
-                                                                {% endif %}</td>                                                                <td><a href="{% url 'vc_registration_details' vc.id %}" class="btn btn-primary">View Details</a></td>
+                                                                {% endif %}</td>                                                                
+                                                                <td><a href="{% url 'vc_registration_details' vc.id %}?{{ request.GET.urlencode }}" class="btn btn-primary">View Details</a></td>
                                                             </tr>
                                                             {% endfor %}
                                                         </tbody>
@@ -189,6 +190,7 @@ VC
         document.getElementById('id_funding_stage').value = '';
         document.getElementById('id_state').value = '';
         document.getElementById('id_fund_type').value = '';
+        document.getElementById('id_status').value = '';
         document.querySelector('form').submit();
     }
 </script>

@@ -107,7 +107,8 @@ Industry details
                 </div>
                 <br>
                 <div class="d-grid gap-2 d-md-flex justify-content-center">
-                    <button class="btn btn-primary me-md-2" type="button"><a href="{% url 'industry_registrations_list' %}" style="color: white;"> Go Back</a></button>
+                    <!-- <button class="btn btn-primary me-md-2" type="button"><a href="{% url 'industry_registrations_list' %}" style="color: white;"> Go Back</a></button> -->
+                    <button class="btn btn-primary me-md-2" type="button"><a href="{% url 'industry_registrations_list' %}?{{ request.GET.urlencode }}" style="color: white;"> Go Back</a></button>
                     {% if industry.status == 'pending' %}
                         <a href="{% url 'admin:registrations_industryregistrations_change' industry.id|escapejs %}" target="_blank">
                             <button class="btn btn-warning me-md-2" type="button">

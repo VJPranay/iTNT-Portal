@@ -118,7 +118,7 @@ industry's
                                                                 {% else %}
                                                                     N/A
                                                                 {% endif %}</td>                                                                
-                                                                <td><a href="{% url 'industry_registration_details' industry.id %}" class="btn btn-primary">View Details</a></td>
+                                                                <td><a href="{% url 'industry_registration_details' industry.id %}?{{ request.GET.urlencode }}" class="btn btn-primary">View Details</a></td>
                                                             </tr>
                                                             {% endfor %}
                                                         </tbody>
@@ -181,6 +181,7 @@ industry's
         document.getElementById('id_district').value = '';
         document.getElementById('id_industry').value = '';
         document.getElementById('id_state').value = '';
+        document.getElementById('id_status').value = '';
         document.querySelector('form').submit();
     }
 </script>
