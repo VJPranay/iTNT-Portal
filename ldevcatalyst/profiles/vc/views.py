@@ -21,23 +21,20 @@ from meetings.models import MeetingRequests
 
 @login_required
 def vc_list(request):
-    #get all area of interests with profile count
+    # get all areas of interest with profile count
     areas_q = AreaOfInterest.objects.filter(is_approved=True)
     areas_list = []
     for x in areas_q:
         temp = {
-            'id' : x.id,
-            'name' : x.name,
-            'count' : VC.objects.filter(
-                area_of_interest_id = x.id
-            ).count()
+            'id': x.id,
+            'name': x.name,
+            'count': VC.objects.filter(area_of_interest=x).count()  # Count of related VC profiles
         }
         areas_list.append(temp)
     template_data = {
-        'areas_list' : areas_list
+        'areas_list': areas_list
     }
-    return render(request,'dashboard/profiles/vc/list.html',context=template_data)
-
+    return render(request, 'dashboard/profiles/vc/list.html', context=template_data)
 
 @login_required
 def fetch_vc_profiles(request):
@@ -46,19 +43,22 @@ def fetch_vc_profiles(request):
         area_of_interest_id = data.get('area_category_id')
         if not area_of_interest_id:
             return JsonResponse([], safe=False)
-        vc_profiles_q = VC.objects.filter(
-            area_of_interest_id = area_of_interest_id
-        )
+        
+        # Filter VC profiles associated with the given area of interest
+        area_of_interest = AreaOfInterest.objects.get(id=area_of_interest_id)
+        vc_profiles_q = VC.objects.filter(area_of_interest=area_of_interest)
+        
         vc_profiles = []
         for profile in vc_profiles_q:
             vc_profiles.append({
                 'vc_id': profile.id,
                 'firm_name': profile.firm_name,
-                'funding_stage': profile.funding_stage.name if profile.funding_stage else None,
+                'funding_stage': ', '.join([stage.name for stage in profile.funding_stage.all()]) if profile.funding_stage.exists() else None,
             })
         return JsonResponse(vc_profiles, safe=False)
     else:
         return JsonResponse({'error': 'Invalid request'}, status=400)
+
     
     
 @login_required
