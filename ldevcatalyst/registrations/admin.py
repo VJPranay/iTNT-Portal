@@ -58,7 +58,7 @@ class ResearcherResource(resources.ModelResource):
     patents = fields.Field(
         attribute='patents',
         column_name='patents',
-        widget=ManyToManyWidget(ResearcherRegistrations, field='title', separator=' | ')
+        widget=ManyToManyWidget(PatentInfo, field='title', separator=' | ')
     )
 
 
