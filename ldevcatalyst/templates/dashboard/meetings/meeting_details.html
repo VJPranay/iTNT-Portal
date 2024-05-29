@@ -137,8 +137,8 @@ details
                                     </button>
                                 </div>
                                 <div class="mt-3">
-                                    <button id="confirmMeetingBtn" class="btn btn-danger">
-                                        <i class="bi bi-arrow-left me-2"></i>Reschedule
+                                    <button id="rejectMeetingBtn" class="btn btn-danger">
+                                        <i class="bi bi-arrow-left me-2"></i>Reject
                                     </button>
                                 </div>
                             {% else %}
@@ -185,6 +185,33 @@ details
             formData.append('csrfmiddlewaretoken', '{{ csrf_token }}');
 
             fetch('{% url 'startup_confirm_meeting' %}', {
+                method: 'POST',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: formData
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Handle success, e.g., show a message or redirect
+                    window.location.href = '{% url 'meetings' meeting_status='vc_accepted' %}';
+                } else {
+                    // Handle errors
+                    console.error('Failed to confirm meeting');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    });
+    document.addEventListener('DOMContentLoaded', function () {
+        document.getElementById('rejectMeetingBtn').addEventListener('click', function () {
+            const formData = new FormData();
+            formData.append('meeting_id', '{{ meeting_request.id }}');
+            formData.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+
+            fetch('{% url 'startup_reject_meeting' %}', {
                 method: 'POST',
                 headers: {
                     'X-Requested-With': 'XMLHttpRequest'

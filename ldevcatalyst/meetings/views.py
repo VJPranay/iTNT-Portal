@@ -85,7 +85,7 @@ def fetch_startup_details(request):
             meeting_buttons_html = f"""
                 <div style="margin: 20px;display: flex;">
                     <a href="{reverse('vc_meeting_accept', kwargs={'meeting_id': meeting_info.id})}" id="acceptMeetingRequest" class="btn btn-sm btn-success btn-active-light-success" style="margin: 10px;">Accept meeting request</a>
-                    <a href="#" id="acceptMeetingRequest" class="btn btn-sm btn-danger btn-active-light-danger" style="margin: 10px;">Deny</a>
+                    <a href="{reverse('vc_meeting_reject', kwargs={'meeting_id': meeting_info.id})}" id="rejectMeetingRequest" class="btn btn-sm btn-danger btn-active-light-danger" style="margin: 10px;">Deny</a>
                 </div>
             """
         except MeetingRequests.DoesNotExist:
@@ -337,6 +337,26 @@ def vc_meeting_accept(request, meeting_id):
     return render(request, 'dashboard/meetings/vc/meeting_accept.html', {'form': form, 'meeting_request': meeting_request})
 
 
+@login_required
+def vc_meeting_reject(request, meeting_id):
+    try:
+        meeting_request = MeetingRequests.objects.get(pk=meeting_id, vc__user_id=request.user.id, status='start_up_request')
+    except MeetingRequests.DoesNotExist:
+        return redirect('not_found')
+
+    if request.method == 'POST':
+        form = VCMeetingRequestAcceptForm(request.POST, instance=meeting_request)
+        if form.is_valid():
+            form.save()
+            meeting_info = MeetingRequests.objects.get(id=meeting_id)
+            meeting_info.status = 'rejected'
+            meeting_info.save()
+            return redirect('meeting', meeting_id=meeting_id)
+    else:
+        form = VCMeetingRequestAcceptForm(instance=meeting_request)
+    return render(request, 'dashboard/meetings/vc/meeting_reject.html', {'form': form, 'meeting_request': meeting_request})
+
+
 
 
 @login_required
@@ -428,6 +448,18 @@ def startup_confirm_meeting(request):
         meeting.status = 'scheduled' if meeting.meeting_type == 'offline' else 'online_meeting_link_awaiting'
         meeting.save()
         return JsonResponse({'message': 'Meeting confirmed successfully'}, status=200)
+    else:
+        return JsonResponse({'error': 'Invalid request'}, status=400)
+    
+    
+@login_required
+def startup_reject_meeting(request):
+    if request.method == 'POST':
+        meeting_id = request.POST.get('meeting_id')
+        meeting = MeetingRequests.objects.get(pk=meeting_id)
+        meeting.status = 'rejected'
+        meeting.save()
+        return JsonResponse({'message': 'Meeting rejected successfully'}, status=200)
     else:
         return JsonResponse({'error': 'Invalid request'}, status=400)
 

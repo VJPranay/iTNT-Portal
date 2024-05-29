@@ -169,6 +169,36 @@ VC's
 		});
 	}
 
+
+	function rejectMeetingRequest() {
+		var csrftoken = getCookie('csrftoken');
+		var startupId = $("#startup-id").data('startup-id'); // Get startup ID from data-startup-id attribute
+		$.ajax({
+			type: "POST",
+			url: "{% url 'startup_vc_meeting_request' %}",
+			data: {
+				'startup_id': startupId,
+				'meeting_status': false, // Assuming accepting the meeting request
+				'csrfmiddlewaretoken': csrftoken
+			},
+			success: function(response) {
+				if (response.success === 'true') {
+					// Update link text and disable it
+					$("#rejectMeetingRequest").text('Meeting Request Rejected').addClass('btn-success').removeClass('btn-light btn-active-light-primary').prop('disabled', true);
+					// Reload the page after accepting the meeting request
+					window.location.reload();
+				} else {
+					alert('Failed to reject meeting request.');
+				}
+			},
+			error: function(xhr, textStatus, errorThrown) {
+				alert('Failed to reject meeting request.');
+			}
+		});
+	}
+
+	
+
     function fetchStartupProfiles(areaOfInterestId) {
         var csrftoken = getCookie('csrftoken'); // Function to retrieve CSRF token from cookies
 
