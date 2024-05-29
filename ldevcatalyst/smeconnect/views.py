@@ -78,6 +78,6 @@ def meeting_request_reject(request, pk):
     if meeting_request.status == 'sent':
         meeting_request.status = 'rejected'
         meeting_request.save()
-        messages.success(request, 'Meeting has been rejected.')
+        messages.success(request, 'If you would like to reschedule the meeting, please send a new request.')
     return redirect('meeting_request_detail', pk=pk)
 

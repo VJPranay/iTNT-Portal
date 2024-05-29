@@ -90,6 +90,12 @@ def fetch_startup_details(request):
             """
         except MeetingRequests.DoesNotExist:
             meeting_buttons_html = ""
+        
+        pitch_deck_url  = None
+            
+        if startup.pitch_deck:
+            pitch_deck_url = startup.pitch_deck.url
+            
             
         
 
@@ -143,7 +149,7 @@ def fetch_startup_details(request):
                         <!--begin::Company description-->
                         <div class="d-flex flex-column gap-1">
                             <div class="fw-bold text-muted">Pitch Desk</div>
-                            <a href="{startup.pitch_deck}" class="fw-bold fs-5">{startup.pitch_deck}</a>
+                            <a href="{pitch_deck_url}" class="fw-bold fs-5">{startup.pitch_deck}</a>
                         </div>
                         
                         <!--end::Company description-->
