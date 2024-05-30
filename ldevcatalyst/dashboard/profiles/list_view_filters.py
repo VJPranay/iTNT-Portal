@@ -135,6 +135,10 @@ class VCFilter(django_filters.FilterSet):
         choices=[(obj.id, obj.name) for obj in AreaOfInterest.objects.all()],  # queryset for options
         widget=forms.Select(attrs={'class': 'form-select'})  # Specify the widget as Select
     )
+    funding_stage = django_filters.ChoiceFilter(
+        choices=[(obj.id, obj.name) for obj in PreferredInvestmentStage.objects.all()],
+        widget=forms.Select(attrs={'class': 'form-select'})
+    )
 
     class Meta:
         model = VC

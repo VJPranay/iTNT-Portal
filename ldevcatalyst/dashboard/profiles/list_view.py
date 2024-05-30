@@ -141,6 +141,7 @@ class ResearcherListView(FilterView):
         context['filter'].form.helper = FormHelper()
         context['filter'].form.helper.form_method = 'get'
         context['filter'].form.helper.add_input(Submit('submit', 'Apply Filters', css_class='btn btn-primary'))
+        context['filter_params'] = self.request.GET.urlencode()  # Adding filter params to context
         return context
 
 
@@ -201,6 +202,7 @@ class StudentListView(FilterView):
         context['filter'].form.helper = FormHelper()
         context['filter'].form.helper.form_method = 'get'
         context['filter'].form.helper.add_input(Submit('submit', 'Apply Filters', css_class='btn btn-primary'))
+        context['filter_params'] = self.request.GET.urlencode()  # Adding filter params to context
         return context
 
 
@@ -249,6 +251,7 @@ class VCListView(FilterView):
         context['filter'].form.helper = FormHelper()
         context['filter'].form.helper.form_method = 'get'
         context['filter'].form.helper.add_input(Submit('submit', 'Apply Filters', css_class='btn btn-primary'))
+        context['filter_params'] = self.request.GET.urlencode()  # Adding filter params to context
         return context
 
 
@@ -296,6 +299,7 @@ class IndustryListView(FilterView):
         context['filter'].form.helper = FormHelper()
         context['filter'].form.helper.form_method = 'get'
         context['filter'].form.helper.add_input(Submit('submit', 'Apply Filters', css_class='btn btn-primary'))
+        context['filter_params'] = self.request.GET.urlencode()  # Adding filter params to context
         return context
 
 
