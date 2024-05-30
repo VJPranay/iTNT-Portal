@@ -96,8 +96,17 @@ VC details
                             </div>
                             <div class="col-md-6">
                                 <h4 style="color: #007bff;">Fund Stage</h4>
-                                <h4>{% if vc.funding_stage %}{{ vc.funding_stage.name }}{% else %}N/A{% endif %}</h4>
+                                <h4>
+                                    {% if vc.funding_stage.exists %}
+                                        {% for stage in vc.funding_stage.all %}
+                                            {{ stage.name }}{% if not forloop.last %}, {% endif %}
+                                        {% endfor %}
+                                    {% else %}
+                                        N/A
+                                    {% endif %}
+                                </h4>
                             </div>
+                            
                         </div>
 
                         <div class="row mb-4">
@@ -153,20 +162,16 @@ VC details
                         
                         <div class="row mb-4">
                             <div class="col-md-6">
-                                <h4 style="color: #007bff;">Deal Size Range</h4>
-                                <h4>{% if vc.deal_size_range %}{{ vc.deal_size_range }}{% else %}N/A{% endif %}</h4>
+                                <h4 style="color: #007bff;">Name</h4>
+                                <h4>{% if vc.name %}{{ vc.name }}{% else %}N/A{% endif %}</h4>
                             </div>
+                           
                             <div class="col-md-6">
                                 <h4 style="color: #007bff;">LinkedIn Profile</h4>
                                 <h4>{% if vc.linkedin_profile %}<a style="color:black;" href="{{ vc.linkedin_profile }}">{{ vc.linkedin_profile }}</a>{% else %}N/A{% endif %}</h4>
                             </div>
                         </div>
-                        <div class="row mb-4">      
-                            <div class="col-md-6">
-                                <h4 style="color: #007bff;">Name</h4>
-                                <h4>{% if vc.name %}{{ vc.name }}{% else %}N/A{% endif %}</h4>
-                            </div>
-                        </div>
+                        
                         {% endif %}
                         <!--end-->
                 <!--end::Contact group wrapper-->

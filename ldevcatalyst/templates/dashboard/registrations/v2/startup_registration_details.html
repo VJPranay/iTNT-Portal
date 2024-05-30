@@ -99,7 +99,7 @@ startup details
                                 </div>
                                 <div class="row mb-4">
                                     <div class="col-md-6">
-                                        <h4 style="color: #007bff;">State Name</h4>
+                                        <h4 style="color: #007bff;">State</h4>
                                         <h4>{% if startup.state %}{{ startup.state.name }}{% else %}N/A{% endif %}</h4>
                                     </div>
                                     <div class="col-md-6">
@@ -133,9 +133,10 @@ startup details
                                         <h4>{% if startup.fund_raised %}{{ startup.fund_raised.name }}{% else %}N/A{% endif %}</h4>
                                     </div>
                                     <div class="col-md-6">
-                                        <h4 style="color: #007bff;">Fund Raised Input</h4>
-                                        <h4>{% if startup.fund_raised_input %}{{ startup.fund_raised_input }}{% else %}N/A{% endif %}</h4>
+                                        <h4 style="color: #007bff;">Description</h4>
+                                        <p>{% if startup.company_description %}{{ startup.company_description }}{% else %}N/A{% endif %}</p>
                                     </div>
+                                    
                                 </div>
                                 <div class="row mb-4">
                                     <div class="col-md-6">
@@ -209,10 +210,7 @@ startup details
                                             {% endif %}
                                         </h4>
                                     </div>                                  
-                                    <div class="col-md-6">
-                                        <h4 style="color: #007bff;">Description</h4>
-                                        <p>{% if startup.company_description %}{{ startup.company_description }}{% else %}N/A{% endif %}</p>
-                                    </div>
+                                    
                                 </div>
                                 {% if cofounders.exists %}
                                 {% for cofounder in cofounders %}

@@ -117,7 +117,7 @@ vc details
                                 <h4>{% if vc.state %}{{ vc.state.name }}{% else %}N/A{% endif %}</h4>
                             </div>
                             <div class="col-md-6">
-                                <h4 style="color: #007bff;">Area of Interest</h4>
+                                <h4 style="color: #007bff;">Preferred sector for investment</h4>
                                 <h4> 
                                 {% if vc.area_of_interest.all %}
                                 {% for x in vc.area_of_interest.all %}
@@ -152,6 +152,19 @@ vc details
                                     {% endif %}
                                 </h4>
                             </div>
+                            <div class="col-md-6">
+                                <h4 style="color: #007bff;">Fund Stage</h4>
+                                <h4>
+                                    {% if vc.funding_stage.exists %}
+                                        {% for stage in vc.funding_stage.all %}
+                                            {{ stage.name }}{% if not forloop.last %}, {% endif %}
+                                        {% endfor %}
+                                    {% else %}
+                                        N/A
+                                    {% endif %}
+                                </h4>
+                            </div>
+                            
                             
                             
                         </div>
@@ -197,7 +210,7 @@ vc details
         width: 80px; /* Increased icon size */
         height: 80px; /* Increased icon size */
         background-color: #007bff;
-        color: #fff;
+        color: #fff;    
         display: inline-flex;
         justify-content: center;
         align-items: center;
