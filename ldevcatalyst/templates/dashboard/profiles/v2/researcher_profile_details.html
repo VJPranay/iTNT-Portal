@@ -145,18 +145,21 @@ Researcher's details
                                 <h4>{% if researcher.patents.exists %}{{ researcher.patents.count }}{% else %} N/A {% endif %}</h4>
                             </div>
                         </div>
+                        
 
                         <div class="row mb-4">
                             <div class="col-md-6">
                                 <h4 style="color: #007bff;">Paper link</h4>
                                 <h4>
-                                    {% if researcher.paper_link %}
-                                        <a href="{{ researcher.paper_link.url }}" style="color: black;" target="_blank">{{ researcher.paper_link.url }}</a>
+                                    {% if researcher.publications.paper_link %}
+                                        <a href="{{ researcher.publications.paper_link }}" style="color: black;" target="_blank">{{ researcher.publications.paper_link }}</a>
                                     {% else %}
                                         N/A
                                     {% endif %}
                                 </h4>
                             </div>
+                        
+                        
                             
                             <div class="col-md-6">
                                 <h4 style="color: #007bff;">Applicant Photograph</h4>
@@ -170,7 +173,7 @@ Researcher's details
                         <div class="row mb-4">
                             <div class="col-md-6">
                                 <h4 style="color: #007bff;">Journal</h4>
-                                <h4>{% if researcher.journal %}{{ researcher.journal }}{% else %}N/A{% endif %}</h4>
+                                <h4>{% if researcher.publications.journal %}{{ researcher.publications.journal }}{% else %}N/A{% endif %}</h4>
                             </div>
                             {% if user.user_role == 1 or user.user_role == 2 %}
                             <div class="col-md-6">

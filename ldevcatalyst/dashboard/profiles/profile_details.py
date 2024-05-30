@@ -12,6 +12,10 @@ def startup_profile_details(request, pk):
     print(pk)
     try:
         startup = StartUp.objects.get(pk=pk)
+        if startup.user is None:
+            print(f"Startup with PK {pk} has no associated user.")
+            return HttpResponseRedirect(reverse('not_found'))
+            
         check_meetings = MeetingRequest.objects.filter(sender_id=request.user.id,receiver_id=startup.user.id)
         print(request.user.user_role)
         print(check_meetings.count())
@@ -28,6 +32,10 @@ def startup_profile_details(request, pk):
 def researcher_profile_details(request, pk):
     try:
         researcher = Researcher.objects.get(pk=pk)
+        if researcher.user is None:
+            print(f"Researcher with PK {pk} has no associated user.")
+            return HttpResponseRedirect(reverse('not_found'))
+        
         check_meetings = MeetingRequest.objects.filter(sender_id=request.user.id,receiver_id=researcher.user.id)
         meeting_exists = 'false'
         for x in check_meetings:

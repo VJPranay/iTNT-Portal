@@ -106,9 +106,18 @@ VC details
                                 <h4>{% if vc.state %}{{ vc.state.name }}{% else %}N/A{% endif %}</h4>
                             </div>
                             <div class="col-md-6">
-                                <h4 style="color: #007bff;">Preferrred sector for Investments</h4>
-                                <h4>{% if vc.area_of_interest.all %}{{ vc.area_of_interest.all }}{% else %}N/A{% endif %}</h4>
+                                <h4 style="color: #007bff;">Preferred sector for Investments</h4>
+                                <h4>
+                                    {% if vc.area_of_interest.exists %}
+                                        {% for interest in vc.area_of_interest.all %}
+                                            {{ interest.name }}{% if not forloop.last %}, {% endif %}
+                                        {% endfor %}
+                                    {% else %}
+                                        N/A
+                                    {% endif %}
+                                </h4>
                             </div>
+                            
                         </div>
 
                         <div class="row mb-4">
@@ -118,8 +127,15 @@ VC details
                             </div>                          
                             <div class="col-md-6">
                                 <h4 style="color: #007bff;">Company Portfolio Document</h4>
-                                <h4>{% if vc.company_portfolio_document %}<a  style="color:black;" href="{{ vc.company_portfolio_document.url }}">Click Here</a>{% else %}N/A{% endif %}</h4>
-                            </div>                                           
+                                <h4>
+                                    {% if vc.company_portfolio_document %}
+                                        <a style="color:black;" href="{{ vc.company_portfolio_document.url }}">{{ vc.company_portfolio_document.url }}</a>
+                                    {% else %}
+                                        N/A
+                                    {% endif %}
+                                </h4>
+                            </div>
+                                                                       
                         </div>    
                          <!-- displays only when user role matches -->
                         {% if request.user.user_role == 1 or request.user.user_role == 2 %}
