@@ -53,7 +53,7 @@
 							<tbody>
 								{% for item in district_data %}
 								<tr>
-									<td><a href="{% url 'startup_registrations_list' %}">{{ item.district__name }}</a></td>
+									<td><a href="{% url 'startup_profiles_list' %}">{{ item.district__name }}</a></td>
 									<td>{{ item.startup_count }}</td>
 								</tr>
 								{% endfor %}

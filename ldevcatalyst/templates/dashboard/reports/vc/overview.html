@@ -25,7 +25,7 @@
                             <tbody>
                                 {% for item in district_data %}
                                 <tr>
-                                    <td>{{ item.district__name }}</td>
+                                    <td><a href="{% url 'vc_profiles_list' %}">{{ item.district__name }}</a></td>
                                     <td>{{ item.vc_count }}</td>
                                 </tr>
                                 {% endfor %}
@@ -47,7 +47,7 @@
                             <tbody>
                                 {% for item in interest_data %}
                                 <tr>
-                                    <td>{{ item.area_of_interest__name }}</td>
+                                    <td> <a href="{% url 'vc_profiles_list' %}">{{ item.area_of_interest__name }}</a></td>                              
                                     <td>{{ item.vc_count }}</td>
                                 </tr>
                                 {% endfor %}
@@ -68,8 +68,8 @@
                             </thead>
                             <tbody>
                                 {% for item in stage_data %}
-                                <tr>
-                                    <td>{{ item.funding_stage__name }}</td>
+                                <tr>     
+                                    <td><a href="{% url 'vc_profiles_list' %}">{{ item.funding_stage__name }}</a></td>
                                     <td>{{ item.vc_count }}</td>
                                 </tr>
                                 {% endfor %}

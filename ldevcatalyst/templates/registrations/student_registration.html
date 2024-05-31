@@ -183,19 +183,22 @@
 											<input name="year_of_graduation" class="form-control form-control-lg form-control-solid" placeholder="2022" type="number" value="" />
 											<!--end::Input-->
 										</div>
+										<!--begin::Input group-->
 										<div class="fv-row mb-10">
 											<!--begin::Label-->
 											<label class="form-label required">Highest Qualification</label>
 											<!--end::Label-->
 											<!--begin::Input-->
-											<select name="highest_qualification" class="form-select form-select-lg form-select-solid">
+											<select id="highest_qualification_select" name="highest_qualification" class="form-select form-select-lg form-select-solid" onchange="handleHighestQualificationChange(this)" required>
 												<option value="UG">UG</option>
 												<option value="PG">PG</option>
 												<option value="Ph.D">Ph.D</option>
-												<option value="Others">Others</option>
+												<option value="others">Others (Please specify)</option>
 											</select>
+											<input id="highest_qualification_input" name="highest_qualification_input" class="form-control form-control-lg form-control-solid" placeholder="Please enter your highest qualification" style="display: none; margin-top: 10px !important;" required />
 											<!--end::Input-->
 										</div>
+										<!--end::Input group-->
 										
 										<!-- Gender Field -->
 										<div class="fv-row mb-10">
@@ -211,6 +214,11 @@
 											</select>
 											<!--end::Input-->
 										</div>
+										
+										{% comment %}
+										https://itnthub.tn.gov.in/
+										{% endcomment %}
+											
 										
 										<div class="fv-row mb-10" data-district-url="https://itnthub.tn.gov.in/{% url 'districts' %}"  data-district-urlid="districtslink">
 											<!--begin::Label-->
@@ -423,7 +431,7 @@
 					})
 					.catch(error => console.error('Error fetching districts:', error));
 			}
-		
+		     
 			// Event listener for state dropdown
 			document.addEventListener('DOMContentLoaded', function() {
 				var stateSelect = document.querySelector('select[name="location_state"]');
@@ -438,7 +446,21 @@
 				});
 			});
 		</script>
-		
+		<script>
+			function handleHighestQualificationChange(selectElement) {
+				var inputElement = document.getElementById("highest_qualification_input");
+	
+				if (selectElement.value === "others") {
+					inputElement.style.display = "block";
+					inputElement.name = "highest_qualification";
+					selectElement.name = "";
+				} else {
+					inputElement.style.display = "none";
+					inputElement.name = "";
+					selectElement.name = "highest_qualification";
+				}
+			}
+		</script>
 		
 		<!--end::Custom Javascript-->
 		<!--end::Javascript-->
