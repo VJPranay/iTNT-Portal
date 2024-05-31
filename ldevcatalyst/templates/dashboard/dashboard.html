@@ -43,6 +43,33 @@
                 </div>
             </a>
             </div>
+
+            <!-- Card for Number of Student's -->
+            <div class="col-lg-3 col-md-6 mb-4">
+            <a href="{% url 'student_overview'%}">
+            <div class="card bg-info text-white text-center p-3" style="height: 200px;">
+                <!-- Green for VC's -->
+                <h5 class="card-title" style="font-size: 19px;">Number of Student's</h5>
+                <h2 id="studentCount" class="card-number mb-0" style="font-size: 48px;">0</h2>
+            </div>
+            </a>
+            </div>
+
+             <!-- Card for Number of Industrys's -->
+             <div class="col-lg-3 col-md-6 mb-4">
+                <a href="{% url 'industry_overview'%}">
+                <div class="card bg-warning text-white text-center p-3" style="height: 200px;">
+                    <!-- Green for Industry's -->
+                    <h5 class="card-title" style="font-size: 19px;">Number of Industry's</h5>
+                    <h2 id="industryCount" class="card-number mb-0" style="font-size: 48px;">0</h2>
+                </div>
+                </a>
+                </div>
+
+
+
+
+
             <!-- Card for Number of Meetings -->
             {% comment %} <div class="col-lg-3 col-md-6 mb-4">
                 <a href="{% url 'meeting_counts'%}">
@@ -67,8 +94,14 @@
     </style>
     
     <script>
-        // Animation for counting numbers
         function animateCount(element, start, end, duration) {
+            if (!element) {
+                console.error('Element not found:', element);
+                return;
+            }
+    
+            console.log('Animating count for element:', element.id, 'from', start, 'to', end);
+    
             let range = end - start;
             let current = start;
             let increment = end > start ? 1 : -1;
@@ -76,7 +109,7 @@
             let timer = setInterval(function () {
                 current += increment;
                 element.textContent = current;
-                if (current == end) {
+                if (current === end) {
                     clearInterval(timer);
                 }
             }, stepTime);
@@ -86,13 +119,20 @@
         let smeCount = document.getElementById('smeCount');
         let startupCount = document.getElementById('startupCount');
         let vcCount = document.getElementById('vcCount');
+        let industryCount = document.getElementById('industryCount');
+        let studentCount = document.getElementById('studentCount');
         let meetingCount = document.getElementById('meetingCount');
     
-        animateCount(smeCount, 0, {{sme_count}}, 1500); // Replace {{ sme_count }} with actual SME count
-        animateCount(startupCount, 0, {{startup_count}}, 1500); // Replace {{ startup_count }} with actual Startup count
-        animateCount(vcCount, 0, {{vc_count}}, 1500); // Replace {{ vc_count }} with actual VC count
-        animateCount(meetingCount, 0, {{meeting_count}}, 1500); // Replace {{ meeting_count }} with actual Meeting count
+        console.log('Counts:', {{ sme_count }}, {{ startup_count }}, {{ vc_count }}, {{ student_count }}, {{ industry_count }}, {{ meeting_count }});
+    
+        animateCount(smeCount, 0, {{ sme_count }}, 1500);
+        animateCount(startupCount, 0, {{ startup_count }}, 1500);
+        animateCount(vcCount, 0, {{ vc_count }}, 1500);
+        animateCount(studentCount, 0, {{ student_count }}, 1500);
+        animateCount(industryCount, 0, {{ industry_count }}, 1500);
+        animateCount(meetingCount, 0, {{ meeting_count }}, 1500);
     </script>
+    
     {% elif user.user_role == 6 %}
     {% include 'dashboard/startup_dashboard.html' %}
     {% elif user.user_role == 8 %}

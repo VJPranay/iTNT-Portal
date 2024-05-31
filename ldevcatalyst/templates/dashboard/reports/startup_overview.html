@@ -29,9 +29,9 @@
 							<tbody>
 								{% for item in area_of_interest_data %}
 								<tr>
-                                    {% comment %} <a href="{% url 'startup_registrations_cat' area_of_interest=item.area_of_interest__name %}">
+                                    {% comment %} <a href="{% url 'startup_profiles_cat' area_of_interest=item.area_of_interest__name %}">
                                     </a> {% endcomment %}
-                                    <td> <a href="{% url 'startup_registrations_list' %}">{{ item.area_of_interest__name }}</a></td>
+                                    <td> <a href="{% url 'startup_profiles_list' %}">{{ item.area_of_interest__name }}</a></td>
 									<td>{{ item.startup_count }}</td>
 								</tr>
 								{% endfor %}
@@ -75,7 +75,7 @@
 							<tbody>
 								{% for item in preferred_investment_stage_data %}
 								<tr>
-									<td><a href="{% url 'startup_registrations_list' %}">{{ item.preferred_investment_stage__name }}</a></td>
+									<td><a href="{% url 'startup_profiles_list' %}">{{ item.preferred_investment_stage__name }}</a></td>
 									<td>{{ item.startup_count }}</td>
 								</tr>
 								{% endfor %}
