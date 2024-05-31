@@ -5,7 +5,7 @@
 {% block page_content %}
 
 
-<script src="{% static 'assets/js/widgets.bundle.js' %}"></script>
+
 
 <div class="d-flex flex-column flex-column-fluid">
     {% if user.user_role == 2 or user.user_role == 3 %}
@@ -93,7 +93,7 @@
             align-items: center;
         }
     </style>
-    
+    <script src="{% static 'assets/js/widgets.bundle.js' %}"></script>
     <script>
         function animateCount(element, start, end, duration) {
             if (!element) {
@@ -120,24 +120,26 @@
         let smeCount = document.getElementById('smeCount');
         let startupCount = document.getElementById('startupCount');
         let vcCount = document.getElementById('vcCount');
-        let industryCount = document.getElementById('industryCount');
-        let studentCount = document.getElementById('studentCount');
-        let meetingCount = document.getElementById('meetingCount');
-    
-        console.log('Counts:', {{ sme_count }}, {{ startup_count }}, {{ vc_count }}, {{ industry_count }}, {{ meeting_count }});
-    
+
+        console.log('Counts:', {{ sme_count }}, {{ startup_count }}, {{ vc_count }});
+        
         animateCount(smeCount, 0, {{ sme_count }}, 1500);
         animateCount(startupCount, 0, {{ startup_count }}, 1500);
         animateCount(vcCount, 0, {{ vc_count }}, 1500);
-        animateCount(studentCount, 0, {{ counts.student_count }}, 1500);
-        animateCount(industryCount, 0, {{industry_count }}, 1500);
-        animateCount(meetingCount, 0, {{ meeting_count }}, 1500);
+        
+        
     </script>
     
     {% elif user.user_role == 6 %}
     {% include 'dashboard/startup_dashboard.html' %}
     {% elif user.user_role == 8 %}
     {% include 'dashboard/vc_dashboard.html' %}
+    {% elif user.user_role == 4 %}
+    {% include 'dashboard/industry_dashboard.html' %}
+    {% elif user.user_role == 7 %}
+    {% include 'dashboard/student_dashboard.html' %}
+    {% elif user.user_role == 5 %}
+    {% include 'dashboard/sme_dashboard.html' %}
     {% endif %}
 </div>
 

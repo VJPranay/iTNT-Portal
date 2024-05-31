@@ -2,29 +2,30 @@
     <h1 style="padding-top: 20px;"> Overview </h1>
 <div class="container mt-5">
     <div class="row justify-content-center">
-       
-        <!-- Card for Number of SMEs -->
-        <div class="col-lg-3 col-md-6 mb-4">
-            <a href="{% url 'researcher_overview'%}">
-            <div class="card bg-danger text-white text-center p-3" style="height: 200px;">
-                <!-- Red for SMEs -->
-                <h5 class="card-title" style="font-size: 19px;color: #FFF;">Number of SMEs</h5>
-                <h2 id="smeCount" class="card-number mb-0" style="font-size: 48px;color: #FFF;">0</h2>
-            </div>
-        </a>
-        </div>
-        <!-- Card for Number of VC's -->
-        <div class="col-lg-3 col-md-6 mb-4">
+
+         <!-- Card for Number of VC's -->
+         <div class="col-lg-3 col-md-6 mb-4">
             <a href="{% url 'vc_overview'%}">
             <div class="card bg-success text-white text-center p-3" style="height: 200px;">
                 <!-- Green for VC's -->
                 <h5 class="card-title" style="font-size: 19px;">Number of VC's</h5>
                 <h2 id="vcCount" class="card-number mb-0" style="font-size: 48px;">0</h2>
             </div>
+            </a>
+            </div>
+       
+        <!-- Card for Number of Startups -->
+        <div class="col-lg-3 col-md-6 mb-4">
+            <a href="{% url 'startup_overview'%}">
+            <div class="card bg-warning text-dark text-center p-3" style="height: 200px;">
+                <!-- Yellow for Startups -->
+                <h5 class="card-title" style="font-size: 19px;">Number of Startups</h5>
+                <h2 id="startupCount" class="card-number mb-0" style="font-size: 48px;">0</h2>
+            </div>
         </a>
         </div>
-        <!-- Card for Number of Student's -->
-        <div class="col-lg-3 col-md-6 mb-4">
+         <!-- Card for Number of Student's -->
+         <div class="col-lg-3 col-md-6 mb-4">
             <a href="{% url 'student_overview'%}">
             <div class="card bg-info text-white text-center p-3" style="height: 200px;">
                 <!-- Green for Student's -->
@@ -33,17 +34,18 @@
             </div>
             </a>
             </div>
+         <!-- Card for Number of Industrys's -->
+         <div class="col-lg-3 col-md-6 mb-4">
+            <a href="{% url 'industry_overview'%}">
+            <div class="card bg-warning text-white text-center p-3" style="height: 200px;">
+                <!-- Green for Industry's -->
+                <h5 class="card-title" style="font-size: 19px;">Number of Industry's</h5>
+                <h2 id="industryCount" class="card-number mb-0" style="font-size: 48px;">0</h2>
+            </div>
+            </a>
+            </div>
 
-             <!-- Card for Number of Industrys's -->
-             <div class="col-lg-3 col-md-6 mb-4">
-                <a href="{% url 'industry_overview'%}">
-                <div class="card bg-warning text-white text-center p-3" style="height: 200px;">
-                    <!-- Green for Industry's -->
-                    <h5 class="card-title" style="font-size: 19px;">Number of Industry's</h5>
-                    <h2 id="industryCount" class="card-number mb-0" style="font-size: 48px;">0</h2>
-                </div>
-                </a>
-                </div>
+           
         <!-- Card for Number of Meetings -->
         {% comment %} <div class="col-lg-3 col-md-6 mb-4">
             <a href="{% url 'meeting_counts'%}">
@@ -84,12 +86,14 @@
     }
 
     // Set initial counts to animate
-    let smeCount = document.getElementById('smeCount');
+    
+    let startupCount = document.getElementById('startupCount');
     let vcCount = document.getElementById('vcCount');
     let meetingCount = document.getElementById('meetingCount');
     
 
-    animateCount(smeCount, 0, {{sme_count}}, 1500); // Replace {{ sme_count }} with actual SME count
+    
+    animateCount(startupCount, 0, {{startup_count}}, 1500); // Replace {{ startup_count }} with actual Startup count
     animateCount(vcCount, 0, {{vc_count}}, 1500); // Replace {{ vc_count }} with actual VC count
     animateCount(meetingCount, 0, {{meeting_count}}, 1500); // Replace {{ meeting_count }} with actual Meeting count
   

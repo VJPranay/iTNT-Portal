@@ -13,6 +13,17 @@
             </div>
         </a>
         </div>
+        <!-- Card for Number of Startups -->
+        <div class="col-lg-3 col-md-6 mb-4">
+            <a href="{% url 'startup_overview'%}">
+            <div class="card bg-warning text-dark text-center p-3" style="height: 200px;">
+                <!-- Yellow for Startups -->
+                <h5 class="card-title" style="font-size: 19px;">Number of Startups</h5>
+                <h2 id="startupCount" class="card-number mb-0" style="font-size: 48px;">0</h2>
+            </div>
+        </a>
+        </div>
+       
         <!-- Card for Number of VC's -->
         <div class="col-lg-3 col-md-6 mb-4">
             <a href="{% url 'vc_overview'%}">
@@ -21,29 +32,21 @@
                 <h5 class="card-title" style="font-size: 19px;">Number of VC's</h5>
                 <h2 id="vcCount" class="card-number mb-0" style="font-size: 48px;">0</h2>
             </div>
-        </a>
-        </div>
-        <!-- Card for Number of Student's -->
-        <div class="col-lg-3 col-md-6 mb-4">
-            <a href="{% url 'student_overview'%}">
-            <div class="card bg-info text-white text-center p-3" style="height: 200px;">
-                <!-- Green for Student's -->
-                <h5 class="card-title" style="font-size: 19px;">Number of Student's</h5>
-                <h2 id="studentCount" class="card-number mb-0" style="font-size: 48px;">0</h2>
+            </a>
+            </div>
+
+         <!-- Card for Number of Industrys's -->
+         <div class="col-lg-3 col-md-6 mb-4">
+            <a href="{% url 'industry_overview'%}">
+            <div class="card bg-warning text-white text-center p-3" style="height: 200px;">
+                <!-- Green for Industry's -->
+                <h5 class="card-title" style="font-size: 19px;">Number of Industry's</h5>
+                <h2 id="industryCount" class="card-number mb-0" style="font-size: 48px;">0</h2>
             </div>
             </a>
             </div>
 
-             <!-- Card for Number of Industrys's -->
-             <div class="col-lg-3 col-md-6 mb-4">
-                <a href="{% url 'industry_overview'%}">
-                <div class="card bg-warning text-white text-center p-3" style="height: 200px;">
-                    <!-- Green for Industry's -->
-                    <h5 class="card-title" style="font-size: 19px;">Number of Industry's</h5>
-                    <h2 id="industryCount" class="card-number mb-0" style="font-size: 48px;">0</h2>
-                </div>
-                </a>
-                </div>
+           
         <!-- Card for Number of Meetings -->
         {% comment %} <div class="col-lg-3 col-md-6 mb-4">
             <a href="{% url 'meeting_counts'%}">
@@ -85,11 +88,13 @@
 
     // Set initial counts to animate
     let smeCount = document.getElementById('smeCount');
+    let startupCount = document.getElementById('startupCount');
     let vcCount = document.getElementById('vcCount');
     let meetingCount = document.getElementById('meetingCount');
     
 
     animateCount(smeCount, 0, {{sme_count}}, 1500); // Replace {{ sme_count }} with actual SME count
+    animateCount(startupCount, 0, {{startup_count}}, 1500); // Replace {{ startup_count }} with actual Startup count
     animateCount(vcCount, 0, {{vc_count}}, 1500); // Replace {{ vc_count }} with actual VC count
     animateCount(meetingCount, 0, {{meeting_count}}, 1500); // Replace {{ meeting_count }} with actual Meeting count
   
