@@ -5,6 +5,7 @@
 {% block page_content %}
 
 
+<script src="{% static 'assets/js/widgets.bundle.js' %}"></script>
 
 <div class="d-flex flex-column flex-column-fluid">
     {% if user.user_role == 2 or user.user_role == 3 %}
@@ -123,13 +124,13 @@
         let studentCount = document.getElementById('studentCount');
         let meetingCount = document.getElementById('meetingCount');
     
-        console.log('Counts:', {{ sme_count }}, {{ startup_count }}, {{ vc_count }}, {{ student_count }}, {{ industry_count }}, {{ meeting_count }});
+        console.log('Counts:', {{ sme_count }}, {{ startup_count }}, {{ vc_count }}, {{ industry_count }}, {{ meeting_count }});
     
         animateCount(smeCount, 0, {{ sme_count }}, 1500);
         animateCount(startupCount, 0, {{ startup_count }}, 1500);
         animateCount(vcCount, 0, {{ vc_count }}, 1500);
-        animateCount(studentCount, 0, {{ student_count }}, 1500);
-        animateCount(industryCount, 0, {{ industry_count }}, 1500);
+        animateCount(studentCount, 0, {{ counts.student_count }}, 1500);
+        animateCount(industryCount, 0, {{industry_count }}, 1500);
         animateCount(meetingCount, 0, {{ meeting_count }}, 1500);
     </script>
     
