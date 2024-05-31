@@ -11,7 +11,7 @@ from datarepo.models import AreaOfInterest
 
 class StartUpRegistraionsFilter(django_filters.FilterSet):
     state = django_filters.ModelChoiceFilter(
-        queryset=State.objects.all(),
+        queryset=State.objects.all().order_by('name'),
         widget=forms.Select(attrs={'class': 'form-select', 'id': 'id_state'})
     )
     district = django_filters.ModelChoiceFilter(
@@ -52,7 +52,7 @@ class StartUpRegistraionsFilter(django_filters.FilterSet):
 
 class ResearcherRegistrationsFilter(django_filters.FilterSet):
     state = django_filters.ModelChoiceFilter(
-        queryset=State.objects.all(),
+        queryset=State.objects.all().order_by('name'),
         widget=forms.Select(attrs={'class': 'form-select', 'id': 'id_state'})
     )
     district = django_filters.ModelChoiceFilter(
@@ -99,7 +99,7 @@ class ResearcherRegistrationsFilter(django_filters.FilterSet):
 
 class StudentRegistrationsFilter(django_filters.FilterSet):
     state = django_filters.ModelChoiceFilter(
-        queryset=State.objects.all(),
+        queryset=State.objects.all().order_by('name'),
         widget=forms.Select(attrs={'class': 'form-select', 'id': 'id_state'})
     )
     district = django_filters.ModelChoiceFilter(
@@ -144,7 +144,7 @@ class StudentRegistrationsFilter(django_filters.FilterSet):
 
 class VCRegistrationsFilter(django_filters.FilterSet):
     state = django_filters.ModelChoiceFilter(
-        queryset=State.objects.all(),
+        queryset=State.objects.all().order_by('name'),
         widget=forms.Select(attrs={'class': 'form-select', 'id': 'id_state'})
     )
     district = django_filters.ModelChoiceFilter(
@@ -194,7 +194,7 @@ class IndustryRegistrationsFilter(django_filters.FilterSet):
     )
     
     state = django_filters.ModelChoiceFilter(
-        queryset=State.objects.all(),
+        queryset=State.objects.all().order_by('name'),
         widget=forms.Select(attrs={'class': 'form-select', 'id': 'id_state'})
     )
     district = django_filters.ModelChoiceFilter(
