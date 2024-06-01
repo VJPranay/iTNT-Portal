@@ -68,11 +68,22 @@ Sent requests
                             <tbody>
                                 {% for request in sent_requests %}
                                 <tr>
-                                    <td>{{ request.receiver }}</td>
+                                    {% if request.receiver.user_role == 6 %}
+                                    <td><a href="{% url 'startup_profile_details' request.receiver_id %}">{{ request.receiver_name }}</a></td>
+                                       
+                                    {%else%}
+                                    <td><a target="_blank" href="{% url 'researcher_profile_details' request.receiver_id %}">{{ request.receiver_name }}</a></td>
+                                    {%endif%}
                                     <td>{{ request.date }}</td>
                                     <td>{{ request.time  }}</td>
                                     <td>{{ request.status }}</td>
-                                    <td><a href="{% url 'meeting_request_detail' request.pk %}">View</a></td>
+                                    <td>
+                                        <a href="{% url 'meeting_request_detail' request.pk %}">
+                                       
+                                            View
+                                   
+                                        </a>
+                                    </td>
                                 </tr>
                                 {% endfor %}
                             </tbody>
@@ -104,7 +115,12 @@ Sent requests
                             <tbody>
                                 {% for request in received_requests %}
                                 <tr>
-                                    <td>{{ request.sender }}</td>
+                                    {% if request.sender.user_role == 6 %}
+                                    <td><a href="{% url 'startup_profile_details' request.sender_id %}">{{ request.sender_name }}</a></td>
+                                       
+                                    {%else%}
+                                    <td><a target="_blank" href="{% url 'researcher_profile_details' request.sender_id %}">{{ request.sender_name }}</a></td>
+                                    {%endif%}
                                     <td>{{ request.date }}</td>
                                     <td>{{ request.time }}</td>
                                     <td>{{ request.status }}</td>

@@ -2,14 +2,44 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from .models import MeetingRequest
 from .forms import MeetingRequestForm, MeetingRequestUpdateForm
-from profiles.models import User
+from profiles.models import User,StartUp,Researcher
 
 from django.contrib import messages
 
 @login_required
 def meeting_request_list(request):
-    sent_requests = MeetingRequest.objects.filter(sender=request.user).exclude(status='accepted').order_by('-id')
-    received_requests = MeetingRequest.objects.filter(receiver=request.user).exclude(status='accepted').order_by('-id')
+    sent_requests_q = MeetingRequest.objects.filter(sender=request.user).exclude(status='accepted').order_by('-id')
+    sent_requests = []
+    for sent_request in sent_requests_q:
+        temp = {
+            'pk' : sent_request.id,
+            'receiver' : sent_request.receiver,
+            'receiver_name' : str(StartUp.objects.get(user_id=sent_request.receiver.id).company_name) if sent_request.receiver.user_role == 6 else str(Researcher.objects.get(user_id=sent_request.receiver.id).name),
+            'receiver_id' : str(StartUp.objects.get(user_id=sent_request.receiver.id).id) if sent_request.receiver.user_role == 6 else str(Researcher.objects.get(user_id=sent_request.receiver.id).id),
+            'status' : sent_request.status,
+            'date' : sent_request.date,
+            'time' : sent_request.time,
+            'meeting_type' : sent_request.meeting_type,
+            'meeting_details' : sent_request.meeting_details,
+            'notes' : sent_request.notes,
+        }
+        sent_requests.append(temp)
+    received_requests_q = MeetingRequest.objects.filter(receiver=request.user).exclude(status='accepted').order_by('-id')
+    received_requests = []
+    for received_request in received_requests_q:
+        temp = {
+            'pk' : received_request.id,
+            'sender' : received_request.sender,
+            'sender_name' : str(StartUp.objects.get(user_id=received_request.sender.id).company_name) if received_request.sender.user_role == 6 else str(Researcher.objects.get(user_id=received_request.sender.id).name),
+            'sender_id' : str(StartUp.objects.get(user_id=received_request.sender.id).id) if received_request.sender.user_role == 6 else str(Researcher.objects.get(user_id=received_request.sender.id).id),
+            'status' : received_request.status,
+            'date' : received_request.date,
+            'time' : received_request.time,
+            'meeting_type' : received_request.meeting_type,
+            'meeting_details' : received_request.meeting_details,
+            'notes' : received_request.notes,
+        }
+        received_requests.append(temp)        
     context = {
         'sent_requests': sent_requests,
         'received_requests': received_requests,
@@ -19,8 +49,38 @@ def meeting_request_list(request):
 
 @login_required
 def confirmed_meeting_request_list(request):
-    sent_requests = MeetingRequest.objects.filter(sender=request.user, status='accepted').order_by('-id')
-    received_requests = MeetingRequest.objects.filter(receiver=request.user, status='accepted').order_by('-id')
+    sent_requests_q = MeetingRequest.objects.filter(sender=request.user, status='accepted').order_by('-id')
+    sent_requests = []
+    for sent_request in sent_requests_q:
+        temp = {
+            'pk' : sent_request.id,
+            'receiver' : sent_request.receiver,
+            'receiver_name' : str(StartUp.objects.get(user_id=sent_request.receiver.id).company_name) if sent_request.receiver.user_role == 6 else str(Researcher.objects.get(user_id=sent_request.receiver.id).name),
+            'receiver_id' : str(StartUp.objects.get(user_id=sent_request.receiver.id).id) if sent_request.receiver.user_role == 6 else str(Researcher.objects.get(user_id=sent_request.receiver.id).id),
+            'status' : sent_request.status,
+            'date' : sent_request.date,
+            'time' : sent_request.time,
+            'meeting_type' : sent_request.meeting_type,
+            'meeting_details' : sent_request.meeting_details,
+            'notes' : sent_request.notes,
+        }
+        sent_requests.append(temp)
+    received_requests_q = MeetingRequest.objects.filter(receiver=request.user, status='accepted').order_by('-id')
+    received_requests = []
+    for received_request in received_requests_q:
+        temp = {
+            'pk' : received_request.id,
+            'sender' : received_request.sender,
+            'sender_name' : str(StartUp.objects.get(user_id=received_request.sender.id).company_name) if received_request.sender.user_role == 6 else str(Researcher.objects.get(user_id=received_request.sender.id).name),
+            'sender_id' : str(StartUp.objects.get(user_id=received_request.sender.id).id) if received_request.sender.user_role == 6 else str(Researcher.objects.get(user_id=received_request.sender.id).id),
+            'status' : received_request.status,
+            'date' : received_request.date,
+            'time' : received_request.time,
+            'meeting_type' : received_request.meeting_type,
+            'meeting_details' : received_request.meeting_details,
+            'notes' : received_request.notes,
+        }
+        received_requests.append(temp)  
     context = {
         'sent_requests': sent_requests,
         'received_requests': received_requests,

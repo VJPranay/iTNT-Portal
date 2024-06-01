@@ -36,7 +36,7 @@ class VCAdmin(admin.ModelAdmin):
 
 @admin.register(Researcher)
 class ResearcherAdmin(admin.ModelAdmin):
-    list_display = ('id','name', 'department', 'institution', 'email', 'mobile', 'district', 'state', 'highest_qualification')
+    list_display = ('id','user','name', 'department', 'institution', 'email', 'mobile', 'district', 'state', 'highest_qualification')
 
 @admin.register(StartUp)
 class StartUpAdmin(admin.ModelAdmin):
