@@ -7,7 +7,7 @@ from bootstrap_datepicker_plus.widgets import DatePickerInput, TimePickerInput
 class MeetingRequestForm(forms.ModelForm):
     class Meta:
         model = MeetingRequest
-        fields = ['date', 'time', 'meeting_type', 'meeting_link', 'notes']
+        fields = ['date', 'time', 'meeting_type', 'meeting_details', 'notes']
         widgets = {
             'date': DatePickerInput(),
             'time': TimePickerInput(),
