@@ -18,7 +18,7 @@ class MeetingRequest(models.Model):
     date = models.DateField()
     time = models.TimeField()
     meeting_type = models.CharField(max_length=10, choices=MEETING_TYPE_CHOICES)
-    meeting_details =  models.CharField(max_length=255, blank=True, null=True)
+    meeting_details =  models.CharField(max_length=255, default='')
     notes = models.TextField(blank=True, null=True)
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='sent')
     created = models.DateTimeField(auto_now_add=True)

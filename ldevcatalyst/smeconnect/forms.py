@@ -3,13 +3,17 @@ from .models import MeetingRequest
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
 from bootstrap_datepicker_plus.widgets import DatePickerInput, TimePickerInput
+from datetime import datetime
 
 class MeetingRequestForm(forms.ModelForm):
     class Meta:
         model = MeetingRequest
         fields = ['date', 'time', 'meeting_type', 'meeting_details', 'notes']
         widgets = {
-            'date': DatePickerInput(),
+            'date': DatePickerInput(options={
+                'format': 'YYYY-MM-DD',
+                'minDate': datetime.now().strftime('%Y-%m-%d'),
+            }),
             'time': TimePickerInput(),
         }
 
