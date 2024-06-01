@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from .models import MeetingRequest
-from .forms import MeetingRequestForm, MeetingRequestUpdateForm
+from .forms import MeetingRequestForm, MeetingRequestUpdateForm,MeetingRequestCancelForm
 from profiles.models import User,StartUp,Researcher
 
 from django.contrib import messages
@@ -120,6 +120,34 @@ def meeting_request_update(request, pk):
             return redirect('meeting_request_detail', pk=pk)
     else:
         form = MeetingRequestUpdateForm(instance=meeting_request)
+    return render(request, 'smeconnect/meeting_request_form.html', {'form': form})
+
+
+
+
+@login_required
+def meeting_request_cancel(request, pk):
+    meeting_request = get_object_or_404(MeetingRequest, pk=pk)
+    if request.method == 'POST':
+        form = MeetingRequestCancelForm(request.POST, instance=meeting_request)
+        if form.is_valid():
+            form.save()
+            meeting_request.status = 'rejected'
+            meeting_request.save()
+            if request.user.id == meeting_request.receiver.id:
+                if meeting_request.sender.user_role == 6:
+                    return redirect('startup_profiles_list')
+                else:
+                    return redirect('researcher_profiles_list')
+            elif request.user.id == meeting_request.sender.id:
+                if meeting_request.receiver.user_role == 6:
+                    return redirect('startup_profiles_list')
+                else:
+                    return redirect('researcher_profiles_list')
+            else:
+                return redirect('meeting_request_list')
+    else:
+        form = MeetingRequestCancelForm(instance=meeting_request)
     return render(request, 'smeconnect/meeting_request_form.html', {'form': form})
 
 

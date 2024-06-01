@@ -10,7 +10,7 @@ from django.http import HttpResponseNotAllowed
 from registrations.models import StartUpRegistrations
 from django.db.models import Count
 from django.contrib import messages
-from registrations.models import ResearcherRegistrations,StartUpRegistrations,VCRegistrations
+from registrations.models import ResearcherRegistrations,StartUpRegistrations,VCRegistrations,StudentRegistrations,IndustryRegistrations
 from meetings.models import MeetingRequests
 
 def custom_login(request,):
@@ -52,6 +52,8 @@ def dashboard_index(request):
     # messages.info(request, 'This is an info message.')
 
     # messages.warning(request, 'This is a warning message.')
+    student_count = StudentRegistrations.objects.all().count()
+    industry_count = IndustryRegistrations.objects.all().count()
     sme_count = ResearcherRegistrations.objects.all().count()
     startup_count = StartUpRegistrations.objects.all().count()
     vc_count = VCRegistrations.objects.all().count()
@@ -59,9 +61,12 @@ def dashboard_index(request):
     data = {
          'sme_count': sme_count,
          'startup_count': startup_count,
-        'vc_count': vc_count,
-         'meeting_count': meeting_count
+         'vc_count': vc_count,
+         'student_count': student_count,
+         'industry_count': industry_count,
+         'meeting_count': meeting_count,
      }
+    print(data)
     return render(request,'dashboard/dashboard.html',context=data)
 
 

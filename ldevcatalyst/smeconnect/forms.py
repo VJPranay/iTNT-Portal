@@ -34,3 +34,15 @@ class MeetingRequestUpdateForm(forms.ModelForm):
         self.helper = FormHelper()
         self.helper.form_method = 'post'
         self.helper.add_input(Submit('submit', 'Update Status'))
+        
+        
+class MeetingRequestCancelForm(forms.ModelForm):
+    class Meta:
+        model = MeetingRequest
+        fields = ['notes']
+
+    def __init__(self, *args, **kwargs):
+        super(MeetingRequestCancelForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_method = 'post'
+        self.helper.add_input(Submit('submit', 'Cancel Meeting'))

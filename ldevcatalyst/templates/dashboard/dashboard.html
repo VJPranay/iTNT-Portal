@@ -1,135 +1,61 @@
 {% extends 'dashboard/base.html' %}
 {% load static %}
 
-
 {% block page_content %}
-
-
-
-
 <div class="d-flex flex-column flex-column-fluid">
     {% if user.user_role == 2 or user.user_role == 3 %}
     <div class="card" style="padding: 15px;">
         <h1 style="padding-top: 20px;"> Overview </h1>
-    <div class="container mt-5">
-        <div class="row justify-content-center">
-           
-            <!-- Card for Number of SMEs -->
-            <div class="col-lg-3 col-md-6 mb-4">
-                <a href="{% url 'researcher_overview'%}">
-                <div class="card bg-danger text-white text-center p-3" style="height: 200px;">
-                    <!-- Red for SMEs -->
-                    <h5 class="card-title" style="font-size: 19px;color: #FFF;">Number of SMEs</h5>
-                    <h2 id="smeCount" class="card-number mb-0" style="font-size: 48px;color: #FFF;">0</h2>
+        <div class="container mt-5">
+            <div class="row justify-content-center">
+                <!-- Card for Number of SMEs -->
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <a href="{% url 'researcher_overview'%}">
+                        <div class="card bg-danger text-white text-center p-3" style="height: 200px;">
+                            <h5 class="card-title" style="font-size: 19px;color: #FFF;">Number of SMEs</h5>
+                            <h2 id="smeCount" class="card-number mb-0" style="font-size: 48px;color: #FFF;">0</h2>
+                        </div>
+                    </a>
                 </div>
-            </a>
+                <!-- Card for Number of Startups -->
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <a href="{% url 'startup_overview'%}">
+                        <div class="card bg-warning text-dark text-center p-3" style="height: 200px;">
+                            <h5 class="card-title" style="font-size: 19px;">Number of Startups</h5>
+                            <h2 id="startupCount" class="card-number mb-0" style="font-size: 48px;">0</h2>
+                        </div>
+                    </a>
+                </div>
+                <!-- Card for Number of VC's -->
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <a href="{% url 'vc_overview'%}">
+                        <div class="card bg-success text-white text-center p-3" style="height: 200px;">
+                            <h5 class="card-title" style="font-size: 19px;">Number of VC's</h5>
+                            <h2 id="vcCount" class="card-number mb-0" style="font-size: 48px;">0</h2>
+                        </div>
+                    </a>
+                </div>
+                <!-- Card for Number of Students -->
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <a href="{% url 'student_overview'%}">
+                        <div class="card bg-info text-white text-center p-3" style="height: 200px;">
+                            <h5 class="card-title" style="font-size: 19px;">Number of Students</h5>
+                            <h2 id="studentCount" class="card-number mb-0" style="font-size: 48px;">0</h2>
+                        </div>
+                    </a>
+                </div>
+                <!-- Card for Number of Industries -->
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <a href="{% url 'industry_overview'%}">
+                        <div class="card bg-warning text-white text-center p-3" style="height: 200px;">
+                            <h5 class="card-title" style="font-size: 19px;">Number of Industries</h5>
+                            <h2 id="industryCount" class="card-number mb-0" style="font-size: 48px;">0</h2>
+                        </div>
+                    </a>
+                </div>
             </div>
-            <!-- Card for Number of Startups -->
-            <div class="col-lg-3 col-md-6 mb-4">
-                <a href="{% url 'startup_overview'%}">
-                <div class="card bg-warning text-dark text-center p-3" style="height: 200px;">
-                    <!-- Yellow for Startups -->
-                    <h5 class="card-title" style="font-size: 19px;">Number of Startups</h5>
-                    <h2 id="startupCount" class="card-number mb-0" style="font-size: 48px;">0</h2>
-                </div>
-            </a>
-            </div>
-            <!-- Card for Number of VC's -->
-            <div class="col-lg-3 col-md-6 mb-4">
-                <a href="{% url 'vc_overview'%}">
-                <div class="card bg-success text-white text-center p-3" style="height: 200px;">
-                    <!-- Green for VC's -->
-                    <h5 class="card-title" style="font-size: 19px;">Number of VC's</h5>
-                    <h2 id="vcCount" class="card-number mb-0" style="font-size: 48px;">0</h2>
-                </div>
-            </a>
-            </div>
-
-            <!-- Card for Number of Student's -->
-            <div class="col-lg-3 col-md-6 mb-4">
-            <a href="{% url 'student_overview'%}">
-            <div class="card bg-info text-white text-center p-3" style="height: 200px;">
-                <!-- Green for VC's -->
-                <h5 class="card-title" style="font-size: 19px;">Number of Student's</h5>
-                <h2 id="studentCount" class="card-number mb-0" style="font-size: 48px;">0</h2>
-            </div>
-            </a>
-            </div>
-
-             <!-- Card for Number of Industrys's -->
-             <div class="col-lg-3 col-md-6 mb-4">
-                <a href="{% url 'industry_overview'%}">
-                <div class="card bg-warning text-white text-center p-3" style="height: 200px;">
-                    <!-- Green for Industry's -->
-                    <h5 class="card-title" style="font-size: 19px;">Number of Industry's</h5>
-                    <h2 id="industryCount" class="card-number mb-0" style="font-size: 48px;">0</h2>
-                </div>
-                </a>
-                </div>
-
-
-
-
-
-            <!-- Card for Number of Meetings -->
-            {% comment %} <div class="col-lg-3 col-md-6 mb-4">
-                <a href="{% url 'meeting_counts'%}">
-                <div class="card bg-info text-white text-center p-3" style="height: 200px; ">
-                    <!-- Blue for Meetings -->
-                    <h5 class="card-title" style="font-size: 19px;color: #FFF;">Number of Meetings</h5>
-                    <h2 id="meetingCount" class="card-number mb-0" style="font-size: 48px;color: #FFF;">0</h2>
-                </div>
-                </a>
-            </div> {% endcomment %}
-        </div>
         </div>
     </div>
-    
-    <style>
-        .card {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-    </style>
-    <script src="{% static 'assets/js/widgets.bundle.js' %}"></script>
-    <script>
-        function animateCount(element, start, end, duration) {
-            if (!element) {
-                console.error('Element not found:', element);
-                return;
-            }
-    
-            console.log('Animating count for element:', element.id, 'from', start, 'to', end);
-    
-            let range = end - start;
-            let current = start;
-            let increment = end > start ? 1 : -1;
-            let stepTime = Math.abs(Math.floor(duration / range));
-            let timer = setInterval(function () {
-                current += increment;
-                element.textContent = current;
-                if (current === end) {
-                    clearInterval(timer);
-                }
-            }, stepTime);
-        }
-    
-        // Set initial counts to animate
-        let smeCount = document.getElementById('smeCount');
-        let startupCount = document.getElementById('startupCount');
-        let vcCount = document.getElementById('vcCount');
-
-        console.log('Counts:', {{ sme_count }}, {{ startup_count }}, {{ vc_count }});
-        
-        animateCount(smeCount, 0, {{ sme_count }}, 1500);
-        animateCount(startupCount, 0, {{ startup_count }}, 1500);
-        animateCount(vcCount, 0, {{ vc_count }}, 1500);
-        
-        
-    </script>
-    
     {% elif user.user_role == 6 %}
     {% include 'dashboard/startup_dashboard.html' %}
     {% elif user.user_role == 8 %}
@@ -142,21 +68,55 @@
     {% include 'dashboard/sme_dashboard.html' %}
     {% endif %}
 </div>
-
-
-		
 {% endblock %}
 
-
-
-
 {% block custom_js %}
-    
+<style>
+    .card {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<script src="{% static 'assets/js/widgets.bundle.js' %}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        function animateCount(element, start, end, duration) {
+            if (!element) {
+                console.error('Element not found:', element);
+                return;
+            }
 
+            console.log('Animating count for element:', element.id, 'from', start, 'to', end);
 
+            let range = end - start;
+            let current = start;
+            let increment = end > start ? 1 : -1;
+            let stepTime = Math.abs(Math.floor(duration / range));
+            let timer = setInterval(function () {
+                current += increment;
+                element.textContent = current;
+                if (current === end) {
+                    clearInterval(timer);
+                }
+            }, stepTime);
+        }
 
+        // Set initial counts to animate
+        let smeCount = document.getElementById('smeCount');
+        let startupCount = document.getElementById('startupCount');
+        let vcCount = document.getElementById('vcCount');
+        let studentCount = document.getElementById('studentCount');
+        let industryCount = document.getElementById('industryCount');
 
+        console.log('Counts:', {{ sme_count }}, {{ startup_count }}, {{ vc_count }}, {{ student_count }}, {{ industry_count }});
 
-
-        
-{% endblock  %}
+        animateCount(smeCount, 0, {{ sme_count }}, 1500);
+        animateCount(startupCount, 0, {{ startup_count }}, 1500);
+        animateCount(vcCount, 0, {{ vc_count }}, 1500);
+        animateCount(studentCount, 0, {{ student_count }}, 1500);
+        animateCount(industryCount, 0, {{ industry_count }}, 1500);
+    });
+</script>
+{% endblock %}

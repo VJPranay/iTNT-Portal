@@ -54,14 +54,14 @@ request
                     <div class="card-header pt-7" id="kt_chat_contacts_header">
                         <!--begin::Card title-->
                         <div class="card-title">
-                            <h1>Meeting Request Form</h1>
+                            <h1>Meeting Request Updation</h1>
                         </div>
                         <div class="card-body">
                             <form method="post">
                                 {% csrf_token %}
                                 {{ form|crispy }}
                                 {{ form.media }} 
-                                <button type="submit" class="btn btn-primary mt-3">Send Request</button>
+                                <button type="submit" class="btn btn-primary mt-3">Submit</button>
                             </form>
                         </div>
                     </div>
