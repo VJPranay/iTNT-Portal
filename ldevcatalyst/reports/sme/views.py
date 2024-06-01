@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 def researcher_overview(request):
     # Get approved area of interest categories and their counts
     approved_categories = AreaOfInterest.get_approved_categories()
-    researcher_count_by_interest = ResearcherRegistrations.objects.filter(area_of_interest__in=approved_categories).values('area_of_interest__name').annotate(researcher_count=Count('id')).order_by('-researcher_count')
+    researcher_count_by_interest = ResearcherRegistrations.objects.filter(area_of_interest__in=approved_categories).values('area_of_interest__name','area_of_interest__id').annotate(researcher_count=Count('id')).order_by('-researcher_count')
 
     # Get counts for other area of interest categories
     other_interest_count = ResearcherRegistrations.objects.exclude(area_of_interest__in=approved_categories).aggregate(count=Count('id'))['count'] or 0
@@ -16,6 +16,7 @@ def researcher_overview(request):
     by_area_of_interest = []
     for item in researcher_count_by_interest:
         by_area_of_interest.append({ 
+            'area_of_interest__id': item['area_of_interest__id'],
             'area_of_interest__name': item['area_of_interest__name'],
             'researcher_count': item['researcher_count'], 
         })
@@ -27,10 +28,11 @@ def researcher_overview(request):
     })
 
     # Get counts for districts with researcher counts greater than 0
-    researcher_count_by_district = ResearcherRegistrations.objects.filter(district__isnull=False).values('district__name').annotate(researcher_count=Count('id')).filter(researcher_count__gt=0).order_by('-researcher_count')
+    researcher_count_by_district = ResearcherRegistrations.objects.filter(district__isnull=False).values('district__name','district__id').annotate(researcher_count=Count('id')).filter(researcher_count__gt=0).order_by('-researcher_count')
     by_district = []
     for item in researcher_count_by_district:
         by_district.append({
+            'district__id': item['district__id'],
             'district__name': item['district__name'],
             'researcher_count': item['researcher_count'],
         })
@@ -38,7 +40,7 @@ def researcher_overview(request):
     # Get counts for institutions with researcher counts above 20
     institutions_above_20 = Institution.objects.annotate(
         researcher_count=Count('researcherregistrations')
-    ).filter(researcher_count__gt=20).values('name', 'researcher_count').order_by('-researcher_count')
+    ).filter(researcher_count__gt=20).values('name', 'researcher_count', 'id').order_by('-researcher_count')
 
     # Get count for other institutions
     other_institutions_count = Institution.objects.annotate(
@@ -49,6 +51,7 @@ def researcher_overview(request):
     by_institution = []
     for item in institutions_above_20:
         by_institution.append({
+            'institution__id': item['id'],
             'institution__name': item['name'],
             'researcher_count': item['researcher_count'],
         })
