@@ -79,13 +79,14 @@ def sme_approve_registration(request):
                     return JsonResponse({'success': True}, status=200)
 
                 # Create new publication
-                publication_info = registration.publications
-                new_publication = Publication.objects.create(
-                        user_id=user.id,
-                        title=publication_info.title,
-                        paper_link=publication_info.paper_link,
-                        journal=publication_info.journal,
-                    )
+                if registration.publications:
+                    publication_info = registration.publications
+                    new_publication = Publication.objects.create(
+                            user_id=user.id,
+                            title=publication_info.title,
+                            paper_link=publication_info.paper_link,
+                            journal=publication_info.journal,
+                        )
 
                 # Create SME profile
                 sme_profile = Researcher.objects.create(
