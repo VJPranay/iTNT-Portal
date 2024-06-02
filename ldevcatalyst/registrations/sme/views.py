@@ -77,7 +77,7 @@ def sme_approve_registration(request):
                 except IntegrityError:
                     user = User.objects.get(username=username)
                     return JsonResponse({'success': True}, status=200)
-
+                new_publication = None
                 # Create new publication
                 if registration.publications:
                     publication_info = registration.publications
@@ -87,6 +87,7 @@ def sme_approve_registration(request):
                             paper_link=publication_info.paper_link,
                             journal=publication_info.journal,
                         )
+                    new_publication.save()
 
                 # Create SME profile
                 sme_profile = Researcher.objects.create(
