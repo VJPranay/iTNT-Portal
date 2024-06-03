@@ -149,30 +149,58 @@
 											<input name="name" class="form-control form-control-lg form-control-solid" placeholder="Enter Your First and Last Name" value="" />
 											<!--end::Input-->
 										</div>
-										<div class="fv-row mb-10">
+
+										{% comment %}
+										https://itnthub.tn.gov.in/
+										{% endcomment %}
+											
+										
+										<div class="fv-row mb-10" data-district-url="https://itnthub.tn.gov.in/{% url 'districts' %}"  data-district-urlid="districtslink">
 											<!--begin::Label-->
-											<label class="form-label required">Name of the Institution</label>
+											<label class="form-label required">State</label>
 											<!--end::Label-->
 											<!--begin::Input-->
-											<input name="institution" class="form-control form-control-lg form-control-solid" placeholder="Your institution name" value="" />
-											{% comment %} <select name="institution" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="true">
-												{% for institution in institutions %}
-												<option value="{{institution.institution_id}}">{{institution.institution_value}}</option>
+											<select name="location_state" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="true" onchange="fetchDistricts(this.value)">
+												<option>Select state</option>
+												{% for state in states %}
+												<option value="{{state.state_id}}">{{state.state_value}}</option>
 												{%endfor%}
-											</select> {% endcomment %}
+											</select>
 											<!--end::Input-->
 										</div>
+										<div class="fv-row mb-10">
+											<!--begin::Label-->
+											<label class="form-label required">District</label>
+											<!--end::Label-->
+											<!--begin::Input-->
+											<select id="districtshere" name="location_district" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="true"  onchange="fetchInstitutions()">
+												<option value=""></option>
+											</select>
+											<!--end::Input-->
+										</div>
+
+
+										<div class="fv-row mb-10" data-institution-url="https://itnthub.tn.gov.in/{% url 'institutions' %}"  data-institution-urlid="institutionslink">
+											<label class="form-label required">Institutions Name</label>
+											  
+											{% comment %}<input name="institution" class="form-control form-control-lg form-control-solid" placeholder="Your institution name" value="" required />   {% endcomment %}
+											<select id="institutionshere" name="institution" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="false" required>
+													<option value="">Please select institution</option>
+											</select> 
+										</div>
+
+
 										<div class="fv-row mb-10">
 											<!--begin::Label-->
 											<label class="form-label required">Department</label>
 											<!--end::Label-->
 											<!--begin::Input-->
-											<input name="department" class="form-control form-control-lg form-control-solid" placeholder="Your department" value="" />
-											{% comment %} <select name="department" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="true">
+											{% comment %}<input name="department" class="form-control form-control-lg form-control-solid" placeholder="Your department" value="" />{% endcomment %}
+											<select name="department" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="true">
 												{% for department in departments %}
 												<option value="{{department.department_id}}">{{department.department_value}}</option>
 												{%endfor%}
-											</select> {% endcomment %}
+											</select> 
 											<!--end::Input-->
 										</div>
 										<div class="fv-row mb-10">
@@ -211,35 +239,6 @@
 												<option value="male">Male</option>
 												<option value="female">Female</option>
 												<option value="prefer not to say">Prefer not to say</option>
-											</select>
-											<!--end::Input-->
-										</div>
-										
-										{% comment %}
-										https://itnthub.tn.gov.in/
-										{% endcomment %}
-											
-										
-										<div class="fv-row mb-10" data-district-url="https://itnthub.tn.gov.in/{% url 'districts' %}"  data-district-urlid="districtslink">
-											<!--begin::Label-->
-											<label class="form-label required">State</label>
-											<!--end::Label-->
-											<!--begin::Input-->
-											<select name="location_state" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="true" onchange="fetchDistricts(this.value)">
-												<option>Select state</option>
-												{% for state in states %}
-												<option value="{{state.state_id}}">{{state.state_value}}</option>
-												{%endfor%}
-											</select>
-											<!--end::Input-->
-										</div>
-										<div class="fv-row mb-10">
-											<!--begin::Label-->
-											<label class="form-label required">District</label>
-											<!--end::Label-->
-											<!--begin::Input-->
-											<select id="districtshere" name="location_district" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="true">
-												<option value=""></option>
 											</select>
 											<!--end::Input-->
 										</div>
@@ -413,39 +412,73 @@
 		<script src="{% static 'assets/js/custom/utilities/modals/student-registration.js' %}"></script>
 		<script>
 			// Define fetchDistricts function
-			function fetchDistricts(stateId) {
-				var stateMainSelect = document.querySelector('div[data-district-urlid="districtslink"]');
-				var districtUrl = stateMainSelect.getAttribute('data-district-url');
-				var districtSelect = document.querySelector('select[name="location_district"]');
-				fetch(`${districtUrl}?state_id=${stateId}`)
-					.then(response => response.json())
-					.then(data => {
-						// Clear existing options
-						districtSelect.innerHTML = '';
-						// Add default option
-						districtSelect.appendChild(new Option('', ''));
-						// Add districts
-						data.forEach(district => {
-							districtSelect.appendChild(new Option(district.name, district.id));
-						});
-					})
-					.catch(error => console.error('Error fetching districts:', error));
-			}
-		     
-			// Event listener for state dropdown
-			document.addEventListener('DOMContentLoaded', function() {
-				var stateSelect = document.querySelector('select[name="location_state"]');
-				var districtSelect = document.querySelector('select[name="location_district"]');
-				stateSelect.addEventListener('change', function() {
-					var stateId = this.value;
-					if (stateId) {
-						fetchDistricts(stateId);
-					} else {
-						districtSelect.innerHTML = '<option value=""></option>';
-					}
-				});
-			});
+function fetchDistricts(stateId) {
+    var stateMainSelect = document.querySelector('div[data-district-urlid="districtslink"]');
+    var districtUrl = stateMainSelect.getAttribute('data-district-url');
+    var districtSelect = document.querySelector('select[name="location_district"]');
+    fetch(`${districtUrl}?state_id=${stateId}`)
+        .then(response => response.json())
+        .then(data => {
+            // Clear existing options
+            districtSelect.innerHTML = '';
+            // Add default option
+            districtSelect.appendChild(new Option('', ''));
+            // Add districts
+            data.forEach(district => {
+                districtSelect.appendChild(new Option(district.name, district.id));
+            });
+        })
+        .catch(error => console.error('Error fetching districts:', error));
+}
+
+// Define fetchInstitutions function
+function fetchInstitutions() {
+    var stateSelect = document.querySelector('select[name="location_state"]');
+    var districtSelect = document.querySelector('select[name="location_district"]');
+    var institutionSelect = document.querySelector('select[name="institution"]');
+    var stateId = stateSelect.value;
+    var districtId = districtSelect.value;
+    if (stateId && districtId) {
+        var institutionMainSelect = document.querySelector('div[data-institution-urlid="institutionslink"]');
+        var institutionUrl = institutionMainSelect.getAttribute('data-institution-url');
+        fetch(`${institutionUrl}?state_id=${stateId}&district_id=${districtId}`)
+            .then(response => response.json())
+            .then(data => {
+                // Clear existing options
+                institutionSelect.innerHTML = '';
+                // Add default option
+                institutionSelect.appendChild(new Option('Please select institution', ''));
+                // Add institutions
+                data.forEach(institution => {
+                    institutionSelect.appendChild(new Option(institution.name, institution.id));
+                });
+            })
+            .catch(error => console.error('Error fetching institutions:', error));
+    } else {
+        institutionSelect.innerHTML = '<option value="">Please select institution</option>';
+    }
+}
+
+// Event listener for state and district dropdowns
+document.addEventListener('DOMContentLoaded', function() {
+    var stateSelect = document.querySelector('select[name="location_state"]');
+    var districtSelect = document.querySelector('select[name="location_district"]');
+    stateSelect.addEventListener('change', function() {
+        var stateId = this.value;
+        if (stateId) {
+            fetchDistricts(stateId);
+        } else {
+            districtSelect.innerHTML = '<option value=""></option>';
+            fetchInstitutions(); // Clear institutions if no state is selected
+        }
+    });
+    districtSelect.addEventListener('change', function() {
+        fetchInstitutions();
+    });
+});
+
 		</script>
+		
 		<script>
 			function handleHighestQualificationChange(selectElement) {
 				var inputElement = document.getElementById("highest_qualification_input");
