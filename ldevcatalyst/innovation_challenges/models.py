@@ -17,6 +17,9 @@ class InnovationChallenge(models.Model):
         ('archived', 'archived'),
         ('submitted', 'submitted'),
     ])
+    
+    def __str__(self):
+        return str(self.id)
 class InnovationChallengeDetails(models.Model):
     challenge = models.ForeignKey(InnovationChallenge, on_delete=models.SET_NULL,blank=True,null=True)
     description = models.TextField(blank=True,null=True)
