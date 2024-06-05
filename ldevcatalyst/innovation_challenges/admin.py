@@ -133,44 +133,55 @@ class InnovationChallengeProposalAdmin(admin.ModelAdmin):
 
         p.drawText(wrapped_text)
         return y
-
     def export_as_pdf(self, request, queryset):
         response = HttpResponse(content_type='application/pdf')
-        response['Content-Disposition'] = 'attachment; filename="Innovation_Challenge_Proposal.pdf"'
+        response['Content-Disposition'] = 'attachment; filename="Innovation Challenge Proposal.pdf"'
         p = canvas.Canvas(response, pagesize=letter)
         page_width, page_height = letter
 
-        # Add a bold title centered on the page and set to green color
-        title = "Innovation Challenge Proposal Data"
-        p.setFont("Helvetica-Bold", 14)
-        p.setFillColorRGB(0, 1, 0)  # Set color to green (RGB)
-        title_width = p.stringWidth(title, "Helvetica-Bold", 16)
-        x = (page_width - title_width) / 2
-        p.drawString(x, page_height - 50, title)
+        # Add a bold title
+        p.setFont("Helvetica-Bold",16)
+        p.drawString(100, page_height - 50, "Innovation Challenge Proposal Data")
 
-        # Reset color to black for the rest of the text
-        p.setFillColorRGB(0, 0, 0)
+        # Reset to default font
+        p.setFont("Helvetica", 12)
 
         # Define the starting point for the rows
         y = page_height - 100
         line_height = 20
 
-        # Get all field names of the InnovationChallengeProposal model
-        fields = InnovationChallengeProposal._meta.get_fields()
+        # Define the fields to display manually
+        fields_to_display = [
+            ('id', 'Proposal ID'),
+            ('name', 'Name'),
+            ('submitted_by', 'Submitted By'),
+            ('challenge_id', 'Challenge ID'),
+            ('challenge__name', 'Challenge Name'),
+            ('challenge__industry_id', 'Industry ID'),
+            ('challenge__industry__name', 'Industry Name'),
+            ('challenge__area_of_interest_id', 'Area of Interest ID'),
+            ('challenge__area_of_interest__name', 'Area of Interest Name'),
+            ('brief', 'Brief'),
+            ('value_proposition', 'Value Proposition'),
+            ('solution_readiness', 'Solution Readiness'),
+            ('implementation_time', 'Implementation Time'),
+            ('ip_status', 'IP Status'),
+            ('created', 'Created'),
+            ('updated', 'Updated'),
+            ('created_by', 'Created By'),
+            ('updated_by', 'Updated By'),
+        ]
 
-        for item in queryset:
-            for field in fields:
-                field_name = field.verbose_name.title() if hasattr(field, 'verbose_name') else field.name.title()
-                field_value = getattr(item, field.name, 'N/A')
+        for obj in queryset:
+            for field_path, field_display in fields_to_display:
+                field_parts = field_path.split('__')
+                field_value = obj
+                for item in field_parts:
+                    field_value = getattr(field_value, item, 'N/A')
+                    if field_value == 'N/A':
+                        break
 
-                if field.is_relation:
-                    if field_value and field_value != 'N/A':
-                        related_objects = field.related_model.objects.filter(pk=field_value.id)
-                        field_value = ', '.join(str(obj) for obj in related_objects) if related_objects else 'N/A'
-                    else:
-                        field_value = 'N/A'
-
-                y = self.draw_text(p, f"{field_name}:", 100, y, line_height, page_width, page_height, bold=True, font_size=14)
+                y = self.draw_text(p, f"{field_display}:", 100, y, line_height, page_width, page_height, bold=True, font_size=14)
                 y = self.draw_text(p, str(field_value), 100, y - line_height, line_height, page_width, page_height, bold=False, font_size=12)
 
                 # Add extra space between fields
@@ -191,6 +202,5 @@ class InnovationChallengeProposalAdmin(admin.ModelAdmin):
 
     # Add the custom action to the admin actions
     actions = [export_as_pdf]
-
 
 admin.site.register(InnovationChallengeProposal, InnovationChallengeProposalAdmin)
