@@ -1,10 +1,13 @@
 from django.contrib import admin
 from django.http import HttpResponse
+from django.core.files.storage import default_storage
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
-from reportlab.lib.units import inch
 from .models import RollsRoyceProposal
 from django.contrib.auth.models import User
+import os
+import zipfile
+from io import BytesIO
 
 class RollsRoyceProposalAdmin(admin.ModelAdmin):
     list_display = ('solution_name', 'user', 'focus_area', 'team_size', 'innovation_current_stage')
@@ -16,12 +19,11 @@ class RollsRoyceProposalAdmin(admin.ModelAdmin):
             'fields': ('user', 'solution_name', 'focus_area', 'team_size', 'innovation_current_stage', 'patent_status')
         }),
         ('Details', {
-            'fields': ('team_composition', 'solution_brief', 'solution_uniqueness', 'solution_sustainable_development_goals', 'proposed_rc_research_papers_exist', 'proposed_rc_research_papers_count', 'proposed_rc_research_papers_links', 'proposed_rc_research_papers_files', 'timeframe', 'expected_impacts_outcomes'),
+            'fields': ('team_composition', 'solution_brief', 'solution_uniqueness', 'solution_sustainable_development_goals', 'proposed_rc_research_papers_exist', 'proposed_rc_research_papers_count', 'proposed_rc_research_papers_links', 'proposed_rc_research_papers_files', 'timeframe', 'expected_impacts_outcomes','supporting_documents'),
             'classes': ('collapse',),
         }),
     )
 
-    # Helper function to draw text, handling long text and new pages
     def draw_text(self, p, text, x, y, line_height, page_width, page_height, bold=False, font_size=12):
         wrapped_text = p.beginText(x, y)
         font = "Helvetica-Bold" if bold else "Helvetica"
@@ -36,9 +38,8 @@ class RollsRoyceProposalAdmin(admin.ModelAdmin):
                     wrapped_text = p.beginText(x, y)
                     wrapped_text.setFont(font, font_size)
 
-                # Split line to fit within page width
-                available_width = page_width - 1 * x
-                max_chars_per_line = int(available_width // (font_size * 0.6))  # Approximate chars that fit into the available width
+                available_width = page_width - 2 * x
+                max_chars_per_line = int(available_width // (font_size * 0.6))
                 line_split = line[:max_chars_per_line]
                 line_remainder = line[max_chars_per_line:]
 
@@ -55,18 +56,13 @@ class RollsRoyceProposalAdmin(admin.ModelAdmin):
         p = canvas.Canvas(response, pagesize=letter)
         page_width, page_height = letter
 
-        # Add a bold title
         p.setFont("Helvetica-Bold", 16)
         p.drawString(100, page_height - 50, "RollsRoyce Proposal Data")
 
-        # Reset to default font
         p.setFont("Helvetica", 12)
-
-        # Define the starting point for the rows
         y = page_height - 100
         line_height = 20
 
-        # Define the fields to display manually
         fields_to_display = [
             ('user', 'User'),
             ('solution_name', 'Solution Name'),
@@ -88,23 +84,15 @@ class RollsRoyceProposalAdmin(admin.ModelAdmin):
         for obj in queryset:
             for field_path, field_display in fields_to_display:
                 field_value = getattr(obj, field_path, 'N/A')
-
-                # For foreign key fields, get the string representation
                 if field_path == 'user':
                     field_value = obj.user.username if obj.user else 'N/A'
-                
-                # For file fields, provide a download link
                 if field_path == 'proposed_rc_research_papers_links' and field_value != 'N/A':
                     field_value = request.build_absolute_uri(field_value)
-                
-                if field_path in ['proposed_rc_research_papers_links']:
+
+                if field_path == 'proposed_rc_research_papers_links':
                     y = self.draw_text(p, f"{field_display}:", 100, y, line_height, page_width, page_height, bold=True, font_size=14)
                     y = self.draw_text(p, str(field_value), 100, y - line_height, line_height, page_width, page_height, bold=False, font_size=12)
-
-                    # Add extra space between fields
                     y -= line_height
-
-                    # Check if we need to add a new page
                     if y < 50:
                         p.showPage()
                         y = page_height - 50
@@ -112,16 +100,11 @@ class RollsRoyceProposalAdmin(admin.ModelAdmin):
 
                 y = self.draw_text(p, f"{field_display}:", 100, y, line_height, page_width, page_height, bold=True, font_size=14)
                 y = self.draw_text(p, str(field_value), 100, y - line_height, line_height, page_width, page_height, bold=False, font_size=12)
-
-                # Add extra space between fields
                 y -= line_height
-
-                # Check if we need to add a new page
                 if y < 50:
                     p.showPage()
                     y = page_height - 50
 
-            # Add a blank line between records
             y -= line_height
 
         p.save()
@@ -129,7 +112,23 @@ class RollsRoyceProposalAdmin(admin.ModelAdmin):
 
     export_as_pdf.short_description = "Export selected to PDF"
 
-    # Add the custom action to the admin actions
-    actions = [export_as_pdf]
+    def export_supporting_documents(self, request, queryset):
+        zip_buffer = BytesIO()
+        with zipfile.ZipFile(zip_buffer, 'w') as zip_file:
+            for obj in queryset:
+                if obj.supporting_documents:
+                    file_path = obj.supporting_documents.path
+                    with default_storage.open(file_path, 'rb') as f:
+                        zip_file.writestr(os.path.basename(file_path), f.read())
+
+        zip_buffer.seek(0)
+        response = HttpResponse(zip_buffer, content_type='application/zip')
+        response['Content-Disposition'] = 'attachment; filename="Supporting_Documents.zip"'
+
+        return response
+
+    export_supporting_documents.short_description = "Export Supporting Documents"
+
+    actions = [export_as_pdf, export_supporting_documents]
 
 admin.site.register(RollsRoyceProposal, RollsRoyceProposalAdmin)
