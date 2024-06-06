@@ -1,13 +1,19 @@
 from django.contrib import admin
 from django.http import HttpResponse
 from django.core.files.storage import default_storage
+from reportlab.lib import colors
 from reportlab.lib.pagesizes import letter
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+from reportlab.lib.units import inch
 from reportlab.pdfgen import canvas
+from reportlab.pdfbase.ttfonts import TTFont
+from reportlab.pdfbase import pdfmetrics
+from reportlab.platypus import Paragraph, SimpleDocTemplate, Spacer, Frame
 from .models import RollsRoyceProposal
-from django.contrib.auth.models import User
-import os
-import zipfile
 from io import BytesIO
+import zipfile
+import os
+from django.conf import settings
 
 class RollsRoyceProposalAdmin(admin.ModelAdmin):
     list_display = ('solution_name', 'user', 'focus_area', 'team_size', 'innovation_current_stage')
@@ -24,45 +30,47 @@ class RollsRoyceProposalAdmin(admin.ModelAdmin):
         }),
     )
 
-    def draw_text(self, p, text, x, y, line_height, page_width, page_height, bold=False, font_size=12):
-        wrapped_text = p.beginText(x, y)
-        font = "Helvetica-Bold" if bold else "Helvetica"
-        wrapped_text.setFont(font, font_size)
+    def _register_fonts(self):
+        font_dir = os.path.join(settings.BASE_DIR, 'custom_ic/fonts')
+        pdfmetrics.registerFont(TTFont('NotoSans-Regular', os.path.join(font_dir, 'NotoSans-Regular.ttf')))
+        pdfmetrics.registerFont(TTFont('NotoSans-Bold', os.path.join(font_dir, 'NotoSans-Bold.ttf')))
+        pdfmetrics.registerFont(TTFont('NotoSans-Italic', os.path.join(font_dir, 'NotoSans-Italic.ttf')))
 
-        lines = text.split('\n')
-        for line in lines:
-            while line:
-                if y < line_height:
-                    p.showPage()
-                    y = page_height - line_height
-                    wrapped_text = p.beginText(x, y)
-                    wrapped_text.setFont(font, font_size)
+    def _add_background_and_images(self, canvas_obj, doc):
+        width, height = doc.pagesize
+        files_dir = os.path.join(settings.BASE_DIR, 'custom_ic/files')
 
-                available_width = page_width - 2 * x
-                max_chars_per_line = int(available_width // (font_size * 0.6))
-                line_split = line[:max_chars_per_line]
-                line_remainder = line[max_chars_per_line:]
+        # Calculate the aspect ratio matching the page size without stretching the image
+        background_path = os.path.join(files_dir, 'background.jpg')
+        img = canvas.ImageReader(background_path)
+        img_width, img_height = img.getSize()
+        aspect = img_width / float(img_height)
 
-                wrapped_text.textLine(line_split)
-                y -= line_height
-                line = line_remainder
+        if aspect > 1:
+            # Wide image
+            img_width = width
+            img_height = width / aspect
+        else:
+            # Tall image
+            img_height = height
+            img_width = height * aspect
 
-        p.drawText(wrapped_text)
-        return y
+        # canvas_obj.drawImage(background_path, (width - img_width) / 2, (height - img_height) / 2, width=img_width, height=img_height, preserveAspectRatio=True)
+
+        # # Add the iTNT logo to the top right without black strip and jigsaw logo
+        # canvas_obj.drawImage(os.path.join(files_dir, 'iTNT.png'), width-2*inch, height-1*inch, width=1.5*inch, height=1.5*inch, mask='auto')
 
     def export_as_pdf(self, request, queryset):
-        response = HttpResponse(content_type='application/pdf')
-        response['Content-Disposition'] = 'attachment; filename="RollsRoyce_Proposals.pdf"'
-        p = canvas.Canvas(response, pagesize=letter)
-        page_width, page_height = letter
+        self._register_fonts()
+        buffer = BytesIO()
+        doc = SimpleDocTemplate(buffer, pagesize=letter)
+        styles = getSampleStyleSheet()
+        styles.add(ParagraphStyle(name='CustomTitle', fontName='NotoSans-Bold', fontSize=24, leading=30, textColor=colors.black, spaceAfter=20))
+        styles.add(ParagraphStyle(name='CustomHeading', fontName='NotoSans-Bold', fontSize=16, leading=20, textColor=colors.orange, spaceAfter=10))
+        styles.add(ParagraphStyle(name='CustomSubHeading', fontName='NotoSans-Italic', fontSize=14, leading=18, textColor=colors.yellow, spaceAfter=10))
+        styles.add(ParagraphStyle(name='CustomBody', fontName='NotoSans-Regular', fontSize=12, leading=15, spaceAfter=10))
 
-        p.setFont("Helvetica-Bold", 16)
-        p.drawString(100, page_height - 50, "RollsRoyce Proposal Data")
-
-        p.setFont("Helvetica", 12)
-        y = page_height - 100
-        line_height = 20
-
+        elements = [Paragraph("RollsRoyce Proposal Data", styles['CustomTitle'])]
         fields_to_display = [
             ('user', 'User'),
             ('solution_name', 'Solution Name'),
@@ -88,26 +96,19 @@ class RollsRoyceProposalAdmin(admin.ModelAdmin):
                     field_value = obj.user.username if obj.user else 'N/A'
                 if field_path == 'proposed_rc_research_papers_links' and field_value != 'N/A':
                     field_value = request.build_absolute_uri(field_value)
+                elements.append(Paragraph(f"<b>{field_display}:</b>", styles['CustomHeading']))
+                elements.append(Paragraph(str(field_value), styles['CustomBody']))
+            elements.append(Spacer(1, 0.2 * inch))
 
-                if field_path == 'proposed_rc_research_papers_links':
-                    y = self.draw_text(p, f"{field_display}:", 100, y, line_height, page_width, page_height, bold=True, font_size=14)
-                    y = self.draw_text(p, str(field_value), 100, y - line_height, line_height, page_width, page_height, bold=False, font_size=12)
-                    y -= line_height
-                    if y < 50:
-                        p.showPage()
-                        y = page_height - 50
-                    continue
+        def on_first_page(canvas_obj, doc):
+            self._add_background_and_images(canvas_obj, doc)
 
-                y = self.draw_text(p, f"{field_display}:", 100, y, line_height, page_width, page_height, bold=True, font_size=14)
-                y = self.draw_text(p, str(field_value), 100, y - line_height, line_height, page_width, page_height, bold=False, font_size=12)
-                y -= line_height
-                if y < 50:
-                    p.showPage()
-                    y = page_height - 50
+        doc.build(elements, onFirstPage=on_first_page)
+        pdf = buffer.getvalue()
+        buffer.close()
+        response = HttpResponse(pdf, content_type='application/pdf')
+        response['Content-Disposition'] = 'attachment; filename="RollsRoyce_Proposals.pdf"'
 
-            y -= line_height
-
-        p.save()
         return response
 
     export_as_pdf.short_description = "Export selected to PDF"
