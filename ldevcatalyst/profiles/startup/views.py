@@ -59,7 +59,7 @@ def fetch_startup_profiles(request):
         for profile in startup_profiles_q:
             startup_profiles.append({
                 'startup_id': profile.id,
-                'name': profile.name,
+                'name': profile.company_name,
                 'email': profile.email,
             })
         return JsonResponse(startup_profiles, safe=False)

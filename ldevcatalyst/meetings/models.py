@@ -28,6 +28,8 @@ class MeetingRequests(models.Model):
     meeting_date_time = models.DateTimeField(blank=True, null=True)
     next_level = models.CharField(max_length=255, blank=True, null=True)
     
+    cancellation_reason = models.TextField(blank=True, null=True)
+    
     class Meta:
         verbose_name_plural ="Meeting Requests"
 @receiver(pre_save, sender=MeetingRequests)

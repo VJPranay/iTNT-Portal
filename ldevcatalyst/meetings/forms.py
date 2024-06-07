@@ -22,5 +22,6 @@ class VCMeetingRequestAcceptForm(forms.ModelForm):
 
     class Meta:
         model = MeetingRequests
-        exclude = ['start_up', 'vc', 'meeting_date_time','status','created','updated','']
+        exclude = ['start_up', 'vc', 'meeting_date_time','status','created','updated',]
+        fields=['cancellation_reason']
 

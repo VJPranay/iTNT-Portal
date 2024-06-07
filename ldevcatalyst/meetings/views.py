@@ -343,6 +343,25 @@ def vc_meeting_accept(request, meeting_id):
     return render(request, 'dashboard/meetings/vc/meeting_accept.html', {'form': form, 'meeting_request': meeting_request})
 
 
+# @login_required
+# def vc_meeting_reject(request, meeting_id):
+#     try:
+#         meeting_request = MeetingRequests.objects.get(pk=meeting_id, vc__user_id=request.user.id, status='start_up_request')
+#     except MeetingRequests.DoesNotExist:
+#         return redirect('not_found')
+
+#     if request.method == 'POST':
+#         form = VCMeetingRequestAcceptForm(request.POST, instance=meeting_request)
+#         if form.is_valid():
+#             form.save()
+#             meeting_info = MeetingRequests.objects.get(id=meeting_id)
+#             meeting_info.status = 'rejected'
+#             meeting_info.save()
+#             return redirect('meeting', meeting_id=meeting_id)
+#     else:
+#         form = VCMeetingRequestAcceptForm(instance=meeting_request)
+#     return render(request, 'dashboard/meetings/vc/meeting_reject.html', {'form': form, 'meeting_request': meeting_request})
+
 @login_required
 def vc_meeting_reject(request, meeting_id):
     try:
@@ -353,15 +372,20 @@ def vc_meeting_reject(request, meeting_id):
     if request.method == 'POST':
         form = VCMeetingRequestAcceptForm(request.POST, instance=meeting_request)
         if form.is_valid():
-            form.save()
-            meeting_info = MeetingRequests.objects.get(id=meeting_id)
-            meeting_info.status = 'rejected'
-            meeting_info.save()
-            return redirect('meeting', meeting_id=meeting_id)
+            meeting_request = form.save(commit=False)
+            meeting_request.status = 'rejected'
+            meeting_request.cancellation_reason = form.cleaned_data.get('cancellation_reason')
+            meeting_request.save()
+            
+            if hasattr(request.user, 'profile') and request.user.profile.is_vc:
+                return redirect('vc_profiles_list')  # Update with actual URL name for VC profiles
+            else:
+                return redirect('startup_profiles_list')  # Update with actual URL name for Startup profiles
+
     else:
         form = VCMeetingRequestAcceptForm(instance=meeting_request)
-    return render(request, 'dashboard/meetings/vc/meeting_reject.html', {'form': form, 'meeting_request': meeting_request})
 
+    return render(request, 'dashboard/meetings/vc/meeting_reject.html', {'form': form, 'meeting_request': meeting_request})
 
 
 

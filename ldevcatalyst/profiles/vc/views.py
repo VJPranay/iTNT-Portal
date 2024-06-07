@@ -73,6 +73,13 @@ def fetch_vc_details(request):
         meeting_request_sent = MeetingRequests.objects.filter(
             vc_id=vc_id,
             start_up__user__id=request.user.id).exists()
+        
+        funding_stages_html = ""
+        if vc.funding_stage.exists():
+            funding_stages = [escape(stage.name) for stage in vc.funding_stage.all()]
+            funding_stages_html = ", ".join(funding_stages)
+        else:
+            funding_stages_html = "None"
         # Construct HTML for the startup details
         html = f"""
             	                                   <!--begin::Profile-->
@@ -126,14 +133,14 @@ def fetch_vc_details(request):
 																</div>
                                                                 <div class="d-flex flex-column gap-1">
 																	<div class="fw-bold text-muted">Funding Stage</div>
-																	<div class="fw-bold fs-5">"""+escape(vc.funding_stage.name if vc.funding_stage else None)+"""</div>
+																	<div class="fw-bold fs-5"> """+funding_stages_html+"""</div>
 																</div>
                                                                 
 																<!--end::Company description-->
 																<!--begin::market_size-->
 																<div class="d-flex flex-column gap-1">
 																	<div class="fw-bold text-muted">Market size</div>
-																	<div class="fw-bold fs-5">"""+escape(vc.deal_size_range_min)+" "+escape(vc.deal_size_range_max)+"""</div>
+																	<div class="fw-bold fs-5">"""+escape(vc.deal_size_range_usd)+"""</div>
 																</div>
 																<!--end::market_size-->
 																<!--begin::funding_stage-->
