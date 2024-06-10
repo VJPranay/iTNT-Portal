@@ -62,6 +62,30 @@
 						</table>
 					</div>
 				</div>
+
+                <!-- institution Table -->
+				<div class="col-lg-4">
+					<div class="table-responsive">
+						<table class="table table-bordered table-hover">
+							<thead class="table-light">
+								<tr>
+									<th style="width: 8%" class="text-center">Institution</th>
+									<th style="width: 8%" class="text-center">Student Count</th>
+								</tr>
+							</thead>
+							<tbody>
+								{% for item in institution_data %}
+								<tr>
+									<td><a href="{% url 'student_profiles_list' %}">{{ item.institution__name }}</a></td>
+									<td>{{ item.student_count }}</td>
+								</tr>
+								{% endfor %}
+							</tbody>
+						</table>
+					</div>
+				</div>
+
+                
 			</div>
 		</div>
 	</br>
@@ -94,6 +118,27 @@
 				</div>
 			</div>
 		</div>
+
+    </br>
+        <!--begin::institutionsgraphs-->
+		<div class="card text-center">
+			<div class="card-body">
+				<h1 class="card-title">Institutions</h1>
+			</div>
+			<div class="row g-5 g-xl-10 mb-xl-10 justify-content-center">
+				<div class="col-lg-4 d-flex justify-content-center">
+					<canvas id="institutionsPieChart" width="400" height="400"></canvas>
+				</div>
+				<div class="col-lg-4 d-flex justify-content-center">
+                    <canvas id="institutionsBarChart" width="400" height="400"></canvas>
+				</div>
+			</div>
+		</div>
+
+
+
+
+        
 		
 	</br>
         {% comment %} <!--end::Row-->
@@ -262,7 +307,74 @@
         });
     });
 </script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Get data for the institutions pie chart
+        var institutionLabels = [];
+        var institutionCounts = [];
+        {% for item in institution_data %}
+            institutionLabels.push("{{ item.institution__name }}");
+            institutionCounts.push("{{ item.student_count }}");
+        {% endfor %}
 
+        // Create the institutions pie chart
+        var institutionsPieChart = new Chart(document.getElementById('institutionsPieChart'), {
+            type: 'pie',
+            data: {
+                labels: institutionLabels,
+                datasets: [{
+                    label: 'Institutions',
+                    data: institutionCounts,
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.8)',
+                        'rgba(54, 162, 235, 0.8)',
+                        'rgba(255, 206, 86, 0.8)',
+                        'rgba(75, 192, 192, 0.8)',
+                        'rgba(153, 102, 255, 0.8)',
+                        'rgba(255, 159, 64, 0.8)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true
+            }
+        });
+    });
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Get data for the institutions bar chart
+        var institutionLabels = [];
+        var institutionCounts = [];
+        {% for item in institution_data %}
+            institutionLabels.push("{{ item.institution__name }}");
+            institutionCounts.push("{{ item.student_count }}");
+        {% endfor %}
+
+        // Create the institutions bar chart
+        var institutionsBarChart = new Chart(document.getElementById('institutionsBarChart'), {
+            type: 'bar',
+            data: {
+                labels: institutionLabels,
+                datasets: [{
+                    label: 'Institutions',
+                    data: institutionCounts,
+                    backgroundColor: 'rgba(54, 162, 235, 0.8)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    });
+</script>
 
 
 

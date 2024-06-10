@@ -29,6 +29,13 @@ def student_overview(request):
             'district__name' : item['district__name'],
             'student_count' : item['student_count'],
         })
+    student_count_by_institution=StudentRegistrations.objects.values('institution__name').annotate(student_count=Count('id')).order_by('-student_count')
+    by_institution = []
+    for item in student_count_by_institution:
+        by_institution.append({
+            'institution__name' : item['institution__name'],
+            'student_count' : item['student_count'],
+        })       
     
 
     counts ={
@@ -38,6 +45,7 @@ def student_overview(request):
         'counts' :counts,
         'area_of_interest_data' : by_area_of_interest,
         'district_data' : by_district,
+        'institution_data' : by_institution
        
     })
 

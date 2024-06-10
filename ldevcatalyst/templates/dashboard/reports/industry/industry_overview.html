@@ -48,13 +48,34 @@
 							<thead class="table-light">
 								<tr>
 									<th style="width: 8%" class="text-center">District</th>
-									<th style="width: 8%" class="text-center">Student Count</th>
+									<th style="width: 8%" class="text-center">Industry Count</th>
 								</tr>
 							</thead>
 							<tbody>
 								{% for item in district_data %}
 								<tr>
 									<td><a href="{% url 'industry_profiles_list' %}">{{ item.district__name }}</a></td>
+									<td>{{ item.industry_count }}</td>
+								</tr>
+								{% endfor %}
+							</tbody>
+						</table>
+					</div>
+				</div>
+                <!--Industry Type Table -->
+                <div class="col-lg-4">
+					<div class="table-responsive">
+						<table class="table table-bordered table-hover">
+							<thead class="table-light">
+								<tr>
+									<th style="width: 8%" class="text-center">Industry</th>
+									<th style="width: 8%" class="text-center">Industry Count</th>
+								</tr>
+							</thead>
+							<tbody>
+								{% for item in industry_data %}
+								<tr>
+									<td><a href="{% url 'industry_profiles_list' %}">{{ item.industry__name }}</a></td>
 									<td>{{ item.industry_count }}</td>
 								</tr>
 								{% endfor %}
@@ -94,6 +115,22 @@
 				</div>
 			</div>
 		</div>
+
+        </br>
+        <!--begin::industrygraphs-->
+        <div class="card text-center">
+            <div class="card-body">
+                <h1 class="card-title">Industry</h1>
+            </div>
+            <div class="row g-5 g-xl-10 mb-xl-10 justify-content-center">
+                <div class="col-lg-4 d-flex justify-content-center">
+                    <canvas id="industryPieChart" width="400" height="400"></canvas>
+                </div>
+                <div class="col-lg-4 d-flex justify-content-center">
+                    <canvas id="industryBarChart" width="400" height="400"></canvas>
+                </div>
+            </div>
+        </div>
 		
 	</br>
         {% comment %} <!--end::Row-->
@@ -261,5 +298,73 @@
             }
         });
     });
-</script>     
+</script>   
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Get data for the industry pie chart
+        var industryLabels = [];
+        var industryCounts = [];
+        {% for item in industry_data %}
+            industryLabels.push("{{ item.industry__name }}");
+            industryCounts.push("{{ item.industry_count }}");
+        {% endfor %}
+
+        // Create the industry pie chart
+        var industryPieChart = new Chart(document.getElementById('industryPieChart'), {
+            type: 'pie',
+            data: {
+                labels: industryLabels,
+                datasets: [{
+                    label: 'Industry',
+                    data: industryCounts,
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.8)',
+                        'rgba(54, 162, 235, 0.8)',
+                        'rgba(255, 206, 86, 0.8)',
+                        'rgba(75, 192, 192, 0.8)',
+                        'rgba(153, 102, 255, 0.8)',
+                        'rgba(255, 159, 64, 0.8)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true
+            }
+        });
+    });
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Get data for the industry bar chart
+        var industryLabels = [];
+        var industryCounts = [];
+        {% for item in industry_data %}
+            industryLabels.push("{{ item.industry__name }}");
+            industryCounts.push("{{ item.industry_count }}");
+        {% endfor %}
+
+        // Create the industry bar chart
+        var industryBarChart = new Chart(document.getElementById('industryBarChart'), {
+            type: 'bar',
+            data: {
+                labels: industryLabels,
+                datasets: [{
+                    label: 'Industry',
+                    data: industryCounts,
+                    backgroundColor: 'rgba(54, 162, 235, 0.8)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    });
+</script>  
 {% endblock  %}

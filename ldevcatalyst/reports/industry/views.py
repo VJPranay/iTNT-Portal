@@ -7,7 +7,7 @@ from django.shortcuts import redirect
 from django.contrib.auth import logout as auth_logout
 from django.urls import reverse
 from django.http import HttpResponseNotAllowed
-from registrations.models import IndustryRegistrations
+from registrations.models import IndustryRegistrations,IndustryCategory
 from django.db.models import Count
 from django.contrib import messages
 
@@ -29,6 +29,14 @@ def industry_overview(request):
             'district__name' : item['district__name'],
             'industry_count' : item['industry_count'],
         })
+         
+    industry_count_by_industry = IndustryRegistrations.objects.values('industry__name').annotate(industry_count=Count('id')).order_by('-industry_count')
+    by_industry = []
+    for item in industry_count_by_industry:
+        by_industry.append({
+            'industry__name': item['industry__name'],
+            'industry_count': item['industry_count'],
+        })
     
 
     counts ={
@@ -38,6 +46,7 @@ def industry_overview(request):
         'counts' :counts,
         'area_of_interest_data' : by_area_of_interest,
         'district_data' : by_district,
+        'industry_data' : by_industry,
        
     })
 
