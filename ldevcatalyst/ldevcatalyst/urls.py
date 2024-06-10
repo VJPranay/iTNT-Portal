@@ -40,6 +40,8 @@ urlpatterns = [
     path('reports/', include('reports.urls')),
     path('ic/rolls-royce/', include('custom_ic.urls')),
     path('smeconnect/', include('smeconnect.urls')),
+    path('vcstartup_meetings/', include('vcstartup_meetings.urls')),
+    
     path('', not_found),
 ]
 
