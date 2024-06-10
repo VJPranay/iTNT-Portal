@@ -160,7 +160,7 @@
 											<label class="form-label required">State</label>
 											<!--end::Label-->
 											<!--begin::Input-->
-											<select name="location_state" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="true" onchange="fetchDistricts(this.value)">
+											<select name="location_state" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="false" onchange="fetchDistricts(this.value)">
 												<option>Select state</option>
 												{% for state in states %}
 												<option value="{{state.state_id}}">{{state.state_value}}</option>
@@ -173,7 +173,7 @@
 											<label class="form-label required">District</label>
 											<!--end::Label-->
 											<!--begin::Input-->
-											<select id="districtshere" name="location_district" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="true"  onchange="fetchInstitutions()">
+											<select id="districtshere" name="location_district" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="false"  onchange="fetchInstitutions()">
 												<option value=""></option>
 											</select>
 											<!--end::Input-->
