@@ -19,7 +19,7 @@
     </li>
     <!--end::Item-->
     <!--begin::Item-->
-    <li class="breadcrumb-item text-white fw-bold lh-1">StartupVC Connect</li>
+    <li class="breadcrumb-item text-white fw-bold lh-1">VcStartup Connect</li>
     <!--end::Item-->
     <!--begin::Item-->
     <li class="breadcrumb-item">
@@ -34,7 +34,7 @@
 {% endblock %}
 
 {% block pageheading %}
-StartupVc Connect
+VcStartup Connect
 {% endblock %}
 
 {% block pagedescription %}
@@ -61,7 +61,7 @@ request
                                 {% csrf_token %}
                                 {{ form|crispy }}
                                 {{ form.media }} 
-                                <button type="submit" class="btn btn-primary mt-3">Submit</button>
+                                <button type="submit" class="btn btn-primary mt-3" style="color: white;"><a href="{% url 'vcstartup_meeting_request_list' %}">Submit</a></button>
                             </form>
                         </div>
                     </div>

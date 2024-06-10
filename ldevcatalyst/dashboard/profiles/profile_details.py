@@ -64,7 +64,12 @@ def student_profile_details(request, pk):
 def vc_profile_details(request, pk):
     try:
         vc = VC.objects.get(pk=pk)
-        return render(request, 'dashboard/profiles/v2/vc_profile_details.html', {'vc': vc})
+        check_meetings = MeetingRequest.objects.filter(sender_id=request.user.id,receiver_id=vc.user.id)
+        meeting_exists = 'false'
+        for x in check_meetings:
+            if x.status == 'sent' or x.status == 'accepted':
+                meeting_exists = 'true'
+        return render(request, 'dashboard/profiles/v2/vc_profile_details.html', {'vc': vc, 'meeting_exists': meeting_exists})
     except VC.DoesNotExist:
         return HttpResponseRedirect(reverse('not_found'))
     

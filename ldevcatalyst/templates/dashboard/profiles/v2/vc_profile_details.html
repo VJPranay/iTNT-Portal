@@ -187,7 +187,7 @@ VC details
 
     {% if user.user_role == 6 %}
         {% if meeting_exists == 'false' %}
-            <button class="btn btn-primary me-md-2" type="button"><a href="{% url 'meeting_request_create' receiver_id=vc.user.id %}" style="color: white;">Send meeting request</a></button>
+            <button class="btn btn-primary me-md-2" type="button"><a href="{% url 'vcstartup_meeting_request_create' receiver_id=vc.user.id %}" style="color: white;">Send meeting request</a></button>
         {% endif %}
     {% endif %}
 

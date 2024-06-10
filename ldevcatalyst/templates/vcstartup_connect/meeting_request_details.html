@@ -18,7 +18,7 @@
     </li>
     <!--end::Item-->
     <!--begin::Item-->
-    <li class="breadcrumb-item text-white fw-bold lh-1">StarupVC Connect</li>
+    <li class="breadcrumb-item text-white fw-bold lh-1">VcStartup Connect</li>
     <!--end::Item-->
     <!--begin::Item-->
     <li class="breadcrumb-item">
@@ -33,7 +33,7 @@
 {% endblock %}
 
 {% block pageheading %}
-SME Connect
+VcStartup Connect
 {% endblock %}
 
 {% block pagedescription %}
@@ -90,15 +90,15 @@ Request Details
                         </div>
                         {% if meeting_request.receiver == user and meeting_request.status == 'sent' %}
                         <div class="mb-3 text-center">
-                            <a href="{% url 'meeting_request_accept' meeting_request.pk %}" class="btn btn-success mx-2">Accept</a>
-                            <a href="{% url 'meeting_request_reject' meeting_request.pk %}" class="btn btn-danger mx-2">Reject</a>
+                            <a href="{% url 'vcstartup_meeting_request_accept' meeting_request.pk %}" class="btn btn-success mx-2">Accept</a>
+                            <a href="{% url 'vcstartup_meeting_request_reject' meeting_request.pk %}" class="btn btn-danger mx-2">Reject</a>
                             
                         </div>
                         {% endif %}
                         {% if meeting_request.status == 'rejected' %}
                             </br>
                         {% else %}
-                            <a href="{% url 'meeting_request_cancel' meeting_request.pk %}" class="btn btn-danger mx-2">Cancel</a>
+                            <a href="{% url 'vcstartup_meeting_request_cancel' meeting_request.pk %}" class="btn btn-danger mx-2">Cancel</a>
                         {% endif%}
                         
                     </div>

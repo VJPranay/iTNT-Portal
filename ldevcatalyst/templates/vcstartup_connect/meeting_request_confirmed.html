@@ -18,7 +18,7 @@
     </li>
     <!--end::Item-->
     <!--begin::Item-->
-    <li class="breadcrumb-item text-white fw-bold lh-1">SME Connect</li>
+    <li class="breadcrumb-item text-white fw-bold lh-1">VcStartup Connect</li>
     <!--end::Item-->
     <!--begin::Item-->
     <li class="breadcrumb-item">
@@ -33,7 +33,7 @@
 {% endblock %}
 
 {% block pageheading %}
-SME Connect
+VcStartup Connect
 {% endblock %}
 
 {% block pagedescription %}
@@ -75,7 +75,7 @@ Accepted requests
                                     {%endif%}
                                     <td>{{ request.date }}</td>
                                     <td>{{ request.time }}</td>
-                                    <td><a href="{% url 'meeting_request_detail' request.pk %}">View</a></td>
+                                    <td><a href="{% url 'vcstartup_meeting_request_detail' request.pk %}">View</a></td>
                                 </tr>
                                 {% endfor %}
                             </tbody>
@@ -114,7 +114,7 @@ Accepted requests
                                     {%endif%}
                                     <td>{{ request.date }}</td>
                                     <td>{{ request.time }}</td>
-                                    <td><a href="{% url 'meeting_request_detail' request.pk %}">View</a></td>
+                                    <td><a href="{% url 'vcstartup_meeting_request_detail' request.pk %}">View</a></td>
                                 </tr>
                                 {% endfor %}
                             </tbody>

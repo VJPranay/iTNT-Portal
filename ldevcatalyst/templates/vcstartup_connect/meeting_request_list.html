@@ -78,7 +78,7 @@ Sent requests
                                     <td>{{ request.time  }}</td>
                                     <td>{{ request.status }}</td>
                                     <td>
-                                        <a href="{% url 'meeting_request_detail' request.pk %}">
+                                        <a href="{% url 'vcstartup_meeting_request_detail' request.pk %}">
                                        
                                             View
                                    
@@ -124,7 +124,7 @@ Sent requests
                                     <td>{{ request.date }}</td>
                                     <td>{{ request.time }}</td>
                                     <td>{{ request.status }}</td>
-                                    <td><a href="{% url 'meeting_request_detail' request.pk %}">View</a></td>
+                                    <td><a href="{% url 'vcstartup_meeting_request_detail' request.pk %}">View</a></td>
                                 </tr>
                                 {% endfor %}
                             </tbody>
