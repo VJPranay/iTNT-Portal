@@ -10,4 +10,7 @@ urlpatterns = [
     path('<int:pk>/cancel/', views.meeting_request_cancel, name='meeting_request_cancel'),
     path('<int:pk>/accept/', views.meeting_request_accept, name='meeting_request_accept'),
     path('<int:pk>/reject/', views.meeting_request_reject, name='meeting_request_reject'),
+    path('calendar/', views.sme_calendar_view, name='sme_calendar_view'),
+    path('sme_calendar_data/', views.sme_calendar_data, name='sme_calendar_data'),
+    path('calendar_data/<str:status>/', views.sme_calendar_data, name='calendar_data'),
 ]

@@ -1,0 +1,118 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+
+{% block breadcrums %}
+<!--begin::Breadcrumb-->
+<ul class="breadcrumb breadcrumb-separatorless fw-semibold">
+    <!--begin::Item-->
+    <li class="breadcrumb-item text-white fw-bold lh-1">
+        <a href="{% url 'dashboard_index' %}" class="text-white text-hover-primary">
+            <i class="ki-outline ki-home text-gray-700 fs-6"></i>
+        </a>
+    </li>
+    <!--end::Item-->
+    <!--begin::Item-->
+    <li class="breadcrumb-item">
+        <i class="ki-outline ki-right fs-7 text-gray-700 mx-n1"></i>
+    </li>
+    <!--end::Item-->
+    <!--begin::Item-->
+    <li class="breadcrumb-item text-white fw-bold lh-1">Meetings</li>
+    <!--end::Item-->
+    <!--begin::Item-->
+    <li class="breadcrumb-item">
+        <i class="ki-outline ki-right fs-7 text-gray-700 mx-n1"></i>
+    </li>
+    <!--end::Item-->
+    <!--begin::Item-->
+    <li class="breadcrumb-item text-white fw-bold lh-1">Calendar</li>
+    <!--end::Item-->
+</ul>
+<!--end::Breadcrumb-->
+{% endblock %}
+
+{% block pageheading %}
+Meetings
+{% endblock %}
+{% block pagedescription %}
+Calendar
+{% endblock %}
+
+{% block page_content %}
+<div class="d-flex flex-column flex-column-fluid">
+    <!--begin::Content-->
+    <div id="kt_app_content" class="app-content flex-column-fluid">
+        <!--begin::Contacts App- View Contact-->
+        <div class="row g-7 justify-content-center">
+            <!--begin::Contact groups-->
+            <div class="col-lg-8 col-xl-8">
+                <div class="card card-flush">
+                    <div class="card-body">
+                        <h5 class="card-title">Filter by Status:</h5>
+                        <div class="d-flex align-items-center">
+                            <select class="form-select" id="statusFilter">
+                                <option value="all">All</option>
+                                <option value="pending">Pending</option>
+                                <option value="accepted">Accepted</option>
+                                <option value="approved">Approved</option>
+                                <option value="rejected">Rejected</option>
+                            </select>
+                            <button class="btn btn-primary ms-3" id="refreshButton">Refresh</button>
+                        </div>
+                    </div>
+
+                    <div id='calendar' style='width:100%;'></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block custom_js %}
+<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js'></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        $('#statusFilter').change(function() {
+            var status = $(this).val();
+            fetchMeetingRequests(status);
+        });
+
+        // Initial fetch with 'all' status
+        fetchMeetingRequests('all');
+    });
+
+    function fetchMeetingRequests(status) {
+        $.ajax({
+            type: 'GET',
+            url: '{% url 'sme_calendar_data' %}?status=' + status,
+            success: function(data) {
+                renderCalendar(data);
+            },
+            error: function(error) {
+                console.log(error);
+            }
+        });
+    }
+
+    function renderCalendar(meeting_requests) {
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth',
+            events: meeting_requests.map(function(meeting) {
+                return {
+                    title: meeting.start_up + ' - ' + meeting.sme_name,
+                    start: meeting.meeting_date + 'T' + meeting.meeting_time,
+                    backgroundColor: meeting.status === 'accepted' ? '#28a745' : (meeting.status === 'sent' ? '#ffc107' : '#dc3545'),
+                    borderColor: meeting.status === 'accepted' ? '#28a745' : (meeting.status === 'sent' ? '#ffc107' : '#dc3545'),
+                    url: '/innovation-portal/meetings/meeting/' + meeting.meeting_id
+                };
+            })
+        });
+        calendar.render();
+    }
+    
+</script>
+{% endblock %}

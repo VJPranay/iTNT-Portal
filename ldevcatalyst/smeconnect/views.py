@@ -4,6 +4,7 @@ from .models import MeetingRequest
 from .forms import MeetingRequestForm, MeetingRequestUpdateForm,MeetingRequestCancelForm
 from profiles.models import User,StartUp,Researcher
 
+from django.http import JsonResponse
 from django.contrib import messages
 
 @login_required
@@ -168,4 +169,40 @@ def meeting_request_reject(request, pk):
         meeting_request.save()
         messages.success(request, 'If you would like to reschedule the meeting, please send a new request.')
     return redirect('meeting_request_detail', pk=pk)
+@login_required
+def sme_calendar_view(request):
+    status = request.GET.get('status')  # Get the status parameter from the request
+    if status:
+        if status == 'all':
+            meeting_requests = MeetingRequest.objects.all()
+        else:
+            meeting_requests = MeetingRequest.objects.filter(status=status)
+    else:
+        meeting_requests = MeetingRequest.objects.all()  # Fetch all meeting requests
+    return render(request, 'smeconnect/sme_meeting_calendar.html', {'meeting_requests': meeting_requests})
 
+@login_required
+def sme_calendar_data(request):
+    status = request.GET.get('status')
+    if status:
+        if status == 'all':
+            meeting_requests = MeetingRequest.objects.all()
+        else:
+            meeting_requests = MeetingRequest.objects.filter(status=status)
+    else:
+        meeting_requests = MeetingRequest.objects.all()
+
+    # Serialize meeting requests data
+    meeting_data = []
+    for meeting in meeting_requests:
+        if meeting.date and meeting.time is not None:
+            meeting_data.append({
+                'meeting_id': meeting.id,
+                'start_up': meeting.sender.username,  # Assuming sender is the start_up
+                'sme_name': meeting.receiver.username,  # Assuming receiver is the researcher
+                'meeting_date': meeting.date,
+                'meeting_time': meeting.time,
+                'status': meeting.status
+            })
+
+    return JsonResponse(meeting_data, safe=False)
