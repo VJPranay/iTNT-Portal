@@ -12,9 +12,9 @@ def startup_profile_details(request, pk):
     print(pk)
     try:
         startup = StartUp.objects.get(pk=pk)
-        # if startup.user is None:
-        #     print(f"Startup with PK {pk} has no associated user.")
-        #     return HttpResponseRedirect(reverse('not_found'))
+        if startup.user is None:
+            print(f"Startup with PK {pk} has no associated user.")
+            return HttpResponseRedirect(reverse('not_found'))
             
         check_meetings = MeetingRequest.objects.filter(sender_id=request.user.id,receiver_id=startup.user.id)
         print(request.user.user_role)

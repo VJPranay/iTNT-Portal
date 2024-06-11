@@ -33,7 +33,7 @@
 {% endblock %}
 
 {% block pageheading %}
-SME Connect
+Vcstartup Connect
 {% endblock %}
 
 {% block pagedescription %}
@@ -72,7 +72,7 @@ Sent requests
                                     <td><a href="{% url 'startup_profile_details' request.receiver_id %}">{{ request.receiver_name }}</a></td>
                                        
                                     {%else%}
-                                    <td><a target="_blank" href="{% url 'vc_profile_details' request.receiver_id %}">{{ request.receiver_name }}</a></td>
+                                    <td><a  href="{% url 'vc_profile_details' request.receiver_id %}">{{ request.receiver_name }}</a></td>
                                     {%endif%}
                                     <td>{{ request.date }}</td>
                                     <td>{{ request.time  }}</td>
@@ -115,11 +115,11 @@ Sent requests
                             <tbody>
                                 {% for request in received_requests %}
                                 <tr>
-                                    {% if request.sender.user_role == 8 %}
-                                    <td><a href="{% url 'vc_profile_details' request.sender_id %}">{{ request.sender_name }}</a></td>
+                                    {% if request.sender.user_role == 6  %}
+                                    <td><a href="{% url 'startup_profile_details' request.sender_id %}">{{ request.sender_name }}</a></td>
                                        
                                     {%else%}
-                                    <td><a target="_blank" href="{% url 'startup_profile_details' request.sender_id %}">{{ request.sender_name }}</a></td>
+                                    <td><a href="{% url 'vc_profile_details' request.sender_id %}">{{ request.sender_name }}</a></td>
                                     {%endif%}
                                     <td>{{ request.date }}</td>
                                     <td>{{ request.time }}</td>

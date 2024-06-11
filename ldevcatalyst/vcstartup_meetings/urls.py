@@ -2,7 +2,7 @@ from django.urls import path
 from .import views
 
 urlpatterns = [
-    path('', views.vcstartup_meeting_request_list, name='vcstartup_meeting_request_list'),
+    path('vcstartup/', views.vcstartup_meeting_request_list, name='vcstartup_meeting_request_list'),
     path('confirmed', views.vcstartup_confirmed_meeting_request_list, name='vcstartup_confirmed_meeting_request_list'),
     path('<int:pk>/', views.vcstartup_meeting_request_detail, name='vcstartup_meeting_request_detail'),
     path('create/<int:receiver_id>', views.vcstartup_meeting_request_create, name='vcstartup_meeting_request_create'),
