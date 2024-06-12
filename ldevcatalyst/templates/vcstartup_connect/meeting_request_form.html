@@ -4,6 +4,9 @@
 
 
 {% block breadcrums %}
+<script src="{% static 'assets/js/custom/widgets.js' %}"></script>
+<script src="{% static 'assets/js/widgets.bundle.js' %}"></script>
+
 <!--begin::Breadcrumb-->
 <ul class="breadcrumb breadcrumb-separatorless fw-semibold">
     <!--begin::Item-->
@@ -61,7 +64,7 @@ request
                                 {% csrf_token %}
                                 {{ form|crispy }}
                                 {{ form.media }} 
-                                <button type="submit" class="btn btn-primary mt-3" style="color: white;"><a href="{% url 'vcstartup_meeting_request_list' %}">Submit</a></button>
+                                <button type="submit" class="btn btn-primary mt-3">Submit</a></button>
                             </form>
                         </div>
                     </div>

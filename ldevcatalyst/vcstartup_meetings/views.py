@@ -97,23 +97,39 @@ def vcstartup_meeting_request_detail(request, pk):
     context = {'meeting_request': meeting_request}
     return render(request, 'vcstartup_connect/meeting_request_details.html', context)
 
+
 @login_required
 def vcstartup_meeting_request_create(request, receiver_id):
     receiver = get_object_or_404(User, pk=receiver_id)
-    
+    user = request.user
+
+    print("Creating a meeting request")
+    print(f"Sender: {user.username}, Receiver: {receiver.username}")
+
     if request.method == 'POST':
         form = MeetingRequestForm(request.POST)
+        print("POST data received")
+        print("Form data:", request.POST)
+        
         if form.is_valid():
-            meeting_request = form.save(commit=False)
-            meeting_request.sender = request.user
-            meeting_request.receiver = receiver
-            meeting_request.save()
-            return redirect('meeting_request_list')
+            print("Form is valid")
+            try:
+                meeting_request = form.save(commit=False)
+                meeting_request.sender = user
+                meeting_request.receiver = receiver
+                meeting_request.save()
+                print(f"Meeting request saved: {meeting_request}")
+                return redirect('vcstartup_meeting_request_list')
+            except Exception as e:
+                print(f"Error saving meeting request: {e}")
+        else:
+            print("Form is not valid")
+            print(form.errors)
     else:
         form = MeetingRequestForm()
+        print("Initialized empty form for GET request")
 
     return render(request, 'vcstartup_connect/meeting_request_form.html', {'form': form})
-
 @login_required
 def vcstartup_meeting_request_update(request, pk):
     meeting_request = get_object_or_404(MeetingRequest, pk=pk)
@@ -121,7 +137,7 @@ def vcstartup_meeting_request_update(request, pk):
         form = MeetingRequestUpdateForm(request.POST, instance=meeting_request)
         if form.is_valid():
             form.save()
-            return redirect('meeting_request_detail', pk=pk)
+            return redirect('vcstartup_meeting_request_detail', pk=pk)
     else:
         form = MeetingRequestUpdateForm(instance=meeting_request)
     return render(request, 'vcstartup_connect/meeting_request_form.html', {'form': form})
@@ -149,7 +165,7 @@ def vcstartup_meeting_request_cancel(request, pk):
                 else:
                     return redirect('vc_profiles_list')
             else:
-                return redirect('meeting_request_list')
+                return redirect('vcstartup_meeting_request_list')
     else:
         form = MeetingRequestCancelForm(instance=meeting_request)
     return render(request, 'vcstartup_connect/meeting_request_form.html', {'form': form})
@@ -162,7 +178,7 @@ def vcstartup_meeting_request_accept(request, pk):
         meeting_request.status = 'accepted'
         meeting_request.save()
         messages.success(request, 'Meeting has been accepted.')
-    return redirect('meeting_request_detail', pk=pk)
+    return redirect('vcstartup_meeting_request_detail', pk=pk)
 
 @login_required
 def vcstartup_meeting_request_reject(request, pk):
@@ -171,5 +187,5 @@ def vcstartup_meeting_request_reject(request, pk):
         meeting_request.status = 'rejected'
         meeting_request.save()
         messages.success(request, 'If you would like to reschedule the meeting, please send a new request.')
-    return redirect('meeting_request_detail', pk=pk)
+    return redirect('vcstartup_meeting_request_detail', pk=pk)
 
