@@ -77,6 +77,7 @@ def startup_approve_registration(request):
                     try:
                         co_founders = StartUpRegistrationsCoFounders.objects.filter(startup_id=registration.id).first()
                         print(co_founders)
+                        cofounder_names = ", ".join([x.name for x in StartUpRegistrationsCoFounders.objects.filter(startup_id=registration.id)])
                     except StartUpRegistrationsCoFounders.DoesNotExist:
                         co_founders = None
 
@@ -96,7 +97,7 @@ def startup_approve_registration(request):
                         user_id = user.id,
                         company_name = registration.company_name,
                         co_founders_count = registration.co_founders_count,
-                        founder_names = co_founders.name,
+                        founder_names = cofounder_names,
                         team_size = registration.team_size,
                         funding_request_amount = registration.funding_request_amount,
                         year_of_establishment = registration.year_of_establishment,
