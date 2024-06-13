@@ -149,10 +149,10 @@ class StudentRegistrationsResource(resources.ModelResource):
     class Meta:
         model = StudentRegistrations
         fields =  ('id','name', 'institution__name', 'area_of_interest', 'department__name', 
-                    'year_of_graduation', 'email', 'district__name', 'state__name', 
+                    'year_of_graduation', 'email', 'mobile','district__name', 'state__name', 
                     'project_idea', 'created', 'updated', 'registration_id', 'status')
         export_order = ('id','name', 'institution__name', 'area_of_interest', 'department__name', 
-                    'year_of_graduation', 'email', 'district__name', 'state__name', 
+                    'year_of_graduation', 'email', 'mobile','district__name', 'state__name', 
                     'project_idea', 'created', 'updated', 'registration_id', 'status')
         
         
