@@ -10,4 +10,4 @@ urlpatterns = [
     path('<int:pk>/cancel/', views.vcstartup_meeting_request_cancel, name='vcstartup_meeting_request_cancel'),
     path('<int:pk>/accept/', views.vcstartup_meeting_request_accept, name='vcstartup_meeting_request_accept'),
     path('<int:pk>/reject/', views.vcstartup_meeting_request_reject, name='vcstartup_meeting_request_reject'),
-]
+ ]

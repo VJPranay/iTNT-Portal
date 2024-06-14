@@ -169,6 +169,7 @@ def meeting_request_reject(request, pk):
         meeting_request.save()
         messages.success(request, 'If you would like to reschedule the meeting, please send a new request.')
     return redirect('meeting_request_detail', pk=pk)
+
 @login_required
 def sme_calendar_view(request):
     status = request.GET.get('status')  # Get the status parameter from the request
@@ -195,14 +196,15 @@ def sme_calendar_data(request):
     # Serialize meeting requests data
     meeting_data = []
     for meeting in meeting_requests:
-        if meeting.date and meeting.time is not None:
+         if meeting.date and meeting.time is not None and meeting.sender.role == 'startup' and meeting.receiver.role == 'sme':
             meeting_data.append({
                 'meeting_id': meeting.id,
                 'start_up': meeting.sender.username,  # Assuming sender is the start_up
                 'sme_name': meeting.receiver.username,  # Assuming receiver is the researcher
                 'meeting_date': meeting.date,
                 'meeting_time': meeting.time,
-                'status': meeting.status
+                'status': meeting.status,
+                'sent_by': 'startup' if meeting.sender.role == 'startup'  else 'sme'
             })
 
     return JsonResponse(meeting_data, safe=False)

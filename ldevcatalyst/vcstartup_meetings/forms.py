@@ -1,5 +1,5 @@
 from django import forms
-from .models import MeetingRequest
+from .models import vcstartup_MeetingRequest
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
 from bootstrap_datepicker_plus.widgets import DatePickerInput, TimePickerInput
@@ -7,7 +7,7 @@ from datetime import datetime
 
 class MeetingRequestForm(forms.ModelForm):
     class Meta:
-        model = MeetingRequest
+        model = vcstartup_MeetingRequest
         fields = ['date', 'time', 'meeting_type', 'meeting_details', 'notes']
         widgets = {
             'date': DatePickerInput(options={
@@ -26,7 +26,7 @@ class MeetingRequestForm(forms.ModelForm):
         
 class MeetingRequestUpdateForm(forms.ModelForm):
     class Meta:
-        model = MeetingRequest
+        model = vcstartup_MeetingRequest
         fields = ['status']
 
     def __init__(self, *args, **kwargs):
@@ -38,7 +38,7 @@ class MeetingRequestUpdateForm(forms.ModelForm):
         
 class MeetingRequestCancelForm(forms.ModelForm):
     class Meta:
-        model = MeetingRequest
+        model = vcstartup_MeetingRequest
         fields = ['notes']
 
     def __init__(self, *args, **kwargs):

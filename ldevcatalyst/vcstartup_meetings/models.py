@@ -1,7 +1,7 @@
 from django.db import models
 from django.conf import settings
 
-class MeetingRequest(models.Model):
+class vcstartup_MeetingRequest(models.Model):
     MEETING_TYPE_CHOICES = [
         ('online', 'Online'),
         ('offline', 'Offline'),

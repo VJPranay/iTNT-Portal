@@ -1,15 +1,16 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
-from .models import MeetingRequest
+from .models import vcstartup_MeetingRequest
 from .forms import MeetingRequestForm, MeetingRequestUpdateForm,MeetingRequestCancelForm
 from profiles.models import User,StartUp,VC
 
+from django.http import JsonResponse
 from django.contrib import messages
 
 @login_required
 def vcstartup_meeting_request_list(request):
     # Fetch sent meeting requests
-    sent_requests_q = MeetingRequest.objects.filter(sender=request.user).exclude(status='accepted').order_by('-id')
+    sent_requests_q = vcstartup_MeetingRequest.objects.filter(sender=request.user).exclude(status='accepted').order_by('-id')
     sent_requests = []
     for sent_request in sent_requests_q:
         temp = {
@@ -27,7 +28,7 @@ def vcstartup_meeting_request_list(request):
         sent_requests.append(temp)
 
     # Fetch received meeting requests
-    received_requests_q = MeetingRequest.objects.filter(receiver=request.user).exclude(status='accepted').order_by('-id')
+    received_requests_q = vcstartup_MeetingRequest.objects.filter(receiver=request.user).exclude(status='accepted').order_by('-id')
     received_requests = []
     for received_request in received_requests_q:
         temp = {
@@ -53,7 +54,7 @@ def vcstartup_meeting_request_list(request):
 
 @login_required
 def vcstartup_confirmed_meeting_request_list(request):
-    sent_requests_q = MeetingRequest.objects.filter(sender=request.user, status='accepted').order_by('-id')
+    sent_requests_q =vcstartup_MeetingRequest.objects.filter(sender=request.user, status='accepted').order_by('-id')
     sent_requests = []
     for sent_request in sent_requests_q:
         temp = {
@@ -69,7 +70,7 @@ def vcstartup_confirmed_meeting_request_list(request):
             'notes' : sent_request.notes,
         }
         sent_requests.append(temp)
-    received_requests_q = MeetingRequest.objects.filter(receiver=request.user, status='accepted').order_by('-id')
+    received_requests_q = vcstartup_MeetingRequest.objects.filter(receiver=request.user, status='accepted').order_by('-id')
     received_requests = []
     for received_request in received_requests_q:
         temp = {
@@ -93,7 +94,7 @@ def vcstartup_confirmed_meeting_request_list(request):
 
 @login_required
 def vcstartup_meeting_request_detail(request, pk):
-    meeting_request = get_object_or_404(MeetingRequest, pk=pk)
+    meeting_request = get_object_or_404(vcstartup_MeetingRequest, pk=pk)
     context = {'meeting_request': meeting_request}
     return render(request, 'vcstartup_connect/meeting_request_details.html', context)
 
@@ -132,7 +133,7 @@ def vcstartup_meeting_request_create(request, receiver_id):
     return render(request, 'vcstartup_connect/meeting_request_form.html', {'form': form})
 @login_required
 def vcstartup_meeting_request_update(request, pk):
-    meeting_request = get_object_or_404(MeetingRequest, pk=pk)
+    meeting_request = get_object_or_404(vcstartup_MeetingRequest, pk=pk)
     if request.method == 'POST':
         form = MeetingRequestUpdateForm(request.POST, instance=meeting_request)
         if form.is_valid():
@@ -147,7 +148,7 @@ def vcstartup_meeting_request_update(request, pk):
 
 @login_required
 def vcstartup_meeting_request_cancel(request, pk):
-    meeting_request = get_object_or_404(MeetingRequest, pk=pk)
+    meeting_request = get_object_or_404(vcstartup_MeetingRequest, pk=pk)
     if request.method == 'POST':
         form = MeetingRequestCancelForm(request.POST, instance=meeting_request)
         if form.is_valid():
@@ -173,7 +174,7 @@ def vcstartup_meeting_request_cancel(request, pk):
 
 @login_required
 def vcstartup_meeting_request_accept(request, pk):
-    meeting_request = get_object_or_404(MeetingRequest, pk=pk, receiver=request.user)
+    meeting_request = get_object_or_404(vcstartup_MeetingRequest, pk=pk, receiver=request.user)
     if meeting_request.status == 'sent':
         meeting_request.status = 'accepted'
         meeting_request.save()
@@ -182,10 +183,38 @@ def vcstartup_meeting_request_accept(request, pk):
 
 @login_required
 def vcstartup_meeting_request_reject(request, pk):
-    meeting_request = get_object_or_404(MeetingRequest, pk=pk, receiver=request.user)
+    meeting_request = get_object_or_404(vcstartup_MeetingRequest, pk=pk, receiver=request.user)
     if meeting_request.status == 'sent':
         meeting_request.status = 'rejected'
         meeting_request.save()
         messages.success(request, 'If you would like to reschedule the meeting, please send a new request.')
     return redirect('vcstartup_meeting_request_detail', pk=pk)
 
+
+
+@login_required
+def vcstartup_calendar_data(request):
+    status = request.GET.get('status')
+    if status:
+        if status == 'all':
+            meeting_requests = vcstartup_MeetingRequest.objects.all()
+        else:
+            meeting_requests = vcstartup_MeetingRequest.objects.filter(status=status)
+    else:
+        meeting_requests = vcstartup_MeetingRequest.objects.all()
+
+    # Serialize meeting requests data
+    meeting_data = []
+    for meeting in meeting_requests:
+        if meeting.date and meeting.time is not None and (meeting.sender.role == 'startup' and meeting.receiver.role == 'vc' or meeting.sender.role == 'vc' and meeting.receiver.role == 'startup'):
+            meeting_data.append({
+                'meeting_id': meeting.id,
+                'start_up': meeting.sender.username,  # Assuming sender is the start_up
+                'vc_name': meeting.receiver.username,  # Assuming receiver is the researcher
+                'meeting_date': meeting.date,
+                'meeting_time': meeting.time,
+                'status': meeting.status,
+                'sent_by': 'startup' if meeting.sender.role == 'startup' else 'vc' 
+            })
+
+    return JsonResponse(meeting_data, safe=False)
