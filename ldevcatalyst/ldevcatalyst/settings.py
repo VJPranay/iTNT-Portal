@@ -60,7 +60,8 @@ INSTALLED_APPS = [
     'import_export',
     'django_filters',
     'smeconnect',
-    'vcstartup_meetings'
+    'vcstartup_meetings',
+    'hackathon',
 ]
 
 AUTH_USER_MODEL = 'profiles.User'

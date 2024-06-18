@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="keywords" content="itnt,itntportal,portal,landing">
+	<meta name="description" content="iTNT Hub Homepage landing">
+    <meta property="og:site_name" content="iTNT Hub">
+    <meta property="og:url" content="https://itnthub.tn.gov.in">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="iTNT Portal Homepage">
+	<meta name='og:image' content='http://itnthub.tn.gov.in/images/assets/ogg.png'>
+	<!-- For IE -->
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<!-- For Resposive Device -->
+	<meta name="viewport" content="width=1366">	<!-- For Window Tab Color -->
+	<!-- Chrome, Firefox OS and Opera -->
+	<meta name="theme-color" content="#1A4137">
+	<!-- Windows Phone -->
+	<meta name="msapplication-navbutton-color" content="#1A4137">
+	<!-- iOS Safari -->
+	<meta name="apple-mobile-web-app-status-bar-style" content="#1A4137">
+	<title>iTNT HUB </title>
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" type="text/css" href="https://itnthub.tn.gov.in/css/bootstrap.min.css" media="all">
+	<!-- Main style sheet -->
+	<link rel="stylesheet" type="text/css" href="https://itnthub.tn.gov.in/css/style.css" media="all">
+    <link rel="stylesheet" href="https://itnthub.tn.gov.in/css/style3.css">
+	<!-- responsive style sheet -->
+	<link rel="stylesheet" type="text/css" href="https://itnthub.tn.gov.in/css/responsive.css" media="all">
+	<link rel="stylesheet" href="https://itnthub.tn.gov.in/css/events.css">
+	<!--workcss-->
+	<link rel="stylesheet" href="https://itnthub.tn.gov.in/css/index.css">
+    <link rel="stylesheet" href="https://itnthub.tn.gov.in/rolls-royce/assets/css/styles.css">
+	<link rel="stylesheet" href="https://itnthub.tn.gov.in/rolls-royce/assets/sass/styles.scss">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/magnific-popup.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js"></script>
+	<script src="https://itnthub.tn.gov.in/js/gallery.js"></script>
+
+	<style>
+		@keyframes blink-animation {
+			50% {
+				opacity: 0;
+			}
+		}
+	</style>
+
+	<!-- Fix Internet Explorer ______________________________________-->
+	<!--[if lt IE 9]>
+			<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+			<script src="vendor/html5shiv.js"></script>
+			<script src="vendor/respond.js"></script>
+		<![endif]-->
+</head>
+
+<body>
+	<div class="main-page-wrapper">
+		<!-- 
+		=============================================
+				Theme Main Menu
+		============================================== 
+		-->
+		<header class="theme-main-menu menu-overslay menu-style-two sticky-menu">
+           
+            <div class="bg-white d-flex justify-content-between align-items-center align-content-center px-4">
+                <div class="d-flex py-3 gap-3">
+                    <div  class="d-flex justify-content-center  align-content-center align-items-center"><img style="width: 145px; height: 50px;" src="https://itnthub.tn.gov.in/assets/navbar/iTNT.png" alt=""></div>
+                    <div class="logo-main "></div>
+                    <img style="width:110px; "class="d-flex justify-content-center align-content-center align-items-center"class="d-flex justify-content-center align-content-center align-items-center" src="https://itnthub.tn.gov.in/assets/ongoing-img.png" alt="">
+                    
+                </div>
+                <div class="d-flex justify-content-center text-center align-content-center align-items-center ">
+					<div class="d-flex justify-content-center text-center align-content-center align-items-center gap-5">
+						<a href="#"><h5>About</h5></a>
+						<h5>Benefits</h5>
+						<h5>Focus Area</h5>
+						<h5>Eligibity</h5>
+						<h5>Timeline</h5>
+						<a href="{% url 'logout' %}"><h5>Logout</h5></a>
+					</div>
+                   
+                </div>
+                   
+                
+                <div class="d-flex justify-content-end align-content-center  px-5 ">
+                    <img style="width: 45px" src="https://itnthub.tn.gov.in/assets/onging-img2.png" alt="">
+                    <!-- <div class="logo-main "></div>
+                    <a href="#"><img style="width: 150px;" class="d-flex justify-content-center align-content-center align-items-center" src="/assets/ongoing-img.png" alt=""></a> -->
+                    
+                </div>
+            </div>
+			
+			
+		</header>
+        
+        <!-- end -->
+    
+        
+    	<!-- 
+		=============================================
+				form
+		============================================== 
+		-->
+
+        <section class="py-5">
+            <div class="bg-white form-box mx-auto rounded-3 d-flex flex-column justify-content-center align-items-center gy-4 mt-50 container ">
+
+                <div class="d-flex flex-column justify-content-center align-items-center form-container py-3 gy-4">
+					
+					<div class="d-flex justify-content-start align-items-center gap-1 w-100">
+						<div>
+							<img class="back-chevron" style="width: 20px;" src="https://itnthub.tn.gov.in/rolls-royce/assets/images/proposal-form/ion_chevron-back.png" alt="" >
+						</div>
+						<div>
+							<a style="font-weight: 700; font-size: 18px;" class="fa-bold text-black" href="{% url 'rolls_royce_challenge_details' %}">Back</a>
+						</div>
+					</div>
+
+					{% if messages %}
+					
+					<div class="d-flex flex-column mt-25 alert alert-warning" role="alert">
+    				<p class="mb-0">Please fix these errors before submitting the form</p>
+
+					<ul>
+						{% for message in messages %}
+						<div class="alert alert-{{ message.tags }}">
+							<li> {{ message }}</li>
+						</div>
+						{% endfor %}
+					</ul>
+					{% endif %}
+					</div>
+
+					<div class="d-flex flex-column mt-25  justify-content-center align-items-center w-100">
+
+				
+
+						<div class="d-flex flex-column align-items-center justify-content-center">
+
+							<div>
+								<h3 class=" text-orange" style="font-size: 22px; font-weight: 700;">
+									Proposal Form
+								</h3>
+							</div>
+						</div>
+
+						<form method="POST" enctype="multipart/form-data">
+							{% csrf_token %}
+						<div class="w-100 border-bottom border-light-subtle mb-25"></div>
+
+						<div class="d-flex flex-column align-items-center justify-content-center gap-4 w-100 mt-20">
+
+							<div class="form-group d-flex flex-column align-items-start justify-content-start gap-3 w-100">
+								<label class="" for="name">1. Solution Name</label>
+								<input type="text" class="form-control1 w-100 " name="solution_name" placeholder="Enter Solution name">
+							</div>
+
+							<div class="form-group d-flex mt-3  align-items-start justify-content-start gap-5 w-100">
+								
+								<div class="form-group d-flex flex-column align-items-start justify-content-start gap-3 w-50">
+									<label  for="exampleSelect">2. Focus Area</label>
+									<div class="input-group1 w-100  px-2   rounded-3">
+									  <select class="custom-select w-100 py-3 rounded-3 border-0" name="focus_area" id="exampleSelect">
+										<option selected>Select Focus Area</option>
+										<option value="Predictive Analytics">Predictive Analytics</option>
+										<option value="Sustainable solutions to alleviate impact">Sustainable solutions to alleviate impact</option>
+									  </select>
+									</div>
+								</div>
+
+								<div class="form-group d-flex flex-column align-items-start justify-content-start gap-3 w-50">
+									<label  for="exampleSelect">3. Team Size</label>
+									<div class="input-group1 w-100  px-2   rounded-3">
+									  <select class="custom-select w-100 py-3 rounded-3 border-0" name="team_size" id="exampleSelect">
+										<option selected>Number of Team Members</option>
+										<option value="1">1</option>
+										<option value="2">2</option>
+										<option value="3">3</option>
+										<option value="4">4</option>
+										<option value="5">5</option>
+										<option value="6">6</option>
+										<option value="7">7</option>
+										<option value="8">8</option>
+										<option value="9">9</option>
+										<option value="10">10</option>
+										<option value="11">11</option>
+										<option value="12">12</option>
+										<option value="13">13</option>
+										<option value="14">14</option>
+										<option value="15">15</option>
+
+									  </select>
+									</div>
+								</div>
+							</div>
+
+							<div class="form-group d-flex flex-column mt-3 align-items-start justify-content-start gap-3 w-100">
+								<label class="" for="name">4. Team Composition</label>
+								<textarea class="form-control2 rounded-3" id="message" name="team_composition" rows="5" style="height: 120px;" placeholder="Describe Team Composition and Roles"></textarea>
+							</div>
+
+							<div class="form-group d-flex flex-column mt-3 align-items-start justify-content-start gap-3 w-100">
+								<label class="" for="name">5. Solution Brief</label>
+								<textarea class="form-control2 rounded-3" id="message" name="solution_brief" rows="5" style="height: 180px;" placeholder="Brief Description of Solution - Problems, Technology, Relevance"></textarea>
+							</div>
+
+							<div class="form-group d-flex flex-column mt-3 align-items-start justify-content-start gap-3 w-100">
+								<label class="" for="name">6. What is the uniqueness of the solution</label>
+								<textarea class="form-control2 rounded-3" id="message" rows="5"  name="solution_uniqueness" style="height: 120px;" placeholder="Describe What Makes Your Solution Unique"></textarea>
+							</div>
+
+							<div class="form-group d-flex flex-column mt-3 align-items-start justify-content-start gap-3 w-100">
+								<label class="" for="name">7. How does the solution contribute to the sustainable development goals ? </label>
+								<textarea class="form-control2 rounded-3" id="message" rows="5" name="solution_sustainable_development_goals" style="height: 120px;" placeholder="Specify SDGs Supported and How"></textarea>
+							</div>
+
+							<div class="form-group d-flex mt-3  align-items-start justify-content-start gap-5 w-100">
+								
+								<div class="form-group d-flex flex-column align-items-start justify-content-start gap-3 w-50">
+									<label  for="exampleSelect">8. What is the current stage of your innovation?</label>
+									<div class="input-group1 w-100  px-2   rounded-3">
+									  <select class="custom-select w-100 py-3 rounded-3 border-0 " id="exampleSelect" name="innovation_current_stage">
+										<option selected>Select Current Stage</option>
+										<option value="Ideation or Concept Stage">Ideation or Concept Stage</option>
+										<option value="Research and Development">Research and Development</option>
+										<option value="Prototype Development">Prototype Development</option>
+										<option value="Minimum Viable Product (MVP) Ready">Minimum Viable Product (MVP) Ready</option>
+										<option value="Testing and Validation">Testing and Validation</option>
+										<option value="Refinement and Optimization">Refinement and Optimization</option>
+										<option value="Pilot Production">Pilot Production</option>
+										<option value="Full Production or Manufacturing">Full Production or Manufacturing</option>
+										<option value="Launched and Commercialization">Launched and Commercialization</option>
+										<option value="Growth and Expansion">Growth and Expansion</option>
+									  </select>
+									</div>
+								</div>
+
+								<div class="form-group d-flex flex-column align-items-start justify-content-start gap-3 w-50">
+									<label  for="exampleSelect">9. Have you filed a patent application to protect your innovation?</label>
+									<div class="input-group1 w-100  px-2   rounded-3">
+									  <select class="custom-select w-100 py-3 rounded-3 border-0 " id="exampleSelect" name="patent_status">
+										<option selected>Status</option>
+										<option value="No Patent Filed">No Patent Filed</option>
+										<option value="Patent Pending">Patent Pending</option>
+										<option value="Patent Granted">Patent Granted</option>
+										<option value="Patent Published">Patent Published</option>
+										<option value="Patent Rejected">Patent Rejected</option>
+										<option value="Patent Abandoned">Patent Abandoned</option>
+										<option value="Patent Expired">Patent Expired</option>
+										<option value="Patent Lapsed">Patent Lapsed</option>
+										<option value="Patent Reinstated">Patent Reinstated</option>
+										<option value="Patent Litigation">Patent Litigation</option>
+										<option value="Patent Licensing">Patent Licensing</option>
+										<option value="Patent Sold or Assigned">Patent Sold or Assigned</option>
+									  </select>
+									</div>
+								</div>
+							</div>
+
+							<div class="form-group d-flex flex-column align-items-start mt-3 justify-content-start gap-3 w-100">
+								<label  for="exampleSelect">10. Have you published any research papers based on your proposed innovation ?</label>
+								<div class="input-group1 w-100  px-2   rounded-3">
+								  <select class="custom-select w-100 py-3 rounded-3 border-0 " id="proposed_hackathon_research_papers_exist" name="proposed_hackathon_research_papers_exist" onchange="toggleAdditionalFields(this.value)"> 
+									<option selected>Select Yes/No</option>
+									<option value="Yes">Yes</option>
+									<option value="No">No</option>
+								  </select>
+								</div>
+							</div>
+
+							<div style="visibility: hidden; max-height: 0; overflow: hidden;" class="form-group d-flex flex-column align-items-start mt-3 justify-content-start gap-3 w-100" id="proposed_rc_research_papers_sec">
+
+							<div class="form-group d-flex flex-column align-items-start mt-3 justify-content-start gap-3 w-100" id="proposed_hackathon_research_papers_count">
+								<div class="input-group1 w-100  px-2 rounded-3">
+								<label for="exampleSelect">How many (count) research papers have been published based on your proposed innovation ?</label>
+								<input type="text" class="form-control1 w-100" name="proposed_hackathon_research_papers_count" placeholder="2">
+							</div>
+								
+							</div>
+
+							<div class="form-group d-flex flex-column mt-3 align-items-start mt-3 justify-content-start gap-3 w-100" id="proposed_rc_research_papers_links">
+								<label style="position:static !important;" for="name">Reasearch papers links ?</label>
+								<textarea class="form-control2 rounded-3" id="message" name="proposed_hackathon_research_papers_links" rows="5" style="height: 120px;" placeholder="Reasearch papers links"></textarea>
+							</div>
+
+
+							<div class="form-group d-flex flex-column align-items-start mt-3 justify-content-start gap-3 w-100" id="proposed_hackathon_research_papers_files">
+								<label style="position:static !important;" for="exampleSelect">Please upload Reasearch papers as pdf if links are not working </label>
+								<div class="w-100 d-flex position-relative flex-column align-items-center justify-content-center">
+									<input type="file" class="custom-file-input" id="attachment" accept=".pdf" name="proposed_hackathon_research_papers_files">
+									<img class="position-absolute " style="width: 50px; top:18%;" src="https://itnthub.tn.gov.in/rolls-royce/assets/images/proposal-form/prime_upload.png" alt="">
+
+									<p class="position-absolute" style="font-size: 16px; font-weight: 500; bottom: 15%; opacity: 60%;">
+										Max file size : 5MB (pdf)
+									</p>
+								</div>
+							</div>
+
+							</div>	
+
+							
+							<div class="form-group d-flex flex-column mt-3 align-items-start mt-3 justify-content-start gap-3 w-100">
+								<label class="" for="name">11. What are your plans and timeframe to implement the idea ? </label>
+								<textarea class="form-control2 rounded-3" id="message" name="timeframe" rows="5" style="height: 120px;"  placeholder="Describe Implementation Plans and Timeline"></textarea>
+							</div>
+
+							<div class="form-group d-flex flex-column mt-3 align-items-start mt-3 justify-content-start gap-3 w-100">
+								<label class="" for="name">12. What are the expected impacts and outcomes ? </label>
+								<textarea class="form-control2 rounded-3" id="message" rows="5" style="height: 120px;" name="expected_impacts_outcomes" placeholder="Outline Expected Impacts and Outcomes"></textarea>
+							</div>
+
+							<div class="form-group d-flex flex-column align-items-start mt-3 justify-content-start gap-3 w-100">
+								<label  for="exampleSelect">13. Supporting documents (in pdf): summary that includes proposed solution, technical aspects, and deliverables.</label>
+								<div class="w-100 d-flex position-relative flex-column align-items-center justify-content-center">
+									<input type="file" class="custom-file-input" id="attachment" accept=".pdf" name="supporting_documents">
+									<img class="position-absolute " style="width: 50px; top:18%;" src="https://itnthub.tn.gov.in/rolls-royce/assets/images/proposal-form/prime_upload.png" alt="">
+
+									<p class="position-absolute" style="font-size: 16px; font-weight: 500; bottom: 15%; opacity: 60%;">
+										Max file size : 2MB (pdf, docx, png, jpg)
+									</p>
+								</div>
+							</div>
+
+							<div class="form-group d-flex flex-column align-items-start mt-3 justify-content-start gap-3 w-100">
+								<label for="exampleSelect">14. Please read and accept the terms and conditions before filling out or submitting the form</label>
+								<div class="slide-container">
+									
+									<div>
+										<p>
+											1. Incomplete applications will not be considered.
+										</p>
+									</div>
+
+									<div>
+										<p>
+											2. The entries obtained through JIGSAW portal will only be considered for the challenge, others will automatically be rejected.
+										</p>
+									</div>
+
+									<div>
+										<p>
+											3. The Participants shall preserve the confidentiality of all communication & information and shall not use the same for any other purpose whatsoever.
+										</p>
+									</div>
+
+									<div>
+										<p>
+											4. It is strongly advised not to wait until the deadline for the submission of entries. iTNT Hub shall not be responsible for non-receipt of entries on account of server errors/ traffic.
+										</p>
+									</div>
+
+									<div>
+										<p>
+											5. The iTNT Hub reserves the right to select or reject any submission without assigning any reasons whatsoever and without thereby incurring any liability to the participant(s) whatsoever.
+										</p>
+									</div>
+
+									<div>
+										<p>
+											6. Applicants should avoid uploading any proprietary information on the platform as the submitted entries shall be shared with evaluators & mentors for the purpose of evaluation & mentoring. iTNT Hub does not take any responsibility in case of patent right(s) violation(s) if the innovation(s) submitted is awaiting patent or is in the process of patent filing.
+										</p>
+									</div>
+									
+								</div>
+								<div class="form-group form-check mt-3">
+									<input style="border: #FF6500 solid 1px;" type="checkbox" class="form-check-input" id="acceptCheckbox">
+									<label style="font-weight: bold;" class="form-check-label1" for="acceptCheckbox1">I have read and agree to the terms and conditions</label>
+								</div>
+							</div>
+
+
+						
+							<div class="form-group d-flex align-items-center justify-content-center mt-3 gap-5 py-3 w-100">
+								<button type="submit"  id="submitButton" class="btn btn-orange">Submit</button>
+								<button class="btn btn-outline-orange">Cancel</button>
+							</div>
+
+						</form>
+						</div>
+					</div>
+				</div>
+            </div>
+        </section>
+
+
+
+
+
+		<button class="scroll-top">
+			<i class="bi bi-arrow-up-short " style="color: white;"></i>
+		</button>
+
+
+
+
+		<!-- Optional JavaScript _____________________________  -->
+
+		<!-- jQuery first, then Bootstrap JS -->
+		<!-- jQuery -->
+		<script src="https://itnthub.tn.gov.in/vendor/jquery.min.js"></script>
+		<!-- Bootstrap JS -->
+		<script src="https://itnthub.tn.gov.in/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+		<!-- WOW js -->
+		<script src="https://itnthub.tn.gov.in/vendor/wow/wow.min.js"></script>
+		<!-- Slick Slider -->
+		<script src="https://itnthub.tn.gov.in/vendor/slick/slick.min.js"></script>
+		<!-- Fancybox -->
+		<script src="https://itnthub.tn.gov.in/vendor/fancybox/dist/jquery.fancybox.min.js"></script>
+		<!-- Lazy -->
+		<script src="https://itnthub.tn.gov.in/vendor/jquery.lazy.min.js"></script>
+		<!-- js Counter -->
+		<script src="https://itnthub.tn.gov.in/vendor/jquery.counterup.min.js"></script>
+		<script src="https://itnthub.tn.gov.in/vendor/jquery.waypoints.min.js"></script>
+		
+		<!-- validator js -->
+		<script src="https://itnthub.tn.gov.in/vendor/validator.js"></script>
+
+		<!-- Theme js -->
+		<script src="https://itnthub.tn.gov.in/js/theme.js"></script>
+		<script>
+			function toggleAdditionalFields(value) {
+				const additionalFields = document.getElementById('proposed_hackathon_research_papers_sec');
+				if (value === 'Yes') {
+					console.log('Showing additional fields.');
+					additionalFields.style.visibility = 'visible';
+					additionalFields.style.maxHeight = 'none'; // Reset max-height
+				} else {
+					console.log('Hiding additional fields.');
+					additionalFields.style.visibility = 'hidden';
+					additionalFields.style.maxHeight = '0';
+				}
+			}
+			document.addEventListener("DOMContentLoaded", function () {
+				const acceptCheckbox = document.getElementById('acceptCheckbox');
+				const submitButton = document.getElementById('submitButton');
+				submitButton.classList.add('disabled')
+			
+				acceptCheckbox.addEventListener('change', function () {
+					if (this.checked) {
+						submitButton.classList.remove('disabled');
+					} else {
+						submitButton.classList.add('disabled');
+					}
+				});
+			});
+		</script>
+		<style>
+			.disabled {
+				opacity: 0.5; /* You can adjust the opacity to visually indicate the button is disabled */
+				pointer-events: none; /* Prevents clicks on the button when disabled */
+			}
+	</style>
+	</div> <!-- /.main-page-wrapper -->
+</body>
+
+</html>

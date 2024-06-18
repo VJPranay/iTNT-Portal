@@ -25,3 +25,6 @@ class RollsRoyceProposal(models.Model):
 
     def __str__(self):
         return self.solution_name
+    
+    
+    

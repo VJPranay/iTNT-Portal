@@ -40,6 +40,7 @@ urlpatterns = [
     path('support/', include('support.urls')),
     path('reports/', include('reports.urls')),
     path('ic/rolls-royce/', include('custom_ic.urls')),
+    path('hackathon/', include('hackathon.urls')), 
     path('smeconnect/', include('smeconnect.urls')),
     path('vcstartup_meetings/', include('vcstartup_meetings.urls')),
     
