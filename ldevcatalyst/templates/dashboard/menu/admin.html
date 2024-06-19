@@ -548,20 +548,21 @@
 													<!--end:Menu item-->
 												</div>
 												<!--end:Menu sub-->
-												<!--begin:Menu item-->
-												<div class="menu-item">
-													<!--begin:Menu link-->
-													<a class="menu-link" href="{% url 'calendar_view' %}">
-														<span class="menu-bullet">
-															<span class="bullet bullet-dot"></span>
-														</span>
-														<span class="menu-title">Calender</span>
-													</a>
-													<!--end:Menu link-->
-												</div>
-												<!--end:Menu item-->
+												
 												
 											</div> 
+											<!--begin:Menu item-->
+											<div class="menu-item">
+												<!--begin:Menu link-->
+												<a class="menu-link" href="{% url 'calendar_view' %}">
+													<span class="menu-bullet">
+														<span class="bi bi-calendar"></span>
+													</span>
+													<span class="menu-title">Calender</span>
+												</a>
+												<!--end:Menu link-->
+											</div>
+											<!--end:Menu item-->
 											<!--end:Menu item-->
 											
 											
@@ -682,9 +683,34 @@
 														</a>
 														<!--end:Menu link-->
 													</div>
+													{% comment %}
+													<div class="menu-item">
+														<!--begin:Menu link-->
+														<a class="menu-link" href="{% url 'meeting_counts' %}">
+															<span class="menu-bullet">
+																<span class="bullet bullet-dot"></span>
+															</span>
+															<span class="menu-title">SME Connect</span>
+														</a>
+														<!--end:Menu link-->
+													</div>
+													<div class="menu-item">
+														<!--begin:Menu link-->
+														<a class="menu-link" href="{% url 'meeting_counts' %}">
+															<span class="menu-bullet">
+																<span class="bullet bullet-dot"></span>
+															</span>
+															<span class="menu-title">VcStratup Connect</span>
+														</a>
+														<!--end:Menu link-->
+													</div>
+													{%endcomment%}
 												
 												</div>
 												<!--end:Menu sub-->
+
+												
+												
 														
 											</div> 
 											<!--end:Menu item-->

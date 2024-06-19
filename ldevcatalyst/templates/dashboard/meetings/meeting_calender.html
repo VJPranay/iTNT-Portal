@@ -73,7 +73,7 @@ Calender
 {% block custom_js %}
 <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js'></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
+<!-- 
 <script>
     $(document).ready(function() {
         $('#statusFilter').change(function() {
@@ -136,6 +136,64 @@ Calender
                         url: '/innovation-portal/meetings/meeting/' + meeting.meeting_id
                     };
                 }
+            })
+        });
+        calendar.render();
+    }
+</script> -->
+
+<script>
+    $(document).ready(function() {
+        $('#statusFilter').change(function() {
+            var status = $(this).val();
+            fetchMeetingRequests(status);
+        });
+
+        // Initial fetch with 'all' status
+        fetchMeetingRequests('all');
+    });
+
+    function fetchMeetingRequests(status) {
+        $.ajax({
+            type: 'GET',
+            url: '{% url 'calendar_data' %}?status=' + status,
+            success: function(data) {
+                renderCalendar(data);
+            },
+            error: function(error) {
+                console.log(error);
+            }
+        });
+    }
+
+    function renderCalendar(meeting_data) {
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth',
+            events: meeting_data.map(function(meeting) {
+                var backgroundColor, borderColor;
+
+                if (meeting.sent_by === 'startup' && meeting.vc_name) {
+                    backgroundColor = '#ffc107'; // Yellow for startup to VC
+                    borderColor = '#ffc107';
+                } else if (meeting.sent_by === 'vc' && meeting.vc_name) {
+                    backgroundColor = '#28a745'; // Green for VC to startup
+                    borderColor = '#28a745';
+                } else if (meeting.sent_by === 'sme' && meeting.start_up) {
+                    backgroundColor = '#ff69b4'; // Pink for SME to startup
+                    borderColor = '#ff69b4';
+                } else if (meeting.sent_by === 'startup' && meeting.sme_name) {
+                    backgroundColor = '#dc3545'; // Red for startup to SME
+                    borderColor = '#dc3545';
+                }
+
+                return {
+                    title: meeting.start_up + ' - ' + (meeting.vc_name || meeting.sme_name),
+                    start: meeting.meeting_date + 'T' + meeting.meeting_time,
+                    backgroundColor: backgroundColor,
+                    borderColor: borderColor,
+                    url: '/innovation-portal/meetings/meeting/' + meeting.meeting_id
+                };
             })
         });
         calendar.render();

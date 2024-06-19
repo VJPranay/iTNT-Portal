@@ -70,26 +70,29 @@ Calendar
 {% endblock %}
 
 {% block custom_js %}
-<script src="{% static 'assets/js/custom/widgets.js' %}"></script>
-<script src="{% static 'assets/js/widgets.bundle.js' %}"></script>
 <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js'></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 <script>
     $(document).ready(function() {
+        // Initial fetch with 'all' status
+        fetchMeetingRequests('all');
+
         $('#statusFilter').change(function() {
             var status = $(this).val();
             fetchMeetingRequests(status);
         });
 
-        // Initial fetch with 'all' status
-        fetchMeetingRequests('all');
+        $('#refreshButton').click(function() {
+            var status = $('#statusFilter').val();
+            fetchMeetingRequests(status);
+        });
     });
 
     function fetchMeetingRequests(status) {
         $.ajax({
             type: 'GET',
-            url: '{% url 'sme_calendar_data' %}?status=' + status,
+            url: '{% url 'vcstartup_calendar_data' %}?status=' + status,
             success: function(data) {
                 renderCalendar(data);
             },
@@ -107,13 +110,13 @@ Calendar
                 var color;
                 if (meeting.sent_by === 'startup') {
                     color = '#ffc107'; // yellow color for startup sent meetings
-                } else if (meeting.sent_by === 'sme') {
+                } else if (meeting.sent_by === 'vc') {
                     color = '#28a745'; // green color for VC sent meetings
                 }
                 
 
                 return {
-                    title: meeting.start_up + ' - ' + meeting.sme_name,  
+                    title: meeting.start_up + ' - ' + meeting.vc_name,  
                     start: meeting.meeting_date + 'T' + meeting.meeting_time,
                     backgroundColor: color,
                     borderColor: color,
@@ -124,5 +127,4 @@ Calendar
         calendar.render();
     }
 </script>
-
 {% endblock %}

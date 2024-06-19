@@ -10,4 +10,7 @@ urlpatterns = [
     path('<int:pk>/cancel/', views.vcstartup_meeting_request_cancel, name='vcstartup_meeting_request_cancel'),
     path('<int:pk>/accept/', views.vcstartup_meeting_request_accept, name='vcstartup_meeting_request_accept'),
     path('<int:pk>/reject/', views.vcstartup_meeting_request_reject, name='vcstartup_meeting_request_reject'),
+    path('calendar/', views.vcstartup_calendar_view, name='vcstartup_calendar_view'),
+    path('vcstartup_calendar_data/', views.vcstartup_calendar_data, name='vcstartup_calendar_data'),
+    path('calendar_data/<str:status>/', views.vcstartup_calendar_data, name='calendar_data'),
  ]

@@ -191,30 +191,60 @@ def vcstartup_meeting_request_reject(request, pk):
     return redirect('vcstartup_meeting_request_detail', pk=pk)
 
 
-
 @login_required
 def vcstartup_calendar_data(request):
     status = request.GET.get('status')
+    if status and status != 'all':
+        meeting_requests = vcstartup_MeetingRequest.objects.filter(status=status)
+    else:
+        meeting_requests = vcstartup_MeetingRequest.objects.all()
+
+    # Serialize meeting requests data
+    meeting_data = []
+    # Process vcstartup_MeetingRequest instances
+    for meeting in meeting_requests:
+        if meeting.date and meeting.time:
+            # Determine who sent the meeting request
+            if meeting.sender.user_role == 6:  # Assuming 6 represents startup user_role
+                sent_by = 'startup'
+                start_up = meeting.sender.username
+                vc_name = meeting.receiver.username
+                print(f"Meeting sent by startup: {start_up} to {vc_name}")
+            elif meeting.sender.user_role == 8:  # Assuming 8 represents VC user_role
+                sent_by = 'vc'
+                start_up = meeting.receiver.username
+                vc_name = meeting.sender.username
+                print(f"Meeting sent by vc: {vc_name} to {start_up}")
+            else:
+                # Handle other cases if necessary
+                print(f"Unknown user_role: {meeting.sender.user_role}")
+                continue  # Skip this meeting if user_role is not recognized
+
+            # Append meeting data to list
+            meeting_data.append({
+                'meeting_id': meeting.id,
+                'start_up': start_up,
+                'vc_name': vc_name,
+                'meeting_date': meeting.date.strftime('%Y-%m-%d'),  # Format date as string
+                'meeting_time': meeting.time.strftime('%H:%M'),  # Format time as string
+                'status': meeting.status,
+                'sent_by': sent_by
+            })
+
+    return JsonResponse(meeting_data, safe=False)
+
+
+
+@login_required
+def vcstartup_calendar_view(request):
+    status = request.GET.get('status')  # Get the status parameter from the request
     if status:
         if status == 'all':
             meeting_requests = vcstartup_MeetingRequest.objects.all()
         else:
             meeting_requests = vcstartup_MeetingRequest.objects.filter(status=status)
     else:
-        meeting_requests = vcstartup_MeetingRequest.objects.all()
-
-    # Serialize meeting requests data
-    meeting_data = []
-    for meeting in meeting_requests:
-        if meeting.date and meeting.time is not None and (meeting.sender.role == 'startup' and meeting.receiver.role == 'vc' or meeting.sender.role == 'vc' and meeting.receiver.role == 'startup'):
-            meeting_data.append({
-                'meeting_id': meeting.id,
-                'start_up': meeting.sender.username,  # Assuming sender is the start_up
-                'vc_name': meeting.receiver.username,  # Assuming receiver is the researcher
-                'meeting_date': meeting.date,
-                'meeting_time': meeting.time,
-                'status': meeting.status,
-                'sent_by': 'startup' if meeting.sender.role == 'startup' else 'vc' 
-            })
-
-    return JsonResponse(meeting_data, safe=False)
+        meeting_requests = vcstartup_MeetingRequest.objects.all()  # Fetch all meeting requests
+        print(meeting_requests)
+        
+    return render(request, 'vcstartup_connect/vcstartup_meeting_calendar.html', {'meeting_requests': meeting_requests})

@@ -185,26 +185,46 @@ def sme_calendar_view(request):
 @login_required
 def sme_calendar_data(request):
     status = request.GET.get('status')
-    if status:
-        if status == 'all':
-            meeting_requests = MeetingRequest.objects.all()
-        else:
-            meeting_requests = MeetingRequest.objects.filter(status=status)
+    if status and status != 'all':
+        meeting_requests = MeetingRequest.objects.filter(status=status)
     else:
         meeting_requests = MeetingRequest.objects.all()
+
+    print(f"Total meeting requests fetched: {meeting_requests.count()}")
 
     # Serialize meeting requests data
     meeting_data = []
     for meeting in meeting_requests:
-         if meeting.date and meeting.time is not None and meeting.sender.role == 'startup' and meeting.receiver.role == 'sme':
+        print(f"Processing meeting ID: {meeting.id}, Sender Role: {meeting.sender.user_role}, Receiver Role: {meeting.receiver.user_role}")
+        if meeting.date and meeting.time:
+            if meeting.sender.user_role == '6' :
+                sent_by = 'startup'  # Meeting sent by startup to SME
+                start_up = meeting.sender.username
+                sme_name = meeting.receiver.username
+                print(f"Meeting sent by startup: {start_up} to {sme_name}")
+                
+            elif meeting.sender.user_role == '5':
+                sent_by = 'sme'  # Meeting sent by SME to startup
+                start_up = meeting.receiver.username
+                sme_name = meeting.sender.username
+                print(f"Meeting sent by SME: {sme_name} to {start_up}")
+            else:
+                # Handle other cases if necessary
+                print(f"Unknown user_role: {meeting.sender.user_role}")
+                continue  # Skip this meeting if user_role is not recognized
+
             meeting_data.append({
                 'meeting_id': meeting.id,
-                'start_up': meeting.sender.username,  # Assuming sender is the start_up
-                'sme_name': meeting.receiver.username,  # Assuming receiver is the researcher
-                'meeting_date': meeting.date,
-                'meeting_time': meeting.time,
+                'start_up': start_up,
+                'sme_name': sme_name,
+                'meeting_date': meeting.date.strftime('%Y-%m-%d'),  # Format date as string
+                'meeting_time': meeting.time.strftime('%H:%M'),  # Format time as string
                 'status': meeting.status,
-                'sent_by': 'startup' if meeting.sender.role == 'startup'  else 'sme'
+                'sent_by': sent_by
             })
 
+    print(f"Final meeting_data: {meeting_data}")  # Print final meeting_data list
+
     return JsonResponse(meeting_data, safe=False)
+
+
