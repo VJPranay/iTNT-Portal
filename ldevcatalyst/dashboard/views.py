@@ -15,7 +15,7 @@ from meetings.models import MeetingRequests
 
 def custom_login(request,):
     if request.user.is_authenticated:
-        return redirect('rolls_royce_challenge_details')
+        return redirect('dashboard_index')
     else:
         if request.method == 'POST':
             form = AuthenticationForm(request, data=request.POST)

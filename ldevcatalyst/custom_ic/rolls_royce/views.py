@@ -14,9 +14,10 @@ def challenge_details(request):
         proposal_exists = 0
     except Exception as e:
         proposal_exists = 1
-    return render(request,'custom_ic/rolls_royce/details.html',context={
-        'proposal_exists' : proposal_exists
-    })
+    # return render(request,'custom_ic/rolls_royce/details.html',context={
+    #     'proposal_exists' : proposal_exists
+    # })
+    return render(request, 'custom_ic/rolls_royce/success.html')
 
 @login_required
 def success_page(request):
@@ -127,7 +128,8 @@ def proposal_form(request):
         else:
             messages.error(request, 'Error submitting proposal!')
             return redirect('rolls_royce_error_page')  
-    return render(request, 'custom_ic/rolls_royce/proposal_form.html')
+    return render(request, 'custom_ic/rolls_royce/success.html')
+    # return render(request, 'custom_ic/rolls_royce/proposal_form.html')
 
 
 
