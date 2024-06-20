@@ -182,6 +182,9 @@ def sme_calendar_view(request):
         meeting_requests = MeetingRequest.objects.all()  # Fetch all meeting requests
     return render(request, 'smeconnect/sme_meeting_calendar.html', {'meeting_requests': meeting_requests})
 
+
+
+
 @login_required
 def sme_calendar_data(request):
     status = request.GET.get('status')
@@ -190,29 +193,28 @@ def sme_calendar_data(request):
     else:
         meeting_requests = MeetingRequest.objects.all()
 
-    print(f"Total meeting requests fetched: {meeting_requests.count()}")
-
     # Serialize meeting requests data
     meeting_data = []
+    # Process vcstartup_MeetingRequest instances
     for meeting in meeting_requests:
-        print(f"Processing meeting ID: {meeting.id}, Sender Role: {meeting.sender.user_role}, Receiver Role: {meeting.receiver.user_role}")
         if meeting.date and meeting.time:
-            if meeting.sender.user_role == '6' :
-                sent_by = 'startup'  # Meeting sent by startup to SME
+            # Determine who sent the meeting request
+            if meeting.sender.user_role == 6:  # Assuming 6 represents startup user_role
+                sent_by = 'startup'
                 start_up = meeting.sender.username
                 sme_name = meeting.receiver.username
                 print(f"Meeting sent by startup: {start_up} to {sme_name}")
-                
-            elif meeting.sender.user_role == '5':
-                sent_by = 'sme'  # Meeting sent by SME to startup
+            elif meeting.sender.user_role == 5:  # Assuming 5 represents Reasearcher user_role
+                sent_by = 'sme'
                 start_up = meeting.receiver.username
                 sme_name = meeting.sender.username
-                print(f"Meeting sent by SME: {sme_name} to {start_up}")
+                print(f"Meeting sent by sme: {sme_name} to {start_up}")
             else:
                 # Handle other cases if necessary
                 print(f"Unknown user_role: {meeting.sender.user_role}")
                 continue  # Skip this meeting if user_role is not recognized
 
+            # Append meeting data to list
             meeting_data.append({
                 'meeting_id': meeting.id,
                 'start_up': start_up,
@@ -223,8 +225,5 @@ def sme_calendar_data(request):
                 'sent_by': sent_by
             })
 
-    print(f"Final meeting_data: {meeting_data}")  # Print final meeting_data list
-
     return JsonResponse(meeting_data, safe=False)
-
 

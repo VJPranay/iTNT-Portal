@@ -445,53 +445,6 @@ def calendar_view(request):
         meeting_requests = MeetingRequests.objects.all()  # Fetch all meeting requests
     return render(request, 'dashboard/meetings/meeting_calender.html', {'meeting_requests': meeting_requests})
 
-
-
-
-# @login_required
-# def calendar_data(request):
-#     status = request.GET.get('status', 'all')  # Default status to 'all' if not provided
-
-#     # Fetch all meeting requests based on status filter
-#     if status != 'all':
-#         meeting_requests_vcstartup = vcstartup_MeetingRequest.objects.filter(status=status)
-#         meeting_requests_sme = MeetingRequest.objects.filter(status=status)
-#     else:
-#         meeting_requests_vcstartup = vcstartup_MeetingRequest.objects.all()
-#         meeting_requests_sme = MeetingRequest.objects.all()
-
-#     # Serialize meeting requests data
-#     meeting_data = []
-
-#     # Process vcstartup_MeetingRequest instances
-#     for meeting in meeting_requests_vcstartup:
-#         if meeting.date and meeting.time:
-#             sent_by = 'startup' if meeting.sender.user_role == 'startup' else 'vc'
-#             meeting_data.append({
-#                 'meeting_id': meeting.id,
-#                 'start_up': meeting.sender.username if sent_by == 'startup' else meeting.receiver.username,
-#                 'vc_name': meeting.receiver.username if sent_by == 'startup' else meeting.sender.username,
-#                 'meeting_date': meeting.date.strftime('%Y-%m-%d'),  # Format date as string
-#                 'meeting_time': meeting.time.strftime('%H:%M'),  # Format time as string
-#                 'status': meeting.status,
-#                 'sent_by': sent_by
-#             })
-    
-#     # Process MeetingRequest instances
-#     for meeting in meeting_requests_sme:
-#         if meeting.date and meeting.time:
-#             sent_by = 'startup' if meeting.sender.user_role == 'sme' else 'startup'
-#             meeting_data.append({
-#                 'meeting_id': meeting.id,
-#                 'start_up': meeting.sender.username if sent_by == 'sme' else meeting.receiver.username,
-#                 'sme_name': meeting.receiver.username if sent_by == 'sme' else meeting.sender.username,
-#                 'meeting_date': meeting.date.strftime('%Y-%m-%d'),  # Format date as string
-#                 'meeting_time': meeting.time.strftime('%H:%M'),  # Format time as string
-#                 'status': meeting.status,
-#                 'sent_by': sent_by
-#             })           
-#     return JsonResponse(meeting_data, safe=False)
-
 @login_required
 def calendar_data(request):
     status = request.GET.get('status', 'all')  # Default status to 'all' if not provided
@@ -535,8 +488,8 @@ def calendar_data(request):
     # Process MeetingRequest instances
     for meeting in meeting_requests_sme:
         if meeting.date and meeting.time:
-            if meeting.sender.user_role == 5:  # sme
-                sent_by = 'sme'
+            if meeting.sender.user_role == 6:  # sme
+                sent_by = 'startup'
                 start_up = meeting.sender.username
                 sme_name = meeting.receiver.username
             elif meeting.receiver.user_role == 5:  # sme (if receiver is SME)

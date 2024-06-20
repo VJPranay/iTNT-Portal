@@ -81,24 +81,25 @@ Calendar
             var status = $(this).val();
             fetchMeetingRequests(status);
         });
-
+    
         // Initial fetch with 'all' status
         fetchMeetingRequests('all');
     });
-
+    
     function fetchMeetingRequests(status) {
         $.ajax({
             type: 'GET',
             url: '{% url 'sme_calendar_data' %}?status=' + status,
             success: function(data) {
+                console.log('Fetched Data:', data);  // Debug: print fetched data
                 renderCalendar(data);
             },
             error: function(error) {
-                console.log(error);
+                console.log('Error fetching data:', error);
             }
         });
     }
-
+    
     function renderCalendar(meeting_requests) {
         var calendarEl = document.getElementById('calendar');
         var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -108,21 +109,23 @@ Calendar
                 if (meeting.sent_by === 'startup') {
                     color = '#ffc107'; // yellow color for startup sent meetings
                 } else if (meeting.sent_by === 'sme') {
-                    color = '#28a745'; // green color for VC sent meetings
+                    color = '#FF1493'; // pink color for SME sent meetings
                 }
-                
-
+    
                 return {
-                    title: meeting.start_up + ' - ' + meeting.sme_name,  
+                    title: meeting.start_up + ' - ' + meeting.sme_name,
                     start: meeting.meeting_date + 'T' + meeting.meeting_time,
                     backgroundColor: color,
                     borderColor: color,
-                    url: '/innovation-portal/meetings/meeting/' + meeting.meeting_id
+                    url : '/innovation-portal/meetings/meeting/' + meeting.meeting_id
+                    
+                    
                 };
             })
         });
         calendar.render();
     }
+    
 </script>
-
+<!--url: '/innovation-portal/meetings/meeting/' + meeting.meeting_id-->
 {% endblock %}
