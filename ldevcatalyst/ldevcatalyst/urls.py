@@ -43,6 +43,7 @@ urlpatterns = [
     path('hackathon/', include('hackathon.urls')), 
     path('smeconnect/', include('smeconnect.urls')),
     path('vcstartup_meetings/', include('vcstartup_meetings.urls')),
+    path('mentor/', include('mentor.urls')),
     
     path('', not_found),
 ]

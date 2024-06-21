@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
-from .models import User, Patent, Publication, VC, Researcher, StartUp, Student, Industry
+from .models import User, Patent, Publication, VC, Researcher, StartUp, Student, Industry,Mentor
 
 
 class UserAdmin(BaseUserAdmin):
@@ -49,4 +49,16 @@ class StudentAdmin(admin.ModelAdmin):
 @admin.register(Industry)
 class IndustryAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'industry', 'state', 'district', 'point_of_contact_name', 'email', 'mobile')
+
+
+@admin.register(Mentor)
+class MentorAdmin(admin.ModelAdmin):
+    list_display = (
+        
+        'id','user', 'name', 'mobile', 'address', 'email', 'gender', 'profile_picture',
+        'company_name', 'designation', 'linkedin_url', 'updated_bio', 'certified_mentor',
+        'area_of_interest', 'functional_areas_of_expertise', 'mentoring_experience',
+        'motivation_for_mentoring', 'category_represent_you', 'mentees_journey',
+        'created', 'updated', 'approved',  
+    )
 

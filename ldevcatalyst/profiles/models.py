@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from datarepo.models import AreaOfInterest,PreferredInvestmentStage,Department,Institution,District,State,IndustryCategory, FundRaised, PrimaryBusinessModel, ProductDevelopmentStage, RevenueStage
-
+from mentor.models import MentorRegistration
 from django.core.exceptions import ValidationError
 
 
@@ -14,7 +14,8 @@ class User(AbstractUser):
         (5, 'researcher'),
         (6, 'startup'),
         (7, 'student'),
-        (8, 'vc')
+        (8, 'vc'),
+        (9, 'mentor')
         ]
         ,default=8)
     created = models.DateTimeField(auto_now_add=True)
@@ -212,4 +213,35 @@ class Industry(models.Model):
 
     def __str__(self):
         return self.name
+    
+class Mentor(models.Model):
+    user=models.ForeignKey(User, on_delete=models.SET_NULL,blank=True, null=True)
+    name=models.CharField(max_length=255,blank=True,null=True)
+    mobile=models.CharField(max_length=255,blank=True,null=True)
+    address=models.CharField(max_length=255,blank=True,null=True)
+    email=models.EmailField(max_length=255,blank=True,null=True)
+    gender = models.CharField(max_length=100,choices=[('male','Male'),('female','Female'), ('prefer not to say','Prefer not to say')],blank=True, null=True)
+    profile_picture=models.ImageField(upload_to='mentor_profile_pictures',blank=True,null=True)
+    company_name=models.CharField(max_length=255,blank=True,null=True)
+    designation=models.CharField(max_length=255,blank=True,null=True)
+    linkedin_url=models.CharField(max_length=255,blank=True,null=True)
+    updated_bio=models.FileField(upload_to='mentor_bios',blank=True,null=True)
+    certified_mentor=models.BooleanField(null=True,blank=True)
+    area_of_interest=models.ForeignKey(AreaOfInterest, on_delete=models.SET_NULL, null=True, blank=True)
+    functional_areas_of_expertise=models.CharField(max_length=255,blank=True,null=True)
+    mentoring_experience=models.CharField(max_length=255,blank=True,null=True) 
+    motivation_for_mentoring=models.CharField(max_length=255,blank=True,null=True)
+    category_represent_you=models.CharField(max_length=255,blank=True,null=True)
+    mentees_journey=models.CharField(max_length=255,blank=True,null=True)
+    created=models.DateTimeField(auto_now_add=True)
+    updated=models.DateTimeField(auto_now=True)
+    approved=models.BooleanField(default=False)
+    
+    
+    def __str__(self):
+        return self.name
+    
+    class Meta:
+        verbose_name_plural="Mentor" 
+    
     
