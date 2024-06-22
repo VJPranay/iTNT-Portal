@@ -136,6 +136,34 @@
                                             <label class="form-label required">Job Designation(current or last serving)</label>
                                             <input name="designation" class="form-control form-control-lg form-control-solid" placeholder="Enter Job Designation" value="" />
                                         </div>
+										<!--https://itnthub.tn.gov.in/-->
+
+										<div class="fv-row mb-10" data-district-url="https://itnthub.tn.gov.in/{% url 'districts' %}"   data-district-urlid="districtslink">
+											<!--begin::Label-->
+											<label class="form-label required">State</label>
+											<!--end::Label-->
+											<!--begin::Input-->
+											<select name="state_id" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="false" onchange="fetchDistricts(this.value)">
+												<option value="">Select state</option>
+												{% for state in states %}
+												<option value="{{state.state_id}}">{{state.state_value}}</option>
+												{%endfor%}
+											</select>
+											<!--end::Input-->
+										</div>
+
+										<div class="fv-row mb-10">
+											<!--begin::Label-->
+											<label class="form-label required">District</label>
+											<!--end::Label-->
+											<!--begin::Input-->
+											<select id="districtshere" name="district_id" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="false">
+												<option value=""></option>
+											</select>
+											<!--end::Input-->
+										</div>
+
+										
                                         <div class="fv-row mb-10">
                                             <label class="form-label">LinkedIn Profile URL</label>
                                             <input type="url" class="form-control form-control-lg form-control-solid" name="linkedin_url" placeholder="Enter LinkedIn Profile URL" value="" />
@@ -218,6 +246,24 @@
                                                 <option value="offer_feedback">Offer feedback on product features/strategy</option>
                                                 <option value="introduction_to_stakeholders">Introduction to various other stakeholders</option>
                                                 <option value="advice_support">Advice and support on need basis</option>
+                                            </select>
+                                        </div>
+										<div class="fv-row mb-10">
+                                            <label class="form-label required">What kind of time commitment are you willing to make as a mentor? </label>
+                                            <select name="commitment_as_mentor" class="form-select form-select-lg form-select-solid" required>
+                                                <option value="">Select Option</option>
+                                                <option value="2hrs- 4hrs a week ">2hrs- 4hrs a week </option>
+                                                <option value="4hrs – 6hrs a week ">4hrs – 6hrs a week </option>
+                                                <option value="I can spend more time ">I can spend more time </option>
+                                                
+                                            </select>
+                                        </div>
+										<div class="fv-row mb-10">
+                                            <label class="form-label required">Would you be willing to work in an intensive mentoring program for a period of 4-6 months with startups ?</label>
+											<select name="intensive_mentoring_program" class="form-select form-select-lg form-select-solid" required>
+                                                <option value="">Select Option</option>
+                                                <option value="yes">Yes</option>
+                                                <option value="no">No</option>
                                             </select>
                                         </div>
                                     </div>
@@ -340,7 +386,41 @@
 		<!--begin::Custom Javascript(used for this page only)-->
 		 <script src="{% static 'assets/js/custom/utilities/modals/mentor_registration.js' %}"></script>
 	
-		
+		<script>
+			function fetchDistricts(stateId) {
+				var stateMainSelect = document.querySelector('div[data-district-urlid="districtslink"]');
+				var districtUrl = stateMainSelect.getAttribute('data-district-url');
+				var districtSelect = document.querySelector('select[name="district_id"]');
+				fetch(`${districtUrl}?state_id=${stateId}`)
+					.then(response => response.json())
+					.then(data => {
+						// Clear existing options
+						districtSelect.innerHTML = '';
+						// Add default option
+						districtSelect.appendChild(new Option('', ''));
+						// Add districts
+						data.forEach(district => {
+							districtSelect.appendChild(new Option(district.name, district.id));
+						});
+					})
+					.catch(error => console.error('Error fetching districts:', error));
+			}
+			// Event listener for state dropdown
+			document.addEventListener('DOMContentLoaded', function() {
+				var stateSelect = document.querySelector('select[name="state_id"]');
+				var districtSelect = document.querySelector('select[name="district_id"]');
+				stateSelect.addEventListener('change', function() {
+					var stateId = this.value;
+					if (stateId) {
+						fetchDistricts(stateId);
+					} else {
+						districtSelect.innerHTML = '<option value=""></option>';
+					}
+				});
+			});
+			
+		</script>
+		</script>
 		<!--end::Custom Javascript-->
 		<!--end::Javascript-->
 		{% include "support/support.html" %}    

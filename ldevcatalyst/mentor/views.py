@@ -13,8 +13,8 @@ from ldevcatalyst import settings
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 import smtplib
-from datarepo.models import AreaOfInterest
 
+from datarepo.models import AreaOfInterest,State,District
 from django.shortcuts import get_object_or_404
 
 # Create your views here.
@@ -90,6 +90,10 @@ def mentor_approve_registration(request):
                     category_represent_you=registration.category_represent_you,
                     mentees_journey=registration.mentees_journey,
                     gender=registration.gender,
+                    state_id=registration.state_id,
+                    district_id=registration.district_id,
+                    commitment_as_mentor=registration.commitment_as_mentor,
+                    intensive_mentoring_program=registration.intensive_mentoring_program,
                     approved=True
 
                 )
@@ -137,17 +141,22 @@ def mentor_registration(request):
         designation = request.POST.get('designation')
         profile_picture = request.FILES.get('profile_picture')
         updated_bio = request.FILES.get('updated_bio')
-        certified_mentor_str = request.POST.get('certified_mentor')
+        certified_mentor = request.POST.get('certified_mentor')
         area_of_interest_id = request.POST.get('collaboration_sector')
         functional_areas_of_expertise = request.POST.get('functional_areas_of_expertise')
         mentoring_experience = request.POST.get('mentoring_experience')
         motivation_for_mentoring = request.POST.get('motivation_for_mentoring')
         category_represent_you = request.POST.get('category_represent_you')
         mentees_journey = request.POST.get('mentees_journey')
+        commitment_as_mentor=request.POST.get('commitment_as_mentor')
+        intensive_mentoring_program=request.POST.get('intensive_mentoring_program')
+        state_id=request.POST.get('state_id')
+        district_id=request.POST.get('district_id')
         gender = request.POST.get('gender')
         
         # Convert certified_mentor_str to Boolean
-        certified_mentor = certified_mentor_str.lower() == 'yes'
+        certified_mentor = certified_mentor.lower() == 'yes'
+        intensive_mentoring_program = intensive_mentoring_program.lower() == 'yes'
         
         request_schema = '''
         name:
@@ -217,6 +226,21 @@ def mentor_registration(request):
         gender:
             type: string
             required: true
+            
+        district_id:
+            type: string
+            required: true
+        state_id:
+            type: string
+            required: true
+            
+        commitment_as_mentor:
+            type: string
+            required: true
+            
+        intensive_mentoring_program:
+            type: string
+            required: true
         '''
         
         v = Validator()
@@ -244,7 +268,11 @@ def mentor_registration(request):
                     motivation_for_mentoring=motivation_for_mentoring,
                     category_represent_you=category_represent_you,
                     mentees_journey=mentees_journey,
-                    gender=gender
+                    gender=gender,
+                    state_id=state_id,
+                    district_id=district_id,
+                    commitment_as_mentor=commitment_as_mentor,
+                    intensive_mentoring_program=intensive_mentoring_program
                 )
                 new_mentor_registration.save()
                 
@@ -287,6 +315,10 @@ def mentor_registration(request):
                     category_represent_you=registration.category_represent_you,
                     mentees_journey=registration.mentees_journey,
                     gender=registration.gender,
+                    state_id=registration.state_id,
+                    district_id=registration.district_id,
+                    commitment_as_mentor=registration.commitment_as_mentor,
+                    intensive_mentoring_program=registration.intensive_mentoring_program,
                     approved=True
                 )
                 mentor_profile.save()
@@ -328,4 +360,16 @@ def mentor_registration(request):
                     'area_of_interest_value': x.name,
                 } for x in AreaOfInterest.objects.filter(is_approved=True)
             ],
+            'states' : [
+                {
+                    'state_id' : x.id,
+                    'state_value' : x.name,
+                } for x in State.objects.all().order_by('name')
+            ],
+            'districts' : [
+                {
+                    'district_id' : x.id,
+                    'district_value' : x.name,
+                } for x in District.objects.all().order_by('name')
+            ]
         })

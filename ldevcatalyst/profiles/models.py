@@ -233,6 +233,10 @@ class Mentor(models.Model):
     motivation_for_mentoring=models.CharField(max_length=255,blank=True,null=True)
     category_represent_you=models.CharField(max_length=255,blank=True,null=True)
     mentees_journey=models.CharField(max_length=255,blank=True,null=True)
+    commitment_as_mentor=models.CharField(max_length=255,blank=True,null=True)
+    intensive_mentoring_program=models.CharField(max_length=255,blank=True,null=True) # Intensive mentoring program
+    state = models.ForeignKey(State, on_delete=models.SET_NULL, blank=True, null=True)
+    district = models.ForeignKey(District, on_delete=models.SET_NULL,blank=True, null=True)
     created=models.DateTimeField(auto_now_add=True)
     updated=models.DateTimeField(auto_now=True)
     approved=models.BooleanField(default=False)

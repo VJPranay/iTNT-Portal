@@ -1,5 +1,5 @@
 from django.db import models
-from datarepo.models import AreaOfInterest
+from datarepo.models import AreaOfInterest,State,District
 import uuid
 # Create your models here.
 
@@ -22,6 +22,12 @@ class MentorRegistration(models.Model):
     motivation_for_mentoring=models.CharField(max_length=255,blank=True,null=True)
     category_represent_you=models.CharField(max_length=255,blank=True,null=True)
     mentees_journey=models.CharField(max_length=255,blank=True,null=True)
+    #new
+    commitment_as_mentor=models.CharField(max_length=255,blank=True,null=True)
+    intensive_mentoring_program=models.CharField(max_length=255,blank=True,null=True) # Intensive mentoring program
+    state = models.ForeignKey(State, on_delete=models.SET_NULL, blank=True, null=True)
+    district = models.ForeignKey(District, on_delete=models.SET_NULL,blank=True, null=True)
+    #end new
     created=models.DateTimeField(auto_now_add=True)
     updated=models.DateTimeField(auto_now=True)
     registration_id = models.CharField(max_length=100,unique=True,null=True)
