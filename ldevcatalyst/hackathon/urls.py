@@ -7,7 +7,7 @@ from .views import hackathon_proposal_form, success_page, error_page, challenge_
 urlpatterns = [
     # Hackathon
     path('details', challenge_details, name='hackathon_challenge_details'),
-    path('submit-proposal', hackathon_proposal_form, name='hackathon_proposal_form'),
+    path('submit', hackathon_proposal_form, name='hackathon_proposal_form'),
     path('success', success_page, name='success_page'),
     path('error', error_page, name='error_page'),
 ]
