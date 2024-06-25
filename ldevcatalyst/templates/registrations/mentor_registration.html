@@ -129,7 +129,7 @@
                                     <div class="w-100">
                                         
                                         <div class="fv-row mb-10">
-                                            <label class="form-label required">Current Company Name</label>
+                                            <label class="form-label required">Current Company Name(If retired,please mention your last serving employment )</label>
                                             <input name="company_name" class="form-control form-control-lg form-control-solid" placeholder="Enter Current Company Name" value="" />
                                         </div>
                                         <div class="fv-row mb-10">
@@ -172,6 +172,8 @@
                                             <label class="form-label required">Please attach your one-page updated bio</label>
                                             <input type="file" class="form-control form-control-lg form-control-solid" name="updated_bio" />
                                         </div>
+										
+										{% comment %}	
                                         <div class="fv-row mb-10">
                                             <label class="form-label required">Are you a certified mentor ?</label>
                                             <select name="certified_mentor" class="form-select form-select-lg form-select-solid" required>
@@ -180,6 +182,26 @@
                                                 <option value="no">No</option>
                                             </select>
                                         </div>
+										{% endcomment %}
+										<style>
+											.hidden {
+												display: none;
+											}
+										</style>
+										<div class="fv-row mb-10">
+											<label class="form-label required">Are you a certified mentor?</label>
+											<select name="certified_mentor" id="certified_mentor" class="form-select form-select-lg form-select-solid" required>
+												<option value="">Select Option</option>
+												<option value="yes">Yes</option>
+												<option value="no">No</option>
+											</select>
+										</div>
+										<div class="fv-row mb-10 hidden" id="reason-container">
+											<label for="reason" class="form-label required">Please provide the reason:</label>
+											<input type="text" name="reason" id="reason" class="form-control form-control-lg form-control-solid">
+										</div>
+
+									
                                         <div class="fv-row mb-10">
                                             <label class="form-label required">Sectoral/Technical Areas of Expertise</label>
                                             <select name="collaboration_sector" class="form-select form-select-lg form-select-solid" data-control="select2" data-placeholder="Select..." data-allow-clear="true" data-hide-search="false">
@@ -420,6 +442,50 @@
 			});
 			
 		</script>
+		</script>
+		<script>
+			document.getElementById('certified_mentor').addEventListener('change', function() {
+				var reasonContainer = document.getElementById('reason-container');
+				var reasonInput = document.getElementById('reason');
+				if (this.value === 'yes') {
+					reasonContainer.classList.remove('hidden');
+					reasonInput.required = true;
+				} else {
+					reasonContainer.classList.add('hidden');
+					reasonInput.required = false;
+					reasonInput.value = ''; // Clear the input field when not required
+				}
+			});
+	
+			document.getElementById('reason').addEventListener('blur', function() {
+				var certifiedMentor = document.getElementById('certified_mentor').value;
+				var reason = document.getElementById('reason').value;
+	
+				if (certifiedMentor === 'yes' && reason) {
+					// Logic to save the reason in the database
+					saveReasonToDatabase(reason);
+				}
+			});
+	
+			function saveReasonToDatabase(reason) {
+				// Replace this with your actual database save logic
+				console.log('Saving reason to the database:', reason);
+				// Example using fetch API to send data to the server
+				fetch('/save-reason', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify({ reason: reason })
+				})
+				.then(response => response.json())
+				.then(data => {
+					console.log('Success:', data);
+				})
+				.catch(error => {
+					console.error('Error:', error);
+				});
+			}
 		</script>
 		<!--end::Custom Javascript-->
 		<!--end::Javascript-->

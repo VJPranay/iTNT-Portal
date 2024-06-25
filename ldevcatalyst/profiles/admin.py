@@ -57,7 +57,7 @@ class MentorAdmin(admin.ModelAdmin):
         
         'id','user', 'name', 'mobile', 'address', 'email', 'gender', 'profile_picture',
         'company_name', 'designation', 'linkedin_url', 'updated_bio', 'certified_mentor',
-        'area_of_interest', 'functional_areas_of_expertise', 'mentoring_experience',
+        'reason','area_of_interest', 'functional_areas_of_expertise', 'mentoring_experience',
         'motivation_for_mentoring', 'category_represent_you', 'mentees_journey','commitment_as_mentor','intensive_mentoring_program',
         'state','district','created', 'updated', 'approved',  
     )

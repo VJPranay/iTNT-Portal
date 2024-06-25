@@ -323,6 +323,70 @@
 												<!--end:Menu sub-->
 											</div>
 											<!--end:Menu item-->
+											<!--begin:Menu item-->
+											<div data-kt-menu-trigger="{default:'click', lg: 'hover'}" data-kt-menu-placement="right-start" class="menu-item menu-lg-down-accordion">
+												<!--begin:Menu link-->
+												<span class="menu-link">
+													<span class="menu-icon">
+														<i class="ki-outline ki-rocket fs-2"></i>
+													</span>
+													<span class="menu-title">Mentor</span>
+													<span class="menu-arrow"></span>
+												</span>
+												<!--end:Menu link-->
+												<!--begin:Menu sub-->
+												<div class="menu-sub menu-sub-lg-down-accordion menu-sub-lg-dropdown menu-active-bg px-lg-2 py-lg-4 w-lg-225px">
+													<!--begin:Menu item-->
+													<div class="menu-item">
+														<!--begin:Menu link-->
+
+														<a class="menu-link" href="{% url 'mentor_registrations_list' %}">
+															<span class="menu-bullet">
+																<span class="bullet bullet-dot"></span>
+															</span>
+															<span class="menu-title">List</span>
+														</a>
+													</div>
+
+
+													{%comment%}
+														<a class="menu-link" href="{% url 'vc_registrations' registration_status='pending' %}">
+															<span class="menu-bullet">
+																<span class="bullet bullet-dot"></span>
+															</span>
+															<span class="menu-title">Pending</span>
+														</a>
+														<!--end:Menu link-->
+													</div>
+													<!--end:Menu item-->
+													<!--begin:Menu item-->
+													<div class="menu-item">
+														<!--begin:Menu link-->
+														<a class="menu-link" href="{% url 'vc_registrations' registration_status='approved' %}">
+															<span class="menu-bullet">
+																<span class="bullet bullet-dot"></span>
+															</span>
+															<span class="menu-title">Approved</span>
+														</a>
+														<!--end:Menu link-->
+													</div>
+													<!--end:Menu item-->
+													<!--begin:Menu item-->
+													<div class="menu-item">
+														<!--begin:Menu link-->
+														<a class="menu-link" href="{% url 'vc_registrations' registration_status='rejected' %}">
+															<span class="menu-bullet">
+																<span class="bullet bullet-dot"></span>
+															</span>
+															<span class="menu-title">Rejected</span>
+														</a>
+														<!--end:Menu link-->
+													</div>{%endcomment%}
+													<!--end:Menu item-->
+												</div>
+												<!--end:Menu sub-->
+											</div>
+											<!--end:Menu item-->
 											
 										</div> 
 										<!--end:Menu sub-->
