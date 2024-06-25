@@ -2,8 +2,8 @@ from django.views.generic import ListView
 from django_filters.views import FilterView
 from django.core.paginator import Paginator
 from django.db.models import Q
-from profiles.models import StartUp, Industry, Researcher, Student, VC, Industry
-from .list_view_filters import StartUpFilter, ResearcherFilter, StudentFilter, VCFilter, IndustryFilter
+from profiles.models import StartUp, Industry, Researcher, Student, VC, Industry,Mentor
+from .list_view_filters import StartUpFilter, ResearcherFilter, StudentFilter, VCFilter, IndustryFilter, MentorFilter
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
 from django.shortcuts import render
@@ -303,3 +303,45 @@ class IndustryListView(FilterView):
         return context
 
 
+#Mentor
+class MentorListView(FilterView):
+    model = Mentor
+    template_name = 'dashboard/profiles/v2/mentor_list.html'
+    filterset_class = MentorFilter
+    paginate_by = 10
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        # Apply sorting
+        sort_by = self.request.GET.get('sort_by')
+        if sort_by == 'name':
+            queryset = queryset.order_by('name')
+        elif sort_by == 'area_of_interest':
+            queryset = queryset.order_by('area_of_interest')
+        else:
+            queryset = queryset.order_by('-id')
+  
+
+        # Apply filters
+        filters = Q()
+        area_of_interest = self.request.GET.get('area_of_interest')
+        district = self.request.GET.get('district')
+        state= self.request.GET.get('state')
+      
+        if area_of_interest:
+            filters &= Q(area_of_interest=area_of_interest)
+        if district:
+            filters &= Q(district=district)
+        if state:
+            filters &= Q(state=state)
+
+        queryset = queryset.filter(filters)
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['filter'].form.helper = FormHelper()
+        context['filter'].form.helper.form_method = 'get'
+        context['filter'].form.helper.add_input(Submit('submit', 'Apply Filters', css_class='btn btn-primary'))
+        context['filter_params'] = self.request.GET.urlencode()  # Adding filter params to context
+        return context

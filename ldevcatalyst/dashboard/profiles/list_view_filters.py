@@ -1,5 +1,5 @@
 import django_filters
-from profiles.models import StartUp, Researcher, Student, VC, Industry,PreferredInvestmentStage
+from profiles.models import StartUp, Researcher, Student, VC, Industry,PreferredInvestmentStage,Mentor
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
 from datarepo.models import State,District
@@ -177,6 +177,39 @@ class IndustryFilter(django_filters.FilterSet):
     class Meta:
         model = Industry
         fields = ['state', 'district', 'industry', 'area_of_interest','state']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_method = 'get'
+        self.helper.add_input(Submit('submit', 'Apply Filters', css_class='btn btn-primary'))
+
+        if 'state' in self.data:
+            try:
+                state_id = int(self.data.get('state'))
+                self.filters['district'].queryset = District.objects.filter(state_id=state_id).order_by('name')
+            except (ValueError, TypeError):
+                pass
+        else:
+            self.filters['district'].queryset = District.objects.none()
+            
+            
+# Mentor
+
+class MentorFilter(django_filters.FilterSet):
+    state = django_filters.ModelChoiceFilter(
+        queryset=State.objects.all().order_by('name'),
+        widget=forms.Select(attrs={'class': 'form-select', 'id': 'id_state'})
+    )
+    district = django_filters.ModelChoiceFilter(
+        queryset=District.objects.none(),
+        widget=forms.Select(attrs={'class': 'form-select', 'id': 'id_district'})
+    )
+    
+
+    class Meta:
+        model = Mentor
+        fields = ['state', 'district', 'area_of_interest',]
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

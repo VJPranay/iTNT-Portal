@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
-from profiles.models import StartUp, Researcher, Student, VC, Industry
+from profiles.models import StartUp, Researcher, Student, VC, Industry,Mentor
 from smeconnect.models import MeetingRequest
 
 
@@ -83,3 +83,10 @@ def industry_profile_details(request, pk):
     except Industry.DoesNotExist:
         return HttpResponseRedirect(reverse('not_found'))
     
+@login_required
+def mentor_profile_details(request, pk):
+    try:
+        mentor=Mentor.objects.get(pk=pk)
+        return render(request,'dashboard/profiles/v2/mentor_profile_details.html',{'mentor':mentor})
+    except Mentor.DoesNotExist:
+        return HttpResponseRedirect(reverse('not_found'))

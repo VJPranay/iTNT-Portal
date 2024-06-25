@@ -10,8 +10,8 @@ from mentor.views import mentor_registration,mentor_approve_registration
 from dashboard.registrations.list_view import StartUpRegistrationsListView,ResearcherRegistrationsListView, StudentRegistrationsListView,VCRegistrationsListView, IndustryRegistrationsListView,MentorRegistrationsListView
 from dashboard.registrations.registration_details import startup_registration_details,Researcher_registration_details, student_registration_details,vc_registration_details, industry_registration_details,mentor_registration_details
 # profiles
-from dashboard.profiles.list_view import StartUpListView, ResearcherListView, StudentListView, VCListView, IndustryListView
-from dashboard.profiles.profile_details import startup_profile_details, researcher_profile_details, student_profile_details, vc_profile_details, industry_profile_details
+from dashboard.profiles.list_view import StartUpListView, ResearcherListView, StudentListView, VCListView, IndustryListView, MentorListView
+from dashboard.profiles.profile_details import startup_profile_details, researcher_profile_details, student_profile_details, vc_profile_details, industry_profile_details, mentor_profile_details
 
 
 
@@ -91,5 +91,10 @@ urlpatterns = [
     # industry profiles
     path('profiles/v2/industrys', IndustryListView.as_view(), name='industry_profiles_list'),
     path('profiles/v2/industry/<int:pk>', industry_profile_details, name='industry_profile_details'),
+    
+    #mentor Profiles
+    path('profiles/v2/mentors', MentorListView.as_view(), name='mentor_profiles_list'),
+    path('profiles/v2/mentor/<int:pk>', mentor_profile_details, name='mentor_profile_details'),
+    
 
 ]
