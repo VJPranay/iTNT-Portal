@@ -24,20 +24,17 @@ def mentor_registrations(request,registration_status=None):
         mentor_registrations = MentorRegistration.objects.filter(status=registration_status)
     else:
         mentor_registrations = MentorRegistration.objects.all()
-    student_registrations_list = []
+    mentor_registrations_list = []
     for x in mentor_registrations:
         temp = {
             'mentor_id' : x.id,
             'name':x.name,
             'area_of_interest' : x.area_of_interest.area_of_interest_value,
             'mobile' : x.mobile,
-            
-           
-            
             'created' : x.created,
         }
-        student_registrations_list.append(temp)
-    return render(request, 'dashboard/registrations/student/list.html',context={'student_registrations':student_registrations_list})
+        mentor_registrations_list.append(temp)
+    return render(request, 'dashboard/registrations/mentor/list.html',context={'mentor_registrations':mentor_registrations_list})
 
 
 
@@ -65,7 +62,7 @@ def mentor_approve_registration(request):
                 try:
                     user = User.objects.create_user(username=username, password=password)
                     user.is_active = True
-                    user.user_role = 7
+                    user.user_role = 9
                     user.email = registration.email
                     user.save()
                 except IntegrityError:
@@ -83,6 +80,7 @@ def mentor_approve_registration(request):
                     profile_picture=registration.profile_picture,
                     updated_bio=registration.updated_bio,
                     certified_mentor=registration.certified_mentor,
+                    reason=registration.reason,
                     area_of_interest=registration.area_of_interest,
                     functional_areas_of_expertise=registration.functional_areas_of_expertise,
                     mentoring_experience=registration.mentoring_experience,
@@ -141,7 +139,8 @@ def mentor_registration(request):
         designation = request.POST.get('designation')
         profile_picture = request.FILES.get('profile_picture')
         updated_bio = request.FILES.get('updated_bio')
-        certified_mentor = request.POST.get('certified_mentor')
+        certified_mentor = request.POST.get('certified_mentor')=='yes'
+        reason=request.POST.get('reason','')
         area_of_interest_id = request.POST.get('collaboration_sector')
         functional_areas_of_expertise = request.POST.get('functional_areas_of_expertise')
         mentoring_experience = request.POST.get('mentoring_experience')
@@ -155,7 +154,7 @@ def mentor_registration(request):
         gender = request.POST.get('gender')
         
         # Convert certified_mentor_str to Boolean
-        certified_mentor = certified_mentor.lower() == 'yes'
+        #certified_mentor = certified_mentor.lower() == 'yes'
         intensive_mentoring_program = intensive_mentoring_program.lower() == 'yes'
         
         request_schema = '''
@@ -241,6 +240,11 @@ def mentor_registration(request):
         intensive_mentoring_program:
             type: string
             required: true
+        
+        reason:
+            type: string
+            required: true
+            
         '''
         
         v = Validator()
@@ -262,6 +266,7 @@ def mentor_registration(request):
                     profile_picture=profile_picture,
                     updated_bio=updated_bio,
                     certified_mentor=certified_mentor,
+                    reason=reason,
                     area_of_interest=area_of_interest,
                     functional_areas_of_expertise=functional_areas_of_expertise,
                     mentoring_experience=mentoring_experience,
@@ -275,78 +280,12 @@ def mentor_registration(request):
                     intensive_mentoring_program=intensive_mentoring_program
                 )
                 new_mentor_registration.save()
-                
-                registration = MentorRegistration.objects.get(id=new_mentor_registration.id)
-                registration.status = 'approved'
-                registration.save()
-                
-                # Generate username from registration ID
-                username = registration.registration_id
-                # Generate random 6-digit number
-                password = ''.join(random.choices(string.digits, k=6))
-                
-                # Create user with the generated username and random password
-                try:
-                    user = User.objects.create_user(username=username, password=password)
-                    user.is_active = True
-                    user.user_role = 9
-                    user.email = registration.email
-                    user.save()
-                except IntegrityError:
-                    user = User.objects.get(username=username)
-                    return JsonResponse({'success': True}, status=200)
-                
-                mentor_profile = Mentor.objects.create(
-                    user_id=user.id,
-                    name=registration.name,
-                    mobile=registration.mobile,
-                    email=registration.email,
-                    address=registration.address,
-                    linkedin_url=registration.linkedin_url,
-                    company_name=registration.company_name,
-                    designation=registration.designation,
-                    profile_picture=registration.profile_picture,
-                    updated_bio=registration.updated_bio,
-                    certified_mentor=registration.certified_mentor,
-                    area_of_interest=registration.area_of_interest,
-                    functional_areas_of_expertise=registration.functional_areas_of_expertise,
-                    mentoring_experience=registration.mentoring_experience,
-                    motivation_for_mentoring=registration.motivation_for_mentoring,
-                    category_represent_you=registration.category_represent_you,
-                    mentees_journey=registration.mentees_journey,
-                    gender=registration.gender,
-                    state_id=registration.state_id,
-                    district_id=registration.district_id,
-                    commitment_as_mentor=registration.commitment_as_mentor,
-                    intensive_mentoring_program=registration.intensive_mentoring_program,
-                    approved=True
-                )
-                mentor_profile.save()
-                
-                email_host = settings.EMAIL_HOST
-                email_port = settings.email_port
-                email_username = settings.EMAIL_HOST_USER
-                email_password = settings.EMAIL_HOST_PASSWORD
-                email_from = settings.email_from
-                subject = 'Your iTNT registration has been approved'
-                body = f'''
-                Username: {user.username}
-                Password: {password}
-                Login URL: https://itnthub.tn.gov.in/innovation-portal/dashboard
-                '''
-                
-                message = MIMEMultipart()
-                message['From'] = email_from
-                message['To'] = registration.email
-                message['Subject'] = subject
-                message.attach(MIMEText(body, 'plain'))
-                
-                with smtplib.SMTP_SSL(email_host, email_port) as server:
-                    server.login(email_username, email_password)
-                    server.sendmail(email_from, [registration.email], message.as_string())
-                
-                return JsonResponse({'success': True, 'registration_id': str(new_mentor_registration.registration_id)})
-            
+                return JsonResponse(
+                    {
+                        'success': True,
+                        'registration_id': str(new_mentor_registration.registration_id),
+                    }
+                    )
             except IntegrityError as e:
                 return JsonResponse({'success': False, 'registration_id': "Failed", 'error': str(e)})
         else:

@@ -4,7 +4,7 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from registrations.models import StartUpRegistrations,ResearcherRegistrations, StudentRegistrations,VCRegistrations, IndustryRegistrations,StartUpRegistrationsCoFounders
-
+from mentor.models import MentorRegistration
 
 @login_required
 def startup_registration_details(request, pk):
@@ -65,4 +65,13 @@ def industry_registration_details(request, pk):
         return render(request, 'dashboard/registrations/v2/industry_registration_details.html', {'industry':industry})
     except IndustryRegistrations.DoesNotExist:
         return HttpResponseRedirect(reverse('not_found'))
+   
+   
+def mentor_registration_details(request, pk):
+    try:
+        mentor = MentorRegistration.objects.get(pk=pk)
+        return render(request, 'dashboard/registrations/v2/mentor_registration_details.html', {'mentor':mentor})
+    except MentorRegistration.DoesNotExist:
+        return HttpResponseRedirect(reverse('not_found'))
+
 

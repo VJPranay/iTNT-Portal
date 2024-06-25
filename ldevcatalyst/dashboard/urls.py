@@ -5,9 +5,10 @@ from registrations.startup.views import startup_registrations,startup_approve_re
 from registrations.vc.views import vc_registrations,vc_approve_registration
 from registrations.student.views import student_registrations, student_approve_registration
 from registrations.sme.views import sme_registrations,sme_approve_registration
+from mentor.views import mentor_registration,mentor_approve_registration
 # registrations
-from dashboard.registrations.list_view import StartUpRegistrationsListView,ResearcherRegistrationsListView, StudentRegistrationsListView,VCRegistrationsListView, IndustryRegistrationsListView
-from dashboard.registrations.registration_details import startup_registration_details,Researcher_registration_details, student_registration_details,vc_registration_details, industry_registration_details
+from dashboard.registrations.list_view import StartUpRegistrationsListView,ResearcherRegistrationsListView, StudentRegistrationsListView,VCRegistrationsListView, IndustryRegistrationsListView,MentorRegistrationsListView
+from dashboard.registrations.registration_details import startup_registration_details,Researcher_registration_details, student_registration_details,vc_registration_details, industry_registration_details,mentor_registration_details
 # profiles
 from dashboard.profiles.list_view import StartUpListView, ResearcherListView, StudentListView, VCListView, IndustryListView
 from dashboard.profiles.profile_details import startup_profile_details, researcher_profile_details, student_profile_details, vc_profile_details, industry_profile_details
@@ -23,6 +24,7 @@ urlpatterns = [
     path('registrations/startup/<str:area_of_interest>', startup_registrations, name='startup_registrations_cat'),
     path('registrations/sme/<str:area_of_interest>', sme_registrations, name='researcher_registrations_cat'),
     path('registrations/vc/<str:registration_status>/', vc_registrations, name='vc_registrations'),
+    path('registrations/mentor/<str:registration_status>/', mentor_registration, name='mentor_registration'),
 
    
    
@@ -60,6 +62,14 @@ urlpatterns = [
     path('registrations/v2/industrys', IndustryRegistrationsListView.as_view(), name='industry_registrations_list'),
     path('registrations/v2/industry/<int:pk>', industry_registration_details, name='industry_registration_details'),
     path('registrations/industry/approve_registration', industry_approve_registration, name='industry_approve_registration'),
+    
+    #Mentor registrations
+    path('registrations/v2/mentors', MentorRegistrationsListView.as_view(), name='mentor_registrations_list'),
+    path('registrations/v2/mentor/<int:pk>', mentor_registration_details, name='mentor_registration_details'),
+    path('registrations/mentor/approve_registration', mentor_approve_registration, name='mentor_approve_registration'),
+    
+    
+    
 
     # startup profiles
     path('profiles/v2/startups', StartUpListView.as_view(), name='startup_profiles_list'),
