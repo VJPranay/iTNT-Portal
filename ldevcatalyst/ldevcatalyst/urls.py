@@ -44,7 +44,6 @@ urlpatterns = [
     path('smeconnect/', include('smeconnect.urls')),
     path('vcstartup_meetings/', include('vcstartup_meetings.urls')),
     path('registrations/', include('mentor.urls')),
-    
     path('', not_found),
 ]
 

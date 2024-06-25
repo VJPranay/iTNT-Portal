@@ -158,7 +158,7 @@
 
 							<div class="form-group d-flex mt-3  align-items-start justify-content-start gap-5 w-100">
 								
-								<div class="form-group d-flex flex-column align-items-start justify-content-start gap-3 w-50">
+								{% comment %} <div class="form-group d-flex flex-column align-items-start justify-content-start gap-3 w-50">
 									<label  for="exampleSelect">2. Focus Area</label>
 									<div class="input-group1 w-100  px-2   rounded-3">
 									  <select class="custom-select w-100 py-3 rounded-3 border-0" name="focus_area" id="exampleSelect">
@@ -167,10 +167,10 @@
 										<option value="Sustainable solutions to alleviate impact">Sustainable solutions to alleviate impact</option>
 									  </select>
 									</div>
-								</div>
+								</div> {% endcomment %}
 
 								<div class="form-group d-flex flex-column align-items-start justify-content-start gap-3 w-50">
-									<label  for="exampleSelect">3. Team Size</label>
+									<label  for="exampleSelect">2. Team Size</label>
 									<div class="input-group1 w-100  px-2   rounded-3">
 									  <select class="custom-select w-100 py-3 rounded-3 border-0" name="team_size" id="exampleSelect">
 										<option selected>Number of Team Members</option>
@@ -196,29 +196,29 @@
 							</div>
 
 							<div class="form-group d-flex flex-column mt-3 align-items-start justify-content-start gap-3 w-100">
-								<label class="" for="name">4. Team Composition</label>
+								<label class="" for="name">3. Team Composition</label>
 								<textarea class="form-control2 rounded-3" id="message" name="team_composition" rows="5" style="height: 120px;" placeholder="Describe Team Composition and Roles"></textarea>
 							</div>
 
 							<div class="form-group d-flex flex-column mt-3 align-items-start justify-content-start gap-3 w-100">
-								<label class="" for="name">5. Solution Brief</label>
+								<label class="" for="name">4. Solution Brief</label>
 								<textarea class="form-control2 rounded-3" id="message" name="solution_brief" rows="5" style="height: 180px;" placeholder="Brief Description of Solution - Problems, Technology, Relevance"></textarea>
 							</div>
 
 							<div class="form-group d-flex flex-column mt-3 align-items-start justify-content-start gap-3 w-100">
-								<label class="" for="name">6. What is the uniqueness of the solution</label>
+								<label class="" for="name"5. What is the uniqueness of the solution</label>
 								<textarea class="form-control2 rounded-3" id="message" rows="5"  name="solution_uniqueness" style="height: 120px;" placeholder="Describe What Makes Your Solution Unique"></textarea>
 							</div>
 
 							<div class="form-group d-flex flex-column mt-3 align-items-start justify-content-start gap-3 w-100">
-								<label class="" for="name">7. How does the solution contribute to the sustainable development goals ? </label>
+								<label class="" for="name">6. How does the solution contribute to the sustainable development goals ? </label>
 								<textarea class="form-control2 rounded-3" id="message" rows="5" name="solution_sustainable_development_goals" style="height: 120px;" placeholder="Specify SDGs Supported and How"></textarea>
 							</div>
 
 							<div class="form-group d-flex mt-3  align-items-start justify-content-start gap-5 w-100">
 								
 								<div class="form-group d-flex flex-column align-items-start justify-content-start gap-3 w-50">
-									<label  for="exampleSelect">8. What is the current stage of your innovation?</label>
+									<label  for="exampleSelect">7. What is the current stage of your innovation?</label>
 									<div class="input-group1 w-100  px-2   rounded-3">
 									  <select class="custom-select w-100 py-3 rounded-3 border-0 " id="exampleSelect" name="innovation_current_stage">
 										<option selected>Select Current Stage</option>
@@ -237,7 +237,7 @@
 								</div>
 
 								<div class="form-group d-flex flex-column align-items-start justify-content-start gap-3 w-50">
-									<label  for="exampleSelect">9. Have you filed a patent application to protect your innovation?</label>
+									<label  for="exampleSelect">8. Have you filed a patent application to protect your innovation?</label>
 									<div class="input-group1 w-100  px-2   rounded-3">
 									  <select class="custom-select w-100 py-3 rounded-3 border-0 " id="exampleSelect" name="patent_status">
 										<option selected>Status</option>
@@ -259,7 +259,7 @@
 							</div>
 
 							<div class="form-group d-flex flex-column align-items-start mt-3 justify-content-start gap-3 w-100">
-								<label  for="exampleSelect">10. Have you published any research papers based on your proposed innovation ?</label>
+								<label  for="exampleSelect">9. Have you published any research papers based on your proposed innovation ?</label>
 								<div class="input-group1 w-100  px-2   rounded-3">
 								  <select class="custom-select w-100 py-3 rounded-3 border-0 " id="proposed_hackathon_research_papers_exist" name="proposed_hackathon_research_papers_exist" onchange="toggleAdditionalFields(this.value)"> 
 									<option selected>Select Yes/No</option>
@@ -301,17 +301,17 @@
 
 							
 							<div class="form-group d-flex flex-column mt-3 align-items-start mt-3 justify-content-start gap-3 w-100">
-								<label class="" for="name">11. What are your plans and timeframe to implement the idea ? </label>
+								<label class="" for="name">10. What are your plans and timeframe to implement the idea ? </label>
 								<textarea class="form-control2 rounded-3" id="message" name="timeframe" rows="5" style="height: 120px;"  placeholder="Describe Implementation Plans and Timeline"></textarea>
 							</div>
 
 							<div class="form-group d-flex flex-column mt-3 align-items-start mt-3 justify-content-start gap-3 w-100">
-								<label class="" for="name">12. What are the expected impacts and outcomes ? </label>
+								<label class="" for="name">11. What are the expected impacts and outcomes ? </label>
 								<textarea class="form-control2 rounded-3" id="message" rows="5" style="height: 120px;" name="expected_impacts_outcomes" placeholder="Outline Expected Impacts and Outcomes"></textarea>
 							</div>
 
 							<div class="form-group d-flex flex-column align-items-start mt-3 justify-content-start gap-3 w-100">
-								<label  for="exampleSelect">13. Supporting documents (in pdf): summary that includes proposed solution, technical aspects, and deliverables.</label>
+								<label  for="exampleSelect">12. Supporting documents (in pdf): summary that includes proposed solution, technical aspects, and deliverables.</label>
 								<div class="w-100 d-flex position-relative flex-column align-items-center justify-content-center">
 									<input type="file" class="custom-file-input" id="attachment" accept=".pdf" name="supporting_documents">
 									<img class="position-absolute " style="width: 50px; top:18%;" src="https://itnthub.tn.gov.in/rolls-royce/assets/images/proposal-form/prime_upload.png" alt="">
@@ -323,7 +323,7 @@
 							</div>
 
 							<div class="form-group d-flex flex-column align-items-start mt-3 justify-content-start gap-3 w-100">
-								<label for="exampleSelect">14. Please read and accept the terms and conditions before filling out or submitting the form</label>
+								<label for="exampleSelect">13. Please read and accept the terms and conditions before filling out or submitting the form</label>
 								<div class="slide-container">
 									
 									<div>

@@ -17,13 +17,12 @@ from django.conf import settings
 
 
 class HackathonProposalAdmin(admin.ModelAdmin):
-    list_display = ('solution_name', 'user', 'focus_area', 'team_size', 'innovation_current_stage')
-    list_filter = ('focus_area', 'innovation_current_stage')
+    list_display = ('solution_name', 'user', 'team_size', 'innovation_current_stage')
     search_fields = ('solution_name', 'user__username')
     readonly_fields = ('user',)
     fieldsets = (
         (None, {
-            'fields': ('user', 'solution_name', 'focus_area', 'team_size', 'innovation_current_stage', 'patent_status')
+            'fields': ('user', 'solution_name', 'team_size', 'innovation_current_stage', 'patent_status')
         }),
         ('Details', {
             'fields': ('team_composition', 'solution_brief', 'solution_uniqueness', 'solution_sustainable_development_goals', 'proposed_hackathon_research_papers_exist', 'proposed_hackathon_research_papers_count', 'proposed_hackathon_research_papers_links', 'proposed_hackathon_research_papers_files', 'timeframe', 'expected_impacts_outcomes','supporting_documents'),
@@ -75,7 +74,7 @@ class HackathonProposalAdmin(admin.ModelAdmin):
         fields_to_display = [
             ('user', 'User'),
             ('solution_name', 'Solution Name'),
-            ('focus_area', 'Focus Area'),
+            ('Focus Area'),
             ('team_size', 'Team Size'),
             ('team_composition', 'Team Composition'),
             ('solution_brief', 'Solution Brief'),
