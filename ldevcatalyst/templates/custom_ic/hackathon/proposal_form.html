@@ -74,7 +74,6 @@
 					<div class="d-flex justify-content-center text-center align-content-center align-items-center gap-5">
 						<a href="#"><h5>About</h5></a>
 						<h5>Benefits</h5>
-						<h5>Focus Area</h5>
 						<h5>Eligibity</h5>
 						<h5>Timeline</h5>
 						<a href="{% url 'logout' %}"><h5>Logout</h5></a>
@@ -83,12 +82,12 @@
                 </div>
                    
                 
-                <div class="d-flex justify-content-end align-content-center  px-5 ">
+                {% comment %} <div class="d-flex justify-content-end align-content-center  px-5 ">
                     <img style="width: 45px" src="https://itnthub.tn.gov.in/assets/onging-img2.png" alt="">
                     <!-- <div class="logo-main "></div>
                     <a href="#"><img style="width: 150px;" class="d-flex justify-content-center align-content-center align-items-center" src="/assets/ongoing-img.png" alt=""></a> -->
                     
-                </div>
+                </div> {% endcomment %}
             </div>
 			
 			
@@ -206,7 +205,7 @@
 							</div>
 
 							<div class="form-group d-flex flex-column mt-3 align-items-start justify-content-start gap-3 w-100">
-								<label class="" for="name"5. What is the uniqueness of the solution</label>
+								<label class="" for="name">5. What is the uniqueness of the solution</label>
 								<textarea class="form-control2 rounded-3" id="message" rows="5"  name="solution_uniqueness" style="height: 120px;" placeholder="Describe What Makes Your Solution Unique"></textarea>
 							</div>
 
@@ -419,8 +418,8 @@
 		<!-- Theme js -->
 		<script src="https://itnthub.tn.gov.in/js/theme.js"></script>
 		<script>
-			function toggleAdditionalFields(value) {
-				const additionalFields = document.getElementById('proposed_hackathon_research_papers_sec');
+			 function toggleAdditionalFields(value) {
+				const additionalFields = document.getElementById('proposed_rc_research_papers_sec');
 				if (value === 'Yes') {
 					console.log('Showing additional fields.');
 					additionalFields.style.visibility = 'visible';
@@ -430,7 +429,7 @@
 					additionalFields.style.visibility = 'hidden';
 					additionalFields.style.maxHeight = '0';
 				}
-			}
+			} 
 			document.addEventListener("DOMContentLoaded", function () {
 				const acceptCheckbox = document.getElementById('acceptCheckbox');
 				const submitButton = document.getElementById('submitButton');

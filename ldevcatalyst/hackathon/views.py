@@ -124,6 +124,9 @@ def hackathon_proposal_form(request):
         else:
             messages.error(request, 'Error submitting proposal!')
             return redirect('error_page')  
+    # check if form alreay submmit if yes reditrect to already subitted
+    if HackathonProposal.objects.filter(user=request.user).exists():
+        return redirect('success_page')
     return render(request, 'custom_ic/hackathon/proposal_form.html')
 
 
