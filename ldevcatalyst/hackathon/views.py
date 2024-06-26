@@ -40,7 +40,6 @@ def hackathon_proposal_form(request):
         form_data = {
             'user': user,
             'solution_name': request.POST.get('solution_name'),
-            'focus_area': request.POST.get('focus_area'),
             'team_size': request.POST.get('team_size'),
             'team_composition': request.POST.get('team_composition'),
             'solution_brief': request.POST.get('solution_brief'),
@@ -88,8 +87,6 @@ def hackathon_proposal_form(request):
         
         if not form_data['solution_name']:
             errors.append("Solution Name is required.")
-        if not form_data['focus_area']:
-            errors.append("Focus Area is required.")
         if not form_data['team_size']:
             errors.append("Team Size is required.")
         if not form_data['team_composition']:
@@ -127,6 +124,9 @@ def hackathon_proposal_form(request):
         else:
             messages.error(request, 'Error submitting proposal!')
             return redirect('error_page')  
+    # check if form alreay submmit if yes reditrect to already subitted
+    if HackathonProposal.objects.filter(user=request.user).exists():
+        return redirect('success_page')
     return render(request, 'custom_ic/hackathon/proposal_form.html')
 
 

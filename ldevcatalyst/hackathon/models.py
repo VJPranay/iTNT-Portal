@@ -4,7 +4,6 @@ from profiles.models import User
 class HackathonProposal(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL,blank=True, null=True)
     solution_name = models.CharField(max_length=255)
-    focus_area = models.CharField(max_length=255)
     team_size = models.IntegerField()
     team_composition = models.TextField()
     solution_brief = models.TextField()
