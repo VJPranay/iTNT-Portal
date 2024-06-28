@@ -2,7 +2,7 @@ from django.urls import path
 from .views import custom_login,dashboard_index,logout
 from registrations.industry.views import industry_registrations,industry_approve_registration
 from registrations.startup.views import startup_registrations,startup_approve_registration
-from registrations.vc.views import vc_registrations #vc_approve_registration
+from registrations.vc.views import vc_registrations,vc_approve_registration
 from registrations.student.views import student_registrations, student_approve_registration
 from registrations.sme.views import sme_registrations,sme_approve_registration
 from mentor.views import mentor_registration,mentor_approve_registration
@@ -56,7 +56,7 @@ urlpatterns = [
     # vc registrations
     path('registrations/v2/vc', VCRegistrationsListView.as_view(), name='vc_registrations_list'),
     path('registrations/v2/vc/<int:pk>', vc_registration_details, name='vc_registration_details'),
-    #path('registrations/vc/approve_registration', vc_approve_registration, name='vc_approve_registration'),
+    path('registrations/vc/approve_registration', vc_approve_registration, name='vc_approve_registration'),
 
      # industry registrations
     path('registrations/v2/industrys', IndustryRegistrationsListView.as_view(), name='industry_registrations_list'),
