@@ -1,0 +1,132 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block breadcrums %}
+<script src="{% static 'assets/js/custom/widgets.js' %}"></script>
+<script src="{% static 'assets/js/widgets.bundle.js' %}"></script>
+
+<!--begin::Breadcrumb-->
+<ul class="breadcrumb breadcrumb-separatorless fw-semibold">
+    <!--begin::Item-->
+    <li class="breadcrumb-item text-white fw-bold lh-1">
+        <a href="{% url 'dashboard_index' %}" class="text-white text-hover-primary">
+            <i class="ki-outline ki-home text-gray-700 fs-6"></i>
+        </a>
+    </li>
+    <!--end::Item-->
+    <!--begin::Item-->
+    <li class="breadcrumb-item">
+        <i class="ki-outline ki-right fs-7 text-gray-700 mx-n1"></i>
+    </li>
+    <!--end::Item-->
+    <!--begin::Item-->
+    <li class="breadcrumb-item text-white fw-bold lh-1">VcStartup Connect</li>
+    <!--end::Item-->
+    <!--begin::Item-->
+    <li class="breadcrumb-item">
+        <i class="ki-outline ki-right fs-7 text-gray-700 mx-n1"></i>
+    </li>
+    <!--end::Item-->
+    <!--begin::Item-->
+    <li class="breadcrumb-item text-white fw-bold lh-1">Accepted Meeting request</li>
+    <!--end::Item-->
+</ul>
+<!--end::Breadcrumb-->
+{% endblock %}
+
+{% block pageheading %}
+VcStartup Connect
+{% endblock %}
+
+{% block pagedescription %}
+Accepted requests
+{% endblock %}
+
+{% block page_content %}
+<div class="d-flex flex-column flex-column-fluid">
+    <!--begin::Content-->
+    <div id="kt_app_content" class="app-content flex-column-fluid">
+        <!--begin::Contacts App- View Contact-->
+        <div class="row g-7 justify-content-center">
+            <!--begin::Column for Sent Requests-->
+            <div class="col-lg-6 col-xl-6">
+                <div class="card card-flush">
+                    <div class="card-header pt-7">
+                        <div class="card-title">
+                            <h2>Sent Requests - Confirmed</h2>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Receiver</th>
+                                    <th>Date</th>
+                                    <th>Time</th>
+                                    <th>Detail</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for request in sent_requests %}
+                                <tr>
+                                    {% if request.receiver.user_role == 6 %}
+                                    <td><a href="{% url 'startup_profile_details' request.receiver_id %}">{{ request.receiver_name }}</a></td>
+                                       
+                                    {%else%}
+                                    <td><a target="_blank" href="{% url 'vc_profile_details' request.receiver_id %}">{{ request.receiver_name }}</a></td>
+                                    {%endif%}
+                                    <td>{{ request.date }}</td>
+                                    <td>{{ request.time }}</td>
+                                    <td><a href="{% url 'vcstartup_meeting_request_detail' request.pk %}">View</a></td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!--end::Column for Sent Requests-->
+
+            <!--begin::Column for Received Requests-->
+            <div class="col-lg-6 col-xl-6">
+                <div class="card card-flush">
+                    <div class="card-header pt-7">
+                        <div class="card-title">
+                            <h2>Received Requests - Confirmed</h2>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Sender</th>
+                                    <th>Date</th>
+                                    <th>Time</th>
+                                    <th>Detail</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for request in received_requests %}
+                                <tr>
+                                    {% if request.sender.user_role == 8 %}
+                                    <td><a href="{% url 'vc_profile_details' request.sender_id %}">{{ request.sender_name }}</a></td>
+                                       
+                                    {%else%}
+                                    <td><a target="_blank" href="{% url 'startup_profile_details' request.sender_id %}">{{ request.sender_name }}</a></td>
+                                    {%endif%}
+                                    <td>{{ request.date }}</td>
+                                    <td>{{ request.time }}</td>
+                                    <td><a href="{% url 'vcstartup_meeting_request_detail' request.pk %}">View</a></td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!--end::Column for Received Requests-->
+        </div>
+    </div>
+</div>
+{% endblock %}

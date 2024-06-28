@@ -198,9 +198,19 @@ Mentor details
                 <br>
                
                 <div class="d-grid gap-2 d-md-flex justify-content-center">
-                    <button class="btn btn-warning me-md-2" type="button"><a href="{% url 'mentor_profiles_list' %}?{{ request.GET.urlencode }}" style="color: white;"> Go Back</a></button>
-                    
+                    <button class="btn btn-warning me-md-2" type="button">
+                        <a href="{% url 'mentor_profiles_list' %}?{{ request.GET.urlencode }}" style="color: white;">Go Back</a>
+                    </button>
+                
+                
+                    {% if user.user_role == 6 %}
+                    {% if meeting_exists == 'false' %}
+                        <button class="btn btn-primary me-md-2" type="button"><a href="{% url 'mentorstartup_meeting_request_create' receiver_id=mentor.user.id %}" style="color: white;">Send meeting request</a></button>
+                    {% endif %}
+                    {% endif %}
+                
                 </div>
+                
             
            
            

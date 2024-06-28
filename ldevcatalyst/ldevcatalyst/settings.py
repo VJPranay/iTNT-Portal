@@ -63,7 +63,9 @@ INSTALLED_APPS = [
     'smeconnect',
     'vcstartup_meetings',
     'hackathon',
-    'mentor'
+    'mentor',
+    'mentorstartupconnect',
+    'smeindustryconnect'
 ]
 
 AUTH_USER_MODEL = 'profiles.User'
