@@ -18,7 +18,7 @@
     </li>
     <!--end::Item-->
     <!--begin::Item-->
-    <li class="breadcrumb-item text-white fw-bold lh-1">VcStartup Connect</li>
+    <li class="breadcrumb-item text-white fw-bold lh-1">Meeting Details </li>
     <!--end::Item-->
     <!--begin::Item-->
     <li class="breadcrumb-item">
@@ -33,7 +33,7 @@
 {% endblock %}
 
 {% block pageheading %}
-VcStartup Connect
+Meeting Details 
 {% endblock %}
 
 {% block pagedescription %}
@@ -89,18 +89,21 @@ Request Details
                             <strong>Status:</strong> {{ meeting_request.get_status_display }}
                         </div>
                         {% if meeting_request.receiver == user and meeting_request.status == 'sent' %}
-                        <div class="mb-3 text-center">
-                            <a href="{% url 'vc_meeting_accept' meeting_request.pk %}" class="btn btn-success mx-2">Accept</a>
-                            <a href="{% url 'vc_meeting_reject' meeting_request.pk %}" class="btn btn-danger mx-2">Reject</a>
+                        {% endif %}
+                        <div class="d-grid gap-2 d-md-flex justify-content-center">
+                            <button id="backButton" class="btn btn-primary me-md-2" type="button">Go back</button>
                             
                         </div>
-                        {% endif %}
-                        {% if meeting_request.status == 'rejected' %}
-                            </br>
-                        {% else %}
-                            <a href="{% url 'startup_reject_meeting'  %}" class="btn btn-danger mx-2">Cancel</a>
-                        {% endif%}
-                        
+
+                        <script>
+                            document.addEventListener('DOMContentLoaded', function () {
+                                document.getElementById('backButton').addEventListener('click', function () {
+                                    window.history.back();
+                                });
+                            });
+                        </script> 
+                         
+                 </div>
                     </div>
                 </div>
             </div>

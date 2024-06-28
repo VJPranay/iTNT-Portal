@@ -99,6 +99,7 @@ def vcstartup_meeting_request_detail(request, pk):
     return render(request, 'vcstartup_connect/meeting_request_details.html', context)
 
 
+
 @login_required
 def vcstartup_meeting_request_create(request, receiver_id):
     receiver = get_object_or_404(User, pk=receiver_id)

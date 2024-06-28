@@ -16,7 +16,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 import json
 from profiles.models import VC ,Student,Industry
-from .models import MeetingRequests
+#from .models import MeetingRequests
 from django.utils.html import escape
 from .forms import MeetingRequestUpdateForm,VCMeetingRequestAcceptForm
 from django.http import JsonResponse
@@ -303,12 +303,15 @@ def meetings(request,meeting_status=None):
 
 @login_required
 def meeting(request,meeting_id=None):
-    if request.user.user_role in [1,2,3,6,8] or meeting_id is not None: 
+    if request.user.user_role in [1,2,3,6,8,5] or meeting_id is not None: 
         try:
             if request.user.user_role == 6:
-                meeting_request = MeetingRequests.objects.get(id=meeting_id,start_up__user__id=request.user.id)
+                meeting_request = vcstartup_MeetingRequest.objects.get(id=meeting_id,start_up__user__id=request.user.id)
             elif request.user.user_role == 8:
-                meeting_request = MeetingRequests.objects.get(id=meeting_id,vc__user__id=request.user.id)
+                meeting_request = vcstartup_MeetingRequest.objects.get(id=meeting_id,vc__user__id=request.user.id)
+            elif request.user.user_role==5:
+                meeting_request = MeetingRequests.objects.get(id=meeting_id,sme__user__id=request.user.id)
+                
             else:
                 meeting_request = MeetingRequests.objects.get(id=meeting_id)
             return render(request, 'dashboard/meetings/meeting_details.html',context={'meeting_request':meeting_request})
@@ -421,11 +424,11 @@ def calendar_view(request):
     status = request.GET.get('status')  # Get the status parameter from the request
     if status:
         if status == 'all':
-            meeting_requests = MeetingRequests.objects.all()
+            meeting_requests = MeetingRequest.objects.all()
         else:
-            meeting_requests = MeetingRequests.objects.filter(status=status)
+            meeting_requests = MeetingRequest.objects.filter(status=status)
     else:
-        meeting_requests = MeetingRequests.objects.all()  # Fetch all meeting requests
+        meeting_requests = MeetingRequest.objects.all()  # Fetch all meeting requests
     return render(request, 'dashboard/meetings/meeting_calender.html', {'meeting_requests': meeting_requests})
 
 @login_required
@@ -519,15 +522,22 @@ def startup_reject_meeting(request):
     else:
         return JsonResponse({'error': 'Invalid request'}, status=400)
     
-    
-def meeting_details(request,pk):
-    meeting_request=get_object_or_404(vcstartup_MeetingRequest,pk=pk)
-    meeting_requests=get_object_or_404(MeetingRequest,pk=pk)
-    
-    context = {
-        'meeting_request': meeting_request,
-        'meeting_requests': meeting_requests,
-    }
-    return render(request,'dashboard/meetings/meeting_request_details.html',context=context)
-    
 
+
+
+from django.http import Http404
+
+def meeting_details(request, pk):
+    meeting_request = None
+    if MeetingRequest.objects.filter(pk=pk).exists():
+        meeting_request = get_object_or_404(MeetingRequest, pk=pk)
+    elif vcstartup_MeetingRequest.objects.filter(pk=pk).exists():
+        meeting_request = get_object_or_404(vcstartup_MeetingRequest, pk=pk)
+
+    if meeting_request is None:
+        # Handle case where meeting request is not found
+        # You can raise 404 or handle it differently based on your requirement
+        raise Http404("Meeting request not found")
+
+    context = {'meeting_request': meeting_request}
+    return render(request, 'dashboard/meetings/meeting_request_details.html', context=context)
