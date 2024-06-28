@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import vc_meeting_requests,fetch_startup_profiles,fetch_startup_details,vc_meeting_request,meetings,meeting,meeting_update,calendar_view,calendar_data,vc_meeting_accept,startup_confirm_meeting,startup_reject_meeting,vc_meeting_reject
+from .views import vc_meeting_requests,fetch_startup_profiles,fetch_startup_details,vc_meeting_request,meetings,meeting,meeting_update,calendar_view,calendar_data,vc_meeting_accept,startup_confirm_meeting,startup_reject_meeting,vc_meeting_reject,meeting_details
 
 
 
@@ -18,6 +18,10 @@ urlpatterns = [
     path('calendar_data/', calendar_data, name='calendar_data'),
     path('calendar_data/<str:status>/', calendar_data, name='calendar_data'),
     path('startup_confirm_meeting',startup_confirm_meeting,name='startup_confirm_meeting'),
-    path('startup_reject_meeting',startup_reject_meeting,name='startup_reject_meeting')
+    path('startup_reject_meeting',startup_reject_meeting,name='startup_reject_meeting'),
+    
+    #meeting details
+    path('meeting/<int:pk>/',meeting_details,name="meeting_details")
+
     
 ]

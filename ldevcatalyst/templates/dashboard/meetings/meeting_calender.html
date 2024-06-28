@@ -36,7 +36,7 @@
 Meetings
 {% endblock  %}
 {% block pagedescription %}
-Calender
+Calender 
 {% endblock  %}
 
 
@@ -73,74 +73,7 @@ Calender
 {% block custom_js %}
 <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js'></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<!-- 
-<script>
-    $(document).ready(function() {
-        $('#statusFilter').change(function() {
-            var status = $(this).val();
-            fetchMeetingRequests(status);
-        });
 
-        // Initial fetch with 'all' status
-        fetchMeetingRequests('all');
-    });
-
-    function fetchMeetingRequests(status) {
-        $.ajax({
-            type: 'GET',
-            url: '{% url 'calendar_data' %}?status=' + status,
-            success: function(data) {
-                renderCalendar(data);
-            },
-            error: function(error) {
-                console.log(error);
-            }
-        });
-    }
-
-    function renderCalendar(meeting_data) {
-        var calendarEl = document.getElementById('calendar');
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-            initialView: 'dayGridMonth',
-            events: meeting_data.map(function(meeting) {
-                if (meeting.sent_by === 'startup' && meeting.vc_name) {
-                    return {
-                        title: meeting.start_up + ' - ' + meeting.vc_name,
-                        start: meeting.meeting_date + 'T' + meeting.meeting_time,
-                        backgroundColor: '#ffc107',  // Yellow color for startup to VC
-                        borderColor: '#ffc107',
-                        url: '/innovation-portal/meetings/meeting/' + meeting.meeting_id
-                    };
-                } else if (meeting.sent_by === 'vc' && meeting.vc_name) {
-                    return {
-                        title: meeting.start_up + ' - ' + meeting.vc_name,
-                        start: meeting.meeting_date + 'T' + meeting.meeting_time,
-                        backgroundColor: '#28a745',  // Green color for VC to startup
-                        borderColor: '#28a745',
-                        url: '/innovation-portal/meetings/meeting/' + meeting.meeting_id
-                    };
-                } else if (meeting.sent_by === 'startup' && meeting.sme_name) {
-                    return {
-                        title: meeting.start_up + ' - ' + meeting.sme_name,
-                        start: meeting.meeting_date + 'T' + meeting.meeting_time,
-                        backgroundColor: '#ff69b4',  // Pink color for startup to SME
-                        borderColor: '#ff69b4',
-                        url: '/innovation-portal/meetings/meeting/' + meeting.meeting_id
-                    };
-                } else if (meeting.sent_by === 'sme' && meeting.researcher_name) {
-                    return {
-                        title: meeting.start_up + ' - ' + meeting.sme_name,
-                        start: meeting.meeting_date + 'T' + meeting.meeting_time,
-                        backgroundColor: '#ff69b4',  // Pink color for SME to startup
-                        borderColor: '#ff69b4',
-                        url: '/innovation-portal/meetings/meeting/' + meeting.meeting_id
-                    };
-                }
-            })
-        });
-        calendar.render();
-    }
-</script> -->
 
 <script>
     $(document).ready(function() {
@@ -192,7 +125,7 @@ Calender
                     start: meeting.meeting_date + 'T' + meeting.meeting_time,
                     backgroundColor: backgroundColor,
                     borderColor: borderColor,
-                    url: '/innovation-portal/meetings/meeting/' + meeting.meeting_id
+                    url:"{% url 'meeting_details' 0 %}".replace('0',meeting.meeting_id)
                 };
             })
         });
@@ -204,52 +137,6 @@ Calender
 {% endblock %}
 {% endblock %}
 
+<!-- url: '/innovation-portal/meetings/meeting/' + meeting.meeting_id -->
 
-
-
-<!--
-<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js'></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
-<script>
-    $(document).ready(function() {
-        $('#statusFilter').change(function() {
-            var status = $(this).val();
-            fetchMeetingRequests(status);
-        });
-
-        // Initial fetch with 'all' status
-        fetchMeetingRequests('all');
-    });
-
-    function fetchMeetingRequests(status) {
-        $.ajax({
-            type: 'GET',
-            url: '{% url 'calendar_data' %}?status=' + status,
-            success: function(data) {
-                renderCalendar(data);
-            },
-            error: function(error) {
-                console.log(error);
-            }
-        });
-    }
-
-    function renderCalendar(meeting_requests) {
-        var calendarEl = document.getElementById('calendar');
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-            initialView: 'dayGridMonth',
-            events: meeting_requests.map(function(meeting) {
-                return {
-                    title: meeting.start_up + ' - ' + meeting.vc,
-                    start: meeting.meeting_date_time,
-                    backgroundColor: meeting.status === 'accepted' ? '#28a745' : (meeting.status === 'pending' ? '#ffc107' : '#dc3545'),
-                    borderColor: meeting.status === 'accepted' ? '#28a745' : (meeting.status === 'pending' ? '#ffc107' : '#dc3545'),
-                    url: '/innovation-portal/meetings/meeting/' + meeting.meeting_id
-                };
-            })
-        });
-        calendar.render();
-    }
-</script> -->
 

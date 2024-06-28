@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.urls import reverse
@@ -345,24 +345,7 @@ def vc_meeting_accept(request, meeting_id):
     return render(request, 'dashboard/meetings/vc/meeting_accept.html', {'form': form, 'meeting_request': meeting_request})
 
 
-# @login_required
-# def vc_meeting_reject(request, meeting_id):
-#     try:
-#         meeting_request = MeetingRequests.objects.get(pk=meeting_id, vc__user_id=request.user.id, status='start_up_request')
-#     except MeetingRequests.DoesNotExist:
-#         return redirect('not_found')
 
-#     if request.method == 'POST':
-#         form = VCMeetingRequestAcceptForm(request.POST, instance=meeting_request)
-#         if form.is_valid():
-#             form.save()
-#             meeting_info = MeetingRequests.objects.get(id=meeting_id)
-#             meeting_info.status = 'rejected'
-#             meeting_info.save()
-#             return redirect('meeting', meeting_id=meeting_id)
-#     else:
-#         form = VCMeetingRequestAcceptForm(instance=meeting_request)
-#     return render(request, 'dashboard/meetings/vc/meeting_reject.html', {'form': form, 'meeting_request': meeting_request})
 
 @login_required
 def vc_meeting_reject(request, meeting_id):
@@ -535,4 +518,16 @@ def startup_reject_meeting(request):
         return JsonResponse({'message': 'Meeting rejected successfully'}, status=200)
     else:
         return JsonResponse({'error': 'Invalid request'}, status=400)
+    
+    
+def meeting_details(request,pk):
+    meeting_request=get_object_or_404(vcstartup_MeetingRequest,pk=pk)
+    meeting_requests=get_object_or_404(MeetingRequest,pk=pk)
+    
+    context = {
+        'meeting_request': meeting_request,
+        'meeting_requests': meeting_requests,
+    }
+    return render(request,'dashboard/meetings/meeting_request_details.html',context=context)
+    
 

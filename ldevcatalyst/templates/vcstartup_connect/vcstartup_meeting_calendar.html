@@ -116,11 +116,13 @@ Calendar
                 
 
                 return {
-                    title: meeting.start_up + ' - ' + meeting.vc_name,  
+                    title: meeting.start_up + ' - ' + meeting.vc_name,
                     start: meeting.meeting_date + 'T' + meeting.meeting_time,
                     backgroundColor: color,
                     borderColor: color,
-                    url: '/innovation-portal/meetings/meeting/' + meeting.meeting_id
+                    url: '{% url "vcstartup_meeting_request_detail" 0 %}'.replace('0', meeting.meeting_id) // Update this line
+                   
+                
                 };
             })
         });
@@ -128,3 +130,5 @@ Calendar
     }
 </script>
 {% endblock %}
+
+<!-- url: '/innovation-portal/meetings/meeting/' + meeting.meeting_id -->

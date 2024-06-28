@@ -117,7 +117,8 @@ Calendar
                     start: meeting.meeting_date + 'T' + meeting.meeting_time,
                     backgroundColor: color,
                     borderColor: color,
-                    url : '/innovation-portal/meetings/meeting/' + meeting.meeting_id
+                    url: "{% url 'meeting_request_detail' 0 %}".replace('0',meeting.meeting_id) 
+                    
                     
                     
                 };
@@ -127,5 +128,10 @@ Calendar
     }
     
 </script>
-<!--url: '/innovation-portal/meetings/meeting/' + meeting.meeting_id-->
+
 {% endblock %}
+
+<!--url: '/innovation-portal/meetings/meeting/' + meeting.meeting_id-->
+
+
+
