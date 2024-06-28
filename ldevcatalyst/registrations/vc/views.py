@@ -46,91 +46,91 @@ def vc_registrations(request,registration_status=None):
         return render(request, 'common/not_found.html')
 
 
-@login_required
-def vc_approve_registration(request):
-    if request.user.user_role == 2:
-        if request.method == 'POST':
-            registration_id = request.POST.get('registration_id',None)
-            if not registration_id:
-                return JsonResponse({'success': False, 'error': 'Missing registration ID'}, status=400)
-            else:
-                try:
-                    registration = VCRegistrations.objects.get(id=registration_id)
-                    registration.status = 'approved'
-                    registration.save()
+# @login_required
+# def vc_approve_registration(request):
+#     if request.user.user_role == 2:
+#         if request.method == 'POST':
+#             registration_id = request.POST.get('registration_id',None)
+#             if not registration_id:
+#                 return JsonResponse({'success': False, 'error': 'Missing registration ID'}, status=400)
+#             else:
+#                 try:
+#                     registration = VCRegistrations.objects.get(id=registration_id)
+#                     registration.status = 'approved'
+#                     registration.save()
                     
-                    # Generate username from registration ID
-                    username = registration.registration_id
-                    print(username)
-                    # Generate random 6-digit number
-                    password = ''.join(random.choices(string.digits, k=6))
-                    print(password)
-                    # Create user with the generated username and random password
-                    try:
-                        user = User.objects.create_user(username=username, password=password)
-                        user.is_active = True
-                        user.user_role = 8
-                        user.email = registration.email
-                        user.save()
-                    except IntegrityError:
-                        user = User.objects.get(username=username)
-                        return JsonResponse({'success': True})
-                    # vc profile creation
-                    vc_profile = VC.objects.create(
-                        user_id = user.id,
-                        partner_name = registration.partner_name,
-                        firm_name = registration.firm_name,
-                        designation = registration.designation,
-                        name = registration.name,
-                        email = registration.email,
-                        mobile = registration.mobile,
-                        deal_size_range_min = registration.deal_size_range_min,
-                        deal_size_range_max = registration.deal_size_range_max,
-                        deal_size_range = registration.deal_size_range,
-                        deal_size_range_usd = registration.deal_size_range_usd,
-                        portfolio_size = registration.portfolio_size,
-                        district_id = registration.district.id,
-                        state_id = registration.state.id,
-                        company_website = registration.company_website,
-                        linkedin_profile = registration.linkedin_profile,
-                        fund_type = registration.fund_type,
-                        data_source = registration.data_source,
-                        approved = True
-                    )
-                    vc_profile.save()
-                    for x in registration.area_of_interest.all():
-                        vc_profile.area_of_interest.add(x.id)
-                        vc_profile.save()
-                    for x in registration.funding_stage.all():
-                        vc_profile.funding_stage.add(x.id)
-                        vc_profile.save()
-                    email_host = settings.email_host
-                    email_port = settings.email_port
-                    email_username = settings.email_username
-                    email_password = settings.email_password
-                    email_from = settings.email_from
-                    subject = 'You iTNT registration has been approved'
-                    body = f'''
-                            Username: {user.username}
-                            Password: {password}
-                            Login URL: https://itnthub.tn.gov.in/innovation-portal/dashboard
-                            '''
-                    message = MIMEMultipart()
-                    message['From'] = 'aso.itnt@tn.gov.in'
-                    message['To'] = registration.email  # Add the additional email address
-                    message['Subject'] = subject
-                    message.attach(MIMEText(body, 'plain'))
-                    with smtplib.SMTP_SSL(email_host, email_port) as server:
-                        server.login(email_username, email_password)
-                        server.sendmail(email_from, [registration.email], message.as_string())
-                    return JsonResponse({'success': True})
-                except VCRegistrations.DoesNotExist:
-                    print("error")
-                    return JsonResponse({'success': False, 'error': 'Registration not found'}, status=404)
-        else:
-            return JsonResponse({'success': False, 'error': 'Method not allowed'}, status=405)
-    else:
-        return render(request, 'common/not_found.html')
+#                     # Generate username from registration ID
+#                     username = registration.registration_id
+#                     print(username)
+#                     # Generate random 6-digit number
+#                     password = ''.join(random.choices(string.digits, k=6))
+#                     print(password)
+#                     # Create user with the generated username and random password
+#                     try:
+#                         user = User.objects.create_user(username=username, password=password)
+#                         user.is_active = True
+#                         user.user_role = 8
+#                         user.email = registration.email
+#                         user.save()
+#                     except IntegrityError:
+#                         user = User.objects.get(username=username)
+#                         return JsonResponse({'success': True})
+#                     # vc profile creation
+#                     vc_profile = VC.objects.create(
+#                         user_id = user.id,
+#                         partner_name = registration.partner_name,
+#                         firm_name = registration.firm_name,
+#                         designation = registration.designation,
+#                         name = registration.name,
+#                         email = registration.email,
+#                         mobile = registration.mobile,
+#                         deal_size_range_min = registration.deal_size_range_min,
+#                         deal_size_range_max = registration.deal_size_range_max,
+#                         deal_size_range = registration.deal_size_range,
+#                         deal_size_range_usd = registration.deal_size_range_usd,
+#                         portfolio_size = registration.portfolio_size,
+#                         district_id = registration.district.id,
+#                         state_id = registration.state.id,
+#                         company_website = registration.company_website,
+#                         linkedin_profile = registration.linkedin_profile,
+#                         fund_type = registration.fund_type,
+#                         data_source = registration.data_source,
+#                         approved = True
+#                     )
+#                     vc_profile.save()
+#                     for x in registration.area_of_interest.all():
+#                         vc_profile.area_of_interest.add(x.id)
+#                         vc_profile.save()
+#                     for x in registration.funding_stage.all():
+#                         vc_profile.funding_stage.add(x.id)
+#                         vc_profile.save()
+#                     email_host = settings.email_host
+#                     email_port = settings.email_port
+#                     email_username = settings.email_username
+#                     email_password = settings.email_password
+#                     email_from = settings.email_from
+#                     subject = 'You iTNT registration has been approved'
+#                     body = f'''
+#                             Username: {user.username}
+#                             Password: {password}
+#                             Login URL: https://itnthub.tn.gov.in/innovation-portal/dashboard
+#                             '''
+#                     message = MIMEMultipart()
+#                     message['From'] = 'aso.itnt@tn.gov.in'
+#                     message['To'] = registration.email  # Add the additional email address
+#                     message['Subject'] = subject
+#                     message.attach(MIMEText(body, 'plain'))
+#                     with smtplib.SMTP_SSL(email_host, email_port) as server:
+#                         server.login(email_username, email_password)
+#                         server.sendmail(email_from, [registration.email], message.as_string())
+#                     return JsonResponse({'success': True})
+#                 except VCRegistrations.DoesNotExist:
+#                     print("error")
+#                     return JsonResponse({'success': False, 'error': 'Registration not found'}, status=404)
+#         else:
+#             return JsonResponse({'success': False, 'error': 'Method not allowed'}, status=405)
+#     else:
+#         return render(request, 'common/not_found.html')
 
 
 def vc_registration(request):

@@ -18,6 +18,7 @@ urlpatterns = [
     path('vc/details/', vc_registration_details, name='vc_registration_details'),
     path('sme/', sme_registration, name='sme_registration'),
     path('industry/details/', fetch_industry_registration_details, name='industry_registration_details'),
+    
     #student
     path('student/details/', fetch_student_registration_details, name='student_registration_details'),
     path('student/', student_registration, name='student_registration'),
