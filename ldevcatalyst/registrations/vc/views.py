@@ -123,7 +123,7 @@ def vc_approve_registration(request):
                     # with smtplib.SMTP_SSL(email_host, email_port) as server:
                     #     server.login(email_username, email_password)
                     #     server.sendmail(email_from, [registration.email], message.as_string())
-                    # return JsonResponse({'success': True})
+                    return JsonResponse({'success': True})
                 except VCRegistrations.DoesNotExist:
                     print("error")
                     return JsonResponse({'success': False, 'error': 'Registration not found'}, status=404)
