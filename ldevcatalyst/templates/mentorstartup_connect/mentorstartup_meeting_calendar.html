@@ -110,17 +110,17 @@ Calendar
                 var color;
                 if (meeting.sent_by === 'startup') {
                     color = '#ffc107'; // yellow color for startup sent meetings
-                } else if (meeting.sent_by === 'vc') {
+                } else if (meeting.sent_by === 'mentor') {
                     color = '#28a745'; // green color for VC sent meetings
                 }
                 
 
                 return {
-                    title: meeting.start_up + ' - ' + meeting.vc_name,
+                    title: meeting.start_up + ' - ' + meeting.mentor_name,
                     start: meeting.meeting_date + 'T' + meeting.meeting_time,
                     backgroundColor: color,
                     borderColor: color,
-                    url: '{% url "vcstartup_meeting_request_detail" 0 %}'.replace('0', meeting.meeting_id) // Update this line
+                    url: '{% url "mentorstartup_meeting_request_detail" 0 %}'.replace('0', meeting.meeting_id) // Update this line
                    
                 
                 };

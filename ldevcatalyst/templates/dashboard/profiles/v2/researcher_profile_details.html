@@ -227,6 +227,12 @@ Researcher's details
                     {% if meeting_exists == 'false' %}
                         <button class="btn btn-primary me-md-2" type="button"><a href="{% url 'meeting_request_create' receiver_id=researcher.user.id %}" style="color: white;">Send meeting request</a></button>
                     {% endif %}
+                    {% elif user.user_role == 4 %}
+                    {% if meeting_exists == 'false' %}
+                        <button class="btn btn-primary me-md-2" type="button">
+                            <a href="{% url 'smeindustry_meeting_request_create' receiver_id=researcher.user.id %}" style="color: white;">Send meeting request</a>
+                        </button>
+                    {% endif %}
                 {% endif %}
                 
             </div>

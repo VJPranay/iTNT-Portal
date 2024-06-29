@@ -106,22 +106,44 @@ Calender
             events: meeting_data.map(function(meeting) {
                 var backgroundColor, borderColor;
 
+
                 if (meeting.sent_by === 'startup' && meeting.vc_name) {
                     backgroundColor = '#ffc107'; // Yellow for startup to VC
                     borderColor = '#ffc107';
-                } else if (meeting.sent_by === 'vc' && meeting.vc_name) {
+                    title = meeting.start_up + ' - ' + meeting.vc_name;
+                } else if (meeting.sent_by === 'vc' && meeting.start_up) {
                     backgroundColor = '#28a745'; // Green for VC to startup
                     borderColor = '#28a745';
+                    title = meeting.vc_name + ' - ' + meeting.start_up;
                 } else if (meeting.sent_by === 'sme' && meeting.start_up) {
                     backgroundColor = '#ff69b4'; // Pink for SME to startup
                     borderColor = '#ff69b4';
+                    title = meeting.sme_name + ' - ' + meeting.start_up;
                 } else if (meeting.sent_by === 'startup' && meeting.sme_name) {
                     backgroundColor = '#dc3545'; // Red for startup to SME
                     borderColor = '#dc3545';
+                    title = meeting.start_up + ' - ' + meeting.sme_name;
+                } else if (meeting.sent_by === 'sme' && meeting.industry_name) {
+                    backgroundColor = '#ff69b4'; // Pink for SME to industry
+                    borderColor = '#ff69b4';
+                    title = meeting.sme_name + ' - ' + meeting.industry_name;
+                } else if (meeting.sent_by === 'industry' && meeting.sme_name) {
+                    backgroundColor = '#ffc107'; // Yellow for industry to SME
+                    borderColor = '#ffc107';
+                    title = meeting.industry_name + ' - ' + meeting.sme_name;
+                } else if (meeting.sent_by === 'mentor' && meeting.start_up) {
+                    backgroundColor = '#000000'; // Black for mentor to startup
+                    borderColor = '#000000';
+                    title = meeting.mentor_name + ' - ' + meeting.start_up;
+                } else if (meeting.sent_by === 'startup' && meeting.mentor_name) {
+                    backgroundColor = '#ffc107'; // Yellow for startup to mentor
+                    borderColor = '#ffc107';
+                    title = meeting.start_up + ' - ' + meeting.mentor_name;
                 }
 
+
                 return {
-                    title: meeting.start_up + ' - ' + (meeting.vc_name || meeting.sme_name),
+                    title:title,
                     start: meeting.meeting_date + 'T' + meeting.meeting_time,
                     backgroundColor: backgroundColor,
                     borderColor: borderColor,
@@ -138,5 +160,31 @@ Calender
 {% endblock %}
 
 <!-- url: '/innovation-portal/meetings/meeting/' + meeting.meeting_id -->
+ <!-- title: meeting.start_up + ' - ' + (meeting.vc_name || meeting.sme_name || meeting.mentor_name || meeting.industry_name), -->
 
 
+                <!-- if (meeting.sent_by === 'startup' && meeting.vc_name) {
+                    backgroundColor = '#ffc107'; // Yellow for startup to VC
+                    borderColor = '#ffc107';
+                } else if (meeting.sent_by === 'vc' && meeting.vc_name) {
+                    backgroundColor = '#28a745'; // Green for VC to startup
+                    borderColor = '#28a745';
+                } else if (meeting.sent_by === 'sme' && meeting.start_up) {
+                    backgroundColor = '#ff69b4'; // Pink for SME to startup
+                    borderColor = '#ff69b4';
+                } else if (meeting.sent_by === 'startup' && meeting.sme_name) {
+                    backgroundColor = '#dc3545'; // Red for startup to SME
+                    borderColor = '#dc3545';
+                } else if (meeting.sent_by === 'sme' && meeting.industry_name) {
+                    backgroundColor = '#ff69b4'; // Pink for SME to industry
+                    borderColor = '#ff69b4';
+                } else if (meeting.sent_by === 'industry' && meeting.sme_name) {
+                    backgroundColor = '#ffc107'; // Yellow for industry to SME
+                    borderColor = '#ffc107';
+                } else if (meeting.sent_by === 'mentor' && meeting.start_up) {
+                    backgroundColor = '#000000'; // Black for mentor to startup
+                    borderColor = '#000000';
+                } else if (meeting.sent_by === 'startup' && meeting.mentor_name) {
+                    backgroundColor = '#ffc107'; // Yellow for startup to mentor
+                    borderColor = '#ffc107';
+                } -->

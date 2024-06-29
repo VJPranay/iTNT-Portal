@@ -1,0 +1,110 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block breadcrums %}
+<!--begin::Breadcrumb-->
+<ul class="breadcrumb breadcrumb-separatorless fw-semibold">
+    <!--begin::Item-->
+    <li class="breadcrumb-item text-white fw-bold lh-1">
+        <a href="{% url 'dashboard_index' %}" class="text-white text-hover-primary">
+            <i class="ki-outline ki-home text-gray-700 fs-6"></i>
+        </a>
+    </li>
+    <!--end::Item-->
+    <!--begin::Item-->
+    <li class="breadcrumb-item">
+        <i class="ki-outline ki-right fs-7 text-gray-700 mx-n1"></i>
+    </li>
+    <!--end::Item-->
+    <!--begin::Item-->
+    <li class="breadcrumb-item text-white fw-bold lh-1">SmeIndustry Connect</li>
+    <!--end::Item-->
+    <!--begin::Item-->
+    <li class="breadcrumb-item">
+        <i class="ki-outline ki-right fs-7 text-gray-700 mx-n1"></i>
+    </li>
+    <!--end::Item-->
+    <!--begin::Item-->
+    <li class="breadcrumb-item text-white fw-bold lh-1">Request details</li>
+    <!--end::Item-->
+</ul>
+<!--end::Breadcrumb-->
+{% endblock %}
+
+{% block pageheading %}
+SmeIndustry Connect
+{% endblock %}
+
+{% block pagedescription %}
+Request Details
+{% endblock %}
+
+{% block page_content %}
+<div class="d-flex flex-column flex-column-fluid">
+    <!--begin::Content-->
+    <div id="kt_app_content" class="app-content flex-column-fluid">
+        <!--begin::Contacts App- View Contact-->
+        <div class="row g-7 justify-content-center">
+            <div class="col-lg-6 col-xl-6">
+                <!--begin::Contact group wrapper-->
+                <div class="card card-flush">
+                    <!--begin::Card header-->
+                    <div class="card-header pt-7" id="kt_chat_contacts_header">
+                        <!--begin::Card title-->
+                        <div class="card-title">
+                            <h2>Meeting Request Details</h2>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        {% if messages %}
+                        <div class="alert alert-success">
+                            {% for message in messages %}
+                                {{ message }}
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                        <div class="mb-3">
+                            <strong>Sender:</strong> {{ meeting_request.sender }}
+                        </div>
+                        <div class="mb-3">
+                            <strong>Receiver:</strong> {{ meeting_request.receiver }}
+                        </div>
+                        <div class="mb-3">
+                            <strong>Date:</strong> {{ meeting_request.date }}
+                        </div>
+                        <div class="mb-3">
+                            <strong>Time:</strong> {{ meeting_request.time }}
+                        </div>
+                        <div class="mb-3">
+                            <strong>Type:</strong> {{ meeting_request.get_meeting_type_display }}
+                        </div>
+                        <div class="mb-3">
+                            <strong>Link:</strong> <a href="{{ meeting_request.meeting_details }}" target="_blank">{{ meeting_request.meeting_details }}</a>
+                        </div>
+                        <div class="mb-3">
+                            <strong>Notes:</strong> {{ meeting_request.notes }}
+                        </div>
+                        <div class="mb-3">
+                            <strong>Status:</strong> {{ meeting_request.get_status_display }}
+                        </div>
+                        {% if meeting_request.receiver == user and meeting_request.status == 'sent' %}
+                        <div class="mb-3 text-center">
+                            <a href="{% url 'smeindustry_meeting_request_accept' meeting_request.pk %}" class="btn btn-success mx-2">Accept</a>
+                            <a href="{% url 'smeindustry_meeting_request_reject' meeting_request.pk %}" class="btn btn-danger mx-2">Reject</a>
+                            
+                        </div>
+                        {% endif %}
+                        {% if meeting_request.status == 'rejected' %}
+                            </br>
+                        {% else %}
+                            <a href="{% url 'smeindustry_meeting_request_cancel' meeting_request.pk %}" class="btn btn-danger mx-2">Cancel</a>
+                        {% endif%}
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
