@@ -302,25 +302,43 @@ def meetings(request,meeting_status=None):
     else:
         return HttpResponseRedirect(reverse('not_found'))
 
-
 @login_required
-def meeting(request,meeting_id=None):
-    if request.user.user_role in [1,2,3,6,8,5] or meeting_id is not None: 
+def meeting(request, meeting_id=None):
+    if request.user.user_role in [1, 2, 3, 4, 5, 6, 8, 9] and meeting_id is not None: 
         try:
-            if request.user.user_role == 6:
-                meeting_request = vcstartup_MeetingRequest.objects.get(id=meeting_id,start_up__user__id=request.user.id)
-            elif request.user.user_role == 8:
-                meeting_request = vcstartup_MeetingRequest.objects.get(id=meeting_id,vc__user__id=request.user.id)
-            elif request.user.user_role==5:
-                meeting_request = MeetingRequests.objects.get(id=meeting_id,sme__user__id=request.user.id)
-                
-            else:
+            if request.user.user_role == 6:  # Startup
+                try:
+                    meeting_request = vcstartup_MeetingRequest.objects.get(id=meeting_id, start_up__user__id=request.user.id)
+                except vcstartup_MeetingRequest.DoesNotExist:
+                    meeting_request = MeetingRequests.objects.get(id=meeting_id, sme__user__id=request.user.id)
+
+            elif request.user.user_role == 5:  # SME
+                try:
+                    meeting_request = MeetingRequests.objects.get(id=meeting_id, sme__user__id=request.user.id)
+                except MeetingRequests.DoesNotExist:
+                    meeting_request = SmeIndustryMeetingRequest.objects.get(id=meeting_id, sme__user__id=request.user.id)
+
+            elif request.user.user_role == 8:  # VC
+                meeting_request = vcstartup_MeetingRequest.objects.get(id=meeting_id, vc__user__id=request.user.id)
+
+            elif request.user.user_role == 9:  # Mentor
+                meeting_request = MentorStartupMeetingRequest.objects.get(id=meeting_id, mentor__user__id=request.user.id)
+
+            elif request.user.user_role == 4:  # Industry
+                meeting_request = SmeIndustryMeetingRequest.objects.get(id=meeting_id, industry__user__id=request.user.id)
+
+            else:  # Admins or other roles
                 meeting_request = MeetingRequests.objects.get(id=meeting_id)
-            return render(request, 'dashboard/meetings/meeting_details.html',context={'meeting_request':meeting_request})
-        except MeetingRequests.DoesNotExist:
+
+            return render(request, 'dashboard/meetings/meeting_details.html', context={'meeting_request': meeting_request})
+
+        except (MeetingRequests.DoesNotExist, vcstartup_MeetingRequest.DoesNotExist, 
+                MentorStartupMeetingRequest.DoesNotExist, SmeIndustryMeetingRequest.DoesNotExist):
             return redirect('not_found')
     else:
         return HttpResponseRedirect(reverse('not_found'))
+
+
     
 
 # start up send requests to VC
@@ -452,7 +470,7 @@ def calendar_view(request):
             meeting_requests['mentor'] = MentorStartupMeetingRequest.objects.filter(status=status)
             meeting_requests['sme_industry'] = SmeIndustryMeetingRequest.objects.filter(status=status)
 
-    return render(request, 'dashboard/meetings/meeting_calender.html', context={'meeting_requests': meeting_requests})
+    return render(request, 'dashboard/meetings/meeting_calender.html', context={'meeting_request': meeting_requests})
 
 @login_required
 def calendar_data(request):
@@ -571,75 +589,6 @@ def calendar_data(request):
 
     return JsonResponse(meeting_data, safe=False)
 
-
-# @login_required
-# def calendar_data(request):
-#     status = request.GET.get('status', 'all')  # Default status to 'all' if not provided
-
-#     # Fetch all meeting requests based on status filter
-#     if status != 'all':
-#         meeting_requests_vcstartup = vcstartup_MeetingRequest.objects.filter(status=status)
-#         meeting_requests_sme = MeetingRequest.objects.filter(status=status)
-#     else:
-#         meeting_requests_vcstartup = vcstartup_MeetingRequest.objects.all()
-#         meeting_requests_sme = MeetingRequest.objects.all()
-
-#     # Serialize meeting requests data
-#     meeting_data = []
-
-#     # Process vcstartup_MeetingRequest instances
-#     for meeting in meeting_requests_vcstartup:
-#         if meeting.date and meeting.time:
-#             if meeting.sender.user_role == 6:  # startup
-#                 sent_by = 'startup'
-#                 start_up = meeting.sender.username
-#                 vc_name = meeting.receiver.username
-#             elif meeting.sender.user_role == 8:  # vc
-#                 sent_by = 'vc'
-#                 start_up = meeting.receiver.username
-#                 vc_name = meeting.sender.username
-#             else:
-#                 # Handle other cases if necessary
-#                 continue  # Skip this meeting if user_role is not recognized
-
-#             meeting_data.append({
-#                 'meeting_id': meeting.id,
-#                 'start_up': start_up,
-#                 'vc_name': vc_name,
-#                 'meeting_date': meeting.date.strftime('%Y-%m-%d'),  # Format date as string
-#                 'meeting_time': meeting.time.strftime('%H:%M'),  # Format time as string
-#                 'status': meeting.status,
-#                 'sent_by': sent_by
-#             })
-    
-#     # Process MeetingRequest instances
-#     for meeting in meeting_requests_sme:
-#         if meeting.date and meeting.time:
-#             if meeting.sender.user_role == 6:  # sme
-#                 sent_by = 'startup'
-#                 start_up = meeting.sender.username
-#                 sme_name = meeting.receiver.username
-#             elif meeting.receiver.user_role == 5:  # sme (if receiver is SME)
-#                 sent_by = 'sme'
-#                 start_up = meeting.receiver.username
-#                 sme_name = meeting.sender.username
-#             else:
-#                 # Handle other cases if necessary
-#                 continue  # Skip this meeting if user_role is not recognized
-
-#             meeting_data.append({
-#                 'meeting_id': meeting.id,
-#                 'start_up': start_up,
-#                 'sme_name': sme_name,
-#                 'meeting_date': meeting.date.strftime('%Y-%m-%d'),  # Format date as string
-#                 'meeting_time': meeting.time.strftime('%H:%M'),  # Format time as string
-#                 'status': meeting.status,
-#                 'sent_by': sent_by
-#             })
-
-#     return JsonResponse(meeting_data, safe=False)
-
-
 @login_required
 def startup_confirm_meeting(request):
     if request.method == 'POST':
@@ -670,22 +619,25 @@ from django.http import Http404
 @login_required
 def meeting_details(request, pk):
     meeting_request = None
-    if MeetingRequest.objects.filter(pk=pk).exists():
-        meeting_request = get_object_or_404(MeetingRequest, pk=pk)
-    elif vcstartup_MeetingRequest.objects.filter(pk=pk).exists():
-        meeting_request = get_object_or_404(vcstartup_MeetingRequest, pk=pk)
-        
-    elif MentorStartupMeetingRequest.objects.filter(pk=pk).exists():
-        meeting_request = get_object_or_404(MentorStartupMeetingRequest, pk=pk)
-        print("MentorStartupMeetingRequest:", meeting_request)
-    elif SmeIndustryMeetingRequest.objects.filter(pk=pk).exists():
-        meeting_request = get_object_or_404(SmeIndustryMeetingRequest, pk=pk)
-        print("SmeIndustryMeetingRequest:", meeting_request)
+    try:
+        if MeetingRequest.objects.filter(pk=pk).exists():
+            meeting_request = get_object_or_404(MeetingRequest, pk=pk)
+        elif vcstartup_MeetingRequest.objects.filter(pk=pk).exists():
+            meeting_request = get_object_or_404(vcstartup_MeetingRequest, pk=pk)
+            
+        elif MentorStartupMeetingRequest.objects.filter(pk=pk).exists():
+            meeting_request = get_object_or_404(MentorStartupMeetingRequest, pk=pk)
+            print("MentorStartupMeetingRequest:", meeting_request)
+        if SmeIndustryMeetingRequest.objects.filter(pk=pk).exists():
+            meeting_request = get_object_or_404(SmeIndustryMeetingRequest, pk=pk)
+            print("SmeIndustryMeetingRequest:", meeting_request)
 
-    if meeting_request is None:
-        # Handle case where meeting request is not found
-        # You can raise 404 or handle it differently based on your requirement
-        raise Http404("Meeting request not found")
+        if meeting_request is None:
+            raise Http404("Meeting request not found")
+    except Exception as e:
+        # Handle other exceptions
+        print(e)
 
     context = {'meeting_request': meeting_request}
+    print(f"meeting_request: {meeting_request}")
     return render(request, 'dashboard/meetings/meeting_request_details.html', context=context)

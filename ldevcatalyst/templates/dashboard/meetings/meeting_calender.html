@@ -162,7 +162,7 @@ Calender
 <!-- url: '/innovation-portal/meetings/meeting/' + meeting.meeting_id -->
  <!-- title: meeting.start_up + ' - ' + (meeting.vc_name || meeting.sme_name || meeting.mentor_name || meeting.industry_name), -->
 
-
+<!--url:"{% url 'meeting_details' 0 %}".replace('0',meeting.meeting_id)-->
                 <!-- if (meeting.sent_by === 'startup' && meeting.vc_name) {
                     backgroundColor = '#ffc107'; // Yellow for startup to VC
                     borderColor = '#ffc107';
