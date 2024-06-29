@@ -5,6 +5,7 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from profiles.models import StartUp, Researcher, Student, VC, Industry,Mentor
 from smeconnect.models import MeetingRequest
+from mentorstartupconnect.models import MentorStartupMeetingRequest
 
 
 @login_required
@@ -85,8 +86,20 @@ def industry_profile_details(request, pk):
     
 @login_required
 def mentor_profile_details(request, pk):
+    print(pk)
     try:
-        mentor=Mentor.objects.get(pk=pk)
-        return render(request,'dashboard/profiles/v2/mentor_profile_details.html',{'mentor':mentor})
+        mentor = Mentor.objects.get(pk=pk)
+        if mentor.user is None:
+            print(f"Startup with PK {pk} has no associated user.")
+            return HttpResponseRedirect(reverse('not_found'))
+            
+        check_meetings =MentorStartupMeetingRequest.objects.filter(sender_id=request.user.id,receiver_id=mentor.user.id)
+        print(request.user.user_role)
+        print(check_meetings.count())
+        meeting_exists = 'false'
+        for x in check_meetings:
+            if x.status == 'sent' or x.status == 'accepted':
+                meeting_exists = 'true'
+        return render(request, 'dashboard/profiles/v2/mentor_profile_details.html', {'mentor': mentor,'meeting_exists': meeting_exists})
     except Mentor.DoesNotExist:
         return HttpResponseRedirect(reverse('not_found'))

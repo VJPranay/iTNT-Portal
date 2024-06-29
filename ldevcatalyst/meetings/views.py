@@ -5,7 +5,7 @@ from django.urls import reverse
 from datarepo.models import AreaOfInterest
 import random
 from profiles.models import StartUp
-#from .models import MeetingRequests
+from .models import MeetingRequests
 from smeconnect.models import MeetingRequest
 from vcstartup_meetings.models import vcstartup_MeetingRequest
 from django.db.models import Count

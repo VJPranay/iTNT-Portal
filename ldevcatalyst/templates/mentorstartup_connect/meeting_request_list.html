@@ -21,7 +21,7 @@
     </li>
     <!--end::Item-->
     <!--begin::Item-->
-    <li class="breadcrumb-item text-white fw-bold lh-1">StartupVc Connect</li>
+    <li class="breadcrumb-item text-white fw-bold lh-1">MentorStartup Connect</li>
     <!--end::Item-->
     <!--begin::Item-->
     <li class="breadcrumb-item">
@@ -36,7 +36,7 @@
 {% endblock %}
 
 {% block pageheading %}
-Vcstartup Connect
+MentorStartup Connect
 {% endblock %}
 
 {% block pagedescription %}
@@ -75,13 +75,13 @@ Sent requests
                                     <td><a href="{% url 'startup_profile_details' request.receiver_id %}">{{ request.receiver_name }}</a></td>
                                        
                                     {%else%}
-                                    <td><a  href="{% url 'vc_profile_details' request.receiver_id %}">{{ request.receiver_name }}</a></td>
+                                    <td><a  href="{% url 'mentor_profile_details' request.receiver_id %}">{{ request.receiver_name }}</a></td>
                                     {%endif%}
                                     <td>{{ request.date }}</td>
                                     <td>{{ request.time  }}</td>
                                     <td>{{ request.status }}</td>
                                     <td>
-                                        <a href="{% url 'vcstartup_meeting_request_detail' request.pk %}">
+                                        <a href="{% url 'mentorstartup_meeting_request_detail' request.pk %}">
                                        
                                             View
                                    
