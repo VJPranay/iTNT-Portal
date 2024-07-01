@@ -147,7 +147,9 @@ Calender
                     start: meeting.meeting_date + 'T' + meeting.meeting_time,
                     backgroundColor: backgroundColor,
                     borderColor: borderColor,
-                    url:"{% url 'meeting_details' 0 %}".replace('0',meeting.meeting_id)
+                    url: "{% url 'meeting_details' 'model_type' 0 %}"
+                    .replace('model_type', meeting.model_type)
+                    .replace('0', meeting.meeting_id)
                 };
             })
         });

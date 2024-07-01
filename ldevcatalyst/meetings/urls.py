@@ -21,7 +21,10 @@ urlpatterns = [
     path('startup_reject_meeting',startup_reject_meeting,name='startup_reject_meeting'),
     
     #meeting details
-    path('/<int:pk>/',meeting_details,name="meeting_details")
+    #path('/<int:pk>/',meeting_details,name="meeting_details")
+    
+    
+    path('meeting_details/<str:model_type>/<int:pk>/', meeting_details, name='meeting_details'),
 
     
 ]

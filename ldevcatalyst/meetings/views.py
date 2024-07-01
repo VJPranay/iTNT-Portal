@@ -472,6 +472,7 @@ def calendar_view(request):
 
     return render(request, 'dashboard/meetings/meeting_calender.html', context={'meeting_request': meeting_requests})
 
+
 @login_required
 def calendar_data(request):
     status = request.GET.get('status', 'all')  # Default status to 'all' if not provided
@@ -512,7 +513,8 @@ def calendar_data(request):
                 'meeting_date': meeting.date.strftime('%Y-%m-%d'),
                 'meeting_time': meeting.time.strftime('%H:%M'),
                 'status': meeting.status,
-                'sent_by': sent_by
+                'sent_by': sent_by,
+                'model_type': 'vcstartup'
             })
     
     # Process MeetingRequest instances
@@ -536,7 +538,8 @@ def calendar_data(request):
                 'meeting_date': meeting.date.strftime('%Y-%m-%d'),
                 'meeting_time': meeting.time.strftime('%H:%M'),
                 'status': meeting.status,
-                'sent_by': sent_by
+                'sent_by': sent_by,
+                'model_type': 'smestartup'
             })
     
     # Process MentorStartupMeetingRequest instances
@@ -560,7 +563,8 @@ def calendar_data(request):
                 'meeting_date': meeting.date.strftime('%Y-%m-%d'),
                 'meeting_time': meeting.time.strftime('%H:%M'),
                 'status': meeting.status,
-                'sent_by': sent_by
+                'sent_by': sent_by,
+                'model_type': 'mentorstartup'
             })
 
     # Process SmeIndustryMeetingRequest instances
@@ -584,10 +588,12 @@ def calendar_data(request):
                 'meeting_date': meeting.date.strftime('%Y-%m-%d'),
                 'meeting_time': meeting.time.strftime('%H:%M'),
                 'status': meeting.status,
-                'sent_by': sent_by
+                'sent_by': sent_by,
+                'model_type': 'smeindustry'
             })
 
     return JsonResponse(meeting_data, safe=False)
+
 
 @login_required
 def startup_confirm_meeting(request):
@@ -615,73 +621,85 @@ def startup_reject_meeting(request):
 
 from django.http import Http404
 from django.db.models import Q
+# @login_required
+# def meeting_details(request, model_type, pk):
+#     print(f"Model Type: {model_type}, PK: {pk}")  # Debug print
+#     meeting_request = None
+#     try:
+#         if model_type == 'smestartup':
+#             print("Checking SME-Startup meeting request")  # Debug print
+#             if MeetingRequest.objects.filter(pk=pk).filter(Q(sender__user_role=6) | Q(sender__user_role=5)).exists():
+#                 meeting_request = get_object_or_404(MeetingRequest, pk=pk)
+#                 print('SME-Startup MeetingRequest --> ', pk)  # Debug print
+#         elif model_type == 'vcstartup':
+#             print("Checking VC-Startup meeting request")  # Debug print
+#             if vcstartup_MeetingRequest.objects.filter(pk=pk).filter(Q(sender__user_role=8) | Q(sender__user_role=6)).exists():
+#                 meeting_request = get_object_or_404(vcstartup_MeetingRequest, pk=pk)
+#                 print('VC-Startup MeetingRequest --> ', pk)  # Debug print
+#         elif model_type == 'mentorstartup':
+#             print("Checking Mentor-Startup meeting request")  # Debug print
+#             if MentorStartupMeetingRequest.objects.filter(pk=pk).filter(Q(sender__user_role=9) | Q(sender__user_role=6)).exists():
+#                 meeting_request = get_object_or_404(MentorStartupMeetingRequest, pk=pk)
+#                 print("Mentor-Startup MeetingRequest --> ", pk)  # Debug print
+#         elif model_type == 'smeindustry':
+#             print("Checking SME-Industry meeting request")  # Debug print
+#             if SmeIndustryMeetingRequest.objects.filter(pk=pk).filter(Q(sender__user_role=5) | Q(sender__user_role=4)).exists():
+#                 meeting_request = get_object_or_404(SmeIndustryMeetingRequest, pk=pk)
+#                 print("SME-Industry MeetingRequest --> ", pk)  # Debug print
+#         else:
+#             print("Invalid model type")  # Debug print
+#             raise Http404("Invalid model type")
+#     except Exception as e:
+#         print(e)  # Print the exception
+#         raise Http404("Meeting request not found")
+
+#     context = {'meeting_request': meeting_request}
+#     return render(request, 'dashboard/meetings/meeting_request_details.html', context=context)
+
 
 @login_required
-def meeting_details(request, pk):
+def meeting_details(request, model_type, pk):
+    print(f"Model Type: {model_type}, PK: {pk}")  # Debug print
     meeting_request = None
-
-    # sme_query = Q(sender__username__icontains='SURG') | Q(sender__username__icontains='RCRG')
-    # vc_startup_query = {Q(sender__username__istartswith='VCRG') | Q(sender__username__istartswith='SURG')}
-    # mentor_startup_query = {Q(sender__username__istartswith='MNRG') | Q(sender__username__istartswith='RCRG')}
-    # sme_industry_query = {Q(sender__username__istartswith='RCRG') | Q(sender__username__istartswith='INRG')}
-
-    # try:
-    #     if MeetingRequest.objects.filter(pk=pk).exists():
-    #         meeting_request = get_object_or_404(MeetingRequest, pk=pk)
-    #     elif vcstartup_MeetingRequest.objects.filter(pk=pk).exists():
-    #         meeting_request = get_object_or_404(vcstartup_MeetingRequest, pk=pk)
-            
-    #     elif MentorStartupMeetingRequest.objects.filter(pk=pk).exists():
-    #         meeting_request = get_object_or_404(MentorStartupMeetingRequest, pk=pk)
-    #         print("MentorStartupMeetingRequest:", meeting_request)
-
-    #     elif SmeIndustryMeetingRequest.objects.filter(pk=pk).exists():
-    #         meeting_request = get_object_or_404(SmeIndustryMeetingRequest, pk=pk)
-    #         print("SmeIndustryMeetingRequest:", meeting_request)
-
-    #     elif meeting_request is None:
-    #         raise Http404("Meeting request not found")
-    # except Exception as e:
-    #     # Handle other exceptions
-    #     print(e)
-
-    # context = {'meeting_request': meeting_request}
-    # print(f"meeting_request: {meeting_request}")
-
-    # testing the view here
     try:
-        # if MeetingRequest.objects.filter(pk=pk).filter(Q(sender__username__istartswith='SURG') | Q(sender__username__istartswith='RCRG')).exists():
-        #     meeting_request = get_object_or_404(MeetingRequest, pk=pk)
-        #     print('sme connect --> ', pk)
-        # elif vcstartup_MeetingRequest.objects.filter(pk=pk).filter(Q(sender__istartswith='VCRG') | Q(sender__istartswith='SURG')).exists():
-        #     meeting_request = get_object_or_404(vcstartup_MeetingRequest, pk=pk)
-        #     print('vcstartup MeetingRequest --> ', pk)
-            
-        # elif MentorStartupMeetingRequest.objects.filter(pk=pk).filter(Q(sender__istartswith='MNRG') | Q(sender__istartswith='RCRG')).exists():
-        #     meeting_request = get_object_or_404(MentorStartupMeetingRequest, pk=pk)
-        #     print("MentorStartupMeetingRequest:", meeting_request)
-        # elif SmeIndustryMeetingRequest.objects.filter(pk=pk).filter(Q(sender__istartswith='RCRG') | Q(sender__istartswith='INRG')).exists():
-        #     meeting_request = get_object_or_404(SmeIndustryMeetingRequest, pk=pk)
-        #     print("SmeIndustryMeetingRequest:", meeting_request)
-        if MeetingRequest.objects.filter(pk=pk).filter(Q(sender__username__icontains='SURG') | Q(sender__username__icontains='RCRG')).exists():
-            meeting_request = get_object_or_404(MeetingRequest, pk=pk)
-            print('sme connect --> ', pk)
-        elif vcstartup_MeetingRequest.objects.filter(pk=pk).filter(Q(sender__username__icontains='VCRG') | Q(sender__username__icontains='SURG')).exists():
-            meeting_request = get_object_or_404(vcstartup_MeetingRequest, pk=pk)
-            print('vcstartup MeetingRequest --> ', pk)
-            
-        elif MentorStartupMeetingRequest.objects.filter(pk=pk).filter(Q(sender__username__icontains='MNRG') | Q(sender__username__icontains='RCRG')).exists():
-            meeting_request = get_object_or_404(MentorStartupMeetingRequest, pk=pk)
-            print("MentorStartupMeetingRequest:", meeting_request)
-        elif SmeIndustryMeetingRequest.objects.filter(pk=pk).filter(Q(sender__username__icontains='RCRG') | Q(sender__username__icontains='INRG')).exists():
-            meeting_request = get_object_or_404(SmeIndustryMeetingRequest, pk=pk)
-            print("SmeIndustryMeetingRequest:", meeting_request)
-        elif meeting_request is None:
-            raise Http404("Meeting request not found")
+        if model_type == 'smestartup':
+            sme_startup_query = Q(sender__user_role=6) | Q(sender__user_role=5)
+            print(f"Checking SME-Startup meeting request with query: {sme_startup_query}")  # Debug print
+            meeting_requests_count = MeetingRequest.objects.filter(pk=pk).filter(sme_startup_query).count()
+            print(f"SME-Startup meeting requests count: {meeting_requests_count}")  # Debug print
+            if meeting_requests_count > 0:
+                meeting_request = get_object_or_404(MeetingRequest, pk=pk)
+                print('SME-Startup MeetingRequest --> ', pk)  # Debug print
+        elif model_type == 'vcstartup':
+            vc_startup_query = Q(sender__user_role=8) | Q(sender__user_role=6)
+            print(f"Checking VC-Startup meeting request with query: {vc_startup_query}")  # Debug print
+            meeting_requests_count = vcstartup_MeetingRequest.objects.filter(pk=pk).filter(vc_startup_query).count()
+            print(f"VC-Startup meeting requests count: {meeting_requests_count}")  # Debug print
+            if meeting_requests_count > 0:
+                meeting_request = get_object_or_404(vcstartup_MeetingRequest, pk=pk)
+                print('VC-Startup MeetingRequest --> ', pk)  # Debug print
+        elif model_type == 'mentorstartup':
+            mentor_startup_query = Q(sender__user_role=9) | Q(sender__user_role=6)
+            print(f"Checking Mentor-Startup meeting request with query: {mentor_startup_query}")  # Debug print
+            meeting_requests_count = MentorStartupMeetingRequest.objects.filter(pk=pk).filter(mentor_startup_query).count()
+            print(f"Mentor-Startup meeting requests count: {meeting_requests_count}")  # Debug print
+            if meeting_requests_count > 0:
+                meeting_request = get_object_or_404(MentorStartupMeetingRequest, pk=pk)
+                print("Mentor-Startup MeetingRequest --> ", pk)  # Debug print
+        elif model_type == 'smeindustry':
+            sme_industry_query = Q(sender__user_role=5) | Q(sender__user_role=4)
+            print(f"Checking SME-Industry meeting request with query: {sme_industry_query}")  # Debug print
+            meeting_requests_count = SmeIndustryMeetingRequest.objects.filter(pk=pk).filter(sme_industry_query).count()
+            print(f"SME-Industry meeting requests count: {meeting_requests_count}")  # Debug print
+            if meeting_requests_count > 0:
+                meeting_request = get_object_or_404(SmeIndustryMeetingRequest, pk=pk)
+                print("SME-Industry MeetingRequest --> ", pk)  # Debug print
+        else:
+            print("Invalid model type")  # Debug print
+            raise Http404("Invalid model type")
     except Exception as e:
-        # Handle other exceptions
-        print(e)
+        print(e)  # Print the exception
+        raise Http404("Meeting request not found")
 
     context = {'meeting_request': meeting_request}
-
-    return render(request, 'dashboard/meetings/meeting_request_details.html', context=context)
+    return render(request, 'dashboard/meetings/meeting_request_details.html', context=context) 
