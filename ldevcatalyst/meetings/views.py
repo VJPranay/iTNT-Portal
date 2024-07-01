@@ -613,31 +613,75 @@ def startup_reject_meeting(request):
         return JsonResponse({'error': 'Invalid request'}, status=400)
     
 
-
-
 from django.http import Http404
+from django.db.models import Q
+
 @login_required
 def meeting_details(request, pk):
     meeting_request = None
-    try:
-        if MeetingRequest.objects.filter(pk=pk).exists():
-            meeting_request = get_object_or_404(MeetingRequest, pk=pk)
-        elif vcstartup_MeetingRequest.objects.filter(pk=pk).exists():
-            meeting_request = get_object_or_404(vcstartup_MeetingRequest, pk=pk)
+
+    # sme_query = Q(sender__username__icontains='SURG') | Q(sender__username__icontains='RCRG')
+    # vc_startup_query = {Q(sender__username__istartswith='VCRG') | Q(sender__username__istartswith='SURG')}
+    # mentor_startup_query = {Q(sender__username__istartswith='MNRG') | Q(sender__username__istartswith='RCRG')}
+    # sme_industry_query = {Q(sender__username__istartswith='RCRG') | Q(sender__username__istartswith='INRG')}
+
+    # try:
+    #     if MeetingRequest.objects.filter(pk=pk).exists():
+    #         meeting_request = get_object_or_404(MeetingRequest, pk=pk)
+    #     elif vcstartup_MeetingRequest.objects.filter(pk=pk).exists():
+    #         meeting_request = get_object_or_404(vcstartup_MeetingRequest, pk=pk)
             
-        elif MentorStartupMeetingRequest.objects.filter(pk=pk).exists():
+    #     elif MentorStartupMeetingRequest.objects.filter(pk=pk).exists():
+    #         meeting_request = get_object_or_404(MentorStartupMeetingRequest, pk=pk)
+    #         print("MentorStartupMeetingRequest:", meeting_request)
+
+    #     elif SmeIndustryMeetingRequest.objects.filter(pk=pk).exists():
+    #         meeting_request = get_object_or_404(SmeIndustryMeetingRequest, pk=pk)
+    #         print("SmeIndustryMeetingRequest:", meeting_request)
+
+    #     elif meeting_request is None:
+    #         raise Http404("Meeting request not found")
+    # except Exception as e:
+    #     # Handle other exceptions
+    #     print(e)
+
+    # context = {'meeting_request': meeting_request}
+    # print(f"meeting_request: {meeting_request}")
+
+    # testing the view here
+    try:
+        # if MeetingRequest.objects.filter(pk=pk).filter(Q(sender__username__istartswith='SURG') | Q(sender__username__istartswith='RCRG')).exists():
+        #     meeting_request = get_object_or_404(MeetingRequest, pk=pk)
+        #     print('sme connect --> ', pk)
+        # elif vcstartup_MeetingRequest.objects.filter(pk=pk).filter(Q(sender__istartswith='VCRG') | Q(sender__istartswith='SURG')).exists():
+        #     meeting_request = get_object_or_404(vcstartup_MeetingRequest, pk=pk)
+        #     print('vcstartup MeetingRequest --> ', pk)
+            
+        # elif MentorStartupMeetingRequest.objects.filter(pk=pk).filter(Q(sender__istartswith='MNRG') | Q(sender__istartswith='RCRG')).exists():
+        #     meeting_request = get_object_or_404(MentorStartupMeetingRequest, pk=pk)
+        #     print("MentorStartupMeetingRequest:", meeting_request)
+        # elif SmeIndustryMeetingRequest.objects.filter(pk=pk).filter(Q(sender__istartswith='RCRG') | Q(sender__istartswith='INRG')).exists():
+        #     meeting_request = get_object_or_404(SmeIndustryMeetingRequest, pk=pk)
+        #     print("SmeIndustryMeetingRequest:", meeting_request)
+        if MeetingRequest.objects.filter(pk=pk).filter(Q(sender__username__icontains='SURG') | Q(sender__username__icontains='RCRG')).exists():
+            meeting_request = get_object_or_404(MeetingRequest, pk=pk)
+            print('sme connect --> ', pk)
+        elif vcstartup_MeetingRequest.objects.filter(pk=pk).filter(Q(sender__username__icontains='VCRG') | Q(sender__username__icontains='SURG')).exists():
+            meeting_request = get_object_or_404(vcstartup_MeetingRequest, pk=pk)
+            print('vcstartup MeetingRequest --> ', pk)
+            
+        elif MentorStartupMeetingRequest.objects.filter(pk=pk).filter(Q(sender__username__icontains='MNRG') | Q(sender__username__icontains='RCRG')).exists():
             meeting_request = get_object_or_404(MentorStartupMeetingRequest, pk=pk)
             print("MentorStartupMeetingRequest:", meeting_request)
-        if SmeIndustryMeetingRequest.objects.filter(pk=pk).exists():
+        elif SmeIndustryMeetingRequest.objects.filter(pk=pk).filter(Q(sender__username__icontains='RCRG') | Q(sender__username__icontains='INRG')).exists():
             meeting_request = get_object_or_404(SmeIndustryMeetingRequest, pk=pk)
             print("SmeIndustryMeetingRequest:", meeting_request)
-
-        if meeting_request is None:
+        elif meeting_request is None:
             raise Http404("Meeting request not found")
     except Exception as e:
         # Handle other exceptions
         print(e)
 
     context = {'meeting_request': meeting_request}
-    print(f"meeting_request: {meeting_request}")
+
     return render(request, 'dashboard/meetings/meeting_request_details.html', context=context)
