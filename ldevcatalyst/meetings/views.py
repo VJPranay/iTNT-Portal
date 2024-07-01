@@ -659,44 +659,49 @@ from django.db.models import Q
 
 @login_required
 def meeting_details(request, model_type, pk):
-    print(f"Model Type: {model_type}, PK: {pk}")  # Debug print
+    print(f"Model Type: {model_type}, PK: {pk}")  
     meeting_request = None
     try:
         if model_type == 'smestartup':
             sme_startup_query = Q(sender__user_role=6) | Q(sender__user_role=5)
-            print(f"Checking SME-Startup meeting request with query: {sme_startup_query}")  # Debug print
+            print(f"Checking SME-Startup meeting request with query: {sme_startup_query}")  
             meeting_requests_count = MeetingRequest.objects.filter(pk=pk).filter(sme_startup_query).count()
-            print(f"SME-Startup meeting requests count: {meeting_requests_count}")  # Debug print
+            print(f"SME-Startup meeting requests count: {meeting_requests_count}")  
             if meeting_requests_count > 0:
                 meeting_request = get_object_or_404(MeetingRequest, pk=pk)
-                print('SME-Startup MeetingRequest --> ', pk)  # Debug print
+                print('SME-Startup MeetingRequest --> ', pk)  
+                
         elif model_type == 'vcstartup':
             vc_startup_query = Q(sender__user_role=8) | Q(sender__user_role=6)
-            print(f"Checking VC-Startup meeting request with query: {vc_startup_query}")  # Debug print
+            print(f"Checking VC-Startup meeting request with query: {vc_startup_query}") 
             meeting_requests_count = vcstartup_MeetingRequest.objects.filter(pk=pk).filter(vc_startup_query).count()
-            print(f"VC-Startup meeting requests count: {meeting_requests_count}")  # Debug print
+            print(f"VC-Startup meeting requests count: {meeting_requests_count}")  
             if meeting_requests_count > 0:
                 meeting_request = get_object_or_404(vcstartup_MeetingRequest, pk=pk)
-                print('VC-Startup MeetingRequest --> ', pk)  # Debug print
+                print('VC-Startup MeetingRequest --> ', pk)  
+                
         elif model_type == 'mentorstartup':
             mentor_startup_query = Q(sender__user_role=9) | Q(sender__user_role=6)
-            print(f"Checking Mentor-Startup meeting request with query: {mentor_startup_query}")  # Debug print
+            print(f"Checking Mentor-Startup meeting request with query: {mentor_startup_query}") 
             meeting_requests_count = MentorStartupMeetingRequest.objects.filter(pk=pk).filter(mentor_startup_query).count()
-            print(f"Mentor-Startup meeting requests count: {meeting_requests_count}")  # Debug print
+            print(f"Mentor-Startup meeting requests count: {meeting_requests_count}")  
             if meeting_requests_count > 0:
                 meeting_request = get_object_or_404(MentorStartupMeetingRequest, pk=pk)
-                print("Mentor-Startup MeetingRequest --> ", pk)  # Debug print
+                print("Mentor-Startup MeetingRequest --> ", pk)  
+                
         elif model_type == 'smeindustry':
             sme_industry_query = Q(sender__user_role=5) | Q(sender__user_role=4)
-            print(f"Checking SME-Industry meeting request with query: {sme_industry_query}")  # Debug print
+            print(f"Checking SME-Industry meeting request with query: {sme_industry_query}")  
             meeting_requests_count = SmeIndustryMeetingRequest.objects.filter(pk=pk).filter(sme_industry_query).count()
-            print(f"SME-Industry meeting requests count: {meeting_requests_count}")  # Debug print
+            print(f"SME-Industry meeting requests count: {meeting_requests_count}")  
             if meeting_requests_count > 0:
                 meeting_request = get_object_or_404(SmeIndustryMeetingRequest, pk=pk)
-                print("SME-Industry MeetingRequest --> ", pk)  # Debug print
+                print("SME-Industry MeetingRequest --> ", pk)  
+                
         else:
-            print("Invalid model type")  # Debug print
+            print("Invalid model type")  
             raise Http404("Invalid model type")
+        
     except Exception as e:
         print(e)  # Print the exception
         raise Http404("Meeting request not found")
