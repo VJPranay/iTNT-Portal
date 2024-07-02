@@ -202,7 +202,7 @@ Mentor details
                 {% if mentor.status == 'pending' %}
                     <a href="{% url 'admin:mentor_mentorregistration_change' mentor.id|escapejs %}" target="_blank">
                         <button class="btn btn-warning me-md-2" type="button">
-                            Edit Student Registration
+                            Edit Mentor Registration
                         </button>
                     </a>  
                     <button class="btn btn-info me-md-2" onclick="showApproveConfirmation('{{ mentor.id|escapejs }}')" type="button">Approve registration</button>
