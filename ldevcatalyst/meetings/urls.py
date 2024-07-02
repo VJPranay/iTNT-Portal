@@ -1,8 +1,8 @@
 from django.urls import path
 from .views import vc_meeting_requests,fetch_startup_profiles,fetch_startup_details,vc_meeting_request,meetings,meeting,meeting_update,calendar_view,calendar_data,vc_meeting_accept,startup_confirm_meeting,startup_reject_meeting,vc_meeting_reject,meeting_details
 
-from meetings.v2.list_view import SmeConnectListView
-from meetings.v2.meeting_details import sme_connect_details
+from meetings.v2.list_view import SmeConnectListView,MentorStartupConnectListView,SmeIndustryConnectListView,VcStartup_MeetingListView
+from meetings.v2.meeting_details import sme_connect_details,mentorstartup_connect_details,vcstartup_connect_details,smeindustry_connect_details
 
 
 
@@ -32,4 +32,13 @@ urlpatterns = [
     # V2
     path('sme_connect_list/', SmeConnectListView.as_view(), name='sme_connect_list'),
     path('sme_connect_details/<int:pk>/', sme_connect_details, name='sme_connect_details'),
+    
+    path('vcstartup_connect_list/', VcStartup_MeetingListView.as_view(), name='vcstartup_connect_list'),
+    path('vcstartup_connect_details/<int:pk>/', vcstartup_connect_details, name='vcstartup_connect_details'),
+    
+    path('smeindustry_connect_list/', SmeIndustryConnectListView.as_view(), name='smeindustry_connect_list'),
+    path('smeindustry_connect_details/<int:pk>/', smeindustry_connect_details, name='smeindustry_connect_details'),
+    
+    path('mentorstartup_connect_list/', MentorStartupConnectListView.as_view(), name='mentorstartup_connect_list'),
+    path('mentorstartup_connect_details/<int:pk>/', mentorstartup_connect_details, name='mentorstartup_connect_details'),
 ]

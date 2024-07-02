@@ -6,124 +6,113 @@
 {% block breadcrums %}
 
 <!--begin::Breadcrumb-->
-																<ul class="breadcrumb breadcrumb-separatorless fw-semibold">
-																	<!--begin::Item-->
-																	<li class="breadcrumb-item text-white fw-bold lh-1">
-																		<a href="{% url 'dashboard_index' %}" class="text-white text-hover-primary">
-																			<i class="ki-outline ki-home text-gray-700 fs-6"></i>
-																		</a>
-																	</li>
-																	<!--end::Item-->
-																	<!--begin::Item-->
-																	<li class="breadcrumb-item">
-																		<i class="ki-outline ki-right fs-7 text-gray-700 mx-n1"></i>
-																	</li>
-																	<!--end::Item-->
-																	<!--begin::Item-->
-																	<li class="breadcrumb-item text-white fw-bold lh-1">SME Connect Meetings</li>
-																	<!--end::Item-->
-																	<!--begin::Item-->
-																	<li class="breadcrumb-item">
-																		<i class="ki-outline ki-right fs-7 text-gray-700 mx-n1"></i>
-																	</li>
-																	<!--end::Item-->
-																	<!--begin::Item-->
-																	<li class="breadcrumb-item text-white fw-bold lh-1">Meeting's</li>
-																	<!--end::Item-->
-																</ul>
-																<!--end::Breadcrumb-->
-{% endblock  %}
+<ul class="breadcrumb breadcrumb-separatorless fw-semibold">
+    <!--begin::Item-->
+    <li class="breadcrumb-item text-white fw-bold lh-1">
+        <a href="{% url 'dashboard_index' %}" class="text-white text-hover-primary">
+            <i class="ki-outline ki-home text-gray-700 fs-6"></i>
+        </a>
+    </li>
+    <!--end::Item-->
+    <!--begin::Item-->
+    <li class="breadcrumb-item">
+        <i class="ki-outline ki-right fs-7 text-gray-700 mx-n1"></i>
+    </li>
+    <!--end::Item-->
+    <!--begin::Item-->
+    <li class="breadcrumb-item text-white fw-bold lh-1">SME Connect Meetings</li>
+    <!--end::Item-->
+    <!--begin::Item-->
+    <li class="breadcrumb-item">
+        <i class="ki-outline ki-right fs-7 text-gray-700 mx-n1"></i>
+    </li>
+    <!--end::Item-->
+    <!--begin::Item-->
+    <li class="breadcrumb-item text-white fw-bold lh-1">Meeting's</li>
+    <!--end::Item-->
+</ul>
+<!--end::Breadcrumb-->
+{% endblock %}
 
 {% block pageheading %}
 SME Connect Meetings
-{% endblock  %}
+{% endblock %}
 {% block pagedescription %}
 meeting details
-{% endblock  %}
-
-
+{% endblock %}
 
 {% block page_content %}
 <div class="d-flex flex-column flex-column-fluid">
     <!--begin::Content-->
     <div id="kt_app_content" class="app-content flex-column-fluid">
         <!--begin::Contacts App- View Contact-->
-        <div class="row justify-content-center">
-            <!--begin::filters-->
-            <div class="col-lg-8 col-xl-8">
+        <div class="row g-7 justify-content-center">
+            <div class="col-lg-5 col-xl-5">
                 <!--begin::Contact group wrapper-->
                 <div class="card card-flush">
+                    <!--begin::Card header-->
                     <div class="card-header bg-warning bg-gradient justify-content-center pt-5">
-                    <!-- <div class="card-header bg-gradient justify-content-center pt-5" style="background-color: crimson;"> -->
                         <h1 class="mb-0 text-white">Meeting details</h1>
                     </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="mb-3">
-                                        <div class="d-flex align-items-start">
-                                            <i class="bi bi-building fs-3 me-2"></i>
-                                            <strong class="me-2">Sender:</strong> <span>{{ meeting.sender }}</span>
-                                        </div>
-                                    </div>
-                                    <div class="mb-3">
-                                        <div class="d-flex align-items-start">
-                                            <i class="bi bi-person fs-3 me-2"></i>
-                                            <strong class="me-2">Receiver:</strong> <span>{{ meeting.receiver }}</span>
-                                        </div>
-                                    </div>
-                                    <div class="mb-3">
-                                        <div class="d-flex align-items-start">
-                                            <i class="bi bi-clock fs-3 me-2"></i>
-                                            <strong class="me-2">Date:</strong> <span>{{ meeting.date }}</span>
-                                        </div>
-                                    </div>
-                                    <div class="mb-3">
-                                        <div class="d-flex align-items-start">
-                                            <i class="bi bi-clock fs-3 me-2"></i>
-                                            <strong class="me-2">Time:</strong> <span>{{ meeting.time }}</span>
-                                        </div>
-                                    </div>
-                                    <div class="mb-3">
-                                        <div class="d-flex align-items-start">
-                                            <i class="bi bi-globe fs-3 me-2"></i>
-                                            <strong class="me-2">Type:</strong> <span>{{ meeting.get_meeting_type_display }}</span>
-                                        </div>
-                                    </div>
-                                    <div class="mb-3">
-                                        <div class="d-flex align-items-start">
-                                            <i class="bi bi-chat-dots fs-3 me-2"></i>
-                                            <strong class="me-2">Notes:</strong> <span>{{ meeting.notes }}</span>
-                                        </div>
-                                    </div>
-                                    <div class="mb-3">
-                                        <div class="d-flex align-items-start">
-                                            <i class="bi bi-flag-fill fs-3 me-2"></i>
-                                            <strong class="me-2">Status:</strong> <span>{{ meeting.get_status_display }}</span>
-                                        </div>
-                                    </div>
-                                </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <div class="d-flex align-items-start">
+                                <i class="bi bi-building fs-3 me-2"></i>
+                                <strong class="me-2">Sender:</strong> <span>{{ meeting.sender }}</span>
                             </div>
                         </div>
-                    </div>                    
+                        <div class="mb-3">
+                            <div class="d-flex align-items-start">
+                                <i class="bi bi-person fs-3 me-2"></i>
+                                <strong class="me-2">Receiver:</strong> <span>{{ meeting.receiver }}</span>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="d-flex align-items-start">
+                                <i class="bi bi-clock fs-3 me-2"></i>
+                                <strong class="me-2">Date:</strong> <span>{{ meeting.date }}</span>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="d-flex align-items-start">
+                                <i class="bi bi-clock fs-3 me-2"></i>
+                                <strong class="me-2">Time:</strong> <span>{{ meeting.time }}</span>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="d-flex align-items-start">
+                                <i class="bi bi-globe fs-3 me-2"></i>
+                                <strong class="me-2">Type:</strong> <span>{{ meeting.get_meeting_type_display }}</span>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="d-flex align-items-start">
+                                <i class="bi bi-chat-dots fs-3 me-2"></i>
+                                <strong class="me-2">Notes:</strong> <span>{{ meeting.notes }}</span>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="d-flex align-items-start">
+                                <i class="bi bi-flag-fill fs-3 me-2"></i>
+                                <strong class="me-2">Status:</strong> <span>{{ meeting.get_status_display }}</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                    
                 <br>
                 <!--end::Contact group wrapper-->
             </div>
         </div>
-        <!--end::Contacts App- Vie Contact-->
+        <!--end::Contacts App- View Contact-->
     </div>
     <!--end::Content-->
 </div>
 <!--end::Content wrapper-->
- <div class="d-grid gap-2 d-md-flex justify-content-center">
-     <button class="btn btn-warning me-md-2" type="button"><a href="{% url 'sme_connect_list' %}?{{ request.GET.urlencode }}" style="color: white;"> Go Back</a></button> 
- </div>
+<div class="d-grid gap-2 d-md-flex justify-content-center">
+    <button class="btn btn-warning me-md-2" type="button"><a href="{% url 'sme_connect_list' %}?{{ request.GET.urlencode }}" style="color: white;"> Go Back</a></button> 
+</div>
 <!--begin::Footer-->
 {% endblock %}
- 
 
 {% block custom_js %}
 <style>
@@ -138,9 +127,9 @@ meeting details
         border-radius: 5px; /* Square-shaped */
         font-size: 24px; /* Increased font size */
         margin-right: 20px; /* Increased margin for better spacing */
-      }
-  </style>
-  <script>
+    }
+</style>
+<script>
     function clearFilters() {
         document.getElementById('id_sender').value = '';
         document.getElementById('id_receiver').value = '';
@@ -149,4 +138,4 @@ meeting details
         document.querySelector('form').submit();
     }
 </script>
-{%endblock %}
+{% endblock %}
