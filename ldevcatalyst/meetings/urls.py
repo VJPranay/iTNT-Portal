@@ -1,6 +1,9 @@
 from django.urls import path
 from .views import vc_meeting_requests,fetch_startup_profiles,fetch_startup_details,vc_meeting_request,meetings,meeting,meeting_update,calendar_view,calendar_data,vc_meeting_accept,startup_confirm_meeting,startup_reject_meeting,vc_meeting_reject,meeting_details
 
+from meetings.v2.list_view import SmeConnectListView
+from meetings.v2.meeting_details import sme_connect_details
+
 
 
 urlpatterns = [
@@ -26,5 +29,7 @@ urlpatterns = [
     
     path('meeting_details/<str:model_type>/<int:pk>/', meeting_details, name='meeting_details'),
 
-    
+    # V2
+    path('sme_connect_list/', SmeConnectListView.as_view(), name='sme_connect_list'),
+    path('sme_connect_details/<int:pk>/', sme_connect_details, name='sme_connect_details'),
 ]

@@ -1,0 +1,182 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+<link href="{% static 'assets/plugins/custom/datatables/datatables.bundle.css' %}" rel="stylesheet" type="text/css" />
+
+{% block breadcrums %}
+
+<!--begin::Breadcrumb-->
+																<ul class="breadcrumb breadcrumb-separatorless fw-semibold">
+																	<!--begin::Item-->
+																	<li class="breadcrumb-item text-white fw-bold lh-1">
+																		<a href="{% url 'dashboard_index' %}" class="text-white text-hover-primary">
+																			<i class="ki-outline ki-home text-gray-700 fs-6"></i>
+																		</a>
+																	</li>
+																	<!--end::Item-->
+																	<!--begin::Item-->
+																	<li class="breadcrumb-item">
+																		<i class="ki-outline ki-right fs-7 text-gray-700 mx-n1"></i>
+																	</li>
+																	<!--end::Item-->
+																	<!--begin::Item-->
+																	<li class="breadcrumb-item text-white fw-bold lh-1">SME Connect List</li>
+																	<!--end::Item-->
+																	<!--begin::Item-->
+																	<li class="breadcrumb-item">
+																		<i class="ki-outline ki-right fs-7 text-gray-700 mx-n1"></i>
+																	</li>
+																	<!--end::Item-->
+																	<!--begin::Item-->
+																	<li class="breadcrumb-item text-white fw-bold lh-1">Meetings</li>
+																	<!--end::Item-->
+																</ul>
+																<!--end::Breadcrumb-->
+{% endblock  %}
+
+{% block pageheading %}
+SME Connect List
+{% endblock  %}
+{% block pagedescription %}
+meeting's
+{% endblock  %}
+
+
+
+{% block page_content %}
+							<div class="d-flex flex-column flex-column-fluid">
+								<!--begin::Content-->
+								<div id="kt_app_content" class="app-content flex-column-fluid">
+									<!--begin::Contacts App- View Contact-->
+									<div class="row g-7">
+                                        <!--begin::filters-->
+                                        <div class="col-lg-2 col-xl-2">
+                                            <!--begin::Contact group wrapper-->
+                                            <div class="card card-flush">
+                                                <form method="get">
+                                                    <div class="card-body">
+                                                        {{ filter.form|crispy }}
+                                                        <br>
+                                                        <div class="d-grid">
+                                                            <button type="submit" class="btn btn-warning">Apply Filters</button>
+                                                            <div style="margin-top: 20px;"> <!-- Adjust margin-top value as needed -->
+                                                                <button type="button" class="btn btn-secondary" onclick="clearFilters()">Clear Filters</button>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                    </div>
+                                                    
+                                                </form>
+                                            </div>
+                                            <!--end::Contact group wrapper-->
+                                        </div>
+                                        <!--end::filters-->
+                                        <!--begin::profiles list-->
+                                        <div class="col-lg-10 col-xl-10">
+                                            <!--begin::Contacts-->
+                                            <div class="card card-flush h-lg-100" id="kt_contacts_main">
+                                                <!--begin::Card header-->
+                                                <div class="card-header pt-7" id="kt_chat_contacts_header">
+                                                    <!--begin::Card title-->
+                                                    <div class="card-title">
+                                                        <i class="ki-outline ki-badge fs-1 me-2"></i>
+                                                        <h2>SME Connect Meetings List</h2>
+                                                    </div>
+                                                    <!--end::Card title-->
+                                                </div>
+                                                <!--end::Card header-->
+                                                <!--begin::Card body-->
+                                                <div class="card-body pt-5" id="startup_profile_data">
+                                                    <table class="table align-middle table-row-dashed fs-6 gy-5 rounded-3">
+                                                        <thead class="bg-warning bg-gradient text-white">
+                                                            <tr class="text-start text-gray-500 fw-bold fs-7 text-uppercase gs-0">
+                                                                <th class="text-white text-decoration-none" style="padding: 10px;">Sender</th>
+                                                                <th class="text-white text-decoration-none">Receiver</th>
+                                                                <th class="text-white text-decoration-none">Meeting Date</th>
+                                                                <th class="text-white text-decoration-none">Meeting Type</th>
+                                                                <!-- Add other columns here -->
+                                                                <th class="text-white text-decoration-none">Action</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody class="fw text-gray-900">
+                                                            {% for meeting in object_list %}
+                                                            <tr>
+                                                                <td>{{ meeting.sender }}</td>
+                                                                <td>{{ meeting.receiver }}</td>
+                                                                <td>{{ meeting.date }}</td>
+                                                                <td>{{ meeting.meeting_type }}</td>  
+                                                                <td><a href="{% url 'sme_connect_details' meeting.id %}?{{ request.GET.urlencode }}" class="btn btn-warning" target='_blank'>View Details</a></td>
+                                                            </tr>
+                                                            {% endfor %}
+                                                        </tbody>
+                                                    </table>
+                                                    <nav aria-label="Page navigation example">
+                                                        <ul class="pagination justify-content-center">
+                                                            {% if is_paginated %}
+                                                                {% if page_obj.has_previous %}
+                                                                    <li class="page-item"><a class="page-link" href="?{% if request.GET %}{{ request.GET.urlencode }}&{% endif %}page=1">First</a></li>
+                                                                    <li class="page-item"><a class="page-link" href="?{% if request.GET %}{{ request.GET.urlencode }}&{% endif %}page={{ page_obj.previous_page_number }}">Previous</a></li>
+                                                                {% else %}
+                                                                    <li class="page-item disabled"><span class="page-link">First</span></li>
+                                                                    <li class="page-item disabled"><span class="page-link">Previous</span></li>
+                                                                {% endif %}
+                                                                <li class="page-item active"><span class="page-link">{{ page_obj.number }}</span></li>
+                                                                {% if page_obj.has_next %}
+                                                                    <li class="page-item"><a class="page-link" href="?{% if request.GET %}{{ request.GET.urlencode }}&{% endif %}page={{ page_obj.next_page_number }}">Next</a></li>
+                                                                    <li class="page-item"><a class="page-link" href="?{% if request.GET %}{{ request.GET.urlencode }}&{% endif %}page={{ page_obj.paginator.num_pages }}">Last</a></li>
+                                                                {% else %}
+                                                                    <li class="page-item disabled"><span class="page-link">Next</span></li>
+                                                                    <li class="page-item disabled"><span class="page-link">Last</span></li>
+                                                                {% endif %}
+                                                            {% endif %}
+                                                        </ul>
+                                                    </nav>
+                                                </div>
+                                                <!--end::Card body-->
+                                            </div>
+                                            <!--end::Contacts-->
+                                        </div>
+                                        <!--end::profiles-->
+                                    </div>
+									<!--end::Contacts App- View Contact-->
+								</div>
+								<!--end::Content-->
+							</div>
+							<!--end::Content wrapper-->
+							<!--begin::Footer-->
+{% endblock %}
+
+
+{% block custom_js %}
+<style>
+    .profile-icon {
+        width: 80px; /* Increased icon size */
+        height: 80px; /* Increased icon size */
+        background-color: #007bff;
+        color: #fff;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 5px; /* Square-shaped */
+        font-size: 24px; /* Increased font size */
+        margin-right: 20px; /* Increased margin for better spacing */
+      }
+    .page-item.active .page-link {
+        background-color: #f8cd33;
+    }
+    .pagination .page-item:not(.active) .page-link:hover {
+    color: yellow !important;
+    }
+  </style>
+  <script>
+    function clearFilters() {
+        document.getElementById('id_sender').value = '';
+        document.getElementById('id_receiver').value = '';
+        document.getElementById('id_date').value = '';
+        document.getElementById('id_meeting_type').value = '';
+        document.querySelector('form').submit();
+    }
+</script>
+<script src="{% static 'js/jquery.min.js' %}"></script>
+
+{%endblock %}
